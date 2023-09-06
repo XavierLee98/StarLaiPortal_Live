@@ -76,7 +76,7 @@
             // 
             // PreviewDO
             // 
-            this.PreviewDO.Caption = "Preview DO";
+            this.PreviewDO.Caption = "View DO";
             this.PreviewDO.Category = "ObjectsCreation";
             this.PreviewDO.ConfirmationMessage = null;
             this.PreviewDO.Id = "PreviewDO";
@@ -112,7 +112,7 @@
             // 
             // PrintDMBundleDO
             // 
-            this.PrintDMBundleDO.Caption = "DM Bundle DO";
+            this.PrintDMBundleDO.Caption = "DM Bundle";
             this.PrintDMBundleDO.Category = "ObjectsCreation";
             this.PrintDMBundleDO.ConfirmationMessage = null;
             this.PrintDMBundleDO.Id = "PrintDMBundleDO";

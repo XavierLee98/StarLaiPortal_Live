@@ -14,6 +14,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
+// 2023-04-09 fix speed issue ver 1.0.8.1
+
 namespace StarLaiPortal.Module.BusinessObjects.Advanced_Shipment_Notice
 {
     [DefaultClassOptions]
@@ -310,35 +312,45 @@ namespace StarLaiPortal.Module.BusinessObjects.Advanced_Shipment_Notice
             }
         }
 
-        [NonPersistent]
+        // Start ver 1.0.8.1
+        //[NonPersistent]
+        private string _PONo;
+        // End ver 1.0.8.1
         [XafDisplayName("PO No.")]
         [Index(32), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(false)]
         [Appearance("PONo", Enabled = false)]
         public string PONo
         {
-            get
+            // Start ver 1.0.8.1
+            //get
+            //{
+            //    string rtn = null;
+            //    string dupso = null;
+            //    foreach (ASNDetails dtl in this.ASNDetails)
+            //    {
+            //        if (dupso != dtl.PORefNo)
+            //        {
+            //            if (rtn == null)
+            //            {
+            //                rtn = dtl.PORefNo;
+            //            }
+            //            else
+            //            {
+            //                rtn = rtn + ", " + dtl.PORefNo;
+            //            }
+
+            //            dupso = dtl.PORefNo;
+            //        }
+            //    }
+
+            //    return rtn;
+            //}
+            get { return _PONo; }
+            set
             {
-                string rtn = null;
-                string dupso = null;
-                foreach (ASNDetails dtl in this.ASNDetails)
-                {
-                    if (dupso != dtl.PORefNo)
-                    {
-                        if (rtn == null)
-                        {
-                            rtn = dtl.PORefNo;
-                        }
-                        else
-                        {
-                            rtn = rtn + ", " + dtl.PORefNo;
-                        }
-
-                        dupso = dtl.PORefNo;
-                    }
-                }
-
-                return rtn;
+                SetPropertyValue("PONo", ref _PONo, value);
             }
+            // End ver 1.0.8.1
         }
 
         private string _Remarks;

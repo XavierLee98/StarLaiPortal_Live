@@ -655,6 +655,9 @@ namespace StarLaiPortal.Module.Controllers
                                         newdelivery.CustomerName = so.CustomerName;
                                         newdelivery.Status = DocStatus.Submitted;
                                         newdelivery.CustomerGroup = selectedObject.CustomerGroup;
+                                        // Start ver 1.0.8.1
+                                        newdelivery.Priority = newdelivery.Session.GetObjectByKey<PriorityType>(so.Priority.Oid);
+                                        // End ver 1.0.8.1
 
                                         foreach (LoadDetails dtlload in newload.LoadDetails)
                                         {
@@ -751,6 +754,41 @@ namespace StarLaiPortal.Module.Controllers
                                                 }
                                             }
                                         }
+
+                                        // Start ver 1.0.8.1
+                                        string dupno = null;
+                                        string dupso = null;
+                                        foreach (DeliveryOrderDetails dtl in newdelivery.DeliveryOrderDetails)
+                                        {
+                                            if (dupno != dtl.BaseDoc)
+                                            {
+                                                if (newdelivery.LoadingNo == null)
+                                                {
+                                                    newdelivery.LoadingNo = dtl.BaseDoc;
+                                                }
+                                                else
+                                                {
+                                                    newdelivery.LoadingNo = newdelivery.LoadingNo + ", " + dtl.BaseDoc;
+                                                }
+
+                                                dupno = dtl.BaseDoc;
+                                            }
+
+                                            if (dupso != dtl.SODocNum)
+                                            {
+                                                if (newdelivery.SONo == null)
+                                                {
+                                                    newdelivery.SONo = dtl.SODocNum;
+                                                }
+                                                else
+                                                {
+                                                    newdelivery.SONo = newdelivery.SONo + ", " + dtl.SODocNum;
+                                                }
+
+                                                dupso = dtl.SODocNum;
+                                            }
+                                        }
+                                        // End ver 1.0.8.1
 
                                         deiveryos.CommitChanges();
                                     }

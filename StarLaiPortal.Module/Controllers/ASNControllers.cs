@@ -246,10 +246,29 @@ namespace StarLaiPortal.Module.Controllers
 
                         IObjectSpace os = Application.CreateObjectSpace();
                         ASN trx = os.FindObject<ASN>(new BinaryOperator("Oid", asn.Oid));
-
+                        
+                        // Start ver 1.0.8.1
+                        string duppo = null;
+                        // End ver 1.0.8.1
                         foreach (ASNDetails dtl2 in trx.ASNDetails)
                         {
                             dtl2.OIDKey = dtl2.Oid;
+
+                            // Start ver 1.0.8.1
+                            if (duppo != dtl2.PORefNo)
+                            {
+                                if (trx.PONo == null)
+                                {
+                                    trx.PONo = dtl2.PORefNo;
+                                }
+                                else
+                                {
+                                    trx.PONo = trx.PONo + ", " + dtl2.PORefNo;
+                                }
+
+                                duppo = dtl2.PORefNo;
+                            }
+                            // End ver 1.0.8.1
                         }
 
                         os.CommitChanges();
@@ -376,9 +395,28 @@ namespace StarLaiPortal.Module.Controllers
                         IObjectSpace os = Application.CreateObjectSpace();
                         ASN trx = os.FindObject<ASN>(new BinaryOperator("Oid", asn.Oid));
 
+                        // Start ver 1.0.8.1
+                        string duppo = null;
+                        // End ver 1.0.8.1
                         foreach (ASNDetails dtl2 in trx.ASNDetails)
                         {
                             dtl2.OIDKey = dtl2.Oid;
+
+                            // Start ver 1.0.8.1
+                            if (duppo != dtl2.PORefNo)
+                            {
+                                if (trx.PONo == null)
+                                {
+                                    trx.PONo = dtl2.PORefNo;
+                                }
+                                else
+                                {
+                                    trx.PONo = trx.PONo + ", " + dtl2.PORefNo;
+                                }
+
+                                duppo = dtl2.PORefNo;
+                            }
+                            // End ver 1.0.8.1
                         }
 
                         os.CommitChanges();

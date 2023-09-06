@@ -16,6 +16,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
+// 2023-04-09 fix speed issue ver 1.0.8.1
+
 namespace StarLaiPortal.Module.BusinessObjects.Delivery_Order
 {
     [DefaultClassOptions]
@@ -223,91 +225,121 @@ namespace StarLaiPortal.Module.BusinessObjects.Delivery_Order
             }
         }
 
-        [NonPersistent]
+        // Start ver 1.0.8.1
+        //[NonPersistent]
+        private string _LoadingNo;
+        // End ver 1.0.8.1
         [XafDisplayName("Loading No.")]
         [Index(21), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(false)]
         [Appearance("LoadingNo", Enabled = false)]
         public string LoadingNo
         {
-            get
+            // Start ver 1.0.8.1
+            //get
+            //{
+            //    string rtn = null;
+            //    string dupno = null;
+            //    foreach (DeliveryOrderDetails dtl in this.DeliveryOrderDetails)
+            //    {
+            //        if (dupno != dtl.BaseDoc)
+            //        {
+            //            if (rtn == null)
+            //            {
+            //                rtn = dtl.BaseDoc;
+            //            }
+            //            else
+            //            {
+            //                rtn = rtn + ", " + dtl.BaseDoc;
+            //            }
+
+            //            dupno = dtl.BaseDoc;
+            //        }
+            //    }
+
+            //    return rtn;
+            //}
+            get { return _LoadingNo; }
+            set
             {
-                string rtn = null;
-                string dupno = null;
-                foreach (DeliveryOrderDetails dtl in this.DeliveryOrderDetails)
-                {
-                    if (dupno != dtl.BaseDoc)
-                    {
-                        if (rtn == null)
-                        {
-                            rtn = dtl.BaseDoc;
-                        }
-                        else
-                        {
-                            rtn = rtn + ", " + dtl.BaseDoc;
-                        }
-
-                        dupno = dtl.BaseDoc;
-                    }
-                }
-
-                return rtn;
+                SetPropertyValue("LoadingNo", ref _LoadingNo, value);
             }
+            // End ver 1.0.8.1
         }
 
-        [NonPersistent]
+        // Start ver 1.0.8.1
+        //[NonPersistent]
+        private string _SONo;
+        // End ver 1.0.8.1
         [XafDisplayName("SO No.")]
         [Index(23), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(false)]
         [Appearance("SONo", Enabled = false)]
         public string SONo
         {
-            get
+            // Start ver 1.0.8.1
+            //get
+            //{
+            //    string rtn = null;
+            //    string dupso = null;
+            //    foreach (DeliveryOrderDetails dtl in this.DeliveryOrderDetails)
+            //    {
+            //        if (dupso != dtl.SODocNum)
+            //        {
+            //            if (rtn == null)
+            //            {
+            //                rtn = dtl.SODocNum;
+            //            }
+            //            else
+            //            {
+            //                rtn = rtn + ", " + dtl.SODocNum;
+            //            }
+
+            //            dupso = dtl.SODocNum;
+            //        }
+            //    }
+
+            //    return rtn;
+            //}
+            get { return _SONo; }
+            set
             {
-                string rtn = null;
-                string dupso = null;
-                foreach (DeliveryOrderDetails dtl in this.DeliveryOrderDetails)
-                {
-                    if (dupso != dtl.SODocNum)
-                    {
-                        if (rtn == null)
-                        {
-                            rtn = dtl.SODocNum;
-                        }
-                        else
-                        {
-                            rtn = rtn + ", " + dtl.SODocNum;
-                        }
-
-                        dupso = dtl.SODocNum;
-                    }
-                }
-
-                return rtn;
+                SetPropertyValue("SONo", ref _SONo, value);
             }
+            // End ver 1.0.8.1
         }
 
-        [NonPersistent]
+        // Start ver 1.0.8.1
+        //[NonPersistent]
+        private PriorityType _Priority;
+        // End ver 1.0.8.1
         [XafDisplayName("Priority")]
         [Index(25), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(false)]
         [Appearance("Priority", Enabled = false)]
         public PriorityType Priority
         {
-            get
+            // Start ver 1.0.8.1
+            //get
+            //{
+            //    PriorityType rtn = null;
+
+            //    foreach (DeliveryOrderDetails dtl in this.DeliveryOrderDetails)
+            //    {
+            //        SalesOrder salesorder;
+            //        salesorder = Session.FindObject<SalesOrder>(CriteriaOperator.Parse("DocNum = ?", dtl.SODocNum));
+
+            //        if (salesorder != null)
+            //        {
+            //            rtn = salesorder.Priority;
+            //        }
+            //    }
+
+            //    return rtn;
+            //}
+            get { return _Priority; }
+            set
             {
-                PriorityType rtn = null;
-
-                foreach (DeliveryOrderDetails dtl in this.DeliveryOrderDetails)
-                {
-                    SalesOrder salesorder;
-                    salesorder = Session.FindObject<SalesOrder>(CriteriaOperator.Parse("DocNum = ?", dtl.SODocNum));
-
-                    if (salesorder != null)
-                    {
-                        rtn = salesorder.Priority;
-                    }
-                }
-
-                return rtn;
+                SetPropertyValue("Priority", ref _Priority, value);
             }
+            // End ver 1.0.8.1
         }
 
         private string _SAPDocNum;

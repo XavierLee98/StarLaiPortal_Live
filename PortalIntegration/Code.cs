@@ -1,11 +1,14 @@
 ﻿using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
+using DevExpress.Xpo;
 using SAPbobsCOM;
 using StarLaiPortal.Module.BusinessObjects;
+using StarLaiPortal.Module.BusinessObjects.Advanced_Shipment_Notice;
 using StarLaiPortal.Module.BusinessObjects.Credit_Notes_Cancellation;
 using StarLaiPortal.Module.BusinessObjects.Delivery_Order;
 using StarLaiPortal.Module.BusinessObjects.GRN;
+using StarLaiPortal.Module.BusinessObjects.Load;
 using StarLaiPortal.Module.BusinessObjects.Pack_List;
 using StarLaiPortal.Module.BusinessObjects.Pick_List;
 using StarLaiPortal.Module.BusinessObjects.Purchase_Order;
@@ -4182,6 +4185,207 @@ namespace PortalIntegration
                 packos.CommitChanges();
             }
 
+            // Load
+            IList<Load> loadlist = lso.GetObjects<Load>
+                (CriteriaOperator.Parse("IsNull(PackListNo)"));
+
+            foreach (Load dtlload in loadlist)
+            {
+                IObjectSpace loados = ObjectSpaceProvider.CreateObjectSpace();
+                Load loadobj = loados.GetObjectByKey<Load>(dtlload.Oid);
+
+                string duppack = null;
+                foreach (LoadDetails dtl in loadobj.LoadDetails)
+                {
+                    if (duppack != dtl.BaseDoc)
+                    {
+                        if (loadobj.PackListNo == null)
+                        {
+                            loadobj.PackListNo = dtl.BaseDoc;
+                        }
+                        else
+                        {
+                            loadobj.PackListNo = loadobj.PackListNo + ", " + dtl.BaseDoc;
+                        }
+
+                        duppack = dtl.BaseDoc;
+                    }
+
+                    PackList pack = loados.FindObject<PackList>(CriteriaOperator.Parse("DocNum = ?", dtl.PackList));
+
+                    if (pack != null)
+                    {
+                        if (loadobj.SONumber == null)
+                        {
+                            loadobj.SONumber = pack.SONumber;
+                        }
+
+                        if (loadobj.Priority == null)
+                        {
+                            loadobj.Priority = pack.Priority;
+                        }
+                    }
+                }
+
+                loados.CommitChanges();
+            }
+
+            // Delivery Orders
+            IList<DeliveryOrder> deliverylist = lso.GetObjects<DeliveryOrder>
+                (CriteriaOperator.Parse("IsNull(SONo)"));
+
+            foreach (DeliveryOrder dtldelivery in deliverylist)
+            {
+                IObjectSpace deliveryos = ObjectSpaceProvider.CreateObjectSpace();
+                DeliveryOrder deliveryobj = deliveryos.GetObjectByKey<DeliveryOrder>(dtldelivery.Oid);
+
+                string dupno = null;
+                string dupso = null;
+                foreach (DeliveryOrderDetails dtl in deliveryobj.DeliveryOrderDetails)
+                {
+                    if (dupno != dtl.BaseDoc)
+                    {
+                        if (deliveryobj.LoadingNo == null)
+                        {
+                            deliveryobj.LoadingNo = dtl.BaseDoc;
+                        }
+                        else
+                        {
+                            deliveryobj.LoadingNo = deliveryobj.LoadingNo + ", " + dtl.BaseDoc;
+                        }
+
+                        dupno = dtl.BaseDoc;
+                    }
+
+                    if (dupso != dtl.SODocNum)
+                    {
+                        if (deliveryobj.SONo == null)
+                        {
+                            deliveryobj.SONo = dtl.SODocNum;
+                        }
+                        else
+                        {
+                            deliveryobj.SONo = deliveryobj.SONo + ", " + dtl.SODocNum;
+                        }
+
+                        dupso = dtl.SODocNum;
+                    }
+
+                    if (deliveryobj.Priority == null)
+                    {
+                        SalesOrder salesorder = deliveryos.FindObject<SalesOrder>(CriteriaOperator.Parse("DocNum = ?", dtl.SODocNum));
+
+                        if (salesorder != null)
+                        {
+                            deliveryobj.Priority = salesorder.Priority;
+                        }
+                    }
+                }
+
+                deliveryos.CommitChanges();
+            }
+
+            // ASN
+            IList<ASN> asnlist = lso.GetObjects<ASN>
+                (CriteriaOperator.Parse("IsNull(PONo)"));
+
+            foreach (ASN dtlasn in asnlist)
+            {
+                IObjectSpace asnos = ObjectSpaceProvider.CreateObjectSpace();
+                ASN asnobj = asnos.GetObjectByKey<ASN>(dtlasn.Oid);
+
+                string duppo = null;
+                foreach (ASNDetails dtl in asnobj.ASNDetails)
+                {
+                    if (duppo != dtl.PORefNo)
+                    {
+                        if (asnobj.PONo == null)
+                        {
+                            asnobj.PONo = dtl.PORefNo;
+                        }
+                        else
+                        {
+                            asnobj.PONo = asnobj.PONo + ", " + dtl.PORefNo;
+                        }
+
+                        duppo = dtl.PORefNo;
+                    }
+                }
+
+                asnos.CommitChanges();
+            }
+
+            // GRN
+            IList<GRN> grnlist = lso.GetObjects<GRN>
+                (CriteriaOperator.Parse("IsNull(SAPPONo)"));
+
+            foreach (GRN dtlgrn in grnlist)
+            {
+                IObjectSpace grnos = ObjectSpaceProvider.CreateObjectSpace();
+                GRN grnobj = grnos.GetObjectByKey<GRN>(dtlgrn.Oid);
+
+                // Start ver 1.0.8.1
+                string duppo = null;
+                string dupporef = null;
+                string dupasn = null;
+                // End ver 1.0.8.1
+                foreach (GRNDetails dtl2 in grnobj.GRNDetails)
+                {
+                    if (dtl2.PONo != null)
+                    {
+                        if (duppo != dtl2.PONo)
+                        {
+                            if (grnobj.SAPPONo == null)
+                            {
+                                grnobj.SAPPONo = dtl2.PONo;
+                            }
+                            else
+                            {
+                                grnobj.SAPPONo = grnobj.SAPPONo + ", " + dtl2.PONo;
+                            }
+
+                            duppo = dtl2.PONo;
+                        }
+                    }
+
+                    if (dtl2.PORefNo != null)
+                    {
+                        if (dupporef != dtl2.PORefNo)
+                        {
+                            if (grnobj.PortalPONo == null)
+                            {
+                                grnobj.PortalPONo = dtl2.PORefNo;
+                            }
+                            else
+                            {
+                                grnobj.PortalPONo = grnobj.PortalPONo + ", " + dtl2.PORefNo;
+                            }
+
+                            dupporef = dtl2.PORefNo;
+                        }
+                    }
+
+                    if (dtl2.ASNBaseDoc != null)
+                    {
+                        if (dupasn != dtl2.ASNBaseDoc)
+                        {
+                            if (grnobj.ASNNo == null)
+                            {
+                                grnobj.ASNNo = dtl2.ASNBaseDoc;
+                            }
+                            else
+                            {
+                                grnobj.ASNNo = grnobj.ASNNo + ", " + dtl2.ASNBaseDoc;
+                            }
+
+                            dupasn = dtl2.ASNBaseDoc;
+                        }
+                    }
+                }
+
+                grnos.CommitChanges();
+            }
+            
             return 0;
         }
         // End ver 1.0.8.1

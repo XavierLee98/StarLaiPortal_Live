@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 
 // 2023-08-16 Add SAPPONo, PortalPoNo, AsnNo ver 1.0.8
+// 2023-04-09 fix speed issue ver 1.0.8.1
 
 namespace StarLaiPortal.Module.BusinessObjects.GRN
 {
@@ -304,106 +305,136 @@ namespace StarLaiPortal.Module.BusinessObjects.GRN
         }
 
         // Start ver 1.0.8
-        [NonPersistent]
+        // Start ver 1.0.8.1
+        //[NonPersistent]
+        private string _SAPPONo;
+        // End ver 1.0.8.1
         [XafDisplayName("SAP PO No.")]
         [Index(33), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(false)]
         [Appearance("SAPPONo", Enabled = false)]
         public string SAPPONo
         {
-            get
+            // Start ver 1.0.8.1
+            //get
+            //{
+            //    string rtn = null;
+            //    string dupso = null;
+            //    foreach (GRNDetails dtl in this.GRNDetails)
+            //    {
+            //        if (dtl.PONo != null)
+            //        {
+            //            if (dupso != dtl.PONo)
+            //            {
+            //                if (rtn == null)
+            //                {
+            //                    rtn = dtl.PONo;
+            //                }
+            //                else
+            //                {
+            //                    rtn = rtn + ", " + dtl.PONo;
+            //                }
+
+            //                dupso = dtl.PONo;
+            //            }
+            //        }
+            //    }
+
+            //    return rtn;
+            //}
+            get { return _SAPPONo; }
+            set
             {
-                string rtn = null;
-                string dupso = null;
-                foreach (GRNDetails dtl in this.GRNDetails)
-                {
-                    if (dtl.PONo != null)
-                    {
-                        if (dupso != dtl.PONo)
-                        {
-                            if (rtn == null)
-                            {
-                                rtn = dtl.PONo;
-                            }
-                            else
-                            {
-                                rtn = rtn + ", " + dtl.PONo;
-                            }
-
-                            dupso = dtl.PONo;
-                        }
-                    }
-                }
-
-                return rtn;
+                SetPropertyValue("SAPPONo", ref _SAPPONo, value);
             }
+            // End ver 1.0.8.1
         }
 
-        [NonPersistent]
+        // Start ver 1.0.8.1
+        //[NonPersistent]
+        private string _PortalPONo;
+        // End ver 1.0.8.1
         [XafDisplayName("Portal PO No.")]
         [Index(35), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(false)]
         [Appearance("PortalPONo", Enabled = false)]
         public string PortalPONo
         {
-            get
+            // Start ver 1.0.8.1
+            //get
+            //{
+            //    string rtn = null;
+            //    string dupso = null;
+            //    foreach (GRNDetails dtl in this.GRNDetails)
+            //    {
+            //        if (dtl.PORefNo != null)
+            //        {
+            //            if (dupso != dtl.PORefNo)
+            //            {
+            //                if (rtn == null)
+            //                {
+            //                    rtn = dtl.PORefNo;
+            //                }
+            //                else
+            //                {
+            //                    rtn = rtn + ", " + dtl.PORefNo;
+            //                }
+
+            //                dupso = dtl.PORefNo;
+            //            }
+            //        }
+            //    }
+
+            //    return rtn;
+            //}
+            get { return _PortalPONo; }
+            set
             {
-                string rtn = null;
-                string dupso = null;
-                foreach (GRNDetails dtl in this.GRNDetails)
-                {
-                    if (dtl.PORefNo != null)
-                    {
-                        if (dupso != dtl.PORefNo)
-                        {
-                            if (rtn == null)
-                            {
-                                rtn = dtl.PORefNo;
-                            }
-                            else
-                            {
-                                rtn = rtn + ", " + dtl.PORefNo;
-                            }
-
-                            dupso = dtl.PORefNo;
-                        }
-                    }
-                }
-
-                return rtn;
+                SetPropertyValue("PortalPONo", ref _PortalPONo, value);
             }
+            // End ver 1.0.8.1
         }
 
-        [NonPersistent]
+        // Start ver 1.0.8.1
+        //[NonPersistent]
+        private string _ASNNo;
+        // End ver 1.0.8.1
         [XafDisplayName("ASN No.")]
         [Index(38), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(false)]
         [Appearance("ASNNo", Enabled = false)]
         public string ASNNo
         {
-            get
+            // Start ver 1.0.8.1
+            //get
+            //{
+            //    string rtn = null;
+            //    string dupso = null;
+            //    foreach (GRNDetails dtl in this.GRNDetails)
+            //    {
+            //        if (dtl.ASNBaseDoc != null)
+            //        {
+            //            if (dupso != dtl.ASNBaseDoc)
+            //            {
+            //                if (rtn == null)
+            //                {
+            //                    rtn = dtl.ASNBaseDoc;
+            //                }
+            //                else
+            //                {
+            //                    rtn = rtn + ", " + dtl.ASNBaseDoc;
+            //                }
+
+            //                dupso = dtl.ASNBaseDoc;
+            //            }
+            //        }
+            //    }
+
+            //    return rtn;
+            //}
+            get { return _ASNNo; }
+            set
             {
-                string rtn = null;
-                string dupso = null;
-                foreach (GRNDetails dtl in this.GRNDetails)
-                {
-                    if (dtl.ASNBaseDoc != null)
-                    {
-                        if (dupso != dtl.ASNBaseDoc)
-                        {
-                            if (rtn == null)
-                            {
-                                rtn = dtl.ASNBaseDoc;
-                            }
-                            else
-                            {
-                                rtn = rtn + ", " + dtl.ASNBaseDoc;
-                            }
-
-                            dupso = dtl.ASNBaseDoc;
-                        }
-                    }
-                }
-
-                return rtn;
+                SetPropertyValue("ASNNo", ref _ASNNo, value);
             }
+            // End ver 1.0.8.1
         }
         // End ver 1.0.8
 

@@ -30,6 +30,7 @@ using System.Text;
 using System.Web;
 
 // 2023-07-20 - do not close asn if partial - ver 1.0.6 (UAT)
+// 2023-04-09 fix speed issue ver 1.0.8.1
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -232,9 +233,49 @@ namespace StarLaiPortal.Module.Controllers
                         IObjectSpace os = Application.CreateObjectSpace();
                         GRN trx = os.FindObject<GRN>(new BinaryOperator("Oid", grn.Oid));
 
+                        // Start ver 1.0.8.1
+                        string duppo = null;
+                        string dupporef = null;
+                        // End ver 1.0.8.1
                         foreach (GRNDetails dtl2 in trx.GRNDetails)
                         {
                             dtl2.OIDKey = dtl2.Oid;
+
+                            // Start ver 1.0.8.1
+                            if (dtl2.PONo != null)
+                            {
+                                if (duppo != dtl2.PONo)
+                                {
+                                    if (trx.SAPPONo == null)
+                                    {
+                                        trx.SAPPONo = dtl2.PONo;
+                                    }
+                                    else
+                                    {
+                                        trx.SAPPONo = trx.SAPPONo + ", " + dtl2.PONo;
+                                    }
+
+                                    duppo = dtl2.PONo;
+                                }
+                            }
+
+                            if (dtl2.PORefNo != null)
+                            {
+                                if (dupporef != dtl2.PORefNo)
+                                {
+                                    if (trx.PortalPONo == null)
+                                    {
+                                        trx.PortalPONo = dtl2.PORefNo;
+                                    }
+                                    else
+                                    {
+                                        trx.PortalPONo = trx.PortalPONo + ", " + dtl2.PORefNo;
+                                    }
+
+                                    dupporef = dtl2.PORefNo;
+                                }
+                            }
+                            // End ver 1.0.8.1
                         }
 
                         os.CommitChanges();
@@ -382,9 +423,65 @@ namespace StarLaiPortal.Module.Controllers
                         IObjectSpace os = Application.CreateObjectSpace();
                         GRN trx = os.FindObject<GRN>(new BinaryOperator("Oid", grn.Oid));
 
+                        // Start ver 1.0.8.1
+                        string duppo = null;
+                        string dupporef = null;
+                        string dupasn = null;
+                        // End ver 1.0.8.1
                         foreach (GRNDetails dtl2 in trx.GRNDetails)
                         {
                             dtl2.OIDKey = dtl2.Oid;
+
+                            if (dtl2.PONo != null)
+                            {
+                                if (duppo != dtl2.PONo)
+                                {
+                                    if (trx.SAPPONo == null)
+                                    {
+                                        trx.SAPPONo = dtl2.PONo;
+                                    }
+                                    else
+                                    {
+                                        trx.SAPPONo = trx.SAPPONo + ", " + dtl2.PONo;
+                                    }
+
+                                    duppo = dtl2.PONo;
+                                }
+                            }
+
+                            if (dtl2.PORefNo != null)
+                            {
+                                if (dupporef != dtl2.PORefNo)
+                                {
+                                    if (trx.PortalPONo == null)
+                                    {
+                                        trx.PortalPONo = dtl2.PORefNo;
+                                    }
+                                    else
+                                    {
+                                        trx.PortalPONo = trx.PortalPONo + ", " + dtl2.PORefNo;
+                                    }
+
+                                    dupporef = dtl2.PORefNo;
+                                }
+                            }
+
+                            if (dtl2.ASNBaseDoc != null)
+                            {
+                                if (dupasn != dtl2.ASNBaseDoc)
+                                {
+                                    if (trx.ASNNo == null)
+                                    {
+                                        trx.ASNNo = dtl2.ASNBaseDoc;
+                                    }
+                                    else
+                                    {
+                                        trx.ASNNo = trx.ASNNo + ", " + dtl2.ASNBaseDoc;
+                                    }
+
+                                    dupasn = dtl2.ASNBaseDoc;
+                                }
+                            }
                         }
 
                         os.CommitChanges();
