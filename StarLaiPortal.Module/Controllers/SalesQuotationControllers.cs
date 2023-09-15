@@ -1319,6 +1319,9 @@ namespace StarLaiPortal.Module.Controllers
                             newSO.Remarks = trx.Remarks;
                             newSO.Attn = trx.Attn;
                             newSO.RefNo = trx.RefNo;
+                            // Start ver 1.0.8.1
+                            newSO.SQNumber = trx.DocNum;
+                            // End ver 1.0.8.1
 
                             foreach (SalesQuotationDetails detail in trx.SalesQuotationDetails)
                             {
