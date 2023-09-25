@@ -920,7 +920,7 @@ namespace StarLaiPortal.Module.Controllers
                                 }
                             }
 
-                            if (sq.IsValid4 == true)
+                            if (sq.IsValid4 == true && p.AppStatus != ApprovalActions.No)
                             {
                                 showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
                                 process = false;
@@ -1161,7 +1161,7 @@ namespace StarLaiPortal.Module.Controllers
                         }
 
                         // Start ver 1.0.8.1
-                        if (sq.IsValid4 == true)
+                        if (sq.IsValid4 == true && p.AppStatus != ApprovalActions.No)
                         {
                             showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
                             return;

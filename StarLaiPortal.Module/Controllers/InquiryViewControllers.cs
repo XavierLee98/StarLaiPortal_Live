@@ -88,35 +88,38 @@ namespace StarLaiPortal.Module.Controllers
             {
                 if (View.ObjectTypeInfo.Type == typeof(vwInquirySalesOrder))
                 {
-                    InquiryStatus.Items.Clear();
+                    if (View.Id == "vwInquirySalesOrder_ListView")
+                    {
+                        InquiryStatus.Items.Clear();
 
-                    InquiryStatus.Items.Add(new ChoiceActionItem("Open", "Open"));
-                    InquiryStatus.Items.Add(new ChoiceActionItem("Draft", "Draft"));
-                    InquiryStatus.Items.Add(new ChoiceActionItem("Submitted", "Submitted"));
-                    InquiryStatus.Items.Add(new ChoiceActionItem("Cancelled", "Cancelled"));
-                    InquiryStatus.Items.Add(new ChoiceActionItem("Closed", "Closed"));
-                    InquiryStatus.Items.Add(new ChoiceActionItem("Posted", "Posted"));
-                    InquiryStatus.Items.Add(new ChoiceActionItem("Pending Post", "Pending Post"));
+                        InquiryStatus.Items.Add(new ChoiceActionItem("Open", "Open"));
+                        InquiryStatus.Items.Add(new ChoiceActionItem("Draft", "Draft"));
+                        InquiryStatus.Items.Add(new ChoiceActionItem("Submitted", "Submitted"));
+                        InquiryStatus.Items.Add(new ChoiceActionItem("Cancelled", "Cancelled"));
+                        InquiryStatus.Items.Add(new ChoiceActionItem("Closed", "Closed"));
+                        InquiryStatus.Items.Add(new ChoiceActionItem("Posted", "Posted"));
+                        InquiryStatus.Items.Add(new ChoiceActionItem("Pending Post", "Pending Post"));
 
-                    InquiryStatus.SelectedIndex = 0;
+                        InquiryStatus.SelectedIndex = 0;
 
-                    this.InquiryStatus.Active.SetItemValue("Enabled", true);
-                    InquiryStatus.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
-                    InquiryStatus.CustomizeControl += action_CustomizeControl;
+                        this.InquiryStatus.Active.SetItemValue("Enabled", true);
+                        InquiryStatus.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        InquiryStatus.CustomizeControl += action_CustomizeControl;
 
-                    this.InquiryDateFrom.Active.SetItemValue("Enabled", true);
-                    this.InquiryDateFrom.Value = DateTime.Today.AddDays(-7);
-                    InquiryDateFrom.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
-                    this.InquiryDateFrom.CustomizeControl += DateActionFrom_CustomizeControl;
-                    this.InquiryDateTo.Active.SetItemValue("Enabled", true);
-                    this.InquiryDateTo.Value = DateTime.Today.AddDays(1);
-                    InquiryDateTo.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
-                    this.InquiryDateTo.CustomizeControl += DateActionTo_CustomizeControl;
-                    this.InquiryFilter.Active.SetItemValue("Enabled", true);
+                        this.InquiryDateFrom.Active.SetItemValue("Enabled", true);
+                        this.InquiryDateFrom.Value = DateTime.Today.AddDays(-7);
+                        InquiryDateFrom.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        this.InquiryDateFrom.CustomizeControl += DateActionFrom_CustomizeControl;
+                        this.InquiryDateTo.Active.SetItemValue("Enabled", true);
+                        this.InquiryDateTo.Value = DateTime.Today.AddDays(1);
+                        InquiryDateTo.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        this.InquiryDateTo.CustomizeControl += DateActionTo_CustomizeControl;
+                        this.InquiryFilter.Active.SetItemValue("Enabled", true);
 
-                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
                         "and DocDate >= ? and DocDate <= ?",
                         InquiryStatus.SelectedItem.Id, InquiryDateFrom.Value, InquiryDateTo.Value);
+                    }
                 }
             }
 
@@ -124,38 +127,41 @@ namespace StarLaiPortal.Module.Controllers
             {
                 if (View.ObjectTypeInfo.Type == typeof(vwInquiryPickList))
                 {
-                    InquiryStatus.Items.Clear();
+                    if (View.Id == "vwInquiryPickList_ListView")
+                    {
+                        InquiryStatus.Items.Clear();
 
-                    InquiryStatus.Items.Add(new ChoiceActionItem("Open", "Open"));
-                    InquiryStatus.Items.Add(new ChoiceActionItem("Draft", "Draft"));
-                    InquiryStatus.Items.Add(new ChoiceActionItem("Submitted", "Submitted"));
-                    InquiryStatus.Items.Add(new ChoiceActionItem("Cancelled", "Cancelled"));
-                    InquiryStatus.Items.Add(new ChoiceActionItem("Closed", "Closed"));
-                    InquiryStatus.Items.Add(new ChoiceActionItem("Posted", "Posted"));
-                    InquiryStatus.Items.Add(new ChoiceActionItem("Pending Post", "Pending Post"));
+                        InquiryStatus.Items.Add(new ChoiceActionItem("Open", "Open"));
+                        InquiryStatus.Items.Add(new ChoiceActionItem("Draft", "Draft"));
+                        InquiryStatus.Items.Add(new ChoiceActionItem("Submitted", "Submitted"));
+                        InquiryStatus.Items.Add(new ChoiceActionItem("Cancelled", "Cancelled"));
+                        InquiryStatus.Items.Add(new ChoiceActionItem("Closed", "Closed"));
+                        InquiryStatus.Items.Add(new ChoiceActionItem("Posted", "Posted"));
+                        InquiryStatus.Items.Add(new ChoiceActionItem("Pending Post", "Pending Post"));
 
-                    InquiryStatus.SelectedIndex = 1;
+                        InquiryStatus.SelectedIndex = 1;
 
-                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ?",
-                        InquiryStatus.SelectedItem.Id);
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ?",
+                            InquiryStatus.SelectedItem.Id);
 
-                    this.InquiryStatus.Active.SetItemValue("Enabled", true);
-                    InquiryStatus.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
-                    InquiryStatus.CustomizeControl += action_CustomizeControl;
+                        this.InquiryStatus.Active.SetItemValue("Enabled", true);
+                        InquiryStatus.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        InquiryStatus.CustomizeControl += action_CustomizeControl;
 
-                    this.InquiryDateFrom.Active.SetItemValue("Enabled", true);
-                    this.InquiryDateFrom.Value = DateTime.Today.AddDays(-7);
-                    InquiryDateFrom.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
-                    this.InquiryDateFrom.CustomizeControl += DateActionFrom_CustomizeControl;
-                    this.InquiryDateTo.Active.SetItemValue("Enabled", true);
-                    this.InquiryDateTo.Value = DateTime.Today.AddDays(1);
-                    InquiryDateTo.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
-                    this.InquiryDateTo.CustomizeControl += DateActionTo_CustomizeControl;
-                    this.InquiryFilter.Active.SetItemValue("Enabled", true);
+                        this.InquiryDateFrom.Active.SetItemValue("Enabled", true);
+                        this.InquiryDateFrom.Value = DateTime.Today.AddDays(-7);
+                        InquiryDateFrom.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        this.InquiryDateFrom.CustomizeControl += DateActionFrom_CustomizeControl;
+                        this.InquiryDateTo.Active.SetItemValue("Enabled", true);
+                        this.InquiryDateTo.Value = DateTime.Today.AddDays(1);
+                        InquiryDateTo.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        this.InquiryDateTo.CustomizeControl += DateActionTo_CustomizeControl;
+                        this.InquiryFilter.Active.SetItemValue("Enabled", true);
 
-                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
                         "and DocDate >= ? and DocDate <= ?",
                         InquiryStatus.SelectedItem.Id, InquiryDateFrom.Value, InquiryDateTo.Value);
+                    }
                 }
             }
             // End ver 1.0.9
@@ -163,7 +169,7 @@ namespace StarLaiPortal.Module.Controllers
         protected override void OnViewControlsCreated()
         {
             base.OnViewControlsCreated();
-            // Access and customize the target View control.
+            // Access and customize the target View control. 
         }
 
         protected override void OnDeactivated()

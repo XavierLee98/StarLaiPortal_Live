@@ -10,7 +10,7 @@
     body {
         padding:30px;
         content: "";
-        background-image: url('Background.PNG');
+        background-image: url('MainBackground.jpg');
         background-size: cover;
         position: absolute;
         top: 0px;
