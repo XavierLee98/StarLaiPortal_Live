@@ -4582,7 +4582,7 @@
     <DetailView Id="vwBinStockBalance_DetailView" AllowEdit="False" />
     <ListView Id="vwBinStockBalance_ListView" DataAccessMode="Client" />
     <DetailView Id="vwBusniessPartner_DetailView" AllowEdit="False" />
-    <ListView Id="vwBusniessPartner_ListView" DataAccessMode="Client" />
+    <ListView Id="vwBusniessPartner_ListView" DataAccessMode="Client" FreezeColumnIndices="False" />
     <DetailView Id="vwDepartment_DetailView" AllowEdit="False" />
     <ListView Id="vwDepartment_ListView" DataAccessMode="Client" />
     <DetailView Id="vwDownpaymentINV_DetailView" AllowEdit="False" />
