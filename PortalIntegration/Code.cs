@@ -3331,7 +3331,10 @@ namespace PortalIntegration
                     {
                         SAPbobsCOM.DownPaymentsToDraw dpm = oDoc.DownPaymentsToDraw;
                         dpm.DocEntry = reader.GetInt32(0);
-                        dpm.AmountToDraw = (double)oTargetDoc.DeliveryOrderDetails.Sum(s => s.Total);
+                        // Start ver 1.0.10
+                        //dpm.AmountToDraw = (double)oTargetDoc.DeliveryOrderDetails.Sum(s => s.Total);
+                        dpm.AmountToDraw = reader.GetDouble(1);
+                        // End ver 1.0.10
                         dpm.Add();
                     }
                     conn.Close();
