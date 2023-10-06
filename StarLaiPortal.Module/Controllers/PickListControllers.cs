@@ -370,7 +370,7 @@ namespace StarLaiPortal.Module.Controllers
                             // Start ver 1.0.10
                             //vwPaymentSO so = os.FindObject<vwPaymentSO>(CriteriaOperator.Parse("Oid = ? and DocNum = ?",
                             //    dtl.Oid, dtl.DocNum));
-                              vwPaymentSOSimplified so = os.FindObject<vwPaymentSOSimplified>(CriteriaOperator.Parse("Oid = ? and DocNum = ?",
+                              vwPaymentSOSimplified so = os.FindObject<vwPaymentSOSimplified>(CriteriaOperator.Parse("RowOID = ? and DocNum = ?",
                                   dtl.Oid, dtl.DocNum));
                             // End ver 1.0.10
 
@@ -1333,7 +1333,7 @@ namespace StarLaiPortal.Module.Controllers
                             // Start ver 1.0.10
                             //vwPaymentSO dupso = sos.FindObject<vwPaymentSO>(CriteriaOperator.Parse("Oid = ? and DocNum = ?",
                             //    dtl.Oid, dtl.DocNum));
-                            vwPaymentSOSimplified dupso = sos.FindObject<vwPaymentSOSimplified>(CriteriaOperator.Parse("Oid = ? and DocNum = ?",
+                            vwPaymentSOSimplified dupso = sos.FindObject<vwPaymentSOSimplified>(CriteriaOperator.Parse("RowOID = ? and DocNum = ?",
                                 dtl.Oid, dtl.DocNum));
                             // End ver 1.0.10
 
