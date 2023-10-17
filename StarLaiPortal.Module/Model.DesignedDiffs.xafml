@@ -5020,16 +5020,17 @@
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
           <LayoutGroup Id="SimpleEditors" Direction="Horizontal" RelativeSize="100">
-            <LayoutGroup Id="WarehouseTransferReqDetails_col1" ShowCaption="False" Index="0" RelativeSize="49.896480331262943" IsNewNode="True">
-              <LayoutItem Id="ItemCode" ViewItem="ItemCode" Index="0" RelativeSize="6.654343807763401" IsNewNode="True" />
-              <LayoutItem Id="ItemDesc" ViewItem="ItemDesc" Index="1" RelativeSize="4.8059149722735679" IsNewNode="True" />
-              <LayoutItem Id="UOM" ViewItem="UOM" Index="2" RelativeSize="4.8059149722735679" IsNewNode="True" />
-              <LayoutItem Id="CatalogNo" ViewItem="CatalogNo" Index="3" RelativeSize="83.733826247689464" IsNewNode="True" />
+            <LayoutGroup Id="WarehouseTransferReqDetails_col1" ShowCaption="False" Index="0" RelativeSize="49.860724233983284" IsNewNode="True">
+              <LayoutItem Id="ItemCode" ViewItem="ItemCode" Index="0" RelativeSize="6.7669172932330826" IsNewNode="True" />
+              <LayoutItem Id="LegacyItemCode" ViewItem="LegacyItemCode" Index="1" RelativeSize="4.8872180451127818" IsNewNode="True" />
+              <LayoutItem Id="ItemDesc" ViewItem="ItemDesc" Index="2" RelativeSize="4.8872180451127818" IsNewNode="True" />
+              <LayoutItem Id="UOM" ViewItem="UOM" Index="3" RelativeSize="83.458646616541358" IsNewNode="True" />
             </LayoutGroup>
-            <LayoutGroup Id="WarehouseTransferReqDetails_col2" ShowCaption="False" Index="1" RelativeSize="50.103519668737057" IsNewNode="True">
-              <LayoutItem Id="FromBin" ViewItem="FromBin" Index="0" RelativeSize="6.654343807763401" IsNewNode="True" />
-              <LayoutItem Id="ToBin" ViewItem="ToBin" Index="1" RelativeSize="4.8059149722735679" IsNewNode="True" />
-              <LayoutItem Id="Quantity" ViewItem="Quantity" Index="2" RelativeSize="88.539741219963034" IsNewNode="True" />
+            <LayoutGroup Id="WarehouseTransferReqDetails_col2" ShowCaption="False" Index="1" RelativeSize="50.139275766016716" IsNewNode="True">
+              <LayoutItem Id="CatalogNo" ViewItem="CatalogNo" Index="0" RelativeSize="6.7669172932330826" IsNewNode="True" />
+              <LayoutItem Id="FromBin" ViewItem="FromBin" Index="1" RelativeSize="4.8872180451127818" IsNewNode="True" />
+              <LayoutItem Id="ToBin" ViewItem="ToBin" Index="2" RelativeSize="4.8872180451127818" IsNewNode="True" />
+              <LayoutItem Id="Quantity" ViewItem="Quantity" Index="3" RelativeSize="83.458646616541358" IsNewNode="True" />
             </LayoutGroup>
             <LayoutGroup Id="WarehouseTransferReqDetails" Removed="True" />
           </LayoutGroup>

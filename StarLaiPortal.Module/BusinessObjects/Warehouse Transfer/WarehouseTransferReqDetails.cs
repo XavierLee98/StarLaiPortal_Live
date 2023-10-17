@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 
 // 2023-08-25 - export and import function - ver 1.0.9
+// 2023-10-16 - add legacyitemcode - ver 1.0.11
 
 namespace StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer
 {
@@ -124,6 +125,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer
                     // End ver 1.0.9
 
                     ItemDesc = ItemCode.ItemName;
+                    // Start ver 1.0.11
+                    LegacyItemCode = ItemCode.LegacyItemCode;
+                    // End ver 1.0.11
                     CatalogNo = ItemCode.CatalogNo;
                     UOM = ItemCode.UOM;
 
@@ -132,11 +136,29 @@ namespace StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer
                 else if (!IsLoading && value == null)
                 {
                     ItemDesc = null;
+                    // Start ver 1.0.11
+                    LegacyItemCode = null;
+                    // End ver 1.0.11
                     CatalogNo = null;
                     UOM = null;
                 }
             }
         }
+
+        // Start ver 1.0.11
+        private string _LegacyItemCode;
+        [XafDisplayName("Legacy Item Code")]
+        [Index(2), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
+        [Appearance("LegacyItemCode", Enabled = false)]
+        public string LegacyItemCode
+        {
+            get { return _LegacyItemCode; }
+            set
+            {
+                SetPropertyValue("LegacyItemCode", ref _LegacyItemCode, value);
+            }
+        }
+        // End ver 1.0.11
 
         private string _ItemDesc;
         [RuleRequiredField(DefaultContexts.Save)]
