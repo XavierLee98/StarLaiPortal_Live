@@ -225,6 +225,8 @@
           <Item Id="StockAdjustmentReqAttachment_ListView" Removed="True" />
           <Item Id="StockAdjustmentReqDetails_ListView" Removed="True" />
           <Item Id="StockAdjustmentReqDocTrail_ListView" Removed="True" />
+          <Item Id="StockCountConfirmDetails_ListView" Removed="True" />
+          <Item Id="StockCountConfirmDocTrail_ListView" Removed="True" />
           <Item Id="StockCountSheetCounted_ListView" Removed="True" />
           <Item Id="StockCountSheetDocTrail_ListView" Removed="True" />
           <Item Id="StockCountSheetTarget_ListView" Removed="True" />
@@ -363,7 +365,7 @@
           <Item Id="vwInquiryStockAdjustmentDetails_ListView" Index="3" />
         </Items>
       </Item>
-      <Item Id="Stock Count">
+      <Item Id="Stock Count" Visible="False">
         <Items>
           <Item Id="StockCountSheet_ListView" Index="0" />
           <Item Id="StockCountConfirm_ListView" Index="1" />

@@ -33,6 +33,9 @@ using StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer;
 using StarLaiPortal.Module.Controllers;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using static DevExpress.XtraPrinting.Native.ExportOptionsPropertiesNames;
@@ -460,28 +463,11 @@ namespace StarLaiPortal.Module.Web.Controllers
             {
                 ASN CurrObject = (ASN)args.CurrentObject;
 
-                // Start ver 1.0.8.1
-                CurrObject.PONo = null;
-                string duppo = null;
+                SqlConnection conn = new SqlConnection(genCon.getConnectionString());
                 foreach (ASNDetails dtl in CurrObject.ASNDetails)
                 {
                     dtl.OIDKey = dtl.Oid;
-
-                    if (duppo != dtl.PORefNo)
-                    {
-                        if (CurrObject.PONo == null)
-                        {
-                            CurrObject.PONo = dtl.PORefNo;
-                        }
-                        else
-                        {
-                            CurrObject.PONo = CurrObject.PONo + ", " + dtl.PORefNo;
-                        }
-
-                        duppo = dtl.PORefNo;
-                    }
                 }
-                // End ver 1.0.8.1
 
                 base.Save(args);
                 if (CurrObject.DocNum == null)
@@ -489,6 +475,32 @@ namespace StarLaiPortal.Module.Web.Controllers
                     string docprefix = genCon.GetDocPrefix();
                     CurrObject.DocNum = genCon.GenerateDocNum(DocTypeList.ASN, ObjectSpace, TransferType.NA, 0, docprefix);
                 }
+
+                // Start ver 1.0.8.1
+                if (CurrObject.Oid > 0)
+                {
+                    CurrObject.PONo = null;
+                    string getporef = "SELECT PORefNo FROM ASNDetails where ASN = " + CurrObject.Oid + " GROUP BY PORefNo";
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        conn.Close();
+                    }
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(getporef, conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        if (CurrObject.PONo != null)
+                        {
+                            CurrObject.PONo = CurrObject.PONo + ", " + reader.GetString(0);
+                        }
+                        else
+                        {
+                            CurrObject.PONo = reader.GetString(0);
+                        }
+                    }
+                }
+                // End ver 1.0.8.1
 
                 base.Save(args);
                 ((DetailView)View).ViewEditMode = ViewEditMode.View;
@@ -498,51 +510,50 @@ namespace StarLaiPortal.Module.Web.Controllers
             else if (View.ObjectTypeInfo.Type == typeof(GRN))
             {
                 GRN CurrObject = (GRN)args.CurrentObject;
+                SqlConnection conn = new SqlConnection(genCon.getConnectionString());
 
                 // Start ver 1.0.8.1
                 string duppo = null;
                 string dupporef = null;
                 string dupasn = null;
-                CurrObject.SAPPONo = null;
-                CurrObject.PortalPONo = null;
                 CurrObject.ASNNo = null;
                 foreach (GRNDetails dtl in CurrObject.GRNDetails)
                 {
                     dtl.OIDKey = dtl.Oid;
 
-                    if (dtl.PONo != null)
-                    {
-                        if (duppo != dtl.PONo)
-                        {
-                            if (CurrObject.SAPPONo == null)
-                            {
-                                CurrObject.SAPPONo = dtl.PONo;
-                            }
-                            else
-                            {
-                                CurrObject.SAPPONo = CurrObject.SAPPONo + ", " + dtl.PONo;
-                            }
+                    //if (dtl.PONo != null)
+                    //{
+                    //    if (duppo != dtl.PONo)
+                    //    {
+                    //        if (CurrObject.SAPPONo == null)
+                    //        {
+                    //            CurrObject.SAPPONo = dtl.PONo;
+                    //        }
+                    //        else
+                    //        {
+                    //            CurrObject.SAPPONo = CurrObject.SAPPONo + ", " + dtl.PONo;
+                    //        }
 
-                            duppo = dtl.PONo;
-                        }
-                    }
+                    //        duppo = dtl.PONo;
+                    //    }
+                    //}
 
-                    if (dtl.PORefNo != null)
-                    {
-                        if (dupporef != dtl.PORefNo)
-                        {
-                            if (CurrObject.PortalPONo == null)
-                            {
-                                CurrObject.PortalPONo = dtl.PORefNo;
-                            }
-                            else
-                            {
-                                CurrObject.PortalPONo = CurrObject.PortalPONo + ", " + dtl.PORefNo;
-                            }
+                    //if (dtl.PORefNo != null)
+                    //{
+                    //    if (dupporef != dtl.PORefNo)
+                    //    {
+                    //        if (CurrObject.PortalPONo == null)
+                    //        {
+                    //            CurrObject.PortalPONo = dtl.PORefNo;
+                    //        }
+                    //        else
+                    //        {
+                    //            CurrObject.PortalPONo = CurrObject.PortalPONo + ", " + dtl.PORefNo;
+                    //        }
 
-                            dupporef = dtl.PORefNo;
-                        }
-                    }
+                    //        dupporef = dtl.PORefNo;
+                    //    }
+                    //}
 
                     if (dtl.ASNBaseDoc != null)
                     {
@@ -579,16 +590,55 @@ namespace StarLaiPortal.Module.Web.Controllers
                     }
                 }
 
-                IObjectSpace os = Application.CreateObjectSpace();
-                GRN trx = os.FindObject<GRN>(new BinaryOperator("Oid", CurrObject.Oid));
-
-                foreach (GRNDetails dtl2 in trx.GRNDetails)
+                // Start ver 1.0.11
+                if (CurrObject.Oid > 0)
                 {
-                    dtl2.OIDKey = dtl2.Oid;
-                }
+                    CurrObject.SAPPONo = null;
+                    CurrObject.PortalPONo = null;
+                    string getporef = "SELECT PONo, ISNULL(PORefNo, '') FROM GRNDetails WHERE GRN = " + CurrObject.Oid + " GROUP BY PONo, PORefNo";
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        conn.Close();
+                    }
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(getporef, conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        if (reader.GetString(1) != "")
+                        {
+                            if (CurrObject.PortalPONo != null)
+                            {
+                                CurrObject.PortalPONo = CurrObject.PortalPONo + ", " + reader.GetString(1);
+                            }
+                            else
+                            {
+                                CurrObject.PortalPONo = reader.GetString(1);
+                            }
+                        }
 
-                os.CommitChanges();
-                os.Refresh();
+                        if (CurrObject.SAPPONo != null)
+                        {
+                            CurrObject.SAPPONo = CurrObject.SAPPONo + ", " + reader.GetString(0);
+                        }
+                        else
+                        {
+                            CurrObject.SAPPONo = reader.GetString(0);
+                        }
+                    }
+                }
+                // End ver 1.0.11
+
+                //IObjectSpace os = Application.CreateObjectSpace();
+                //GRN trx = os.FindObject<GRN>(new BinaryOperator("Oid", CurrObject.Oid));
+
+                //foreach (GRNDetails dtl2 in trx.GRNDetails)
+                //{
+                //    dtl2.OIDKey = dtl2.Oid;
+                //}
+
+                //os.CommitChanges();
+                //os.Refresh();
 
                 base.Save(args);
                 ((DetailView)View).ViewEditMode = ViewEditMode.View;
