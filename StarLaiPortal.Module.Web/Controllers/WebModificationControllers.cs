@@ -28,6 +28,7 @@ using StarLaiPortal.Module.BusinessObjects.Sales_Refund;
 using StarLaiPortal.Module.BusinessObjects.Sales_Return;
 using StarLaiPortal.Module.BusinessObjects.Setup;
 using StarLaiPortal.Module.BusinessObjects.Stock_Adjustment;
+using StarLaiPortal.Module.BusinessObjects.Stock_Count;
 using StarLaiPortal.Module.BusinessObjects.View;
 using StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer;
 using StarLaiPortal.Module.Controllers;
@@ -45,6 +46,7 @@ using static DevExpress.XtraPrinting.Native.ExportOptionsPropertiesNames;
 // 2023-04-09 fix speed issue ver 1.0.8.1
 // 2023-09-25 copy warehouse ver 1.0.10
 // 2023-10-11 fix multi tab issue ver 1.0.10
+// 2023-10-20 add stock count ver 1.0.12
 
 namespace StarLaiPortal.Module.Web.Controllers
 {
@@ -963,6 +965,40 @@ namespace StarLaiPortal.Module.Web.Controllers
                 }
             }
             // End ver 1.0.9
+            // Start ver 1.0.12
+            else if (View.ObjectTypeInfo.Type == typeof(StockCountSheet))
+            {
+                StockCountSheet CurrObject = (StockCountSheet)args.CurrentObject;
+
+                base.Save(args);
+                if (CurrObject.DocNum == null)
+                {
+                    string docprefix = genCon.GetDocPrefix();
+                    CurrObject.DocNum = genCon.GenerateDocNum(DocTypeList.STS, ObjectSpace, TransferType.NA, 0, docprefix);
+                }
+
+                base.Save(args);
+                ((DetailView)View).ViewEditMode = ViewEditMode.View;
+                View.BreakLinksToControls();
+                View.CreateControls();
+            }
+            else if (View.ObjectTypeInfo.Type == typeof(StockCountConfirm))
+            {
+                StockCountConfirm CurrObject = (StockCountConfirm)args.CurrentObject;
+
+                base.Save(args);
+                if (CurrObject.DocNum == null)
+                {
+                    string docprefix = genCon.GetDocPrefix();
+                    CurrObject.DocNum = genCon.GenerateDocNum(DocTypeList.STC, ObjectSpace, TransferType.NA, 0, docprefix);
+                }
+
+                base.Save(args);
+                ((DetailView)View).ViewEditMode = ViewEditMode.View;
+                View.BreakLinksToControls();
+                View.CreateControls();
+            }
+            // End ver 1.0.12
             else
             {
                 base.Save(args);
