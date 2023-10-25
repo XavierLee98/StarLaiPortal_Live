@@ -1848,7 +1848,7 @@ namespace PortalIntegration
                         }
                         if (countchar >= 99)
                         {
-                            oDoc.UserFields.Fields.Item("U_PortalASNNum").Value = asndoc.Substring(1, 99).ToString();
+                            oDoc.UserFields.Fields.Item("U_PortalASNNum").Value = asndoc.Substring(0, 99).ToString();
                         }
                         else
                         {
@@ -3118,7 +3118,7 @@ namespace PortalIntegration
                                     }
                                     if (countchar >= 19)
                                     {
-                                        oDoc.CreditCards.VoucherNum = oTargetDoc.ReferenceNum.Substring(1, 19).ToString();
+                                        oDoc.CreditCards.VoucherNum = oTargetDoc.ReferenceNum.Substring(0, 19).ToString();
                                     }
                                     else
                                     {
@@ -3152,7 +3152,7 @@ namespace PortalIntegration
                                     }
                                     if (countchar >= 24)
                                     {
-                                        oDoc.TransferReference = oTargetDoc.ReferenceNum.Substring(1, 24).ToString();
+                                        oDoc.TransferReference = oTargetDoc.ReferenceNum.Substring(0, 24).ToString();
                                     }
                                     else
                                     {

@@ -290,6 +290,10 @@
     <Compile Include="BusinessObjects\Stock Adjustment\StockAdjustmentReqDocTrail.cs" />
     <Compile Include="BusinessObjects\Stock Adjustment\StockAdjustmentRequests.cs" />
     <Compile Include="BusinessObjects\Stock Adjustment\StockAdjustments.cs" />
+    <Compile Include="BusinessObjects\Stock Count Inquiry\StockCountBinInquiry.cs" />
+    <Compile Include="BusinessObjects\Stock Count Inquiry\StockCountBinInquiryDetails.cs" />
+    <Compile Include="BusinessObjects\Stock Count Inquiry\StockCountItemInquiry.cs" />
+    <Compile Include="BusinessObjects\Stock Count Inquiry\StockCountItemInquiryDetails.cs" />
     <Compile Include="BusinessObjects\Stock Count\StockCountConfirm.cs" />
     <Compile Include="BusinessObjects\Stock Count\StockCountConfirmDetails.cs" />
     <Compile Include="BusinessObjects\Stock Count\StockCountConfirmDetailView.cs" />
@@ -538,6 +542,12 @@
     <Compile Include="Controllers\StockCountConfirmControllers.Designer.cs">
       <DependentUpon>StockCountConfirmControllers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\StockCountInquiryControllers.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\StockCountInquiryControllers.Designer.cs">
+      <DependentUpon>StockCountInquiryControllers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\StockCountSheetControllers.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -664,6 +674,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controllers\StockCountConfirmControllers.resx">
       <DependentUpon>StockCountConfirmControllers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controllers\StockCountInquiryControllers.resx">
+      <DependentUpon>StockCountInquiryControllers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controllers\StockCountSheetControllers.resx">
       <DependentUpon>StockCountSheetControllers.cs</DependentUpon>

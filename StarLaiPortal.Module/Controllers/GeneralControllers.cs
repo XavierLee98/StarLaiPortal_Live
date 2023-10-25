@@ -470,10 +470,15 @@ namespace StarLaiPortal.Module.Controllers
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(getpack, conn);
                 SqlDataReader reader = cmd.ExecuteReader();
+
+                // Start ver 1.0.11
+                WriteLog("[INFO]", "-----------------------");
+                WriteLog("[INFO]", "GenerateDO : " + load.DocNum + " -----------------------");
+                // End ver 1.0.11
+
                 while (reader.Read())
                 {
                     // Start ver 1.0.11
-                    WriteLog("[INFO]", "GenerateDO : " + load.DocNum + " -----------------------");
                     WriteLog("[INFO]", "SO Number : " + reader.GetString(0));
                     // End ver 1.0.11
                     SalesOrder so = os.FindObject<SalesOrder>(CriteriaOperator.Parse("DocNum = ?", reader.GetString(0)));
@@ -612,6 +617,10 @@ namespace StarLaiPortal.Module.Controllers
                         //    }
                         //}
 
+                        // Start ver 1.0.11
+                        WriteLog("[INFO]", "Header done.");
+                        // End ver 1.0.11
+
                         string[] packlistnum = currload.PackListNo.Replace(" ", "").Split(',');
                         foreach (string dtlpack in packlistnum)
                         {
@@ -700,6 +709,10 @@ namespace StarLaiPortal.Module.Controllers
                                                         newdeliveryitem.PickListDocNum = dtlpackdetail.PickListNo;
 
                                                         newdelivery.DeliveryOrderDetails.Add(newdeliveryitem);
+
+                                                        // Start ver 1.0.11
+                                                        WriteLog("[INFO]", newdeliveryitem.SOBaseID + " added.");
+                                                        // End ver 1.0.11
                                                     }
 
                                                     picklistnum = dtlpackdetail.PickListNo;
@@ -710,6 +723,10 @@ namespace StarLaiPortal.Module.Controllers
                                 }
                             }
                         }
+
+                        // Start ver 1.0.11
+                        WriteLog("[INFO]", "Update Header Info.");
+                        // End ver 1.0.11
 
                         // Start ver 1.0.8.1
                         string dupno = null;
@@ -754,6 +771,10 @@ namespace StarLaiPortal.Module.Controllers
                         // End ver 1.0.8.1
 
                         os.CommitChanges();
+
+                        // Start ver 1.0.11
+                        WriteLog("[INFO]", "DO Generated.");
+                        // End ver 1.0.11
                     }
                     // Start ver 1.0.11
                     else

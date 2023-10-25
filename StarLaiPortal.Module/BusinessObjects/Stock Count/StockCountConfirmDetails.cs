@@ -188,7 +188,6 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
         }
 
         private decimal _Quantity;
-        [ImmediatePostData]
         [DbType("numeric(18,6)")]
         [ModelDefault("DisplayFormat", "{0:N0}")]
         [ModelDefault("EditMask", "d")]

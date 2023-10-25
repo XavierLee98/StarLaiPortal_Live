@@ -15,11 +15,14 @@ using StarLaiPortal.Module.BusinessObjects.Print_Module;
 using StarLaiPortal.Module.BusinessObjects.Reports;
 using StarLaiPortal.Module.BusinessObjects.Sales_Order_Collection;
 using StarLaiPortal.Module.BusinessObjects.Setup;
+using StarLaiPortal.Module.BusinessObjects.Stock_Count_Inquiry;
 using StarLaiPortal.Module.BusinessObjects.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+// 2023-10-23 add stock count ver 1.0.12
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -179,6 +182,44 @@ namespace StarLaiPortal.Module.Controllers
                 e.ActionArguments.ShowViewParameters.CreatedView = detailView;
                 e.Handled = true;
             }
+
+            // Start ver 1.0.12
+            if (e.ActionArguments.SelectedChoiceActionItem.Id == "StockCountBinInquiry_ListView")
+            {
+                IObjectSpace objectSpace = Application.CreateObjectSpace();
+                StockCountBinInquiry newstockcountbin = objectSpace.CreateObject<StockCountBinInquiry>();
+
+                DetailView detailView = Application.CreateDetailView(objectSpace, "StockCountBinInquiry_DetailView", true, newstockcountbin);
+                detailView.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
+
+                newstockcountbin.FromDate = DateTime.Today;
+                newstockcountbin.ToDate = DateTime.Today.AddMonths(3);
+
+                objectSpace.CommitChanges();
+                objectSpace.Refresh();
+
+                e.ActionArguments.ShowViewParameters.CreatedView = detailView;
+                e.Handled = true;
+            }
+
+            if (e.ActionArguments.SelectedChoiceActionItem.Id == "StockCountItemInquiry_ListView")
+            {
+                IObjectSpace objectSpace = Application.CreateObjectSpace();
+                StockCountItemInquiry newstockcountitem = objectSpace.CreateObject<StockCountItemInquiry>();
+
+                DetailView detailView = Application.CreateDetailView(objectSpace, "StockCountItemInquiry_DetailView", true, newstockcountitem);
+                detailView.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
+
+                newstockcountitem.FromDate = DateTime.Today;
+                newstockcountitem.ToDate = DateTime.Today.AddMonths(3);
+
+                objectSpace.CommitChanges();
+                objectSpace.Refresh();
+
+                e.ActionArguments.ShowViewParameters.CreatedView = detailView;
+                e.Handled = true;
+            }
+            // End ver 1.0.12
         }
     }
 }

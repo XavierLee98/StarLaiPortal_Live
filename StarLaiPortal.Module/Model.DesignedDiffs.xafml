@@ -225,6 +225,7 @@
           <Item Id="StockAdjustmentReqAttachment_ListView" Removed="True" />
           <Item Id="StockAdjustmentReqDetails_ListView" Removed="True" />
           <Item Id="StockAdjustmentReqDocTrail_ListView" Removed="True" />
+          <Item Id="StockCountBinInquiryDetails_ListView" Removed="True" />
           <Item Id="StockCountConfirmDetails_ListView" Removed="True" />
           <Item Id="StockCountConfirmDocTrail_ListView" Removed="True" />
           <Item Id="StockCountSheetCounted_ListView" Removed="True" />
@@ -4690,6 +4691,40 @@
     </DetailView>
     <ListView Id="StockAdjustments_ListView" DataAccessMode="Client" />
     <ListView Id="StockAdjustments_StockAdjustmentDetails_ListView" AllowEdit="True" />
+    <DetailView Id="StockCountBinInquiry_DetailView">
+      <Items>
+        <ActionContainerViewItem Id="StockCountBinSearch" ActionContainer="ListView" Caption="StockCountBinSearch" Orientation="Vertical" IsNewNode="True" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="8.4337349397590362">
+            <LayoutGroup Id="StockCountBinInquiry" Direction="Horizontal" RelativeSize="100" Caption="StockCountBinInquiry">
+              <LayoutGroup Id="Auto96d16b6c-4564-4d49-bc05-8ac1fee58ef7" ShowCaption="False" Caption="Auto96d16b6c-4564-4d49-bc05-8ac1fee58ef7(4)" Index="0" RelativeSize="80.4812834224599" Direction="Horizontal" IsNewNode="True">
+                <LayoutItem Id="FromDate" ViewItem="FromDate" Index="0" RelativeSize="52.159468438538205" IsNewNode="True" />
+                <LayoutItem Id="ToDate" ViewItem="ToDate" Index="1" RelativeSize="47.840531561461795" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutItem Id="StockCountBinSearch" ViewItem="StockCountBinSearch" Index="1" RelativeSize="19.518716577540108" IsNewNode="True" />
+              <LayoutItem Id="FromDate" Removed="True" />
+              <LayoutItem Id="ToDate" Removed="True" />
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="StockCountBinInquiryDetails_Group" Direction="Vertical" RelativeSize="91.566265060240966">
+            <LayoutItem Id="StockCountBinInquiryDetails" RelativeSize="100" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="StockCountBinInquiry_StockCountBinInquiryDetails_ListView">
+      <Columns>
+        <ColumnInfo Id="StockCountNo" SortIndex="-1" SortOrder="None" />
+      </Columns>
+    </ListView>
+    <DetailView Id="StockCountBinInquiryDetails_DetailView" AllowEdit="False" />
+    <ListView Id="StockCountBinInquiryDetails_ListView">
+      <Columns>
+        <ColumnInfo Id="StockCountNo" SortIndex="-1" SortOrder="None" />
+      </Columns>
+    </ListView>
     <ListView Id="StockCountConfirm_AuditTrail_ListView">
       <Columns>
         <ColumnInfo Id="PropertyName" Index="-1" />
@@ -4753,6 +4788,36 @@
       </Layout>
     </DetailView>
     <DetailView Id="StockCountConfirmDocTrail_DetailView" AllowEdit="False" />
+    <DetailView Id="StockCountItemInquiry_DetailView">
+      <Items>
+        <ActionContainerViewItem Id="StockCountItemSearch" Caption="StockCountItemSearch" Orientation="Vertical" ActionContainer="ListView" IsNewNode="True" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="8.4337349397590362">
+            <LayoutGroup Id="StockCountItemInquiry" Direction="Horizontal" RelativeSize="100">
+              <LayoutItem Id="FromDate" RelativeSize="34.893048128342244" />
+              <LayoutItem Id="ToDate" RelativeSize="35.026737967914436" />
+              <LayoutItem Id="StockCountItemSearch" ViewItem="StockCountItemSearch" Index="2" RelativeSize="30.080213903743317" IsNewNode="True" />
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="StockCountItemInquiryDetails_Group" Direction="Vertical" RelativeSize="91.566265060240966">
+            <LayoutItem Id="StockCountItemInquiryDetails" RelativeSize="100" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="StockCountItemInquiry_StockCountItemInquiryDetails_ListView">
+      <Columns>
+        <ColumnInfo Id="StockCountNo" SortIndex="-1" SortOrder="None" />
+      </Columns>
+    </ListView>
+    <DetailView Id="StockCountItemInquiryDetails_DetailView" AllowEdit="False" />
+    <ListView Id="StockCountItemInquiryDetails_ListView">
+      <Columns>
+        <ColumnInfo Id="StockCountNo" SortIndex="-1" SortOrder="None" />
+      </Columns>
+    </ListView>
     <ListView Id="StockCountSheet_AuditTrail_ListView">
       <Columns>
         <ColumnInfo Id="PropertyName" Index="-1" />
