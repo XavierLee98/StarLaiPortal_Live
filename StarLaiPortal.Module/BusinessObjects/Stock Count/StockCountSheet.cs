@@ -24,6 +24,20 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
     [NavigationItem("Stock Count")]
     [DefaultProperty("DocNum")]
 
+    [Appearance("HideEdit", AppearanceItemType.Action, "True", TargetItems = "SwitchToEditMode; Edit", Criteria = "not (Status in (0))", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+
+    [Appearance("HideDelete", AppearanceItemType.Action, "True", TargetItems = "Delete", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSubmit", AppearanceItemType.Action, "True", TargetItems = "SubmitSCS", Criteria = "not (Status in (0))", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+
+    [Appearance("HideCancel", AppearanceItemType.Action, "True", TargetItems = "CancelSCS", Criteria = "not (Status in (0))", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+
+    [Appearance("HideClose", AppearanceItemType.Action, "True", TargetItems = "CloseSCS", Criteria = "not (Status in (1))", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+
+    [Appearance("HideExportCountedSCS", AppearanceItemType.Action, "True", TargetItems = "ExportSheetCountedItems", Criteria = "DocNum = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideImportCountedSCS", AppearanceItemType.Action, "True", TargetItems = "ImportSheetCountedItems", Criteria = "DocNum = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideExportTargetSCS", AppearanceItemType.Action, "True", TargetItems = "ExportSheetTargetItems", Criteria = "DocNum = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideImportTargetSCS", AppearanceItemType.Action, "True", TargetItems = "ImportSheetTargetItems", Criteria = "DocNum = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+
     public class StockCountSheet : XPObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (https://documentation.devexpress.com/eXpressAppFramework/CustomDocument113146.aspx).
         // Use CodeRush to create XPO classes and properties with a few keystrokes.
