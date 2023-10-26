@@ -456,7 +456,7 @@ namespace StarLaiPortal.Module.Controllers
             e.View = Application.CreateListView(typeof(ApplicationUser), true);
         }
 
-        public int GenerateDO(string ConnectionString, Load load, IObjectSpace os, string docprefix)
+        public int GenerateDO(string ConnectionString, Load load, IObjectSpace os, IObjectSpace loados, string docprefix)
         {
             try
             {
@@ -472,21 +472,21 @@ namespace StarLaiPortal.Module.Controllers
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 // Start ver 1.0.11
-                WriteLog("[INFO]", "-----------------------");
-                WriteLog("[INFO]", "GenerateDO : " + load.DocNum + " -----------------------");
+                //WriteLog("[INFO]", "-----------------------");
+                //WriteLog("[INFO]", "GenerateDO : " + load.DocNum + " -----------------------");
                 // End ver 1.0.11
 
                 while (reader.Read())
                 {
                     // Start ver 1.0.11
-                    WriteLog("[INFO]", "SO Number : " + reader.GetString(0));
+                    //WriteLog("[INFO]", "SO Number : " + reader.GetString(0));
                     // End ver 1.0.11
                     SalesOrder so = os.FindObject<SalesOrder>(CriteriaOperator.Parse("DocNum = ?", reader.GetString(0)));
 
                     if (so != null)
                     {
                         // Start ver 1.0.11
-                        WriteLog("[INFO]", "SO Number Processed : " + reader.GetString(0));
+                        //WriteLog("[INFO]", "SO Number Processed : " + reader.GetString(0));
                         // End ver 1.0.11
 
                         Load currload = os.FindObject<Load>(CriteriaOperator.Parse("DocNum = ?", load.DocNum));
@@ -618,7 +618,7 @@ namespace StarLaiPortal.Module.Controllers
                         //}
 
                         // Start ver 1.0.11
-                        WriteLog("[INFO]", "Header done.");
+                        //WriteLog("[INFO]", "Header done.");
                         // End ver 1.0.11
 
                         string[] packlistnum = currload.PackListNo.Replace(" ", "").Split(',');
@@ -711,7 +711,7 @@ namespace StarLaiPortal.Module.Controllers
                                                         newdelivery.DeliveryOrderDetails.Add(newdeliveryitem);
 
                                                         // Start ver 1.0.11
-                                                        WriteLog("[INFO]", newdeliveryitem.SOBaseID + " added.");
+                                                        //WriteLog("[INFO]", newdeliveryitem.SOBaseID + " added.");
                                                         // End ver 1.0.11
                                                     }
 
@@ -725,7 +725,7 @@ namespace StarLaiPortal.Module.Controllers
                         }
 
                         // Start ver 1.0.11
-                        WriteLog("[INFO]", "Update Header Info.");
+                        //WriteLog("[INFO]", "Update Header Info.");
                         // End ver 1.0.11
 
                         // Start ver 1.0.8.1
@@ -773,22 +773,42 @@ namespace StarLaiPortal.Module.Controllers
                         os.CommitChanges();
 
                         // Start ver 1.0.11
-                        WriteLog("[INFO]", "DO Generated.");
+                        //WriteLog("[INFO]", "DO Generated.");
                         // End ver 1.0.11
                     }
                     // Start ver 1.0.11
                     else
                     {
-                        WriteLog("[INFO]", "SO Number Not Found : " + reader.GetString(0));
+                        //WriteLog("[INFO]", "SO Number Not Found : " + reader.GetString(0));
                     }
                     // End ver 1.0.11
                 }
                 conn.Close();
             }
-            catch(Exception)
+            catch(Exception ex)
             {
+                Load loadlogex = loados.FindObject<Load>(CriteriaOperator.Parse("DocNum = ?", load.DocNum));
+
+                loadlogex.Status = DocStatus.Submitted;
+                LoadDocTrail exds = loados.CreateObject<LoadDocTrail>();
+                exds.DocStatus = DocStatus.Submitted;
+                exds.DocRemarks = ex.Message;
+                loadlogex.LoadDocTrail.Add(exds);
+
+                loados.CommitChanges();
+
                 return 0;
             }
+
+            Load loadlogsucc = loados.FindObject<Load>(CriteriaOperator.Parse("DocNum = ?", load.DocNum));
+
+            loadlogsucc.Status = DocStatus.Submitted;
+            LoadDocTrail succds = loados.CreateObject<LoadDocTrail>();
+            succds.DocStatus = DocStatus.Submitted;
+            succds.DocRemarks = "DO Generated.";
+            loadlogsucc.LoadDocTrail.Add(succds);
+
+            loados.CommitChanges();
 
             return 1;
         }
