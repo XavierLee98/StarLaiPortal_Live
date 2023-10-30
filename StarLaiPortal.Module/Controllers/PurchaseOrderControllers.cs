@@ -14,6 +14,8 @@ using DevExpress.ExpressApp.Web;
 using DevExpress.ExpressApp.Web.Editors.ASPx;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Validation;
+using DevExpress.Web.Internal.XmlProcessor;
+using DevExpress.Xpo;
 using StarLaiPortal.Module.BusinessObjects;
 using StarLaiPortal.Module.BusinessObjects.Item_Inquiry;
 using StarLaiPortal.Module.BusinessObjects.Purchase_Order;
@@ -30,6 +32,7 @@ using System.Text;
 using System.Web;
 
 // 2023-08-16 - add stock 3 and stock 4 - ver 1.0.8
+// 2023-10-30 - amend validation - ver 1.0.12
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -198,6 +201,12 @@ namespace StarLaiPortal.Module.Controllers
             bool sellingprice = false;
             bool zerototal = false;
             string sellingitem = null;
+            // Start ver 1.0.12
+            bool backpo = false;
+            bool nonbackpo = false;
+            string nonbackpoitem = null;
+            // End ver 1.0.12
+
             PurchaseOrders selectedObject = (PurchaseOrders)e.CurrentObject;
             StringParameters p = (StringParameters)e.PopupWindow.View.CurrentObject;
             if (p.IsErr) return;
@@ -226,6 +235,45 @@ namespace StarLaiPortal.Module.Controllers
                     }
                 }
             }
+
+            // Start ver 1.0.12
+            if (selectedObject.Series.SeriesName == "BackOrdP" || selectedObject.Series.SeriesName == "BackOrdS")
+            {
+                if (selectedObject.PurchaseOrderDetails.Where(x => x.AdjustedPrice > x.SellingPrice && x.BaseDoc != null).Count() > 0)
+                {
+                    backpo = true;
+                }
+            }
+
+            if (selectedObject.Series.SeriesName != "BackOrdP" && selectedObject.Series.SeriesName != "BackOrdS")
+            {
+                if (selectedObject.PurchaseOrderDetails.Where(x => x.AdjustedPrice > x.SellingPrice && x.BaseDoc != null).Count() > 0)
+                {
+                    nonbackpo = true;
+                }
+
+                if (nonbackpo == true)
+                {
+                    foreach (PurchaseOrderDetails dtl in selectedObject.PurchaseOrderDetails)
+                    {
+                        if (dtl.AdjustedPrice > dtl.SellingPrice && dtl.BaseDoc != null)
+                        {
+                            if (nonbackpoitem == null)
+                            {
+                                nonbackpoitem = dtl.ItemCode.ItemCode;
+                            }
+                            else
+                            {
+                                nonbackpoitem = nonbackpoitem + ", " + dtl.ItemCode.ItemCode;
+                            }
+                        }
+                    }
+
+                    showMsg("Error", "Non Back to Back PO - Item: " + nonbackpoitem + " adjusted price higher than selling price.", InformationType.Error);
+                    return;
+                }
+            }
+            // End ver 1.0.12
 
             if (sellingprice == false)
             {
@@ -298,7 +346,10 @@ namespace StarLaiPortal.Module.Controllers
                         IObjectSpace pos = Application.CreateObjectSpace();
                         PurchaseOrders ptrx = pos.FindObject<PurchaseOrders>(new BinaryOperator("Oid", selectedObject.Oid));
                         openNewView(pos, ptrx, ViewEditMode.View);
-                        if (sellingprice == false && zerototal == false)
+                        // Start ver 1.0.12
+                        //if (sellingprice == false && zerototal == false)
+                        if (sellingprice == false && zerototal == false && backpo == false)
+                        // End ver 1.0.12
                         {
                             showMsg("Successful", "Submit Done.", InformationType.Success);
                         }
@@ -324,7 +375,17 @@ namespace StarLaiPortal.Module.Controllers
 
                             if (zerototal == false)
                             {
-                                showMsg("Successful", "Submit Done.", InformationType.Success);
+                                // Start ver 1.0.12
+                                if (backpo == false)
+                                {
+                                // End ver 1.0.12
+                                    showMsg("Successful", "Submit Done.", InformationType.Success);
+                                // Start ver 1.0.12
+                                }
+                                else
+                                {
+                                    showMsg("Warning", "Back to Back PO - Item: " + sellingitem + " adjusted price higher than selling price.", InformationType.Warning);
+                                }
                             }
                             else
                             {
@@ -344,7 +405,7 @@ namespace StarLaiPortal.Module.Controllers
             }
             else
             {
-                showMsg("Error", "Item: " + sellingitem + " adjusted price higher than selling price.", InformationType.Error);
+                showMsg("Error", "Back to Back Sales - Item: " + sellingitem + " adjusted price higher than selling price.", InformationType.Error);
             }
         }
 
@@ -750,6 +811,18 @@ namespace StarLaiPortal.Module.Controllers
                         newpoitem.BaseDoc = dtl.DocNum;
                         newpoitem.BaseId = dtl.Oid;
                         newpoitem.Series = dtl.Series.SeriesName;
+                        // Start ver 1.0.12
+                        if (newpoitem.BaseDoc != null && newpoitem.AdjustedPrice <= 0 && po.Series.SeriesName == "BackOrdP")
+                        {
+                            vwPrice temppricelist = ObjectSpace.FindObject<vwPrice>(CriteriaOperator.Parse("ItemCode = ? and PriceList = ?",
+                                dtl.ItemCode, 10));
+
+                            if (temppricelist != null)
+                            {
+                                newpoitem.AdjustedPrice = temppricelist.Price;
+                            }
+                        }
+                        // End ver 1.0.12
 
                         po.PurchaseOrderDetails.Add(newpoitem);
 
