@@ -217,6 +217,14 @@ namespace StarLaiPortal.Module.Controllers
                 zerototal = true;
             }
 
+            // Start ver 1.0.12
+            if (selectedObject.PurchaseOrderDetails.Where(x => x.AdjustedPrice > 0 && x.FOC == true).Count() > 0)
+            {
+                showMsg("Error", "Unit price not allow more than 0 for FOC item.", InformationType.Error);
+                return;
+            }
+            // End ver 1.0.12
+
             foreach (PurchaseOrderDetails dtl in selectedObject.PurchaseOrderDetails)
             {
                 if (dtl.AdjustedPrice > dtl.SellingPrice && dtl.BaseDoc != null)
@@ -237,7 +245,7 @@ namespace StarLaiPortal.Module.Controllers
             }
 
             // Start ver 1.0.12
-            if (selectedObject.Series.SeriesName == "BackOrdP" || selectedObject.Series.SeriesName == "BackOrdS")
+            if (selectedObject.Series.SeriesName == "BackOrdP")
             {
                 if (selectedObject.PurchaseOrderDetails.Where(x => x.AdjustedPrice > x.SellingPrice && x.BaseDoc != null).Count() > 0)
                 {
@@ -245,7 +253,7 @@ namespace StarLaiPortal.Module.Controllers
                 }
             }
 
-            if (selectedObject.Series.SeriesName != "BackOrdP" && selectedObject.Series.SeriesName != "BackOrdS")
+            if (selectedObject.Series.SeriesName != "BackOrdP")
             {
                 if (selectedObject.PurchaseOrderDetails.Where(x => x.AdjustedPrice > x.SellingPrice && x.BaseDoc != null).Count() > 0)
                 {

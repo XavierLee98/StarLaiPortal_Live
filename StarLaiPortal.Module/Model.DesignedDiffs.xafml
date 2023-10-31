@@ -1948,20 +1948,21 @@
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
           <LayoutGroup Id="SimpleEditors" Direction="Horizontal" RelativeSize="100">
-            <LayoutGroup Id="PurchaseOrderDetails_col1" ShowCaption="False" Index="0" RelativeSize="49.838882921589686" IsNewNode="True">
-              <LayoutItem Id="ItemCode" ViewItem="ItemCode" Index="0" RelativeSize="6.654343807763401" IsNewNode="True" />
-              <LayoutItem Id="ItemDesc" ViewItem="ItemDesc" Index="1" RelativeSize="4.8059149722735679" IsNewNode="True" />
-              <LayoutItem Id="LegacyItemCode" ViewItem="LegacyItemCode" Index="2" RelativeSize="4.8059149722735679" IsNewNode="True" />
-              <LayoutItem Id="Model" ViewItem="Model" Index="3" RelativeSize="4.8059149722735679" IsNewNode="True" />
-              <LayoutItem Id="CatalogNo" ViewItem="CatalogNo" Index="4" RelativeSize="4.8059149722735679" IsNewNode="True" />
-              <LayoutItem Id="UOM" ViewItem="UOM" Index="5" RelativeSize="74.121996303142325" IsNewNode="True" />
+            <LayoutGroup Id="PurchaseOrderDetails_col1" ShowCaption="False" Index="0" RelativeSize="49.736147757255935" IsNewNode="True">
+              <LayoutItem Id="ItemCode" ViewItem="ItemCode" Index="0" RelativeSize="6.7164179104477615" IsNewNode="True" />
+              <LayoutItem Id="ItemDesc" ViewItem="ItemDesc" Index="1" RelativeSize="4.8507462686567164" IsNewNode="True" />
+              <LayoutItem Id="LegacyItemCode" ViewItem="LegacyItemCode" Index="2" RelativeSize="4.8507462686567164" IsNewNode="True" />
+              <LayoutItem Id="Model" ViewItem="Model" Index="3" RelativeSize="4.8507462686567164" IsNewNode="True" />
+              <LayoutItem Id="CatalogNo" ViewItem="CatalogNo" Index="4" RelativeSize="4.8507462686567164" IsNewNode="True" />
+              <LayoutItem Id="UOM" ViewItem="UOM" Index="5" RelativeSize="73.880597014925371" IsNewNode="True" />
             </LayoutGroup>
-            <LayoutGroup Id="PurchaseOrderDetails_col2" ShowCaption="False" Index="1" RelativeSize="50.161117078410314" IsNewNode="True">
-              <LayoutItem Id="Location" ViewItem="Location" Index="0" RelativeSize="6.654343807763401" IsNewNode="True" />
-              <LayoutItem Id="Quantity" ViewItem="Quantity" Index="1" RelativeSize="4.8059149722735679" IsNewNode="True" />
-              <LayoutItem Id="Price" ViewItem="Price" Index="2" RelativeSize="4.8059149722735679" IsNewNode="True" />
-              <LayoutItem Id="AdjustedPrice" ViewItem="AdjustedPrice" Index="3" RelativeSize="4.8059149722735679" IsNewNode="True" />
-              <LayoutItem Id="Total" ViewItem="Total" Index="4" RelativeSize="78.9279112754159" IsNewNode="True" />
+            <LayoutGroup Id="PurchaseOrderDetails_col2" ShowCaption="False" Index="1" RelativeSize="50.263852242744065" IsNewNode="True">
+              <LayoutItem Id="Location" ViewItem="Location" Index="0" RelativeSize="6.7164179104477615" IsNewNode="True" />
+              <LayoutItem Id="Quantity" ViewItem="Quantity" Index="1" RelativeSize="4.8507462686567164" IsNewNode="True" />
+              <LayoutItem Id="Price" ViewItem="Price" Index="2" RelativeSize="4.8507462686567164" IsNewNode="True" />
+              <LayoutItem Id="AdjustedPrice" ViewItem="AdjustedPrice" Index="3" RelativeSize="4.8507462686567164" IsNewNode="True" />
+              <LayoutItem Id="Total" ViewItem="Total" Index="4" RelativeSize="4.8507462686567164" IsNewNode="True" />
+              <LayoutItem Id="FOC" ViewItem="FOC" Index="5" RelativeSize="73.880597014925371" IsNewNode="True" />
             </LayoutGroup>
             <LayoutGroup Id="PurchaseOrderDetails" Removed="True" />
           </LayoutGroup>

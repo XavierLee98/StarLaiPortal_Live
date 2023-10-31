@@ -7,6 +7,7 @@ using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
+using DevExpress.XtraReports.UI;
 using StarLaiPortal.Module.BusinessObjects.Sales_Order;
 using StarLaiPortal.Module.BusinessObjects.View;
 using System;
@@ -14,6 +15,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+
+// 2023-10-30 - add FOC - ver 1.0.12
 
 namespace StarLaiPortal.Module.BusinessObjects.Purchase_Order
 {
@@ -49,6 +52,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Purchase_Order
             }
             CreateDate = DateTime.Now;
             Quantity = 1;
+            // Start ver 1.0.12
+            FOC = false;
+            // End ver 1.0.12
         }
 
         private ApplicationUser _CreateUser;
@@ -438,6 +444,20 @@ namespace StarLaiPortal.Module.BusinessObjects.Purchase_Order
                 SetPropertyValue("Postingdate", ref _Postingdate, value);
             }
         }
+
+        // Start ver 1.0.12
+        private bool _FOC;
+        [XafDisplayName("FOC")]
+        [Index(38), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(false)]
+        public bool FOC
+        {
+            get { return _FOC; }
+            set
+            {
+                SetPropertyValue("FOC", ref _FOC, value);
+            }
+        }
+        // End ver 1.0.12
 
         [Browsable(false)]
         public bool IsNew
