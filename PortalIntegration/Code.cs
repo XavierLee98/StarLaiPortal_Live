@@ -36,6 +36,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 // 2023-08-22 add cancel and close button ver 1.0.9
 // 2023-04-09 fix speed issue ver 1.0.8.1
 // 2023-09-25 add sales return ver 1.0.10
+// 2023-10-30 Post FOC UDF ver 1.0.12
 
 namespace PortalIntegration
 {
@@ -1582,6 +1583,16 @@ namespace PortalIntegration
                         //oDoc.Lines.TaxTotal = (double)dtl.TaxAmount;
                         oDoc.Lines.WarehouseCode = dtl.Location.WarehouseCode;
                         oDoc.Lines.UserFields.Fields.Item("U_PortalLineOid").Value = dtl.Oid.ToString();
+                        // Start ver 1.0.12
+                        if (dtl.FOC == true)
+                        {
+                            oDoc.Lines.UserFields.Fields.Item("U_FOC").Value = "Yes";
+                        }
+                        else
+                        {
+                            oDoc.Lines.UserFields.Fields.Item("U_FOC").Value = "No";
+                        }
+                        // End ver 1.0.12
 
                         oDoc.Lines.ItemCode = dtl.ItemCode.ItemCode;
                         oDoc.Lines.ItemDetails = dtl.ItemDesc;

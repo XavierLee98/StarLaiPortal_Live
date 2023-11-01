@@ -292,7 +292,7 @@ namespace StarLaiPortal.Module.Controllers
             if (error == null)
             {
                 selectedObject.PendingClose = true;
-                selectedObject.Status = DocStatus.Cancelled;
+                selectedObject.Status = DocStatus.Closed;
                 SalesOrderDocStatus ds = ObjectSpace.CreateObject<SalesOrderDocStatus>();
                 ds.DocStatus = DocStatus.Closed;
                 ds.DocRemarks = p.ParamString;

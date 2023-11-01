@@ -15,6 +15,7 @@ using System.Text;
 // 2023-07-28 add AR Downpayment Cancellation ver 1.0.7
 // 2023-10-05 add payment method for sales return ver 1.0.10
 // 2023-10-18 add Stock Count ver 1.0.11
+// 2023-10-30 add creditnote payment method ver 1.0.12
 
 namespace StarLaiPortal.Module.BusinessObjects
 {
@@ -66,7 +67,10 @@ namespace StarLaiPortal.Module.BusinessObjects
         [XafDisplayName("Closed")] Closed = 3,
         [XafDisplayName("Pending Post")] PendPost = 4,
         [XafDisplayName("Posted")] Post = 5,
-        [XafDisplayName("Open")] Open = 6
+        [XafDisplayName("Open")] Open = 6,
+        // Start ver 1.0.11
+        [XafDisplayName("Counting")] Counting = 7
+        // End ver 1.0.11
     }
 
     public enum ApprovalStatusType
@@ -144,7 +148,10 @@ namespace StarLaiPortal.Module.BusinessObjects
     {
         [XafDisplayName("Exchange")] Exchange = 0,
         [XafDisplayName("Cash Refund")] CashRefund = 1,
-        [XafDisplayName("Transfer Refund")] TransferRefund = 2
+        [XafDisplayName("Transfer Refund")] TransferRefund = 2,
+        // Start ver 1.0.12
+        [XafDisplayName("Credit Note")] CreditNote = 3,
+        // End ver 1.0.12
     }
     // End ver 1.0.10
 }

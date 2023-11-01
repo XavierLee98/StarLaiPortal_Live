@@ -63,7 +63,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
             CreateDate = DateTime.Now;
             StockCountDate = DateTime.Today;
             Round = 1;
-
+            Counted = 0;
 
             DocType = DocTypeList.STS;
             Status = DocStatus.Draft;
@@ -186,6 +186,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
         private int _Counted;
         [XafDisplayName("Counted")]
         [RuleRequiredField(DefaultContexts.Save)]
+        [Appearance("Counted", Enabled = false)]
         [Index(10), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(false)]
         public int Counted
         {

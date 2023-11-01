@@ -228,6 +228,7 @@
           <Item Id="StockCountBinInquiryDetails_ListView" Removed="True" />
           <Item Id="StockCountConfirmDetails_ListView" Removed="True" />
           <Item Id="StockCountConfirmDocTrail_ListView" Removed="True" />
+          <Item Id="StockCountItemInquiryDetails_ListView" Removed="True" />
           <Item Id="StockCountSheetCounted_ListView" Removed="True" />
           <Item Id="StockCountSheetDocTrail_ListView" Removed="True" />
           <Item Id="StockCountSheetTarget_ListView" Removed="True" />
@@ -1947,20 +1948,21 @@
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
           <LayoutGroup Id="SimpleEditors" Direction="Horizontal" RelativeSize="100">
-            <LayoutGroup Id="PurchaseOrderDetails_col1" ShowCaption="False" Index="0" RelativeSize="49.838882921589686" IsNewNode="True">
-              <LayoutItem Id="ItemCode" ViewItem="ItemCode" Index="0" RelativeSize="6.654343807763401" IsNewNode="True" />
-              <LayoutItem Id="ItemDesc" ViewItem="ItemDesc" Index="1" RelativeSize="4.8059149722735679" IsNewNode="True" />
-              <LayoutItem Id="LegacyItemCode" ViewItem="LegacyItemCode" Index="2" RelativeSize="4.8059149722735679" IsNewNode="True" />
-              <LayoutItem Id="Model" ViewItem="Model" Index="3" RelativeSize="4.8059149722735679" IsNewNode="True" />
-              <LayoutItem Id="CatalogNo" ViewItem="CatalogNo" Index="4" RelativeSize="4.8059149722735679" IsNewNode="True" />
-              <LayoutItem Id="UOM" ViewItem="UOM" Index="5" RelativeSize="74.121996303142325" IsNewNode="True" />
+            <LayoutGroup Id="PurchaseOrderDetails_col1" ShowCaption="False" Index="0" RelativeSize="49.736147757255935" IsNewNode="True">
+              <LayoutItem Id="ItemCode" ViewItem="ItemCode" Index="0" RelativeSize="6.7164179104477615" IsNewNode="True" />
+              <LayoutItem Id="ItemDesc" ViewItem="ItemDesc" Index="1" RelativeSize="4.8507462686567164" IsNewNode="True" />
+              <LayoutItem Id="LegacyItemCode" ViewItem="LegacyItemCode" Index="2" RelativeSize="4.8507462686567164" IsNewNode="True" />
+              <LayoutItem Id="Model" ViewItem="Model" Index="3" RelativeSize="4.8507462686567164" IsNewNode="True" />
+              <LayoutItem Id="CatalogNo" ViewItem="CatalogNo" Index="4" RelativeSize="4.8507462686567164" IsNewNode="True" />
+              <LayoutItem Id="UOM" ViewItem="UOM" Index="5" RelativeSize="73.880597014925371" IsNewNode="True" />
             </LayoutGroup>
-            <LayoutGroup Id="PurchaseOrderDetails_col2" ShowCaption="False" Index="1" RelativeSize="50.161117078410314" IsNewNode="True">
-              <LayoutItem Id="Location" ViewItem="Location" Index="0" RelativeSize="6.654343807763401" IsNewNode="True" />
-              <LayoutItem Id="Quantity" ViewItem="Quantity" Index="1" RelativeSize="4.8059149722735679" IsNewNode="True" />
-              <LayoutItem Id="Price" ViewItem="Price" Index="2" RelativeSize="4.8059149722735679" IsNewNode="True" />
-              <LayoutItem Id="AdjustedPrice" ViewItem="AdjustedPrice" Index="3" RelativeSize="4.8059149722735679" IsNewNode="True" />
-              <LayoutItem Id="Total" ViewItem="Total" Index="4" RelativeSize="78.9279112754159" IsNewNode="True" />
+            <LayoutGroup Id="PurchaseOrderDetails_col2" ShowCaption="False" Index="1" RelativeSize="50.263852242744065" IsNewNode="True">
+              <LayoutItem Id="Location" ViewItem="Location" Index="0" RelativeSize="6.7164179104477615" IsNewNode="True" />
+              <LayoutItem Id="Quantity" ViewItem="Quantity" Index="1" RelativeSize="4.8507462686567164" IsNewNode="True" />
+              <LayoutItem Id="Price" ViewItem="Price" Index="2" RelativeSize="4.8507462686567164" IsNewNode="True" />
+              <LayoutItem Id="AdjustedPrice" ViewItem="AdjustedPrice" Index="3" RelativeSize="4.8507462686567164" IsNewNode="True" />
+              <LayoutItem Id="Total" ViewItem="Total" Index="4" RelativeSize="4.8507462686567164" IsNewNode="True" />
+              <LayoutItem Id="FOC" ViewItem="FOC" Index="5" RelativeSize="73.880597014925371" IsNewNode="True" />
             </LayoutGroup>
             <LayoutGroup Id="PurchaseOrderDetails" Removed="True" />
           </LayoutGroup>
@@ -3249,6 +3251,7 @@
         <PropertyEditor Id="PaymentTerm" PropertyName="PaymentTerm" IsNewNode="True" />
         <PropertyEditor Id="PostingDate" PropertyName="PostingDate" IsNewNode="True" />
         <PropertyEditor Id="Priority" PropertyName="Priority" IsNewNode="True" />
+        <PropertyEditor Id="Remarks" PropertyName="Remarks" IsNewNode="True" />
         <PropertyEditor Id="SalesQuotationAppStatus" PropertyName="SalesQuotationAppStatus" View="SalesQuotation_SalesQuotationAppStatus_ListView" IsNewNode="True" />
         <PropertyEditor Id="SalesQuotationAttachment" PropertyName="SalesQuotationAttachment" View="SalesQuotation_SalesQuotationAttachment_ListView" IsNewNode="True" />
         <PropertyEditor Id="SalesQuotationDetails" PropertyName="SalesQuotationDetails" View="SalesQuotation_SalesQuotationDetails_ListView" IsNewNode="True" />
@@ -3265,8 +3268,8 @@
       </Items>
       <Layout IsNewNode="True">
         <LayoutGroup Id="Main" Index="0" ShowCaption="False" RelativeSize="100" IsNewNode="True">
-          <LayoutGroup Id="SimpleEditors" Index="0" Direction="Horizontal" ShowCaption="False" RelativeSize="32.645403377110696" IsNewNode="True">
-            <LayoutGroup Id="SalesQuotation_col1" ShowCaption="False" Index="0" RelativeSize="41.7462482946794" IsNewNode="True">
+          <LayoutGroup Id="SimpleEditors" Index="0" Direction="Horizontal" ShowCaption="False" RelativeSize="32.70676691729323" IsNewNode="True">
+            <LayoutGroup Id="SalesQuotation_col1" ShowCaption="False" Index="0" RelativeSize="41.721854304635762" IsNewNode="True">
               <LayoutItem Id="DocNum" ViewItem="DocNum" Index="0" RelativeSize="20.689655172413794" IsNewNode="True" />
               <LayoutItem Id="Customer" ViewItem="Customer" Index="1" RelativeSize="14.942528735632184" IsNewNode="True" />
               <LayoutItem Id="CustomerName" ViewItem="CustomerName" Index="2" RelativeSize="14.942528735632184" IsNewNode="True" />
@@ -3274,8 +3277,8 @@
               <LayoutItem Id="DeliveryDate" ViewItem="DeliveryDate" Index="4" RelativeSize="14.942528735632184" IsNewNode="True" />
               <LayoutItem Id="Priority" ViewItem="Priority" Index="5" RelativeSize="19.540229885057471" IsNewNode="True" />
             </LayoutGroup>
-            <LayoutGroup Id="SalesQuotation_col2" ShowCaption="False" Index="1" RelativeSize="58.2537517053206" Direction="Horizontal" IsNewNode="True">
-              <LayoutGroup Id="Auto7f453c07-fbc8-423c-94cb-5f60cd80408e" ShowCaption="False" Caption="Auto7f453c07-fbc8-423c-94cb-5f60cd80408e(11)" Index="0" RelativeSize="70.023419203747068" IsNewNode="True">
+            <LayoutGroup Id="SalesQuotation_col2" ShowCaption="False" Index="1" RelativeSize="58.278145695364238" Direction="Horizontal" IsNewNode="True">
+              <LayoutGroup Id="Auto7f453c07-fbc8-423c-94cb-5f60cd80408e" ShowCaption="False" Caption="Auto7f453c07-fbc8-423c-94cb-5f60cd80408e(11)" Index="0" RelativeSize="70.9090909090909" IsNewNode="True">
                 <LayoutItem Id="Transporter" ViewItem="Transporter" Index="0" RelativeSize="20.689655172413794" IsNewNode="True" />
                 <LayoutItem Id="ContactPerson" ViewItem="ContactPerson" Index="1" RelativeSize="14.942528735632184" IsNewNode="True" />
                 <LayoutItem Id="ContactNo" ViewItem="ContactNo" Index="2" RelativeSize="14.942528735632184" IsNewNode="True" />
@@ -3283,10 +3286,11 @@
                 <LayoutItem Id="Series" ViewItem="Series" Index="4" RelativeSize="14.942528735632184" IsNewNode="True" />
                 <LayoutItem Id="Status" ViewItem="Status" Index="5" RelativeSize="19.540229885057471" IsNewNode="True" />
               </LayoutGroup>
-              <LayoutItem Id="InquiryItem" ViewItem="InquiryItem" Index="1" RelativeSize="29.976580796252929" IsNewNode="True" />
+              <LayoutItem Id="InquiryItem" ViewItem="InquiryItem" Index="1" RelativeSize="29.09090909090909" IsNewNode="True" />
             </LayoutGroup>
           </LayoutGroup>
-          <TabbedGroup Id="Tabs" Index="1" RelativeSize="30.76923076923077" IsNewNode="True">
+          <LayoutItem Id="Remarks" ViewItem="Remarks" Index="1" RelativeSize="4.8872180451127818" IsNewNode="True" />
+          <TabbedGroup Id="Tabs" Index="2" RelativeSize="30.827067669172934" IsNewNode="True">
             <LayoutGroup Id="SalesQuotationDetails" Index="0" ShowCaption="True" RelativeSize="100" Caption="Items" IsNewNode="True">
               <LayoutItem Id="SalesQuotationDetails" ViewItem="SalesQuotationDetails" ShowCaption="False" Index="0" RelativeSize="100" IsNewNode="True" />
             </LayoutGroup>
@@ -3309,9 +3313,9 @@
               <LayoutItem Id="AuditTrail" ViewItem="AuditTrail" ShowCaption="False" Index="0" RelativeSize="100" IsNewNode="True" />
             </LayoutGroup>
           </TabbedGroup>
-          <LayoutGroup Id="Auto6cb633c9-abf3-478e-bc57-a1b30445b73e" ShowCaption="False" Caption="Auto6cb633c9-abf3-478e-bc57-a1b30445b73e(33)" Direction="Horizontal" Index="2" RelativeSize="36.585365853658537" IsNewNode="True">
-            <LayoutItem Id="Item1" Index="0" RelativeSize="49.931787175989086" IsNewNode="True" />
-            <LayoutItem Id="Total" ViewItem="Total" Index="1" RelativeSize="50.068212824010914" IsNewNode="True" />
+          <LayoutGroup Id="Auto6cb633c9-abf3-478e-bc57-a1b30445b73e" ShowCaption="False" Caption="Auto6cb633c9-abf3-478e-bc57-a1b30445b73e(33)" Direction="Horizontal" Index="3" RelativeSize="31.578947368421051" IsNewNode="True">
+            <LayoutItem Id="Item1" Index="0" RelativeSize="49.801324503311257" IsNewNode="True" />
+            <LayoutItem Id="Total" ViewItem="Total" Index="1" RelativeSize="50.198675496688743" IsNewNode="True" />
           </LayoutGroup>
         </LayoutGroup>
       </Layout>
