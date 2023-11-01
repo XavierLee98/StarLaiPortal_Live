@@ -177,10 +177,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
             set
             {
                 SetPropertyValue("Warehouse", ref _Warehouse, value);
-                if (!IsLoading && value != null)
-                {
-                    Bin = Session.FindObject<vwBin>(CriteriaOperator.Parse("AbsEntry = ?", Warehouse.DftBinAbs));
-                }
+                //if (!IsLoading && value != null)
+                //{
+                //    Bin = Session.FindObject<vwBin>(CriteriaOperator.Parse("AbsEntry = ?", Warehouse.DftBinAbs));
+                //}
             }
         }
 

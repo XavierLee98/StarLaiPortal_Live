@@ -977,6 +977,8 @@ namespace StarLaiPortal.Module.Web.Controllers
                     CurrObject.DocNum = genCon.GenerateDocNum(DocTypeList.STS, ObjectSpace, TransferType.NA, 0, docprefix);
                 }
 
+                CurrObject.Counted = CurrObject.StockCountSheetCounted.Count();
+
                 base.Save(args);
                 ((DetailView)View).ViewEditMode = ViewEditMode.View;
                 View.BreakLinksToControls();
