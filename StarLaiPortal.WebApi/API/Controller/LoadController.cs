@@ -126,8 +126,25 @@ namespace StarLaiPortal.WebApi.API.Controller
 
                 var detailsObject = (IEnumerable<dynamic>)dynamicObj.LoadDetails;
 
+                ISecurityStrategyBase security = securityProvider.GetSecurity();
+                var userId = security.UserId;
+                var userName = security.UserName;
+
                 try
                 {
+                    using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
+                    {
+                        string jsonString = JsonConvert.SerializeObject(obj);
+
+                        jsonString = jsonString.Replace("'", "''");
+
+                        var insertResult = conn.Execute($"exec sp_App_InsertAppPostLog 'Loading', '{userId}', '{jsonString}'");
+                        if (insertResult < 0)
+                        {
+                            return Problem("Fail to insert Log.");
+                        }
+                    }
+
                     using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
                     {
                         string jsonString = JsonConvert.SerializeObject(obj);
@@ -163,11 +180,7 @@ namespace StarLaiPortal.WebApi.API.Controller
                     throw new Exception("Validation Error. " + excep.Message);
                 }
 
-
                 IObjectSpace newObjectSpace = objectSpaceFactory.CreateObjectSpace<Load>();
-                ISecurityStrategyBase security = securityProvider.GetSecurity();
-                var userId = security.UserId;
-                var userName = security.UserName;
 
                 Load curobj = null;
                 //curobj = new PickListDetailsActual(((DevExpress.ExpressApp.Xpo.XPObjectSpace)newObjectSpace).Session);
@@ -224,7 +237,9 @@ namespace StarLaiPortal.WebApi.API.Controller
                     conn.Query($"exec sp_afterdatasave 'Loading', '{json}'");
                 }
 
-                var result = con.GenerateDO(Configuration.GetConnectionString("ConnectionString"), curobj, newObjectSpace, companyPrefix);
+                IObjectSpace Loados = objectSpaceFactory.CreateObjectSpace<Load>();
+
+                var result = con.GenerateDO(Configuration.GetConnectionString("ConnectionString"), curobj, newObjectSpace, Loados, companyPrefix);
 
                 if (result == 0) throw new Exception($"Fail to generate Delivery for Load ({curobj.DocNum}). ");
 
