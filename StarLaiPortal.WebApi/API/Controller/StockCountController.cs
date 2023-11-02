@@ -1,10 +1,24 @@
 ﻿using Dapper;
+using DevExpress.Data.Filtering;
+using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Core;
 using DevExpress.ExpressApp.Security;
+using DevExpress.Xpo.Metadata.Helpers;
+using DevExpress.XtraPrinting.Native;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using StarLaiPortal.Module.BusinessObjects;
+using StarLaiPortal.Module.BusinessObjects.Load;
+using StarLaiPortal.Module.BusinessObjects.Pick_List;
+using StarLaiPortal.Module.BusinessObjects.Setup;
+using StarLaiPortal.Module.BusinessObjects.Stock_Count;
+using StarLaiPortal.Module.BusinessObjects.View;
+using StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer;
+using StarLaiPortal.WebApi.Helper;
+using StarLaiPortal.WebApi.Model;
 using System.Data.SqlClient;
+using System.Dynamic;
 
 namespace StarLaiPortal.WebApi.API.Controller
 {
@@ -24,7 +38,7 @@ namespace StarLaiPortal.WebApi.API.Controller
         }
 
         [HttpGet("startdate/enddate")]
-        public IActionResult GetITRFrom(DateTime startdate, DateTime enddate)
+        public IActionResult GetHeaderList(DateTime startdate, DateTime enddate)
         {
             try
             {
@@ -33,9 +47,9 @@ namespace StarLaiPortal.WebApi.API.Controller
                 var userName = security.UserName;
                 using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
                 {
-                    string json = JsonConvert.SerializeObject(new { userName, startdate, enddate });
+                    string json = JsonConvert.SerializeObject(new { userId, startdate, enddate });
 
-                    var val = conn.Query($"exec sp_getdatalist 'CountList', '{json}'").ToList();
+                    var val = conn.Query($"exec sp_getdatalist 'CountSheet', '{json}'").ToList();
                     return Ok(JsonConvert.SerializeObject(val, Formatting.Indented));
                 }
 
@@ -45,5 +59,221 @@ namespace StarLaiPortal.WebApi.API.Controller
                 return Problem(ex.Message);
             }
         }
+
+        [HttpGet("countdetail/oid")]
+        public IActionResult GetDetailList(int oid)
+        {
+            try
+            {
+                ISecurityStrategyBase security = securityProvider.GetSecurity();
+                var userId = security.UserId;
+                var userName = security.UserName;
+                using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
+                {
+                    string json = JsonConvert.SerializeObject(new { oid });
+
+                    var val = conn.Query($"exec sp_getdatalist 'CountSheet', '{json}'").ToList();
+                    return Ok(JsonConvert.SerializeObject(val, Formatting.Indented));
+                }
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
+        [HttpGet("target/oid")]
+        public IActionResult GetTargetList(int oid)
+        {
+            try
+            {
+                ISecurityStrategyBase security = securityProvider.GetSecurity();
+                var userId = security.UserId;
+                var userName = security.UserName;
+                using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
+                {
+                    string json = JsonConvert.SerializeObject(new { oid });
+
+                    var val = conn.Query($"exec sp_getdatalist 'CountTargetList', '{json}'").ToList();
+                    return Ok(JsonConvert.SerializeObject(val, Formatting.Indented));
+                }
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
+        [HttpPost("DraftSave")]
+        public IActionResult PostDraft([FromBody] ExpandoObject obj)
+        {
+            try
+            {
+                dynamic dynamicObj = obj;
+
+                IObjectSpace sheetOS = objectSpaceFactory.CreateObjectSpace<StockCountSheet>();
+                IObjectSpace stockCountedOS = objectSpaceFactory.CreateObjectSpace<StockCountSheetCounted>();
+
+                StockCountSheet stockCountSheet = sheetOS.FindObject<StockCountSheet>(CriteriaOperator.Parse("Oid = ?", dynamicObj.Oid));
+
+                if (stockCountSheet.Status != DocStatus.Draft)
+                {
+                    return Problem($"Update Failed. Stock Count Sheet No.{stockCountSheet.DocNum} already {stockCountSheet.Status}.");
+                }
+
+                ISecurityStrategyBase security = securityProvider.GetSecurity();
+                var userId = security.UserId;
+                var userName = security.UserName;
+
+                using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
+                {
+                    string json = JsonConvert.SerializeObject(new { oid = stockCountSheet.Oid });
+                    conn.Query($"exec sp_beforedatasave 'StockCountCountedDelete', '{json}'");
+                }
+                
+
+                if (dynamicObj.CountDetails != null && ((IEnumerable<dynamic>)dynamicObj.CountDetails).Count() > 0)
+                {
+                    
+                    foreach (ExpandoObject exobj in dynamicObj.CountDetails)
+                    {
+                        //dynamic line = exobj;
+                        //bool isBarCodeFound = false;
+                        //foreach(var detail in stockCountSheet.StockCountSheetCounted)
+                        //{
+                        //    if(line.ItemBarCode == detail.ItemBarCode && line.BinBarCode == detail.BinBarCode)
+                        //    {
+                        //        detail.Quantity = (decimal)line.Quantity;
+                        //        isBarCodeFound = true;
+                        //        continue;
+                        //    }
+                        //}
+
+                        //if (isBarCodeFound) continue;
+
+                        StockCountSheetCounted curobj = stockCountedOS.CreateObject<StockCountSheetCounted>();
+                        ExpandoParser.ParseExObjectXPO<StockCountSheetCounted>(new Dictionary<string, object>(exobj), curobj, stockCountedOS);
+
+                        var item  = stockCountedOS.GetObjectByKey<vwItemMasters>(curobj.ItemBarCode);
+                        if(item != null)
+                        {
+                            curobj.ItemCode = item;
+                        }
+
+                        var bin = stockCountedOS.GetObjectByKey<vwBin>(curobj.BinBarCode);
+                        if(bin != null)
+                        {
+                            curobj.Warehouse = stockCountedOS.GetObjectByKey<vwWarehouse>(bin.Warehouse);
+                            curobj.Bin = bin;
+                        }
+
+                        curobj.CreateUser = stockCountedOS.GetObjectByKey<ApplicationUser>(userId);
+                        curobj.UpdateUser = stockCountedOS.GetObjectByKey<ApplicationUser>(userId);
+                        curobj.Save();
+                    }
+                }
+                stockCountedOS.CommitChanges();
+
+                sheetOS.CommitChanges();
+
+                using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
+                {
+                    string json = JsonConvert.SerializeObject(new { oid = stockCountSheet.Oid, username = userName });
+                    conn.Query($"exec sp_afterdatasave 'StockCountUpdate', '{json}'");
+                    return Ok(new { oid = stockCountSheet.Oid, docnum = stockCountSheet.DocNum });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
+
+        [HttpPost("Post")]
+        public IActionResult Post([FromBody] ExpandoObject obj)
+        {
+            try
+            {
+                dynamic dynamicObj = obj;
+
+                IObjectSpace sheetOS = objectSpaceFactory.CreateObjectSpace<StockCountSheet>();
+                IObjectSpace stockCountedOS = objectSpaceFactory.CreateObjectSpace<StockCountSheetCounted>();
+
+                StockCountSheet stockCountSheet = sheetOS.FindObject<StockCountSheet>(CriteriaOperator.Parse("Oid = ?", dynamicObj.Oid));
+
+                if (stockCountSheet.Status != DocStatus.Draft)
+                {
+                    return Problem($"Update Failed. Stock Count Sheet No.{stockCountSheet.DocNum} already {stockCountSheet.Status}.");
+                }
+
+                ISecurityStrategyBase security = securityProvider.GetSecurity();
+                var userId = security.UserId;
+                var userName = security.UserName;
+
+                using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
+                {
+                    string json = JsonConvert.SerializeObject(new { oid = stockCountSheet.Oid });
+                    conn.Query($"exec sp_beforedatasave 'StockCountCountedDelete', '{json}'");
+                }
+
+                if (dynamicObj.CountDetails != null && ((IEnumerable<dynamic>)dynamicObj.CountDetails).Count() > 0)
+                {
+
+                    foreach (ExpandoObject exobj in dynamicObj.CountDetails)
+                    {
+                        //dynamic line = exobj;
+                        //bool isBarCodeFound = false;
+                        //foreach (var detail in stockCountSheet.StockCountSheetCounted)
+                        //{
+                        //    if (line.ItemBarCode == detail.ItemBarCode && line.BinBarCode == detail.BinBarCode)
+                        //    {
+                        //        detail.Quantity = (decimal)line.Quantity;
+                        //        isBarCodeFound = true;
+                        //        continue;
+                        //    }
+                        //}
+
+                        //if (isBarCodeFound) continue;
+
+                        StockCountSheetCounted curobj = stockCountedOS.CreateObject<StockCountSheetCounted>();
+                        ExpandoParser.ParseExObjectXPO<StockCountSheetCounted>(new Dictionary<string, object>(exobj), curobj, stockCountedOS);
+
+                        var item = stockCountedOS.GetObjectByKey<vwItemMasters>(curobj.ItemBarCode);
+                        if (item != null)
+                        {
+                            curobj.ItemCode = item;
+                        }
+
+                        var bin = stockCountedOS.GetObjectByKey<vwBin>(curobj.BinBarCode);
+                        if (bin != null)
+                        {
+                            curobj.Bin = bin;
+                            curobj.Warehouse = stockCountedOS.GetObjectByKey<vwWarehouse>(bin.Warehouse);
+                        }
+
+                        curobj.CreateUser = stockCountedOS.GetObjectByKey<ApplicationUser>(userId);
+                        curobj.UpdateUser = stockCountedOS.GetObjectByKey<ApplicationUser>(userId);
+                        curobj.Save();
+                    }
+                }
+
+                stockCountSheet.Status = DocStatus.Submitted;
+                stockCountedOS.CommitChanges();
+                sheetOS.CommitChanges();
+
+                using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
+                {
+                    string json = JsonConvert.SerializeObject(new { oid = stockCountSheet.Oid, username = userName });
+                    conn.Query($"exec sp_afterdatasave 'StockCountConfirm', '{json}'");
+                    return Ok(new { oid = stockCountSheet.Oid, docnum = stockCountSheet.DocNum });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
     }
 }
