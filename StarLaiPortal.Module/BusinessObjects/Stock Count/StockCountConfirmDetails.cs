@@ -202,6 +202,56 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
             }
         }
 
+        private string _SAPGRDocNum;
+        [XafDisplayName("SAP GR. No.")]
+        [Appearance("SAPGRDocNum", Enabled = false)]
+        [Index(45), VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(false)]
+        public string SAPGRDocNum
+        {
+            get { return _SAPGRDocNum; }
+            set
+            {
+                SetPropertyValue("SAPGRDocNum", ref _SAPGRDocNum, value);
+            }
+        }
+
+        private string _SAPGIDocNum;
+        [XafDisplayName("SAP GI. No.")]
+        [Appearance("SAPGIDocNum", Enabled = false)]
+        [Index(48), VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(false)]
+        public string SAPGIDocNum
+        {
+            get { return _SAPGIDocNum; }
+            set
+            {
+                SetPropertyValue("SAPGIDocNum", ref _SAPGIDocNum, value);
+            }
+        }
+
+        private bool _GRSap;
+        [XafDisplayName("GRSap")]
+        [Index(80), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
+        public bool GRSap
+        {
+            get { return _GRSap; }
+            set
+            {
+                SetPropertyValue("GRSap", ref _GRSap, value);
+            }
+        }
+
+        private bool _GISap;
+        [XafDisplayName("GISap")]
+        [Index(81), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
+        public bool GISap
+        {
+            get { return _GISap; }
+            set
+            {
+                SetPropertyValue("GISap", ref _GISap, value);
+            }
+        }
+
         [Browsable(false)]
         public bool IsNew
         {

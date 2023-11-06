@@ -155,8 +155,8 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
 
         private vwWarehouse _Warehouse;
         [NoForeignKey]
-        [ImmediatePostData]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[ImmediatePostData]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [XafDisplayName("Warehouse")]
         [Appearance("Warehouse", Enabled = false)]
         [Index(5), VisibleInListView(false), VisibleInDetailView(false), VisibleInLookupListView(false)]
@@ -166,10 +166,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
             set
             {
                 SetPropertyValue("Warehouse", ref _Warehouse, value);
-                if (!IsLoading && value != null)
-                {
-                    Bin = Session.FindObject<vwBin>(CriteriaOperator.Parse("AbsEntry = ?", Warehouse.DftBinAbs));
-                }
+                //if (!IsLoading && value != null)
+                //{
+                //    Bin = Session.FindObject<vwBin>(CriteriaOperator.Parse("AbsEntry = ?", Warehouse.DftBinAbs));
+                //}
             }
         }
 

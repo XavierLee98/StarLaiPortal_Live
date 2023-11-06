@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.StockCountBinSearch = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             this.StockCountItemSearch = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
+            this.StockCountVarianceSearch = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             // 
             // StockCountBinSearch
             // 
@@ -50,10 +51,20 @@
             this.StockCountItemSearch.ToolTip = null;
             this.StockCountItemSearch.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.StockCountItemSearch_Execute);
             // 
+            // StockCountVarianceSearch
+            // 
+            this.StockCountVarianceSearch.Caption = "Search";
+            this.StockCountVarianceSearch.Category = "ListView";
+            this.StockCountVarianceSearch.ConfirmationMessage = null;
+            this.StockCountVarianceSearch.Id = "StockCountVarianceSearch";
+            this.StockCountVarianceSearch.ToolTip = null;
+            this.StockCountVarianceSearch.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.StockCountVarianceSearch_Execute);
+            // 
             // StockCountInquiryControllers
             // 
             this.Actions.Add(this.StockCountBinSearch);
             this.Actions.Add(this.StockCountItemSearch);
+            this.Actions.Add(this.StockCountVarianceSearch);
 
         }
 
@@ -61,5 +72,6 @@
 
         private DevExpress.ExpressApp.Actions.SimpleAction StockCountBinSearch;
         private DevExpress.ExpressApp.Actions.SimpleAction StockCountItemSearch;
+        private DevExpress.ExpressApp.Actions.SimpleAction StockCountVarianceSearch;
     }
 }

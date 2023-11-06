@@ -117,7 +117,7 @@ namespace StarLaiPortal.Module.Web.Controllers
                 }
                 // End ver 1.0.10
 
-                    base.Save(args);
+                base.Save(args);
                 if (CurrObject.DocNum == null)
                 {
                     string docprefix = genCon.GetDocPrefix();

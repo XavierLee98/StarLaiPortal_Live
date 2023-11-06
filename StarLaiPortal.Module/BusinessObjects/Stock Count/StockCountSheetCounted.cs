@@ -103,7 +103,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
         [XafDisplayName("Item Code")]
         [DataSourceCriteria("frozenFor = 'N'")]
         [Index(0), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
-        [Appearance("ItemCode", Enabled = false, Criteria = "not IsNew")]
+        //[Appearance("ItemCode", Enabled = false, Criteria = "not IsNew")]
         [RuleRequiredField(DefaultContexts.Save)]
         public vwItemMasters ItemCode
         {
@@ -126,7 +126,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
 
         private string _ItemBarCode;
         [XafDisplayName("Item Barcode")]
-        [Appearance("ItemBarCode", Enabled = false)]
+        //[Appearance("ItemBarCode", Enabled = false)]
         [Index(3), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         public string ItemBarCode
         {
@@ -166,8 +166,8 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
 
         private vwWarehouse _Warehouse;
         [NoForeignKey]
-        [ImmediatePostData]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[ImmediatePostData]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [XafDisplayName("Warehouse")]
         [Appearance("Warehouse", Enabled = false)]
         [Index(10), VisibleInListView(false), VisibleInDetailView(false), VisibleInLookupListView(false)]
@@ -188,7 +188,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
         [NoForeignKey]
         [XafDisplayName("Bin")]
         [LookupEditorMode(LookupEditorMode.AllItems)]
-        [DataSourceCriteria("Warehouse = '@this.Warehouse.WarehouseCode'")]
+        //[DataSourceCriteria("Warehouse = '@this.Warehouse.WarehouseCode'")]
         [Index(13), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         public vwBin Bin
         {
@@ -201,7 +201,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
 
         private string _BinBarCode;
         [XafDisplayName("Bin Barcode")]
-        [Appearance("BinBarCode", Enabled = false)]
+        //[Appearance("BinBarCode", Enabled = false)]
         [Index(15), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         public string BinBarCode
         {
@@ -216,7 +216,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
         [DbType("numeric(18,6)")]
         [ModelDefault("DisplayFormat", "{0:N0}")]
         [ModelDefault("EditMask", "d")]
-        [XafDisplayName("Quantity")]
+        //[XafDisplayName("Quantity")]
         [Index(18), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         public decimal Quantity
         {

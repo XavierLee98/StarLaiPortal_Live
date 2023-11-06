@@ -22,6 +22,7 @@ using StarLaiPortal.Module.BusinessObjects.Sales_Refund;
 using StarLaiPortal.Module.BusinessObjects.Sales_Return;
 using StarLaiPortal.Module.BusinessObjects.Setup;
 using StarLaiPortal.Module.BusinessObjects.Stock_Adjustment;
+using StarLaiPortal.Module.BusinessObjects.Stock_Count;
 using StarLaiPortal.Module.BusinessObjects.View;
 using StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer;
 using System;
@@ -32,6 +33,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 // 2023-07-28 add Downpayment cancellation ver 1.0.7
+// 2023-11-02 Add stock count ver 1.0.12
 
 namespace PortalIntegration
 {
@@ -210,6 +212,12 @@ namespace PortalIntegration
             XafTypesInfo.Instance.RegisterEntity(typeof(ARDownpaymentCancelDetails));
             XafTypesInfo.Instance.RegisterEntity(typeof(ARDownpaymentCancellationDocTrail));
             // End ver 1.0.7
+
+            // Start ver 1.0.12
+            XafTypesInfo.Instance.RegisterEntity(typeof(StockCountConfirm));
+            XafTypesInfo.Instance.RegisterEntity(typeof(StockCountConfirmDetails));
+            XafTypesInfo.Instance.RegisterEntity(typeof(StockCountConfirmDocTrail));
+            // End ver 1.0.12
 
             //Setup
             XafTypesInfo.Instance.RegisterEntity(typeof(Approvals));

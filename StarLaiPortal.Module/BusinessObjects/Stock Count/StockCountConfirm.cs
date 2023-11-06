@@ -195,6 +195,18 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
             }
         }
 
+        private bool _Sap;
+        [XafDisplayName("Sap")]
+        [Index(80), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
+        public bool Sap
+        {
+            get { return _Sap; }
+            set
+            {
+                SetPropertyValue("Sap", ref _Sap, value);
+            }
+        }
+
         [Browsable(false)]
         public bool IsNew
         {

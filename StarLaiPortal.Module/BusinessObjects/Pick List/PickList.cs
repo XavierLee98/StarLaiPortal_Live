@@ -172,6 +172,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Pick_List
         [ImmediatePostData]
         [LookupEditorMode(LookupEditorMode.AllItems)]
         [DataSourceCriteria("Inactive = 'N'")]
+        [Appearance("Warehouse", Enabled = false, Criteria = "IsValid6")]
         [Index(6), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(false)]
         public vwWarehouse Warehouse
         {
@@ -577,6 +578,20 @@ namespace StarLaiPortal.Module.BusinessObjects.Pick_List
             }
         }
         // End ver 1.0.9
+
+        [Browsable(false)]
+        public bool IsValid6
+        {
+            get
+            {
+                foreach (PickListDetails dtl in this.PickListDetails)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
 
         [Association("PickList-PickListDetails")]
         [XafDisplayName("Plan")]
