@@ -354,6 +354,7 @@
     <Compile Include="BusinessObjects\View\vwSeries.cs" />
     <Compile Include="BusinessObjects\View\vwShippingAddress.cs" />
     <Compile Include="BusinessObjects\View\vwStockBalance.cs" />
+    <Compile Include="BusinessObjects\View\vwStockCountGL.cs" />
     <Compile Include="BusinessObjects\View\vwTransporter.cs" />
     <Compile Include="BusinessObjects\View\vwVehicle.cs" />
     <Compile Include="BusinessObjects\View\vwWarehouse.cs" />
