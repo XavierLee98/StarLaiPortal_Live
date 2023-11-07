@@ -17,6 +17,8 @@ using DevExpress.Xpo;
 
 // 2023-08-25 - export and import function - ver 1.0.9
 // 2023-10-20 - add stock count - ver 1.0.12
+// 2023-11-06 - not allow zero - ver 1.0.12
+
 
 namespace Admiral.ImportData
 {
@@ -511,7 +513,18 @@ namespace Admiral.ImportData
                                     }
                                     else
                                     {
-                                        value = Convert.ChangeType(cell.Value.NumericValue, field.MemberInfo.MemberType);
+                                        // Start ver 1.0.12
+                                        if (cell.Value.NumericValue == 0)
+                                        {
+                                            result.AddErrorMessage(string.Format("No allow 0 qty.", field.Name), cell);
+                                        }
+                                        else
+                                        {
+                                        // End ver 1.0.12
+                                            value = Convert.ChangeType(cell.Value.NumericValue, field.MemberInfo.MemberType);
+                                        // Start ver 1.0.12
+                                        }
+                                        // End ver 1.0.12
                                     }
                                 }
                                 else if (memberType == typeof(bool))
@@ -711,22 +724,27 @@ namespace Admiral.ImportData
                     // End ver 1.0.9
 
                     // Start ver 1.0.12
-                    if (item.Name == "StockCountSheetTarget")
+                    if (option.Type == "StockCountSheetTarget")
                     {
-                        var cls = option.MainTypeInfo.Application.BOModel.GetClass(item.MemberInfo.ListElementTypeInfo.Type);
-                        var b = book.Worksheets.Add("Stock Sheet Target");
-                        CreateSheet(b, cls, "StockCountSheetTarget", option.DocNum);
+                        if (item.Name == "StockCountSheetTarget")
+                        {
+                            var cls = option.MainTypeInfo.Application.BOModel.GetClass(item.MemberInfo.ListElementTypeInfo.Type);
+                            var b = book.Worksheets.Add("Stock Sheet Target");
+                            CreateSheet(b, cls, "StockCountSheetTarget", option.DocNum);
 
-                        book.Worksheets.Remove(book.Worksheets[0]);
+                            book.Worksheets.Remove(book.Worksheets[0]);
+                        }
                     }
-
-                    if (item.Name == "StockCountSheetCounted")
+                    if (option.Type == "StockCountSheetCounted")
                     {
-                        var cls = option.MainTypeInfo.Application.BOModel.GetClass(item.MemberInfo.ListElementTypeInfo.Type);
-                        var b = book.Worksheets.Add("Stock Sheet Counted");
-                        CreateSheet(b, cls, "StockCountSheetCounted", option.DocNum);
+                        if (item.Name == "StockCountSheetCounted")
+                        {
+                            var cls = option.MainTypeInfo.Application.BOModel.GetClass(item.MemberInfo.ListElementTypeInfo.Type);
+                            var b = book.Worksheets.Add("Stock Sheet Counted");
+                            CreateSheet(b, cls, "StockCountSheetCounted", option.DocNum);
 
-                        book.Worksheets.Remove(book.Worksheets[0]);
+                            book.Worksheets.Remove(book.Worksheets[0]);
+                        }
                     }
 
                     if (item.Name == "StockCountConfirmDetails")

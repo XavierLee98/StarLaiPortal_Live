@@ -65,7 +65,7 @@ namespace StarLaiPortal.Module.Controllers
 
                 if (((DetailView)View).ViewEditMode == ViewEditMode.Edit)
                 {
-                    this.ExportConfirmCountItems.Active.SetItemValue("Enabled", true);
+                    this.ExportConfirmCountItems.Active.SetItemValue("Enabled", false);
                     this.ImportConfirmCountItems.Active.SetItemValue("Enabled", true);
                 }
                 else

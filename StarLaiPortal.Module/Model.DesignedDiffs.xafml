@@ -4928,6 +4928,40 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
+    <DetailView Id="StockCountVarianceInquiry_DetailView" AllowEdit="True">
+      <Items>
+        <ActionContainerViewItem Id="VarianceSearch" ActionContainer="ListView" Caption="VarianceSearch" Orientation="Vertical" IsNewNode="True" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="13.059701492537313">
+            <LayoutGroup Id="StockCountVarianceInquiry" Direction="Horizontal" RelativeSize="100" Caption="StockCountVarianceInquiry">
+              <LayoutGroup Id="Auto226869be-5a42-40d9-8d47-8b7c8a8ead26" ShowCaption="False" Caption="Auto226869be-5a42-40d9-8d47-8b7c8a8ead26(4)" Index="0" RelativeSize="83.246073298429323" IsNewNode="True">
+                <LayoutItem Id="StockCountDate" ViewItem="StockCountDate" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                <LayoutItem Id="Warehouse" ViewItem="Warehouse" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutItem Id="VarianceSearch" ViewItem="VarianceSearch" Index="1" RelativeSize="16.753926701570681" IsNewNode="True" />
+              <LayoutItem Id="StockCountDate" Removed="True" />
+              <LayoutItem Id="Warehouse" Removed="True" />
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="StockCountVarianceInquiryDetails_Group" Direction="Vertical" RelativeSize="86.940298507462686">
+            <LayoutItem Id="StockCountVarianceInquiryDetails" RelativeSize="100" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="StockCountVarianceInquiry_StockCountVarianceInquiryDetails_ListView">
+      <Columns>
+        <ColumnInfo Id="ItemName" SortIndex="-1" SortOrder="None" />
+      </Columns>
+    </ListView>
+    <DetailView Id="StockCountVarianceInquiryDetails_DetailView" AllowEdit="False" />
+    <ListView Id="StockCountVarianceInquiryDetails_ListView">
+      <Columns>
+        <ColumnInfo Id="ItemName" SortIndex="-1" SortOrder="None" />
+      </Columns>
+    </ListView>
     <ListView Id="Transporter_AuditTrail_ListView" AllowDelete="False" AllowLink="False" AllowNew="False">
       <Columns>
         <ColumnInfo Id="PropertyName" Index="-1" />

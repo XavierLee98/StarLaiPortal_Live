@@ -2,6 +2,7 @@
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Xpo;
+using DevExpress.XtraSpellChecker.Parser;
 using SAPbobsCOM;
 using StarLaiPortal.Module.BusinessObjects;
 using StarLaiPortal.Module.BusinessObjects.Advanced_Shipment_Notice;
@@ -18,6 +19,7 @@ using StarLaiPortal.Module.BusinessObjects.Sales_Order_Collection;
 using StarLaiPortal.Module.BusinessObjects.Sales_Refund;
 using StarLaiPortal.Module.BusinessObjects.Sales_Return;
 using StarLaiPortal.Module.BusinessObjects.Stock_Adjustment;
+using StarLaiPortal.Module.BusinessObjects.Stock_Count;
 using StarLaiPortal.Module.BusinessObjects.View;
 using StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer;
 using System;
@@ -27,6 +29,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
@@ -37,6 +40,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 // 2023-04-09 fix speed issue ver 1.0.8.1
 // 2023-09-25 add sales return ver 1.0.10
 // 2023-10-30 Post FOC UDF ver 1.0.12
+// 2023-11-02 Add stock count ver 1.0.12
 
 namespace PortalIntegration
 {
@@ -1296,8 +1300,143 @@ namespace PortalIntegration
                 }
                 // End ver 1.0.9
 
+                // Start ver 1.0.12
+                temp = ConfigurationManager.AppSettings["StockCount"].ToString().ToUpper();
+                if (temp == "Y" || temp == "YES" || temp == "TRUE" || temp == "1")
+                {
+                    WriteLog("[INFO]", "--Stock Count Posting Start--");
+
+                    #region Stock Count 
+
+                    IList<StockCountConfirm> sclist = ListObjectSpace.GetObjects<StockCountConfirm>
+                    (CriteriaOperator.Parse("Sap = ? and Status = ?", 0, 1));
+
+                    foreach (StockCountConfirm dtlsc in sclist)
+                    {
+                        try
+                        {
+                            IObjectSpace scos = ObjectSpaceProvider.CreateObjectSpace();
+                            StockCountConfirm scobj = scos.GetObjectByKey<StockCountConfirm>(dtlsc.Oid);
+
+                            bool postfail = false;
+                            bool positive = true;
+                            bool negatif = true;
+                            bool postissue = true;
+
+                            foreach (StockCountConfirmDetails dtl in scobj.StockCountConfirmDetails)
+                            {
+                                if (dtl.Quantity > 0 && dtl.GRSap == false)
+                                {
+                                    positive = false;
+                                }
+
+                                if (dtl.Quantity < 0 && dtl.GISap == false)
+                                {
+                                    negatif = false;
+                                }
+                            }
+
+                            if (negatif == false)
+                            {
+                                #region Post Goods Issue
+                                if (!sap.oCom.InTransaction) sap.oCom.StartTransaction();
+
+                                int tempscout = 0;
+
+                                tempscout = PostSCOuttoSAP(scobj, ObjectSpaceProvider, sap);
+                                if (tempscout == 1)
+                                {
+                                    if (sap.oCom.InTransaction)
+                                        sap.oCom.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_Commit);
+
+                                    foreach (StockCountConfirmDetails dtl in scobj.StockCountConfirmDetails)
+                                    {
+                                        if (dtl.Quantity < 0)
+                                        {
+                                            dtl.GISap = true;
+                                        }
+                                    }
+
+                                    GC.Collect();
+                                }
+                                else if (tempscout <= 0)
+                                {
+                                    if (sap.oCom.InTransaction)
+                                        sap.oCom.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack);
+
+                                    postfail = true;
+                                    postissue = false;
+
+                                    GC.Collect();
+                                }
+                                #endregion
+
+                                scos.CommitChanges();
+                            }
+
+                            if (positive == false && postissue == true)
+                            {
+                                #region Post Goods Receipt
+                                if (!sap.oCom.InTransaction) sap.oCom.StartTransaction();
+
+                                int tempscin = 0;
+
+                                tempscin = PostSCINtoSAP(scobj, ObjectSpaceProvider, sap);
+                                if (tempscin == 1)
+                                {
+                                    if (sap.oCom.InTransaction)
+                                        sap.oCom.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_Commit);
+
+                                    foreach (StockCountConfirmDetails dtl in scobj.StockCountConfirmDetails)
+                                    {
+                                        if (dtl.Quantity > 0)
+                                        {
+                                            dtl.GRSap = true;
+                                        }
+                                    }
+
+                                    GC.Collect();
+                                }
+                                else if (tempscin <= 0)
+                                {
+                                    if (sap.oCom.InTransaction)
+                                        sap.oCom.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack);
+
+                                    postfail = true;
+
+                                    GC.Collect();
+                                }
+                                #endregion
+                            }
+
+                            if (postfail == false)
+                            {
+                                scobj.Sap = true;
+
+                                StockCountConfirmDocTrail ds = scos.CreateObject<StockCountConfirmDocTrail>();
+                                ds.CreateUser = scos.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
+                                ds.CreateDate = DateTime.Now;
+                                ds.DocStatus = DocStatus.Post;
+                                ds.DocRemarks = "Posted SAP";
+                                scobj.StockCountConfirmDocTrail.Add(ds);
+
+                                scos.CommitChanges();
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            WriteLog("[Error]", "Message: Stock Count Post Failed - OID : " + dtlsc.Oid + " (" + ex.Message + ")");
+                        }
+                        #endregion
+                    }
+                    
+                    WriteLog("[INFO]", "--Stock Count Posting End--");
+                }
+                // End ver 1.0.12
+
                 #region Update DocNum
-                SqlCommand TransactionNotification = new SqlCommand("", conn);
+                    SqlCommand TransactionNotification = new SqlCommand("", conn);
                 TransactionNotification.CommandTimeout = 600;
 
                 if (conn.State == ConnectionState.Open)
@@ -1586,11 +1725,11 @@ namespace PortalIntegration
                         // Start ver 1.0.12
                         if (dtl.FOC == true)
                         {
-                            oDoc.Lines.UserFields.Fields.Item("U_FOC").Value = "Yes";
+                            oDoc.Lines.UserFields.Fields.Item("U_FOC").Value = "Y";
                         }
                         else
                         {
-                            oDoc.Lines.UserFields.Fields.Item("U_FOC").Value = "No";
+                            oDoc.Lines.UserFields.Fields.Item("U_FOC").Value = "N";
                         }
                         // End ver 1.0.12
 
@@ -4507,5 +4646,263 @@ namespace PortalIntegration
             return 0;
         }
         // End ver 1.0.8.1
+
+        // Start ver 1.0.12
+        public int PostSCOuttoSAP(StockCountConfirm oTargetDoc, IObjectSpaceProvider ObjectSpaceProvider, SAPCompany sap)
+        {
+            // return 0 = post nothing
+            // return -1 = posting error
+            // return 1 = posting successful
+            try
+            {
+                if (!oTargetDoc.Sap)
+                {
+                    IObjectSpace fos = ObjectSpaceProvider.CreateObjectSpace();
+                    bool found = false;
+
+                    DateTime postdate = DateTime.Now;
+
+                    foreach (StockCountConfirmDetails dtl in oTargetDoc.StockCountConfirmDetails)
+                    {
+                        found = true;
+                    }
+                    if (!found) return 0;
+
+                    Guid g;
+                    // Create and display the value of two GUIDs.
+                    g = Guid.NewGuid();
+
+                    int sapempid = 0;
+
+                    SAPbobsCOM.Documents oDoc = null;
+
+                    oDoc = (SAPbobsCOM.Documents)sap.oCom.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oInventoryGenExit);
+
+                    oDoc.DocType = BoDocumentTypes.dDocument_Items;
+                    oDoc.DocDate = postdate;
+
+                    if (sapempid > 0)
+                        oDoc.DocumentsOwner = sapempid;
+                    oDoc.DocDate = oTargetDoc.StockCountDate;
+                    oDoc.TaxDate = DateTime.Today;
+                    oDoc.Comments = oTargetDoc.Remarks;
+                    oDoc.UserFields.Fields.Item("U_PortalDocNum").Value = oTargetDoc.DocNum;
+
+                    int cnt = 0;
+                    foreach (StockCountConfirmDetails dtl in oTargetDoc.StockCountConfirmDetails)
+                    {
+                        if (dtl.Quantity < 0)
+                        {
+                            cnt++;
+                            if (cnt == 1)
+                            {
+                            }
+                            else
+                            {
+                                //oDoc.Lines.BatchNumbers.Add();
+                                //oDoc.Lines.BatchNumbers.SetCurrentLine(oDoc.Lines.Count - 1);
+                                oDoc.Lines.Add();
+                                oDoc.Lines.SetCurrentLine(oDoc.Lines.Count - 1);
+                            }
+
+                            oDoc.Lines.WarehouseCode = dtl.Warehouse.WarehouseCode;
+                            oDoc.Lines.ItemCode = dtl.ItemCode.ItemCode;
+                            if (oTargetDoc.ReasonCode.GLAcc != null)
+                            {
+                                oDoc.Lines.AccountCode = oTargetDoc.ReasonCode.GLAcc;
+                            }
+                            oDoc.Lines.ItemDescription = dtl.ItemDesc;
+                            oDoc.Lines.Quantity = (double)(dtl.Quantity - dtl.Quantity - dtl.Quantity);
+                            oDoc.Lines.UserFields.Fields.Item("U_PortalLineOid").Value = dtl.Oid.ToString();
+
+                            if (dtl.Bin != null)
+                            {
+                                oDoc.Lines.BinAllocations.BinAbsEntry = dtl.Bin.AbsEntry;
+                                oDoc.Lines.BinAllocations.Quantity = (double)(dtl.Quantity - dtl.Quantity - dtl.Quantity);
+                            }
+                        }
+                    }
+                
+                    int rc = oDoc.Add();
+                    if (rc != 0)
+                    {
+                        string temp = sap.oCom.GetLastErrorDescription();
+                        if (sap.oCom.InTransaction)
+                        {
+                            sap.oCom.EndTransaction(BoWfTransOpt.wf_RollBack);
+                        }
+
+                        IObjectSpace osupdate = ObjectSpaceProvider.CreateObjectSpace();
+                        StockCountConfirm obj = osupdate.GetObjectByKey<StockCountConfirm>(oTargetDoc.Oid);
+
+                        StockCountConfirmDocTrail ds = osupdate.CreateObject<StockCountConfirmDocTrail>();
+                        ds.CreateUser = osupdate.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
+                        ds.CreateDate = DateTime.Now;
+                        ds.DocStatus = DocStatus.Submitted;
+                        ds.DocRemarks = "SAP Error:" + temp;
+                        obj.StockCountConfirmDocTrail.Add(ds);
+
+                        osupdate.CommitChanges();
+
+                        WriteLog("[Error]", "Message: Stock Count(Issue) Posting :" + oTargetDoc + "-" + temp);
+
+                        return -1;
+                    }
+                    return 1;
+                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                IObjectSpace osupdate = ObjectSpaceProvider.CreateObjectSpace();
+                StockCountConfirm obj = osupdate.GetObjectByKey<StockCountConfirm>(oTargetDoc.Oid);
+
+                StockCountConfirmDocTrail ds = osupdate.CreateObject<StockCountConfirmDocTrail>();
+                ds.CreateUser = osupdate.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
+                ds.CreateDate = DateTime.Now;
+                ds.DocStatus = DocStatus.Submitted;
+                ds.DocRemarks = "SAP Error:" + ex.Message;
+                obj.StockCountConfirmDocTrail.Add(ds);
+
+                osupdate.CommitChanges();
+
+                WriteLog("[Error]", "Message: Stock Count(Issue) Posting :" + oTargetDoc + "-" + ex.Message);
+
+                return -1;
+            }
+        }
+
+        public int PostSCINtoSAP(StockCountConfirm oTargetDoc, IObjectSpaceProvider ObjectSpaceProvider, SAPCompany sap)
+        {
+            // return 0 = post nothing
+            // return -1 = posting error
+            // return 1 = posting successful
+            try
+            {
+                if (!oTargetDoc.Sap)
+                {
+                    IObjectSpace fos = ObjectSpaceProvider.CreateObjectSpace();
+                    bool found = false;
+                    DateTime postdate = DateTime.Now;
+
+                    foreach (StockCountConfirmDetails dtl in oTargetDoc.StockCountConfirmDetails)
+                    {
+                        found = true;
+                    }
+                    if (!found) return 0;
+
+                    Guid g;
+                    // Create and display the value of two GUIDs.
+                    g = Guid.NewGuid();
+
+                    int sapempid = 0;
+
+                    SAPbobsCOM.Documents oDoc = null;
+
+                    oDoc = (SAPbobsCOM.Documents)sap.oCom.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oInventoryGenEntry);
+
+                    oDoc.DocType = BoDocumentTypes.dDocument_Items;
+                    oDoc.DocDate = postdate;
+
+                    if (sapempid > 0)
+                        oDoc.DocumentsOwner = sapempid;
+                    oDoc.DocDate = oTargetDoc.StockCountDate;
+                    oDoc.TaxDate = DateTime.Now; ;
+                    oDoc.Comments = oTargetDoc.Remarks;
+                    oDoc.UserFields.Fields.Item("U_PortalDocNum").Value = oTargetDoc.DocNum;
+
+                    int cnt = 0;
+                    foreach (StockCountConfirmDetails dtl in oTargetDoc.StockCountConfirmDetails)
+                    {
+                        if (dtl.Quantity > 0)
+                        {
+                            cnt++;
+                            if (cnt == 1)
+                            {
+                            }
+                            else
+                            {
+                                //oDoc.Lines.BatchNumbers.Add();
+                                //oDoc.Lines.BatchNumbers.SetCurrentLine(oDoc.Lines.Count - 1);
+                                oDoc.Lines.Add();
+                                oDoc.Lines.SetCurrentLine(oDoc.Lines.Count - 1);
+                            }
+
+                            oDoc.Lines.WarehouseCode = dtl.Warehouse.WarehouseCode;
+
+                            oDoc.Lines.ItemCode = dtl.ItemCode.ItemCode;
+                            oDoc.Lines.ItemDescription = dtl.ItemDesc;
+                            oDoc.Lines.Quantity = (double)dtl.Quantity;
+                            if (oTargetDoc.ReasonCode.GLAcc != null)
+                            {
+                                oDoc.Lines.AccountCode = oTargetDoc.ReasonCode.GLAcc;
+                            }
+                            if (dtl.CostType == AdjustmnetCost.Zero)
+                            {
+                                oDoc.Lines.UnitPrice = 0.01;
+                            }
+                            else
+                            {
+                                oDoc.Lines.UnitPrice = (double)dtl.Price;
+                            }
+                            oDoc.Lines.UserFields.Fields.Item("U_PortalLineOid").Value = dtl.Oid.ToString();
+
+                            if (dtl.Bin != null)
+                            {
+                                oDoc.Lines.BinAllocations.BinAbsEntry = dtl.Bin.AbsEntry;
+                                oDoc.Lines.BinAllocations.Quantity = (double)dtl.Quantity;
+                            }
+                        }
+                    }
+
+                    int rc = oDoc.Add();
+                    if (rc != 0)
+                    {
+                        string temp = sap.oCom.GetLastErrorDescription();
+                        if (sap.oCom.InTransaction)
+                        {
+                            sap.oCom.EndTransaction(BoWfTransOpt.wf_RollBack);
+                        }
+
+                        IObjectSpace osupdate = ObjectSpaceProvider.CreateObjectSpace();
+                        StockCountConfirm obj = osupdate.GetObjectByKey<StockCountConfirm>(oTargetDoc.Oid);
+
+                        StockCountConfirmDocTrail ds = osupdate.CreateObject<StockCountConfirmDocTrail>();
+                        ds.CreateUser = osupdate.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
+                        ds.CreateDate = DateTime.Now;
+                        ds.DocStatus = DocStatus.Submitted;
+                        ds.DocRemarks = "SAP Error:" + temp;
+                        obj.StockCountConfirmDocTrail.Add(ds);
+
+                        osupdate.CommitChanges();
+
+                        WriteLog("[Error]", "Message: Stock Count(Receipt) Posting :" + oTargetDoc + "-" + temp);
+
+                        return -1;
+                    }
+                    return 1;
+                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                IObjectSpace osupdate = ObjectSpaceProvider.CreateObjectSpace();
+                StockCountConfirm obj = osupdate.GetObjectByKey<StockCountConfirm>(oTargetDoc.Oid);
+
+                StockCountConfirmDocTrail ds = osupdate.CreateObject<StockCountConfirmDocTrail>();
+                ds.CreateUser = osupdate.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
+                ds.CreateDate = DateTime.Now;
+                ds.DocStatus = DocStatus.Submitted;
+                ds.DocRemarks = "SAP Error:" + ex.Message;
+                obj.StockCountConfirmDocTrail.Add(ds);
+
+                osupdate.CommitChanges();
+
+                WriteLog("[Error]", "Message: Stock Count(Receipt) Posting :" + oTargetDoc + "-" + ex.Message);
+
+                return -1;
+            }
+        }
+        // End ver 1.0.12
     }
 }

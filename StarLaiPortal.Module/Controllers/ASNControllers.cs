@@ -31,6 +31,7 @@ using System.Web;
 
 // 2023-08-25 add validation for qty when submit ver 1.0.9
 // 2023-09-25 add copyto qty ver 1.0.10
+// 2023-11-02 pass print user ver 1.0.12
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -619,6 +620,9 @@ namespace StarLaiPortal.Module.Controllers
 
                 doc.SetParameterValue("dockey@", asn.Oid);
                 doc.SetParameterValue("dbName@", conn.Database);
+                // Start ver 1.0.12
+                doc.SetParameterValue("userName@", user.Staff.StaffName);
+                // End ver 1.0.12
 
                 filename = ConfigurationManager.AppSettings.Get("ReportPath").ToString() + conn.Database
                     + "_" + asn.Oid + "_" + user.UserName + "_ASN_"

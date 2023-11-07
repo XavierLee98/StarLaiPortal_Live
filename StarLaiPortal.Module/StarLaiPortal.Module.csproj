@@ -294,6 +294,8 @@
     <Compile Include="BusinessObjects\Stock Count Inquiry\StockCountBinInquiryDetails.cs" />
     <Compile Include="BusinessObjects\Stock Count Inquiry\StockCountItemInquiry.cs" />
     <Compile Include="BusinessObjects\Stock Count Inquiry\StockCountItemInquiryDetails.cs" />
+    <Compile Include="BusinessObjects\Stock Count Inquiry\StockCountVarianceInquiry.cs" />
+    <Compile Include="BusinessObjects\Stock Count Inquiry\StockCountVarianceInquiryDetails.cs" />
     <Compile Include="BusinessObjects\Stock Count\StockCountConfirm.cs" />
     <Compile Include="BusinessObjects\Stock Count\StockCountConfirmDetails.cs" />
     <Compile Include="BusinessObjects\Stock Count\StockCountConfirmDetailView.cs" />

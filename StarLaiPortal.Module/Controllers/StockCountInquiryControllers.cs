@@ -35,6 +35,7 @@ namespace StarLaiPortal.Module.Controllers
             // Perform various tasks depending on the target View.
             this.StockCountBinSearch.Active.SetItemValue("Enabled", false);
             this.StockCountItemSearch.Active.SetItemValue("Enabled", false);
+            this.StockCountVarianceSearch.Active.SetItemValue("Enabled", false);
 
             if (typeof(StockCountBinInquiry).IsAssignableFrom(View.ObjectTypeInfo.Type))
             {
@@ -42,7 +43,6 @@ namespace StarLaiPortal.Module.Controllers
                 {
                     this.StockCountBinSearch.Active.SetItemValue("Enabled", true);
                     this.StockCountBinSearch.ActionMeaning = ActionMeaning.Accept;
-                    //this.OpenCart.Active.SetItemValue("Enabled", true);
                 }
             }
 
@@ -52,7 +52,15 @@ namespace StarLaiPortal.Module.Controllers
                 {
                     this.StockCountItemSearch.Active.SetItemValue("Enabled", true);
                     this.StockCountItemSearch.ActionMeaning = ActionMeaning.Accept;
-                    //this.OpenCart.Active.SetItemValue("Enabled", true);
+                }
+            }
+
+            if (typeof(StockCountVarianceInquiry).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(StockCountVarianceInquiry))
+                {
+                    this.StockCountVarianceSearch.Active.SetItemValue("Enabled", true);
+                    this.StockCountVarianceSearch.ActionMeaning = ActionMeaning.Accept;
                 }
             }
         }
@@ -118,6 +126,28 @@ namespace StarLaiPortal.Module.Controllers
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
             View.Refresh();
+        }
+
+        private void StockCountVarianceSearch_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            StockCountVarianceInquiry selectedObject = (StockCountVarianceInquiry)e.CurrentObject;
+
+            if (selectedObject.Warehouse != null)
+            {
+                XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_StockCountVariance", new OperandValue(selectedObject.Oid),
+                    new OperandValue(selectedObject.StockCountDate.Date),
+                    new OperandValue(selectedObject.Warehouse.WarehouseCode));
+
+
+                ObjectSpace.CommitChanges();
+                ObjectSpace.Refresh();
+                View.Refresh();
+            }
+            else
+            {
+                showMsg("Error", "Please select warehouse.", InformationType.Error);
+            }
         }
     }
 }

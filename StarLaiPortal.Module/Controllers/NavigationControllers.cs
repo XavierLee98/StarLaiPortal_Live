@@ -219,6 +219,23 @@ namespace StarLaiPortal.Module.Controllers
                 e.ActionArguments.ShowViewParameters.CreatedView = detailView;
                 e.Handled = true;
             }
+
+            if (e.ActionArguments.SelectedChoiceActionItem.Id == "StockCountVarianceInquiry_ListView")
+            {
+                IObjectSpace objectSpace = Application.CreateObjectSpace();
+                StockCountVarianceInquiry newstockcountvariance = objectSpace.CreateObject<StockCountVarianceInquiry>();
+
+                DetailView detailView = Application.CreateDetailView(objectSpace, "StockCountVarianceInquiry_DetailView", true, newstockcountvariance);
+                detailView.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
+
+                newstockcountvariance.StockCountDate = DateTime.Today;
+
+                objectSpace.CommitChanges();
+                objectSpace.Refresh();
+
+                e.ActionArguments.ShowViewParameters.CreatedView = detailView;
+                e.Handled = true;
+            }
             // End ver 1.0.12
         }
     }

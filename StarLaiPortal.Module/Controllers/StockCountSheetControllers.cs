@@ -74,9 +74,9 @@ namespace StarLaiPortal.Module.Controllers
 
                 if (((DetailView)View).ViewEditMode == ViewEditMode.Edit)
                 {
-                    this.ExportSheetTargetItems.Active.SetItemValue("Enabled", true);
+                    this.ExportSheetTargetItems.Active.SetItemValue("Enabled", false);
                     this.ImportSheetTargetItems.Active.SetItemValue("Enabled", true);
-                    this.ExportSheetCountedItems.Active.SetItemValue("Enabled", true);
+                    this.ExportSheetCountedItems.Active.SetItemValue("Enabled", false);
                     this.ImportSheetCountedItems.Active.SetItemValue("Enabled", true);
                 }
                 else
