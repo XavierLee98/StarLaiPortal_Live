@@ -4675,14 +4675,26 @@ namespace PortalIntegration
                     oDoc.Comments = oTargetDoc.Remarks;
                     oDoc.UserFields.Fields.Item("U_PortalDocNum").Value = oTargetDoc.DocNum;
 
-                    string getitem = "SELECT T1.ItemCode, T1.Quantity -  ISNULL(SUM(inqty-outqty), 0), T1.OID From StockCountConfirm T0 " +
-                        "INNER JOIN StockCountConfirmDetails T1 on T0.OID = T1.StockCountConfirm AND T1.GCRecord is null " +
-                        "LEFT JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OINM T2 with (nolock) " +
-                        "on T2.Warehouse = T0.Warehouse COLLATE DATABASE_DEFAULT " +
-                        "AND T2.ItemCode = T1.ItemCode COLLATE DATABASE_DEFAULT " +
-                        "AND T2.DocDate <= T0.StockCountDate " +
-                        "WHERE T0.DocNum = '" + oTargetDoc.DocNum + "' " +
-                        "GROUP BY T1.ItemCode, T1.Quantity, T1.OID";
+                    string getitem = "SELECT T1.ItemCode, T1.Quantity -  ISNULL(SUM(T2.Qty), 0), T1.OID From StockCountConfirm T0 " +
+                       "INNER JOIN StockCountConfirmDetails T1 on T0.OID = T1.StockCountConfirm AND T1.GCRecord is null " +
+                       "LEFT JOIN " +
+                       "( " +
+                       "SELECT " +
+                       "T2.ItemCode, T7.ItemName, T6.BinCode, " +
+                       "SUM(CASE WHEN T2.ActionType in ('1','19') THEN T4.Quantity " +
+                       "WHEN T2.ActionType in ('2', '20') THEN - T4.Quantity ELSE 0 END) as [Qty], T2.DocDate " +
+                       "FROM [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OILM T2 " +
+                       "INNER JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OBTL T4 ON(T2.MessageID = T4.MessageID) " +
+                       "INNER JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OBIN T6 ON(T4.BinAbs = T6.AbsEntry) " +
+                       "INNER JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OITM T7 ON(T2.ItemCode = T7.ItemCode) " +
+                       "GROUP BY T2.ItemCode,T7.ItemName, T6.BinCode, T2.DocDate)  " +
+                       "T2 on T1.ItemCode = T2.ItemCode COLLATE DATABASE_DEFAULT and T1.Bin = T2.BinCode COLLATE DATABASE_DEFAULT " +
+                       "and T2.DocDate <= T0.StockCountDate " +
+                       "LEFT JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OITW T3 with(nolock) on " +
+                       "T3.ItemCode = T1.ItemCode COLLATE DATABASE_DEFAULT " +
+                       "AND T3.WhsCode = T0.Warehouse COLLATE DATABASE_DEFAULT " +
+                       "WHERE T0.DocNum = '" + oTargetDoc.DocNum + "' " +
+                       "GROUP BY T1.ItemCode, T1.Quantity, T1.OID";
                     if (conn.State == ConnectionState.Open)
                     {
                         conn.Close();
@@ -4722,14 +4734,16 @@ namespace PortalIntegration
                                     }
 
                                     oDoc.Lines.ItemDescription = dtl.ItemDesc;
-                                    oDoc.Lines.Quantity = (double)(reader.GetDecimal(1) + reader.GetDecimal(1) + reader.GetDecimal(1));
+                                    oDoc.Lines.Quantity = (double)(reader.GetDecimal(1) - reader.GetDecimal(1) - reader.GetDecimal(1));
                                     oDoc.Lines.UserFields.Fields.Item("U_PortalLineOid").Value = dtl.Oid.ToString();
 
                                     if (dtl.Bin != null)
                                     {
                                         oDoc.Lines.BinAllocations.BinAbsEntry = dtl.Bin.AbsEntry;
-                                        oDoc.Lines.BinAllocations.Quantity = (double)(reader.GetDecimal(1) + reader.GetDecimal(1) + reader.GetDecimal(1));
+                                        oDoc.Lines.BinAllocations.Quantity = (double)(reader.GetDecimal(1) - reader.GetDecimal(1) - reader.GetDecimal(1));
                                     }
+
+                                    break;
                                 }
                             }
                         }
@@ -4829,17 +4843,26 @@ namespace PortalIntegration
                     oDoc.Comments = oTargetDoc.Remarks;
                     oDoc.UserFields.Fields.Item("U_PortalDocNum").Value = oTargetDoc.DocNum;
 
-                    string getitem = "SELECT T1.ItemCode, T1.Quantity -  ISNULL(SUM(inqty-outqty), 0), T1.OID, T3.AvgPrice From StockCountConfirm T0 " +
-                     "INNER JOIN StockCountConfirmDetails T1 on T0.OID = T1.StockCountConfirm AND T1.GCRecord is null " +
-                     "LEFT JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OINM T2 with (nolock) " +
-                     "on T2.Warehouse = T0.Warehouse COLLATE DATABASE_DEFAULT " +
-                     "AND T2.ItemCode = T1.ItemCode COLLATE DATABASE_DEFAULT " +
-                     "AND T2.DocDate <= T0.StockCountDate " +
-                     "LEFT JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OITW T3 with (nolock) on " +
-                     "T3.ItemCode = T1.ItemCode COLLATE DATABASE_DEFAULT " +
-                     "AND T3.WhsCode = T0.Warehouse COLLATE DATABASE_DEFAULT " +
-                     "WHERE T0.DocNum = '" + oTargetDoc.DocNum + "' " +
-                     "GROUP BY T1.ItemCode, T1.Quantity, T1.OID, T3.AvgPrice";
+                    string getitem = "SELECT T1.ItemCode, T1.Quantity -  ISNULL(SUM(T2.Qty), 0), T1.OID, T3.AvgPrice From StockCountConfirm T0 " +
+                        "INNER JOIN StockCountConfirmDetails T1 on T0.OID = T1.StockCountConfirm AND T1.GCRecord is null " +
+                        "LEFT JOIN " +
+                        "( " +
+                        "SELECT " +
+                        "T2.ItemCode, T7.ItemName, T6.BinCode, " +
+                        "SUM(CASE WHEN T2.ActionType in ('1','19') THEN T4.Quantity " +
+                        "WHEN T2.ActionType in ('2', '20') THEN - T4.Quantity ELSE 0 END) as [Qty], T2.DocDate " +
+                        "FROM [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OILM T2 " +
+                        "INNER JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OBTL T4 ON(T2.MessageID = T4.MessageID) " +
+                        "INNER JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OBIN T6 ON(T4.BinAbs = T6.AbsEntry) " +
+                        "INNER JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OITM T7 ON(T2.ItemCode = T7.ItemCode) " +
+                        "GROUP BY T2.ItemCode,T7.ItemName, T6.BinCode, T2.DocDate)  " +
+                        "T2 on T1.ItemCode = T2.ItemCode COLLATE DATABASE_DEFAULT and T1.Bin = T2.BinCode COLLATE DATABASE_DEFAULT " +
+                        "and T2.DocDate <= T0.StockCountDate " +
+                        "LEFT JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OITW T3 with(nolock) on " +
+                        "T3.ItemCode = T1.ItemCode COLLATE DATABASE_DEFAULT " +
+                        "AND T3.WhsCode = T0.Warehouse COLLATE DATABASE_DEFAULT " +
+                        "WHERE T0.DocNum = '" + oTargetDoc.DocNum + "' " +
+                        "GROUP BY T1.ItemCode, T1.Quantity, T1.OID, T3.AvgPrice";
                     if (conn.State == ConnectionState.Open)
                     {
                         conn.Close();
@@ -4896,6 +4919,8 @@ namespace PortalIntegration
                                         oDoc.Lines.BinAllocations.BinAbsEntry = dtl.Bin.AbsEntry;
                                         oDoc.Lines.BinAllocations.Quantity = (double)reader.GetDecimal(1);
                                     }
+
+                                    break;
                                 }
                             }
                         }
