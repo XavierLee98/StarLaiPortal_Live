@@ -456,7 +456,8 @@ namespace StarLaiPortal.Module.Controllers
             e.View = Application.CreateListView(typeof(ApplicationUser), true);
         }
 
-        public int GenerateDO(string ConnectionString, Load load, IObjectSpace os, IObjectSpace loados, string docprefix)
+        public int GenerateDO(string ConnectionString, Load load, IObjectSpace os, IObjectSpace loados, IObjectSpace packos,
+            IObjectSpace pickos, IObjectSpace soos, string docprefix)
         {
             try
             {
@@ -468,6 +469,11 @@ namespace StarLaiPortal.Module.Controllers
                     conn.Close();
                 }
                 conn.Open();
+                //if (conn.State == ConnectionState.Closed)
+                //{
+                //    conn.Open();
+                //}
+
                 SqlCommand cmd = new SqlCommand(getpack, conn);
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -481,7 +487,7 @@ namespace StarLaiPortal.Module.Controllers
                     // Start ver 1.0.11
                     WriteLog("[INFO]", "SO Number : " + reader.GetString(0), conn.Database);
                     // End ver 1.0.11
-                    SalesOrder so = os.FindObject<SalesOrder>(CriteriaOperator.Parse("DocNum = ?", reader.GetString(0)));
+                    SalesOrder so = soos.FindObject<SalesOrder>(CriteriaOperator.Parse("DocNum = ?", reader.GetString(0)));
 
                     if (so != null)
                     {
@@ -489,7 +495,7 @@ namespace StarLaiPortal.Module.Controllers
                         WriteLog("[INFO]", "SO Number Processed : " + reader.GetString(0), conn.Database);
                         // End ver 1.0.11
 
-                        Load currload = os.FindObject<Load>(CriteriaOperator.Parse("DocNum = ?", load.DocNum));
+                        Load currload = soos.FindObject<Load>(CriteriaOperator.Parse("DocNum = ?", load.DocNum));
 
                         string picklistnum = null;
                         DeliveryOrder newdelivery = os.CreateObject<DeliveryOrder>();
@@ -630,7 +636,7 @@ namespace StarLaiPortal.Module.Controllers
                                 {
                                     if (dtlload.PackList == dtlpack)
                                     {
-                                        PackList pl = os.FindObject<PackList>(CriteriaOperator.Parse("DocNum = ?", dtlpack));
+                                        PackList pl = packos.FindObject<PackList>(CriteriaOperator.Parse("DocNum = ?", dtlpack));
 
                                         newdelivery.CustomerGroup = pl.CustomerGroup;
 
@@ -641,7 +647,7 @@ namespace StarLaiPortal.Module.Controllers
                                                 string picklistoid = null;
                                                 bool pickitem = false;
 
-                                                PickList picklist = os.FindObject<PickList>(CriteriaOperator.Parse("DocNum = ?", dtlpackdetail.PickListNo));
+                                                PickList picklist = pickos.FindObject<PickList>(CriteriaOperator.Parse("DocNum = ?", dtlpackdetail.PickListNo));
 
                                                 foreach (PickListDetailsActual dtlactual in picklist.PickListDetailsActual)
                                                 {

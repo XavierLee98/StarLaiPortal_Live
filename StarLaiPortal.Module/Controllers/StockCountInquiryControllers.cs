@@ -107,7 +107,7 @@ namespace StarLaiPortal.Module.Controllers
             XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
             SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_StockCountBin", new OperandValue(selectedObject.Oid), 
                 new OperandValue(selectedObject.FromDate.Date),
-                new OperandValue(selectedObject.ToDate.Date));
+                new OperandValue(selectedObject.ToDate.Date), new OperandValue(selectedObject.Round));
 
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
@@ -121,7 +121,7 @@ namespace StarLaiPortal.Module.Controllers
             XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
             SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_StockCountItem", new OperandValue(selectedObject.Oid),
                 new OperandValue(selectedObject.FromDate.Date),
-                new OperandValue(selectedObject.ToDate.Date));
+                new OperandValue(selectedObject.ToDate.Date), new OperandValue(selectedObject.Round));
 
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();

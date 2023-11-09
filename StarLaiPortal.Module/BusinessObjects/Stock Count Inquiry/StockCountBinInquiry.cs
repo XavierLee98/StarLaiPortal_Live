@@ -122,6 +122,18 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count_Inquiry
             }
         }
 
+        private int _Round;
+        [XafDisplayName("Round")]
+        [Index(5), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(false)]
+        public int Round
+        {
+            get { return _Round; }
+            set
+            {
+                SetPropertyValue("Round", ref _Round, value);
+            }
+        }
+
         [Association("StockCountBinInquiry-StockCountBinInquiryDetails")]
         [XafDisplayName("Stock Count Bin")]
         public XPCollection<StockCountBinInquiryDetails> StockCountBinInquiryDetails

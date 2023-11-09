@@ -977,7 +977,7 @@ namespace StarLaiPortal.Module.Web.Controllers
                     CurrObject.DocNum = genCon.GenerateDocNum(DocTypeList.STS, ObjectSpace, TransferType.NA, 0, docprefix);
                 }
 
-                CurrObject.Counted = CurrObject.StockCountSheetCounted.Count();
+                CurrObject.Counted = CurrObject.StockCountSheetCounted.Where(x => x.ItemBarCode != null).Count();
 
                 base.Save(args);
                 ((DetailView)View).ViewEditMode = ViewEditMode.View;

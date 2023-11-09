@@ -925,7 +925,7 @@ namespace Admiral.ImportData
 
                 if (module == "StockCountSheetCounted")
                 {
-                    if (item.Name == "ItemCode" || item.Name == "Bin" || item.Name == "Quantity" ||
+                    if (item.Name == "ItemCode" || item.Name == "Bin" || item.Name == "Quantity" || item.Name == "ItemBarCode" ||
                         item.Name == "StockCountSheet")
                     {
                         var c = cells[3, i];
