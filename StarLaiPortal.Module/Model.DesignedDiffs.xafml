@@ -232,6 +232,7 @@
           <Item Id="StockCountSheetCounted_ListView" Removed="True" />
           <Item Id="StockCountSheetDocTrail_ListView" Removed="True" />
           <Item Id="StockCountSheetTarget_ListView" Removed="True" />
+          <Item Id="StockCountVarianceInquiryDetails_ListView" Removed="True" />
           <Item Id="vwASN_ListView" Removed="True" />
           <Item Id="vwASNDetails_ListView" Removed="True" />
           <Item Id="vwDownpaymentINV_ListView" Removed="True" />

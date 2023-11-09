@@ -119,7 +119,7 @@ namespace StarLaiPortal.Module.Controllers
             if (p.IsErr) return;
             SqlConnection conn = new SqlConnection(genCon.getConnectionString());
 
-            if (selectedObject.IsValid == true)
+            if (selectedObject.IsValid == false)
             {
                 showMsg("Error", "No Content.", InformationType.Error);
                 return;

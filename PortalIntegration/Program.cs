@@ -266,6 +266,9 @@ namespace PortalIntegration
             XafTypesInfo.Instance.RegisterEntity(typeof(vwBank));
             XafTypesInfo.Instance.RegisterEntity(typeof(vwLastPurchasePrice));
             XafTypesInfo.Instance.RegisterEntity(typeof(vwLocalBank));
+            // Start ver 1.0.12
+            XafTypesInfo.Instance.RegisterEntity(typeof(vwStockCountGL));
+            // End ver 1.0.12
 
             XafTypesInfo.Instance.RegisterEntity(typeof(ApplicationUser));
             XafTypesInfo.Instance.RegisterEntity(typeof(GeneralSettings));
