@@ -472,21 +472,21 @@ namespace StarLaiPortal.Module.Controllers
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 // Start ver 1.0.11
-                WriteLog("[INFO]", "-----------------------");
-                WriteLog("[INFO]", "GenerateDO : " + load.DocNum + " -----------------------");
+                WriteLog("[INFO]", "-----------------------", conn.Database);
+                WriteLog("[INFO]", "GenerateDO : " + load.DocNum + " -----------------------", conn.Database);
                 // End ver 1.0.11
 
                 while (reader.Read())
                 {
                     // Start ver 1.0.11
-                    WriteLog("[INFO]", "SO Number : " + reader.GetString(0));
+                    WriteLog("[INFO]", "SO Number : " + reader.GetString(0), conn.Database);
                     // End ver 1.0.11
                     SalesOrder so = os.FindObject<SalesOrder>(CriteriaOperator.Parse("DocNum = ?", reader.GetString(0)));
 
                     if (so != null)
                     {
                         // Start ver 1.0.11
-                        WriteLog("[INFO]", "SO Number Processed : " + reader.GetString(0));
+                        WriteLog("[INFO]", "SO Number Processed : " + reader.GetString(0), conn.Database);
                         // End ver 1.0.11
 
                         Load currload = os.FindObject<Load>(CriteriaOperator.Parse("DocNum = ?", load.DocNum));
@@ -618,7 +618,7 @@ namespace StarLaiPortal.Module.Controllers
                         //}
 
                         // Start ver 1.0.11
-                        WriteLog("[INFO]", "Header done.");
+                        WriteLog("[INFO]", "Header done.", conn.Database);
                         // End ver 1.0.11
 
                         string[] packlistnum = currload.PackListNo.Replace(" ", "").Split(',');
@@ -711,7 +711,7 @@ namespace StarLaiPortal.Module.Controllers
                                                         newdelivery.DeliveryOrderDetails.Add(newdeliveryitem);
 
                                                         // Start ver 1.0.11
-                                                        WriteLog("[INFO]", newdeliveryitem.SOBaseID + " added.");
+                                                        WriteLog("[INFO]", newdeliveryitem.SOBaseID + " added.", conn.Database);
                                                         // End ver 1.0.11
                                                     }
 
@@ -725,7 +725,7 @@ namespace StarLaiPortal.Module.Controllers
                         }
 
                         // Start ver 1.0.11
-                        WriteLog("[INFO]", "Update Header Info.");
+                        WriteLog("[INFO]", "Update Header Info.", conn.Database);
                         // End ver 1.0.11
 
                         // Start ver 1.0.8.1
@@ -773,13 +773,13 @@ namespace StarLaiPortal.Module.Controllers
                         os.CommitChanges();
 
                         // Start ver 1.0.11
-                        WriteLog("[INFO]", "DO Generated.");
+                        WriteLog("[INFO]", "DO Generated.", conn.Database);
                         // End ver 1.0.11
                     }
                     // Start ver 1.0.11
                     else
                     {
-                        WriteLog("[INFO]", "SO Number Not Found : " + reader.GetString(0));
+                        WriteLog("[INFO]", "SO Number Not Found : " + reader.GetString(0), conn.Database);
                     }
                     // End ver 1.0.11
                 }
@@ -1393,11 +1393,11 @@ namespace StarLaiPortal.Module.Controllers
         }
 
         // Start ver 1.0.11
-        private void WriteLog(string lvl, string str)
+        private void WriteLog(string lvl, string str, string filename)
         {
             FileStream fileStream = null;
 
-            string filePath = "C:\\Portal_And_Apps_Log\\";
+            string filePath = "C:\\Portal_And_Apps_Log_" + filename + "\\";
             filePath = filePath + "[" + "Info And Error" + "] Log_" + System.DateTime.Today.ToString("yyyyMMdd") + "." + "txt";
 
             FileInfo fileInfo = new FileInfo(filePath);
