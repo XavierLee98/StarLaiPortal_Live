@@ -1397,7 +1397,7 @@ namespace StarLaiPortal.Module.Controllers
         {
             FileStream fileStream = null;
 
-            string filePath = "C:\\" + filename + "\\";
+            string filePath = "C:\\Portal_And_Apps_Log_" + filename + "\\";
             filePath = filePath + "[" + "Info And Error" + "] Log_" + System.DateTime.Today.ToString("yyyyMMdd") + "." + "txt";
 
             FileInfo fileInfo = new FileInfo(filePath);
