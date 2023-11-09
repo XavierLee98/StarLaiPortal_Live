@@ -4702,18 +4702,22 @@
       </Items>
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
-          <LayoutGroup Id="SimpleEditors" RelativeSize="8.4337349397590362">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="13.059701492537313">
             <LayoutGroup Id="StockCountBinInquiry" Direction="Horizontal" RelativeSize="100" Caption="StockCountBinInquiry">
-              <LayoutGroup Id="Auto96d16b6c-4564-4d49-bc05-8ac1fee58ef7" ShowCaption="False" Caption="Auto96d16b6c-4564-4d49-bc05-8ac1fee58ef7(4)" Index="0" RelativeSize="80.4812834224599" Direction="Horizontal" IsNewNode="True">
-                <LayoutItem Id="FromDate" ViewItem="FromDate" Index="0" RelativeSize="52.159468438538205" IsNewNode="True" />
-                <LayoutItem Id="ToDate" ViewItem="ToDate" Index="1" RelativeSize="47.840531561461795" IsNewNode="True" />
+              <LayoutGroup Id="Auto96d16b6c-4564-4d49-bc05-8ac1fee58ef7" ShowCaption="False" Caption="Auto96d16b6c-4564-4d49-bc05-8ac1fee58ef7(4)" Index="0" RelativeSize="81.038961038961034" Direction="Horizontal" IsNewNode="True">
+                <LayoutGroup Id="Auto4939c969-6ad5-4070-bca0-e7fe934e0440" ShowCaption="False" Caption="" Index="0" RelativeSize="51.92307692307692" IsNewNode="True">
+                  <LayoutItem Id="FromDate" ViewItem="FromDate" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                  <LayoutItem Id="Round" ViewItem="Round" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+                </LayoutGroup>
+                <LayoutItem Id="ToDate" ViewItem="ToDate" Index="1" RelativeSize="48.07692307692308" IsNewNode="True" />
               </LayoutGroup>
-              <LayoutItem Id="StockCountBinSearch" ViewItem="StockCountBinSearch" Index="1" RelativeSize="19.518716577540108" IsNewNode="True" />
+              <LayoutItem Id="StockCountBinSearch" ViewItem="StockCountBinSearch" Index="1" RelativeSize="18.961038961038962" IsNewNode="True" />
               <LayoutItem Id="FromDate" Removed="True" />
+              <LayoutItem Id="Round" Removed="True" />
               <LayoutItem Id="ToDate" Removed="True" />
             </LayoutGroup>
           </LayoutGroup>
-          <LayoutGroup Id="StockCountBinInquiryDetails_Group" Direction="Vertical" RelativeSize="91.566265060240966">
+          <LayoutGroup Id="StockCountBinInquiryDetails_Group" Direction="Vertical" RelativeSize="86.940298507462686">
             <LayoutItem Id="StockCountBinInquiryDetails" RelativeSize="100" />
           </LayoutGroup>
         </LayoutGroup>
@@ -4799,14 +4803,19 @@
       </Items>
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
-          <LayoutGroup Id="SimpleEditors" RelativeSize="8.4337349397590362">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="13.059701492537313">
             <LayoutGroup Id="StockCountItemInquiry" Direction="Horizontal" RelativeSize="100">
-              <LayoutItem Id="FromDate" RelativeSize="34.893048128342244" />
-              <LayoutItem Id="ToDate" RelativeSize="35.026737967914436" />
-              <LayoutItem Id="StockCountItemSearch" ViewItem="StockCountItemSearch" Index="2" RelativeSize="30.080213903743317" IsNewNode="True" />
+              <LayoutGroup Id="Autoae8af5f5-e81b-4f4d-ae1b-03faa6565332" ShowCaption="False" Caption="" Index="0" RelativeSize="37.922077922077925" IsNewNode="True">
+                <LayoutItem Id="FromDate" ViewItem="FromDate" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                <LayoutItem Id="Round" ViewItem="Round" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutItem Id="ToDate" RelativeSize="32.857142857142854" />
+              <LayoutItem Id="StockCountItemSearch" ViewItem="StockCountItemSearch" Index="2" RelativeSize="29.220779220779221" IsNewNode="True" />
+              <LayoutItem Id="FromDate" RelativeSize="34.893048128342244" Removed="True" />
+              <LayoutItem Id="Round" Removed="True" />
             </LayoutGroup>
           </LayoutGroup>
-          <LayoutGroup Id="StockCountItemInquiryDetails_Group" Direction="Vertical" RelativeSize="91.566265060240966">
+          <LayoutGroup Id="StockCountItemInquiryDetails_Group" Direction="Vertical" RelativeSize="86.940298507462686">
             <LayoutItem Id="StockCountItemInquiryDetails" RelativeSize="100" />
           </LayoutGroup>
         </LayoutGroup>
@@ -4935,18 +4944,18 @@
       </Items>
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
-          <LayoutGroup Id="SimpleEditors" RelativeSize="13.059701492537313">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="9.14179104477612">
             <LayoutGroup Id="StockCountVarianceInquiry" Direction="Horizontal" RelativeSize="100" Caption="StockCountVarianceInquiry">
-              <LayoutGroup Id="Auto226869be-5a42-40d9-8d47-8b7c8a8ead26" ShowCaption="False" Caption="Auto226869be-5a42-40d9-8d47-8b7c8a8ead26(4)" Index="0" RelativeSize="83.246073298429323" IsNewNode="True">
-                <LayoutItem Id="StockCountDate" ViewItem="StockCountDate" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
-                <LayoutItem Id="Warehouse" ViewItem="Warehouse" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+              <LayoutGroup Id="Auto226869be-5a42-40d9-8d47-8b7c8a8ead26" ShowCaption="False" Caption="Auto226869be-5a42-40d9-8d47-8b7c8a8ead26(4)" Index="0" RelativeSize="83.419689119170982" Direction="Horizontal" IsNewNode="True">
+                <LayoutItem Id="StockCountDate" ViewItem="StockCountDate" Index="0" RelativeSize="50" IsNewNode="True" />
+                <LayoutItem Id="Warehouse" ViewItem="Warehouse" Index="1" RelativeSize="50" IsNewNode="True" />
               </LayoutGroup>
-              <LayoutItem Id="VarianceSearch" ViewItem="VarianceSearch" Index="1" RelativeSize="16.753926701570681" IsNewNode="True" />
+              <LayoutItem Id="VarianceSearch" ViewItem="VarianceSearch" Index="1" RelativeSize="16.580310880829014" IsNewNode="True" />
               <LayoutItem Id="StockCountDate" Removed="True" />
               <LayoutItem Id="Warehouse" Removed="True" />
             </LayoutGroup>
           </LayoutGroup>
-          <LayoutGroup Id="StockCountVarianceInquiryDetails_Group" Direction="Vertical" RelativeSize="86.940298507462686">
+          <LayoutGroup Id="StockCountVarianceInquiryDetails_Group" Direction="Vertical" RelativeSize="90.858208955223887">
             <LayoutItem Id="StockCountVarianceInquiryDetails" RelativeSize="100" />
           </LayoutGroup>
         </LayoutGroup>

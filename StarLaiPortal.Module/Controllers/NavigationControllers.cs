@@ -193,7 +193,8 @@ namespace StarLaiPortal.Module.Controllers
                 detailView.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
 
                 newstockcountbin.FromDate = DateTime.Today;
-                newstockcountbin.ToDate = DateTime.Today.AddMonths(3);
+                newstockcountbin.ToDate = DateTime.Today;
+                newstockcountbin.Round = 1;
 
                 objectSpace.CommitChanges();
                 objectSpace.Refresh();
@@ -211,7 +212,8 @@ namespace StarLaiPortal.Module.Controllers
                 detailView.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
 
                 newstockcountitem.FromDate = DateTime.Today;
-                newstockcountitem.ToDate = DateTime.Today.AddMonths(3);
+                newstockcountitem.ToDate = DateTime.Today;
+                newstockcountitem.Round = 1;
 
                 objectSpace.CommitChanges();
                 objectSpace.Refresh();
