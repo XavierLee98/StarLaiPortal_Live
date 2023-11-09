@@ -229,7 +229,7 @@ namespace StarLaiPortal.Module.Controllers
             {
                 if (dtl.AdjustedPrice > dtl.SellingPrice && dtl.BaseDoc != null)
                 {
-                    if (dtl.Series == "BackOrdP" || dtl.Series == "BackOrdS")
+                    if (dtl.Series == "BackOrdS")
                     {
                         sellingprice = true;
                         if (sellingitem == null)
