@@ -169,6 +169,69 @@ namespace StarLaiPortal.Module.Controllers
             return DocNum;
         }
 
+        // Start ver 1.0.11
+        public string GenerateDODocNum(DocTypeList doctype, IObjectSpace os, TransferType transfertype, int series, string companyprefix)
+        {
+            string DocNum = null;
+
+            try
+            {
+                if (doctype == DocTypeList.WT)
+                {
+                    DocTypes snumber = os.FindObject<DocTypes>(CriteriaOperator.Parse("BoCode = ? and TransferType = ?", doctype, transfertype));
+
+                    if (DocNum == null)
+                    {
+                        DocNum = snumber.BoName + "-" + companyprefix + "-" + snumber.NextDocNum;
+                    }
+
+                    snumber.CurrectDocNum = snumber.NextDocNum;
+                    snumber.NextDocNum = snumber.NextDocNum + 1;
+
+                    os.CommitChanges();
+
+                }
+                else
+                {
+                    if (series != 0)
+                    {
+                        DocTypes snumber = os.FindObject<DocTypes>(CriteriaOperator.Parse("BoCode = ? and Series.Oid = ?", doctype, series));
+
+                        if (DocNum == null)
+                        {
+                            DocNum = snumber.BoName + "-" + companyprefix + "-" + snumber.NextDocNum;
+                        }
+
+                        snumber.CurrectDocNum = snumber.NextDocNum;
+                        snumber.NextDocNum = snumber.NextDocNum + 1;
+
+                        os.CommitChanges();
+                    }
+                    else
+                    {
+                        DocTypes snumber = os.FindObject<DocTypes>(CriteriaOperator.Parse("BoCode = ?", doctype));
+
+                        if (DocNum == null)
+                        {
+                            DocNum = snumber.BoName + "-" + companyprefix + "-" + snumber.NextDocNum;
+                        }
+
+                        snumber.CurrectDocNum = snumber.NextDocNum;
+                        snumber.NextDocNum = snumber.NextDocNum + 1;
+
+                        os.CommitChanges();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return DocNum;
+            }
+
+            return DocNum;
+        }
+        // End ver 1.0.11
+
         public string GetDocPrefix()
         {
             string prefix = null;
@@ -500,7 +563,10 @@ namespace StarLaiPortal.Module.Controllers
                         string picklistnum = null;
                         DeliveryOrder newdelivery = os.CreateObject<DeliveryOrder>();
 
-                        newdelivery.DocNum = GenerateDocNum(DocTypeList.DO, os, TransferType.NA, 0, docprefix);
+                        // Start ver 1.0.11
+                        //newdelivery.DocNum = GenerateDocNum(DocTypeList.DO, os, TransferType.NA, 0, docprefix);
+                        newdelivery.DocNum = GenerateDODocNum(DocTypeList.DO, os, TransferType.NA, 0, docprefix);
+                        // End  ver 1.0.11
                         newdelivery.Customer = newdelivery.Session.GetObjectByKey<vwBusniessPartner>(so.Customer.BPCode);
                         newdelivery.CustomerName = so.CustomerName;
                         newdelivery.Status = DocStatus.Submitted;
@@ -775,6 +841,23 @@ namespace StarLaiPortal.Module.Controllers
                             // End ver 1.0.10
                         }
                         // End ver 1.0.8.1
+
+                        // Start ver 1.0.11
+                        if (newdelivery.DocNum == null)
+                        {
+                            newdelivery.DocNum = GenerateDODocNum(DocTypeList.DO, os, TransferType.NA, 0, docprefix);
+
+                            Load loadlogex = loados.FindObject<Load>(CriteriaOperator.Parse("DocNum = ?", load.DocNum));
+
+                            loadlogex.Status = DocStatus.Submitted;
+                            LoadDocTrail exds = loados.CreateObject<LoadDocTrail>();
+                            exds.DocStatus = DocStatus.Submitted;
+                            exds.DocRemarks = "Warning : Doc Number cannot be blank, auto generated again.";
+                            loadlogex.LoadDocTrail.Add(exds);
+
+                            loados.CommitChanges();
+                        }
+                        // End ver 1.0.11
 
                         os.CommitChanges();
 
