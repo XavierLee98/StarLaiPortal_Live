@@ -223,6 +223,12 @@ namespace StarLaiPortal.Module.Controllers
                 showMsg("Error", "Unit price not allow more than 0 for FOC item.", InformationType.Error);
                 return;
             }
+
+            if (selectedObject.PurchaseOrderDetails.Where(x => x.AdjustedPrice == 0 && x.FOC == false).Count() > 0)
+            {
+                showMsg("Error", "Unit price 0 must tick FOC.", InformationType.Error);
+                return;
+            }
             // End ver 1.0.12
 
             foreach (PurchaseOrderDetails dtl in selectedObject.PurchaseOrderDetails)
