@@ -42,6 +42,7 @@ namespace StarLaiPortal.Module.Controllers
             this.CancelSCC.Active.SetItemValue("Enabled", false);
             this.ExportConfirmCountItems.Active.SetItemValue("Enabled", false);
             this.ImportConfirmCountItems.Active.SetItemValue("Enabled", false);
+            this.PrintStockConfirm.Active.SetItemValue("Enabled", false);
         }
         protected override void OnViewControlsCreated()
         {
@@ -56,11 +57,13 @@ namespace StarLaiPortal.Module.Controllers
                 {
                     this.SubmitSCC.Active.SetItemValue("Enabled", true);
                     this.CancelSCC.Active.SetItemValue("Enabled", true);
+                    this.PrintStockConfirm.Active.SetItemValue("Enabled", true);
                 }
                 else
                 {
                     this.SubmitSCC.Active.SetItemValue("Enabled", false);
                     this.CancelSCC.Active.SetItemValue("Enabled", false);
+                    this.PrintStockConfirm.Active.SetItemValue("Enabled", false);
                 }
 
                 if (((DetailView)View).ViewEditMode == ViewEditMode.Edit)
@@ -80,6 +83,7 @@ namespace StarLaiPortal.Module.Controllers
                 this.CancelSCC.Active.SetItemValue("Enabled", false);
                 this.ExportConfirmCountItems.Active.SetItemValue("Enabled", false);
                 this.ImportConfirmCountItems.Active.SetItemValue("Enabled", false);
+                this.PrintStockConfirm.Active.SetItemValue("Enabled", false);
             }
         }
         protected override void OnDeactivated()
@@ -265,6 +269,54 @@ namespace StarLaiPortal.Module.Controllers
             //e.Maximized = true;
 
             e.View = view;
+        }
+
+        private void PrintStockConfirm_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            string strServer;
+            string strDatabase;
+            string strUserID;
+            string strPwd;
+            string filename;
+
+            SqlConnection conn = new SqlConnection(genCon.getConnectionString());
+            StockCountConfirm stockconfirm = (StockCountConfirm)View.CurrentObject;
+            ApplicationUser user = (ApplicationUser)SecuritySystem.CurrentUser;
+
+            try
+            {
+                ReportDocument doc = new ReportDocument();
+                strServer = ConfigurationManager.AppSettings.Get("SQLserver").ToString();
+                doc.Load(HttpContext.Current.Server.MapPath("~\\Reports\\StockCountConfirm.rpt"));
+                strDatabase = conn.Database;
+                strUserID = ConfigurationManager.AppSettings.Get("SQLID").ToString();
+                strPwd = ConfigurationManager.AppSettings.Get("SQLPass").ToString();
+                doc.DataSourceConnections[0].SetConnection(strServer, strDatabase, strUserID, strPwd);
+                doc.Refresh();
+
+                doc.SetParameterValue("dockey@", stockconfirm.Oid);
+                doc.SetParameterValue("dbName@", conn.Database);
+
+                filename = ConfigurationManager.AppSettings.Get("ReportPath").ToString() + conn.Database
+                    + "_" + stockconfirm.Oid + "_" + user.UserName + "_StockConfirm_"
+                    + DateTime.Parse(stockconfirm.StockCountDate.ToString()).ToString("yyyyMMdd") + ".pdf";
+
+                doc.ExportToDisk(ExportFormatType.PortableDocFormat, filename);
+                doc.Close();
+                doc.Dispose();
+
+                string url = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority +
+                    ConfigurationManager.AppSettings.Get("PrintPath").ToString() + conn.Database
+                    + "_" + stockconfirm.Oid + "_" + user.UserName + "_StockConfirm_"
+                    + DateTime.Parse(stockconfirm.StockCountDate.ToString()).ToString("yyyyMMdd") + ".pdf";
+                var script = "window.open('" + url + "');";
+
+                WebWindow.CurrentRequestWindow.RegisterStartupScript("DownloadFile", script);
+            }
+            catch (Exception ex)
+            {
+                showMsg("Fail", ex.Message, InformationType.Error);
+            }
         }
     }
 }
