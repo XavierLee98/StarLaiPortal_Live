@@ -199,16 +199,29 @@ namespace StarLaiPortal.WebApi.API.Controller
                     if (isFoundDuplicate)
                         return Problem($"Pick List No. {duplicateId} already been packed.");
 
+                    ISecurityStrategyBase security = securityProvider.GetSecurity();
+
+                    var userId = security.UserId;
+                    var userName = security.UserName;
+
+                    LogHelper.CreateLog(Configuration.GetConnectionString("ConnectionString"), userId.ToString(), "Pack(Draft)", obj);
+
+                    var isduplicatejson = detailsObject
+                    .GroupBy(x => new { x.BaseId, x.Bundle })
+                    .Any(g => g.Count() > 1);
+
+                    if (isduplicatejson) return Problem("Duplicate Key found. Please try again. [JSON]");
+
                     int packOIDResult = -1;
                     string packDocNumResult = "";
 
-                    ISecurityStrategyBase security = securityProvider.GetSecurity();
-                    var userId = security.UserId;
-                    var userName = security.UserName;
+                    int isUpdate = -1;
 
                     //New Document
                     if (PackOid == -1) 
                     {
+                        isUpdate = 0;
+
                         IObjectSpace newObjectSpace = objectSpaceFactory.CreateObjectSpace<PackList>();
 
                         PackList curobj = null;
@@ -258,6 +271,12 @@ namespace StarLaiPortal.WebApi.API.Controller
                         curobj.Customer = customer;
                         curobj.Warehouse = newObjectSpace.GetObjectByKey<vwWarehouse>(warehouse);
 
+                        var isduplicate = curobj.PackListDetails
+                        .GroupBy(x => new { x.BaseId, x.Bundle })
+                        .Any(g => g.Count() > 1);
+
+                        if (isduplicate) return Problem("Duplicate Key found. Please try again.");
+
                         curobj.Save();
 
                         var companyPrefix = CompanyCommanHelper.GetCompanyPrefix(dynamicObj.companyDB);
@@ -269,9 +288,12 @@ namespace StarLaiPortal.WebApi.API.Controller
 
                         packOIDResult = curobj.Oid;
                         packDocNumResult = curobj.DocNum;
+
                     }
                     else
                     {
+                        isUpdate = 1;
+
                         IObjectSpace newObjectSpace = objectSpaceFactory.CreateObjectSpace<PackListDetails>();
                         IObjectSpace packOS = objectSpaceFactory.CreateObjectSpace<PackList>();
                         PackList packobj = packOS.FindObject<PackList>(CriteriaOperator.Parse("Oid = ?", PackOid));
@@ -305,6 +327,12 @@ namespace StarLaiPortal.WebApi.API.Controller
                             objs.Add(curobj);
                         }
 
+                        var isduplicate = objs
+                        .GroupBy(x => new { x.BaseId, x.Bundle })
+                        .Any(g => g.Count() > 1);
+
+                        if (isduplicate) return Problem("Duplicate Key found. Please try again.");
+
                         newObjectSpace.CommitChanges();
                         packOIDResult = packobj.Oid;
                         packDocNumResult = packobj.DocNum;
@@ -316,7 +344,7 @@ namespace StarLaiPortal.WebApi.API.Controller
                         }
                     }
 
-                    return Ok(new { oid = packOIDResult, docnum = packDocNumResult });
+                    return Ok(new { oid = packOIDResult, docnum = packDocNumResult, IsUpdate =  isUpdate});
                 }
                 catch (Exception excep)
                 {
@@ -336,10 +364,6 @@ namespace StarLaiPortal.WebApi.API.Controller
             {
                 dynamic dynamicObj = obj;
                 int PackOid = (int)dynamicObj.PackOid;
-
-                ISecurityStrategyBase security = securityProvider.GetSecurity();
-                var userId = security.UserId;
-                var userName = security.UserName;
 
                 try
                 {
@@ -361,11 +385,16 @@ namespace StarLaiPortal.WebApi.API.Controller
                     throw new Exception("Validation Error. " + excep.Message);
                 }
 
+                ISecurityStrategyBase security = securityProvider.GetSecurity();
+
+                var userId = security.UserId;
+                var userName = security.UserName;
+
                 //Check All Picklist whether already pack?
                 var detailsObject = (IEnumerable<dynamic>)dynamicObj.PackListDetails;
                 if (detailsObject == null)
                 {
-                    if(PackOid == -1) return Problem("Pack List Details are null.");
+                    if (PackOid == -1) return Problem("Pack List Details are null.");
                     else
                     {
                         IObjectSpace packOS = objectSpaceFactory.CreateObjectSpace<PackList>();
@@ -420,11 +449,23 @@ namespace StarLaiPortal.WebApi.API.Controller
                 if (isFoundDuplicate)
                     return Problem($"Pick List No. {duplicateId} already been packed.");
 
+                LogHelper.CreateLog(Configuration.GetConnectionString("ConnectionString"), userId.ToString(), "Pack(Done)", obj);
+
+                var isduplicatejson = detailsObject
+                        .GroupBy(x => new { x.BaseId, x.Bundle })
+                        .Any(g => g.Count() > 1);
+
+                if (isduplicatejson) return Problem("Duplicate Key found. Please try again. [JSON]");
+
                 int packOIDResult = -1;
                 string packDocNumResult = "";
 
+                int isUpdate = -1;
+
                 if (PackOid == -1)
                 {
+                    isUpdate = 0;
+
                     IObjectSpace newObjectSpace = objectSpaceFactory.CreateObjectSpace<PackList>();
 
                     PackList curobj = null;
@@ -474,6 +515,12 @@ namespace StarLaiPortal.WebApi.API.Controller
                     curobj.Customer = customer;
                     curobj.Warehouse = newObjectSpace.GetObjectByKey<vwWarehouse>(warehouse);
 
+                    var isduplicate = curobj.PackListDetails
+                        .GroupBy(x => new { x.BaseId, x.Bundle })
+                        .Any(g => g.Count() > 1);
+
+                    if (isduplicate) return Problem("Duplicate Key found. Please try again.");
+
                     curobj.Save();
 
                     var companyPrefix = CompanyCommanHelper.GetCompanyPrefix(dynamicObj.companyDB);
@@ -488,6 +535,8 @@ namespace StarLaiPortal.WebApi.API.Controller
                 }
                 else
                 {
+                    isUpdate = 1;
+
                     IObjectSpace newObjectSpace = objectSpaceFactory.CreateObjectSpace<PackListDetails>();
                     IObjectSpace packOS = objectSpaceFactory.CreateObjectSpace<PackList>();
                     PackList packobj = packOS.FindObject<PackList>(CriteriaOperator.Parse("Oid = ?", PackOid));
@@ -521,6 +570,12 @@ namespace StarLaiPortal.WebApi.API.Controller
                         objs.Add(curobj);
                     }
 
+                    var isduplicate = objs
+                        .GroupBy(x => new { x.BaseId, x.Bundle })
+                        .Any(g => g.Count() > 1);
+
+                    if (isduplicate) return Problem("Duplicate Key found. Please try again.");
+
                     newObjectSpace.CommitChanges();
                     packOIDResult = packobj.Oid;
                     packDocNumResult = packobj.DocNum;
@@ -530,7 +585,7 @@ namespace StarLaiPortal.WebApi.API.Controller
                 {
                     string json = JsonConvert.SerializeObject(new { oid = packOIDResult, username = userName });
                     conn.Query($"exec sp_afterdatasave 'PackList', '{json}'");
-                    return Ok(new { oid = packOIDResult, docnum = packDocNumResult });
+                    return Ok(new { oid = packOIDResult, docnum = packDocNumResult, IsUpdate = isUpdate });
                 }
             }
             catch (Exception ex)
@@ -570,6 +625,11 @@ namespace StarLaiPortal.WebApi.API.Controller
                 if(detailsObject == null) 
                     return Problem("Pack List Details are null.");
 
+                ISecurityStrategyBase security = securityProvider.GetSecurity();
+
+                var userId = security.UserId;
+                var userName = security.UserName;
+
                 var distinctIds = detailsObject?.Select(x => x.BaseDoc.ToString()).Distinct();
 
                 bool isFoundDuplicate = false;
@@ -578,8 +638,6 @@ namespace StarLaiPortal.WebApi.API.Controller
                 {
                     using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
                     {
-                        //var count = conn.Query<int>($"exec sp_beforedatasave 'ValidatePickToPack', '{JsonConvert.SerializeObject(new { picklist = baseId, packlist = -1 })}'").FirstOrDefault();
-
                         var count = conn.Query<int>($"exec sp_beforedatasave 'ValidatePickToPack', '{JsonConvert.SerializeObject(new { picklist = baseId })}'").FirstOrDefault();
                         if (count > 0)
                         {
@@ -593,11 +651,15 @@ namespace StarLaiPortal.WebApi.API.Controller
                 if (isFoundDuplicate) 
                     return Problem($"Pick List No. {duplicateId} already been packed.");
 
-                IObjectSpace newObjectSpace = objectSpaceFactory.CreateObjectSpace<PackList>();
-                ISecurityStrategyBase security = securityProvider.GetSecurity();
+                var isduplicatejson = detailsObject
+                        .GroupBy(x => new { x.BaseId, x.Bundle })
+                        .Any(g => g.Count() > 1);
 
-                var userId = security.UserId;
-                var userName = security.UserName;
+                if (isduplicatejson) return Problem("Duplicate Key found. Please try again. [JSON]");
+
+                LogHelper.CreateLog(Configuration.GetConnectionString("ConnectionString"), userId.ToString(), "Pack", obj);
+
+                IObjectSpace newObjectSpace = objectSpaceFactory.CreateObjectSpace<PackList>();
 
                 PackList curobj = null;
                 curobj = newObjectSpace.CreateObject<PackList>();
@@ -645,6 +707,12 @@ namespace StarLaiPortal.WebApi.API.Controller
                 curobj.Priority = newObjectSpace.GetObjectByKey<PriorityType>(priority);
                 curobj.Customer = customer;
                 curobj.Warehouse = newObjectSpace.GetObjectByKey<vwWarehouse>(warehouse);
+
+                var isduplicate = curobj.PackListDetails
+                        .GroupBy(x => new { x.BaseId, x.Bundle })
+                        .Any(g => g.Count() > 1);
+
+                if (isduplicate) return Problem("Duplicate Key found. Please try again.");
 
                 curobj.Save();
 
