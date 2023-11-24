@@ -33,6 +33,7 @@
             this.CancelSCC = new DevExpress.ExpressApp.Actions.PopupWindowShowAction(this.components);
             this.ExportConfirmCountItems = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             this.ImportConfirmCountItems = new DevExpress.ExpressApp.Actions.PopupWindowShowAction(this.components);
+            this.PrintStockConfirm = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             // 
             // SubmitSCC
             // 
@@ -79,12 +80,22 @@
             this.ImportConfirmCountItems.CustomizePopupWindowParams += new DevExpress.ExpressApp.Actions.CustomizePopupWindowParamsEventHandler(this.ImportConfirmCountItems_CustomizePopupWindowParams);
             this.ImportConfirmCountItems.Execute += new DevExpress.ExpressApp.Actions.PopupWindowShowActionExecuteEventHandler(this.ImportConfirmCountItems_Execute);
             // 
+            // PrintStockConfirm
+            // 
+            this.PrintStockConfirm.Caption = "Print";
+            this.PrintStockConfirm.Category = "ObjectsCreation";
+            this.PrintStockConfirm.ConfirmationMessage = null;
+            this.PrintStockConfirm.Id = "PrintStockConfirm";
+            this.PrintStockConfirm.ToolTip = null;
+            this.PrintStockConfirm.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.PrintStockConfirm_Execute);
+            // 
             // StockCountConfirmControllers
             // 
             this.Actions.Add(this.SubmitSCC);
             this.Actions.Add(this.CancelSCC);
             this.Actions.Add(this.ExportConfirmCountItems);
             this.Actions.Add(this.ImportConfirmCountItems);
+            this.Actions.Add(this.PrintStockConfirm);
 
         }
 
@@ -94,5 +105,6 @@
         private DevExpress.ExpressApp.Actions.PopupWindowShowAction CancelSCC;
         private DevExpress.ExpressApp.Actions.SimpleAction ExportConfirmCountItems;
         private DevExpress.ExpressApp.Actions.PopupWindowShowAction ImportConfirmCountItems;
+        private DevExpress.ExpressApp.Actions.SimpleAction PrintStockConfirm;
     }
 }

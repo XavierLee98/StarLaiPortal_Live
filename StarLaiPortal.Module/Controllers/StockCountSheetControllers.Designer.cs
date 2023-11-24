@@ -36,6 +36,7 @@
             this.ImportSheetCountedItems = new DevExpress.ExpressApp.Actions.PopupWindowShowAction(this.components);
             this.ExportSheetTargetItems = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             this.ExportSheetCountedItems = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
+            this.PrintStockSheet = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             // 
             // SubmitSCS
             // 
@@ -115,6 +116,15 @@
             this.ExportSheetCountedItems.ToolTip = null;
             this.ExportSheetCountedItems.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.ExportSheetCountedItems_Execute);
             // 
+            // PrintStockSheet
+            // 
+            this.PrintStockSheet.Caption = "Print";
+            this.PrintStockSheet.Category = "ObjectsCreation";
+            this.PrintStockSheet.ConfirmationMessage = null;
+            this.PrintStockSheet.Id = "PrintStockSheet";
+            this.PrintStockSheet.ToolTip = null;
+            this.PrintStockSheet.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.PrintStockSheet_Execute);
+            // 
             // StockCountSheetControllers
             // 
             this.Actions.Add(this.SubmitSCS);
@@ -124,6 +134,7 @@
             this.Actions.Add(this.ImportSheetCountedItems);
             this.Actions.Add(this.ExportSheetTargetItems);
             this.Actions.Add(this.ExportSheetCountedItems);
+            this.Actions.Add(this.PrintStockSheet);
 
         }
 
@@ -136,5 +147,6 @@
         private DevExpress.ExpressApp.Actions.PopupWindowShowAction ImportSheetCountedItems;
         private DevExpress.ExpressApp.Actions.SimpleAction ExportSheetTargetItems;
         private DevExpress.ExpressApp.Actions.SimpleAction ExportSheetCountedItems;
+        private DevExpress.ExpressApp.Actions.SimpleAction PrintStockSheet;
     }
 }

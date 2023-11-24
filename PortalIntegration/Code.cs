@@ -4843,7 +4843,7 @@ namespace PortalIntegration
                     oDoc.Comments = oTargetDoc.Remarks;
                     oDoc.UserFields.Fields.Item("U_PortalDocNum").Value = oTargetDoc.DocNum;
 
-                    string getitem = "SELECT T1.ItemCode, T1.Quantity -  ISNULL(SUM(T2.Qty), 0), T1.OID, T3.AvgPrice From StockCountConfirm T0 " +
+                    string getitem = "SELECT T1.ItemCode, T1.Quantity -  ISNULL(SUM(T2.Qty), 0), T1.OID, ISNULL(T3.AvgPrice, 0) From StockCountConfirm T0 " +
                         "INNER JOIN StockCountConfirmDetails T1 on T0.OID = T1.StockCountConfirm AND T1.GCRecord is null " +
                         "LEFT JOIN " +
                         "( " +

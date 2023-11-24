@@ -26,6 +26,7 @@ using CrystalDecisions.Shared;
 using DevExpress.ExpressApp.Web;
 using System.Configuration;
 using System.Web;
+using StarLaiPortal.Module.BusinessObjects.Sales_Order;
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -49,6 +50,7 @@ namespace StarLaiPortal.Module.Controllers
             this.ImportSheetTargetItems.Active.SetItemValue("Enabled", false);
             this.ExportSheetCountedItems.Active.SetItemValue("Enabled", false);
             this.ImportSheetCountedItems.Active.SetItemValue("Enabled", false);
+            this.PrintStockSheet.Active.SetItemValue("Enabled", false);
         }
         protected override void OnViewControlsCreated()
         {
@@ -64,12 +66,14 @@ namespace StarLaiPortal.Module.Controllers
                     this.SubmitSCS.Active.SetItemValue("Enabled", true);
                     this.CancelSCS.Active.SetItemValue("Enabled", true);
                     this.CloseSCS.Active.SetItemValue("Enabled", true);
+                    this.PrintStockSheet.Active.SetItemValue("Enabled", true);
                 }
                 else
                 {
                     this.SubmitSCS.Active.SetItemValue("Enabled", false);
                     this.CancelSCS.Active.SetItemValue("Enabled", false);
                     this.CloseSCS.Active.SetItemValue("Enabled", false);
+                    this.PrintStockSheet.Active.SetItemValue("Enabled", false);
                 }
 
                 if (((DetailView)View).ViewEditMode == ViewEditMode.Edit)
@@ -96,6 +100,7 @@ namespace StarLaiPortal.Module.Controllers
                 this.ImportSheetTargetItems.Active.SetItemValue("Enabled", false);
                 this.ExportSheetCountedItems.Active.SetItemValue("Enabled", false);
                 this.ImportSheetCountedItems.Active.SetItemValue("Enabled", false);
+                this.PrintStockSheet.Active.SetItemValue("Enabled", false);
             }
         }
         protected override void OnDeactivated()
@@ -387,6 +392,54 @@ namespace StarLaiPortal.Module.Controllers
                 string url = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority +
                     ConfigurationManager.AppSettings.Get("PrintPath").ToString() + conn.Database
                     + "_" + sheetcounted.DocNum + "_" + user.UserName + "_SheetCountedImport_" + ".xls";
+                var script = "window.open('" + url + "');";
+
+                WebWindow.CurrentRequestWindow.RegisterStartupScript("DownloadFile", script);
+            }
+            catch (Exception ex)
+            {
+                showMsg("Fail", ex.Message, InformationType.Error);
+            }
+        }
+
+        private void PrintStockSheet_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            string strServer;
+            string strDatabase;
+            string strUserID;
+            string strPwd;
+            string filename;
+
+            SqlConnection conn = new SqlConnection(genCon.getConnectionString());
+            StockCountSheet stocksheet = (StockCountSheet)View.CurrentObject;
+            ApplicationUser user = (ApplicationUser)SecuritySystem.CurrentUser;
+
+            try
+            {
+                ReportDocument doc = new ReportDocument();
+                strServer = ConfigurationManager.AppSettings.Get("SQLserver").ToString();
+                doc.Load(HttpContext.Current.Server.MapPath("~\\Reports\\StockCountSheet.rpt"));
+                strDatabase = conn.Database;
+                strUserID = ConfigurationManager.AppSettings.Get("SQLID").ToString();
+                strPwd = ConfigurationManager.AppSettings.Get("SQLPass").ToString();
+                doc.DataSourceConnections[0].SetConnection(strServer, strDatabase, strUserID, strPwd);
+                doc.Refresh();
+
+                doc.SetParameterValue("dockey@", stocksheet.Oid);
+                doc.SetParameterValue("dbName@", conn.Database);
+
+                filename = ConfigurationManager.AppSettings.Get("ReportPath").ToString() + conn.Database
+                    + "_" + stocksheet.Oid + "_" + user.UserName + "_StockSheet_"
+                    + DateTime.Parse(stocksheet.StockCountDate.ToString()).ToString("yyyyMMdd") + ".pdf";
+
+                doc.ExportToDisk(ExportFormatType.PortableDocFormat, filename);
+                doc.Close();
+                doc.Dispose();
+
+                string url = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority +
+                    ConfigurationManager.AppSettings.Get("PrintPath").ToString() + conn.Database
+                    + "_" + stocksheet.Oid + "_" + user.UserName + "_StockSheet_"
+                    + DateTime.Parse(stocksheet.StockCountDate.ToString()).ToString("yyyyMMdd") + ".pdf";
                 var script = "window.open('" + url + "');";
 
                 WebWindow.CurrentRequestWindow.RegisterStartupScript("DownloadFile", script);
