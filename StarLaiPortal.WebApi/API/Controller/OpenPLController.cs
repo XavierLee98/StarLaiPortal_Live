@@ -121,6 +121,33 @@ namespace StarLaiPortal.WebApi.API.Controller
 
                 var detailsObject = (IEnumerable<dynamic>)dynamicObj.PickListDetailsActuals;
 
+                //if (detailsObject != null)
+                //{
+                //    foreach (var line in detailsObject)
+                //    {
+                //        if (string.IsNullOrEmpty(line.ToBin))
+                //        {
+                //            return Problem("The ToBin value is null. Please select Tobin.");
+                //        }
+                //    }
+
+                //    using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
+                //    {
+                //        var itembins = detailsObject.GroupBy(x => new { x.ItemCode, x.FromBin }).Select(y => new { y.Key.ItemCode, y.Key.FromBin, PickQty = y.Sum(x => x.PickQty) });
+
+                //        foreach (var line in itembins)
+                //        {
+                //            string json = JsonConvert.SerializeObject(new { itemcode = line.ItemCode, bincode = line.FromBin, quantity = line.PickQty });
+
+                //            var validateBalance = conn.Query<ValidateJson>($"exec sp_beforedatasave 'ValidateStockBalance', '{json}'").FirstOrDefault();
+                //            if (validateBalance.Error)
+                //            {
+                //                return Problem(validateBalance.ErrorMessage);
+                //            }
+                //        }
+                //    }
+                //}
+
                 if (detailsObject != null)
                 {
                     using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
@@ -130,6 +157,11 @@ namespace StarLaiPortal.WebApi.API.Controller
                             if (string.IsNullOrEmpty(line.ToBin))
                             {
                                 return Problem("The ToBin value is null. Please select Tobin.");
+                            }
+
+                            if (line.FromBin == line.ToBin)
+                            {
+                                return Problem($"From Bin and To Bin cannot be same.");
                             }
 
                             string json = JsonConvert.SerializeObject(new { itemcode = line.ItemCode, bincode = line.FromBin, quantity = line.PickQty });
@@ -155,6 +187,7 @@ namespace StarLaiPortal.WebApi.API.Controller
                 var userId = security.UserId;
                 var userName = security.UserName;
 
+
                 if (plobj.Status != DocStatus.Draft)
                 {
                     return Problem($"Update Failed. Pick List No. {plobj.DocNum} already {plobj.Status}.");
@@ -176,6 +209,8 @@ namespace StarLaiPortal.WebApi.API.Controller
                 plobj.Picker = plOS.GetObjectByKey<ApplicationUser>(userId);
 
                 plOS.CommitChanges();
+
+                LogHelper.CreateLog(Configuration.GetConnectionString("ConnectionString"), userId.ToString(), "Picking", obj);
 
                 List<PickListDetailsActual> objs = new List<PickListDetailsActual>();
                 foreach (ExpandoObject exobj in dynamicObj.PickListDetailsActuals)
