@@ -63,6 +63,8 @@ namespace StarLaiPortal.WebApi.API.Controller
                 var userId = security.UserId;
                 var userName = security.UserName;
 
+                LogHelper.CreateLog(Configuration.GetConnectionString("ConnectionString"), userId.ToString(), "BinTransfer(From)", obj);
+
                 WarehouseTransfers curobj = null;
                 curobj = newObjectSpace.CreateObject<WarehouseTransfers>();
                 ExpandoParser.ParseExObjectXPO<WarehouseTransfers>(obj, curobj, newObjectSpace);
@@ -155,13 +157,13 @@ namespace StarLaiPortal.WebApi.API.Controller
                 var userId = security.UserId;
                 var userName = security.UserName;
 
-
+                LogHelper.CreateLog(Configuration.GetConnectionString("ConnectionString"), userId.ToString(), "BinTransfer(To)", obj);
 
                 using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
                 {
-
                     if (dynamicObj.WarehouseTransferDetails != null)
                     {
+
                         foreach (dynamic dtl in dynamicObj.WarehouseTransferDetails)
                         {
                             WarehouseTransferDetails detail = transfers.WarehouseTransferDetails.FirstOrDefault(line => line.Oid == dtl.Oid);

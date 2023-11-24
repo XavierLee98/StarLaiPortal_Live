@@ -145,6 +145,8 @@ namespace StarLaiPortal.WebApi.API.Controller
                 var userId = security.UserId;
                 var userName = security.UserName;
 
+                LogHelper.CreateLog(Configuration.GetConnectionString("ConnectionString"), userId.ToString(), "PurchaseReturn", obj);
+
                 PurchaseReturns curobj = null;
                 curobj = newObjectSpace.CreateObject<PurchaseReturns>();
                 ExpandoParser.ParseExObjectXPO<PurchaseReturns>(obj, curobj, newObjectSpace);

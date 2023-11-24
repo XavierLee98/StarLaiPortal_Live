@@ -81,6 +81,8 @@ namespace StarLaiPortal.WebApi.API.Controller
                 var userId = security.UserId;
                 var userName = security.UserName;
 
+                LogHelper.CreateLog(Configuration.GetConnectionString("ConnectionString"), userId.ToString(), "BundleTransfer(From)", obj);
+
                 WarehouseTransfers curobj = null;
                 curobj = newObjectSpace.CreateObject<WarehouseTransfers>();
                 ExpandoParser.ParseExObjectXPO<WarehouseTransfers>(obj, curobj, newObjectSpace);
@@ -173,6 +175,7 @@ namespace StarLaiPortal.WebApi.API.Controller
                 var userId = security.UserId;
                 var userName = security.UserName;
 
+                LogHelper.CreateLog(Configuration.GetConnectionString("ConnectionString"), userId.ToString(), "BundleTransfer(To)", obj);
 
                 if (dynamicObj.WarehouseTransferDetails != null && ((IEnumerable<dynamic>)dynamicObj.WarehouseTransferDetails).Count() > 0)
                 {

@@ -67,6 +67,8 @@ namespace StarLaiPortal.WebApi.API.Controller
                 var userId = security.UserId;
                 var userName = security.UserName;
 
+                LogHelper.CreateLog(Configuration.GetConnectionString("ConnectionString"), userId.ToString(), "PutAway", obj);
+
                 WarehouseTransfers curobj = null;
                 curobj = newObjectSpace.CreateObject<WarehouseTransfers>();
                 ExpandoParser.ParseExObjectXPO<WarehouseTransfers>(obj, curobj, newObjectSpace);
