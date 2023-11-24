@@ -25,6 +25,7 @@
         public int PickDetailOID { get; set; }
         public string PickListDocNum { get; set; }
         public string Customer { get; set; }
+        public string CustomerID { get; set; }
         public List<PackedBundle> packedBundles { get; set; }
         public string BundleListStr { get; set; }
     }
