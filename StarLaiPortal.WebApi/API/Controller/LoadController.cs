@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 using StarLaiPortal.Module.BusinessObjects;
 using StarLaiPortal.Module.BusinessObjects.Load;
 using StarLaiPortal.Module.BusinessObjects.Pack_List;
+using StarLaiPortal.Module.BusinessObjects.Pick_List;
+using StarLaiPortal.Module.BusinessObjects.Sales_Order;
 using StarLaiPortal.Module.BusinessObjects.Setup;
 using StarLaiPortal.Module.BusinessObjects.View;
 using StarLaiPortal.Module.Controllers;
@@ -132,18 +134,7 @@ namespace StarLaiPortal.WebApi.API.Controller
 
                 try
                 {
-                    using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
-                    {
-                        string jsonString = JsonConvert.SerializeObject(obj);
 
-                        jsonString = jsonString.Replace("'", "''");
-
-                        var insertResult = conn.Execute($"exec sp_App_InsertAppPostLog 'Loading', '{userId}', '{jsonString}'");
-                        if (insertResult < 0)
-                        {
-                            return Problem("Fail to insert Log.");
-                        }
-                    }
 
                     using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
                     {
@@ -180,7 +171,22 @@ namespace StarLaiPortal.WebApi.API.Controller
                     throw new Exception("Validation Error. " + excep.Message);
                 }
 
+                //using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
+                //{
+                //    string jsonString = JsonConvert.SerializeObject(obj);
+
+                //    jsonString = jsonString.Replace("'", "''");
+
+                //    var insertResult = conn.Execute($"exec sp_App_InsertAppPostLog 'Loading', '{userId}', '{jsonString}'");
+                //    if (insertResult < 0)
+                //    {
+                //        return Problem("Fail to insert Log.");
+                //    }
+                //}
+
                 IObjectSpace newObjectSpace = objectSpaceFactory.CreateObjectSpace<Load>();
+
+                LogHelper.CreateLog(Configuration.GetConnectionString("ConnectionString"), userId.ToString(), "Loading", obj);
 
                 Load curobj = null;
                 //curobj = new PickListDetailsActual(((DevExpress.ExpressApp.Xpo.XPObjectSpace)newObjectSpace).Session);
@@ -237,9 +243,13 @@ namespace StarLaiPortal.WebApi.API.Controller
                     conn.Query($"exec sp_afterdatasave 'Loading', '{json}'");
                 }
 
-                IObjectSpace Loados = objectSpaceFactory.CreateObjectSpace<Load>();
+                IObjectSpace loados = objectSpaceFactory.CreateObjectSpace<Load>();
+                IObjectSpace packos = objectSpaceFactory.CreateObjectSpace<PackList>();
+                IObjectSpace pickos = objectSpaceFactory.CreateObjectSpace<PickList>();
+                IObjectSpace soos = objectSpaceFactory.CreateObjectSpace<SalesOrder>();
 
-                var result = con.GenerateDO(Configuration.GetConnectionString("ConnectionString"), curobj, newObjectSpace, Loados, companyPrefix);
+
+                var result = con.GenerateDO(Configuration.GetConnectionString("ConnectionString"), curobj, newObjectSpace, loados, packos, pickos, soos, companyPrefix);
 
                 if (result == 0) throw new Exception($"Fail to generate Delivery for Load ({curobj.DocNum}). ");
 
