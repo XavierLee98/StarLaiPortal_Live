@@ -836,6 +836,10 @@ namespace StarLaiPortal.Module.Controllers
                             // Start ver 1.0.10
                             if (newdelivery.Warehouse == null)
                             {
+                                // Start ver 1.0.11
+                                WriteLog("[INFO]", "Warehouse Info. - " + dtl.Warehouse.WarehouseCode, conn.Database);
+                                // End ver 1.0.11
+
                                 newdelivery.Warehouse = newdelivery.Session.GetObjectByKey<vwWarehouse>(dtl.Warehouse.WarehouseCode);
                             }
                             // End ver 1.0.10
@@ -843,7 +847,7 @@ namespace StarLaiPortal.Module.Controllers
                         // End ver 1.0.8.1
 
                         // Start ver 1.0.11
-                        WriteLog("[INFO]", "Update Header Info. - " + reader.GetString(0), conn.Database);
+                        WriteLog("[INFO]", "Updated Header Info. - " + reader.GetString(0), conn.Database);
                         // End ver 1.0.11
 
                         // Start ver 1.0.11
