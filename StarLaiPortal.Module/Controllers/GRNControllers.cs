@@ -661,7 +661,7 @@ namespace StarLaiPortal.Module.Controllers
             }
             // End ver 1.0.9
 
-                if (selectedObject.InvoiceNo != null)
+            if (selectedObject.InvoiceNo != null)
             {
                 if (selectedObject.IsValid == true)
                 {
@@ -703,7 +703,7 @@ namespace StarLaiPortal.Module.Controllers
                                         asndetail.CopyTotalQty = asndetail.CopyTotalQty + dtl.Received;
                                     }
 
-                                    if (asndetail.Oid.ToString() == dtl.ASNBaseId && asndetail.CopyTotalQty == asndetail.UnloadQty)
+                                    if (asndetail.Oid.ToString() == dtl.ASNBaseId && asndetail.CopyTotalQty >= asndetail.UnloadQty)
                                     {
                                         asndetail.LineClosed = true;
                                         asndetail.CopyToQty = asndetail.CopyTotalQty;

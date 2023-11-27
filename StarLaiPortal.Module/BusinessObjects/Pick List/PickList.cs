@@ -18,6 +18,7 @@ using System.Text;
 
 // 2023-08-25 add picklistactual validation ver 1.0.9
 // 2023-04-09 fix speed issue ver 1.0.8.1
+// 2023-11-27 add validation to block submit if pickqty is zero ver 1.0.13
 
 namespace StarLaiPortal.Module.BusinessObjects.Pick_List
 {
@@ -592,6 +593,25 @@ namespace StarLaiPortal.Module.BusinessObjects.Pick_List
                 return false;
             }
         }
+
+        // Start ver 1.0.13
+        [Browsable(false)]
+        public bool IsValid7
+        {
+            get
+            {
+                foreach (PickListDetails dtl in this.PickListDetails)
+                {
+                    if (dtl.PickQty <= 0)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+        // End ver 1.0.13
 
         [Association("PickList-PickListDetails")]
         [XafDisplayName("Plan")]
