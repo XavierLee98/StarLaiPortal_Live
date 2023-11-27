@@ -690,7 +690,7 @@ namespace StarLaiPortal.Module.Controllers
                         //}
 
                         // Start ver 1.0.11
-                        WriteLog("[INFO]", "Header done.", conn.Database);
+                        WriteLog("[INFO]", "Header done. - " + reader.GetString(0), conn.Database);
                         // End ver 1.0.11
 
                         string[] packlistnum = currload.PackListNo.Replace(" ", "").Split(',');
@@ -797,7 +797,7 @@ namespace StarLaiPortal.Module.Controllers
                         }
 
                         // Start ver 1.0.11
-                        WriteLog("[INFO]", "Update Header Info.", conn.Database);
+                        WriteLog("[INFO]", "Update Header Info. - " + reader.GetString(0), conn.Database);
                         // End ver 1.0.11
 
                         // Start ver 1.0.8.1
@@ -843,6 +843,10 @@ namespace StarLaiPortal.Module.Controllers
                         // End ver 1.0.8.1
 
                         // Start ver 1.0.11
+                        WriteLog("[INFO]", "Update Header Info. - " + reader.GetString(0), conn.Database);
+                        // End ver 1.0.11
+
+                        // Start ver 1.0.11
                         if (newdelivery.DocNum == null)
                         {
                             newdelivery.DocNum = GenerateDODocNum(DocTypeList.DO, os, TransferType.NA, 0, docprefix);
@@ -862,7 +866,7 @@ namespace StarLaiPortal.Module.Controllers
                         os.CommitChanges();
 
                         // Start ver 1.0.11
-                        WriteLog("[INFO]", "DO Generated.", conn.Database);
+                        WriteLog("[INFO]", "DO Generated. - " + reader.GetString(0), conn.Database);
                         // End ver 1.0.11
                     }
                     // Start ver 1.0.11
