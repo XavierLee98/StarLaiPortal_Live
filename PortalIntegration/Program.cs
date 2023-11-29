@@ -269,6 +269,9 @@ namespace PortalIntegration
             // Start ver 1.0.12
             XafTypesInfo.Instance.RegisterEntity(typeof(vwStockCountGL));
             // End ver 1.0.12
+            // Start ver 1.0.13
+            XafTypesInfo.Instance.RegisterEntity(typeof(vwExchangeRate));
+            // Start ver 1.0.13
 
             XafTypesInfo.Instance.RegisterEntity(typeof(ApplicationUser));
             XafTypesInfo.Instance.RegisterEntity(typeof(GeneralSettings));

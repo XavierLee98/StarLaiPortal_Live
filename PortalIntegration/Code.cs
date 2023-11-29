@@ -1,7 +1,9 @@
 ﻿using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
+using DevExpress.ExpressApp.Xpo;
 using DevExpress.Xpo;
+using DevExpress.Xpo.DB;
 using DevExpress.XtraSpellChecker.Parser;
 using SAPbobsCOM;
 using StarLaiPortal.Module.BusinessObjects;
@@ -16,12 +18,15 @@ using StarLaiPortal.Module.BusinessObjects.Purchase_Order;
 using StarLaiPortal.Module.BusinessObjects.Purchase_Return;
 using StarLaiPortal.Module.BusinessObjects.Sales_Order;
 using StarLaiPortal.Module.BusinessObjects.Sales_Order_Collection;
+using StarLaiPortal.Module.BusinessObjects.Sales_Quotation;
 using StarLaiPortal.Module.BusinessObjects.Sales_Refund;
 using StarLaiPortal.Module.BusinessObjects.Sales_Return;
+using StarLaiPortal.Module.BusinessObjects.Setup;
 using StarLaiPortal.Module.BusinessObjects.Stock_Adjustment;
 using StarLaiPortal.Module.BusinessObjects.Stock_Count;
 using StarLaiPortal.Module.BusinessObjects.View;
 using StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer;
+using StarLaiPortal.Module.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -29,10 +34,14 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using System.Security.AccessControl;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static DevExpress.Data.Helpers.ExpressiveSortInfo;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 // 2023-07-28 add GRPO Correction ver 1.0.7
@@ -42,6 +51,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 // 2023-09-25 add sales return ver 1.0.10
 // 2023-10-30 Post FOC UDF ver 1.0.12
 // 2023-11-02 Add stock count ver 1.0.12
+// 2023-11-29 Recreate missing SO and DO ver 1.0.13
 
 namespace PortalIntegration
 {
@@ -49,7 +59,7 @@ namespace PortalIntegration
     {
         private SortedDictionary<string, List<string>> logs = new SortedDictionary<string, List<string>>();
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DataSourceConnectionString"].ToString());
-
+        SqlConnection conn1 = new SqlConnection(ConfigurationManager.ConnectionStrings["DataSourceConnectionString"].ToString());
         public Code(SecurityStrategyComplex security, IObjectSpaceProvider ObjectSpaceProvider)
         {
             logs.Clear();
@@ -1459,6 +1469,339 @@ namespace PortalIntegration
                     #endregion
                 }
                 // End ver 1.0.8.1
+
+                // Start ver 1.0.13
+                temp = ConfigurationManager.AppSettings["RecreateSO"].ToString().ToUpper();
+                if (temp == "Y" || temp == "YES" || temp == "TRUE" || temp == "1")
+                {
+                    #region Recreate SO
+
+                    string getSQDoc = "SELECT T0.DocNum " +
+                        "FROM SalesQuotation T0 " +
+                        "LEFT JOIN SalesOrder T1 on T0.DocNum = T1.SQNumber " +
+                        "WHERE T1.OID is null AND T0.Status = 1 " +
+                        "AND (T0.AppStatus <> 3 and T0.AppStatus <> 2) AND CAST(T0.UpdateDate as date) = CAST(GETDATE() as date) " +
+                        "AND GETDATE() >= DATEADD(MINUTE, 10, T0.UpdateDate)";
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        conn.Close();
+                    }
+                    conn.Open();
+                    SqlCommand cmdsq = new SqlCommand(getSQDoc, conn);
+                    SqlDataReader readersq = cmdsq.ExecuteReader();
+                    while (readersq.Read())
+                    {
+                        IObjectSpace sqos = ObjectSpaceProvider.CreateObjectSpace();
+                        SalesQuotation trx = sqos.FindObject<SalesQuotation>(new BinaryOperator("DocNum", readersq.GetString(0)));
+
+                        if (trx != null)
+                        {
+                            #region Add SO
+                            IObjectSpace salesos = ObjectSpaceProvider.CreateObjectSpace();
+                            SalesOrder newSO = salesos.CreateObject<SalesOrder>();
+
+                            GeneralControllers genCon = new GeneralControllers();
+                            string docprefix = GetDocPrefix();
+                            newSO.DocNum = genCon.GenerateDocNum(DocTypeList.SO, salesos, TransferType.NA, 0, docprefix);
+
+                            if (trx.Customer != null)
+                            {
+                                newSO.Customer = newSO.Session.GetObjectByKey<vwBusniessPartner>(trx.Customer.BPCode);
+                            }
+                            newSO.CustomerName = trx.CustomerName;
+                            if (trx.Transporter != null)
+                            {
+                                newSO.Transporter = newSO.Session.GetObjectByKey<vwTransporter>(trx.Transporter.TransporterID);
+                            }
+                            newSO.ContactNo = trx.ContactNo;
+                            if (trx.ContactPerson != null)
+                            {
+                                newSO.ContactPerson = newSO.Session.GetObjectByKey<vwSalesPerson>(trx.ContactPerson.SlpCode);
+                            }
+                            if (trx.PaymentTerm != null)
+                            {
+                                newSO.PaymentTerm = newSO.Session.GetObjectByKey<vwPaymentTerm>(trx.PaymentTerm.GroupNum);
+                            }
+                            if (trx.Series != null)
+                            {
+                                newSO.Series = newSO.Session.GetObjectByKey<vwSeries>(trx.Series.Series);
+                            }
+                            if (trx.Priority != null)
+                            {
+                                newSO.Priority = newSO.Session.GetObjectByKey<PriorityType>(trx.Priority.Oid);
+                            }
+                            if (trx.BillingAddress != null)
+                            {
+                                newSO.BillingAddress = newSO.Session.GetObjectByKey<vwBillingAddress>(trx.BillingAddress.PriKey);
+                            }
+                            newSO.BillingAddressfield = trx.BillingAddressfield;
+                            if (trx.ShippingAddress != null)
+                            {
+                                newSO.ShippingAddress = newSO.Session.GetObjectByKey<vwShippingAddress>(trx.ShippingAddress.PriKey);
+                            }
+                            newSO.ShippingAddressfield = trx.ShippingAddressfield;
+                            newSO.Remarks = trx.Remarks;
+                            newSO.Attn = trx.Attn;
+                            newSO.RefNo = trx.RefNo;
+                            // Start ver 1.0.8.1
+                            newSO.SQNumber = trx.DocNum;
+                            // End ver 1.0.8.1
+
+                            foreach (SalesQuotationDetails dtl in trx.SalesQuotationDetails)
+                            {
+                                SalesOrderDetails newsodetails = salesos.CreateObject<SalesOrderDetails>();
+
+                                newsodetails.ItemCode = newsodetails.Session.GetObjectByKey<vwItemMasters>(dtl.ItemCode.ItemCode);
+                                newsodetails.ItemDesc = dtl.ItemDesc;
+                                newsodetails.Model = dtl.Model;
+                                newsodetails.CatalogNo = dtl.CatalogNo;
+                                if (dtl.Location != null)
+                                {
+                                    newsodetails.Location = newsodetails.Session.GetObjectByKey<vwWarehouse>(dtl.Location.WarehouseCode);
+                                }
+                                newsodetails.Quantity = dtl.Quantity;
+                                newsodetails.Price = dtl.Price;
+                                newsodetails.AdjustedPrice = dtl.AdjustedPrice;
+                                newsodetails.BaseDoc = trx.DocNum;
+                                newsodetails.BaseId = dtl.Oid.ToString();
+                                newSO.SalesOrderDetails.Add(newsodetails);
+                            }
+
+                            salesos.CommitChanges();
+                            #endregion
+                        }
+                    }
+                    conn.Close();
+
+                    #endregion
+                }
+
+                temp = ConfigurationManager.AppSettings["RecreateDO"].ToString().ToUpper();
+                if (temp == "Y" || temp == "YES" || temp == "TRUE" || temp == "1")
+                {
+                    #region Recreate DO
+
+                    string allload = null;
+                    XPObjectSpace persistentObjectSpace = (XPObjectSpace)ObjectSpaceProvider.CreateObjectSpace();
+                    SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("RegenerateDO");
+                
+                    if (sprocData.ResultSet.Count() > 0)
+                    {
+                        if (sprocData.ResultSet[0].Rows.Count() > 0)
+                        {
+                            foreach (SelectStatementResultRow row in sprocData.ResultSet[0].Rows)
+                            {
+                                if (allload == null)
+                                {
+                                    allload = row.Values[0].ToString();
+                                }
+                                else
+                                {
+                                    allload = allload + "," + row.Values[0].ToString();
+                                }
+                            }
+                        }
+                    }
+
+                    if (allload != null)
+                    {
+                        string[] loadnum = allload.Split(',');
+
+                        foreach (string dtlloadnum in loadnum)
+                        {
+                            string getso = "EXEC GenerateDO '" + dtlloadnum + "'";
+                            if (conn.State == ConnectionState.Open)
+                            {
+                                conn.Close();
+                            }
+                            conn.Open();
+                            SqlCommand cmdgendo = new SqlCommand(getso, conn);
+                            SqlDataReader readerDO = cmdgendo.ExecuteReader();
+                            while (readerDO.Read())
+                            {
+                                IObjectSpace soos = ObjectSpaceProvider.CreateObjectSpace();
+                                SalesOrder so = soos.FindObject<SalesOrder>(CriteriaOperator.Parse("DocNum = ?", readerDO.GetString(0)));
+
+                                if (so != null)
+                                {
+                                    IObjectSpace doos = ObjectSpaceProvider.CreateObjectSpace();
+                                    DeliveryOrder delivery = doos.FindObject<DeliveryOrder>(CriteriaOperator.Parse("LoadingNo = ? " +
+                                        "and SONo = ?", dtlloadnum, so.DocNum));
+
+                                    if (delivery == null)
+                                    {
+                                        IObjectSpace loados = ObjectSpaceProvider.CreateObjectSpace();
+                                        Load currload = loados.FindObject<Load>(CriteriaOperator.Parse("DocNum = ?", dtlloadnum));
+
+                                        string picklistnum = null;
+                                        IObjectSpace deliveryos = ObjectSpaceProvider.CreateObjectSpace();
+                                        DeliveryOrder newdelivery = deliveryos.CreateObject<DeliveryOrder>();
+
+                                        GeneralControllers genCon = new GeneralControllers();
+                                        string docprefix = GetDocPrefix();
+                                        newdelivery.DocNum = genCon.GenerateDocNum(DocTypeList.DO, deliveryos, TransferType.NA, 0, docprefix);
+                                        newdelivery.Customer = newdelivery.Session.GetObjectByKey<vwBusniessPartner>(so.Customer.BPCode);
+                                        newdelivery.CustomerName = so.CustomerName;
+                                        newdelivery.Status = DocStatus.Submitted;
+                                        // Start ver 1.0.8.1
+                                        newdelivery.Priority = newdelivery.Session.GetObjectByKey<PriorityType>(so.Priority.Oid);
+                                        // End ver 1.0.8.1
+                                        // Start ver 1.0.10
+                                        newdelivery.Remarks = so.Remarks;
+                                        // End ver 1.0.10
+
+                                        string[] packlistnum = currload.PackListNo.Replace(" ", "").Split(',');
+                                        foreach (string dtlpack in packlistnum)
+                                        {
+                                            if (dtlpack != null)
+                                            {
+                                                foreach (LoadDetails dtlload in currload.LoadDetails)
+                                                {
+                                                    if (dtlload.PackList == dtlpack)
+                                                    {
+                                                        PackList pl = deliveryos.FindObject<PackList>(CriteriaOperator.Parse("DocNum = ?", dtlpack));
+
+                                                        newdelivery.CustomerGroup = pl.CustomerGroup;
+
+                                                        foreach (PackListDetails dtlpackdetail in pl.PackListDetails)
+                                                        {
+                                                            if (dtlload.Bundle.BundleID == dtlpackdetail.Bundle.BundleID)
+                                                            {
+                                                                string picklistoid = null;
+                                                                bool pickitem = false;
+
+                                                                PickList picklist = deliveryos.FindObject<PickList>(CriteriaOperator.Parse("DocNum = ?", dtlpackdetail.PickListNo));
+
+                                                                foreach (PickListDetailsActual dtlactual in picklist.PickListDetailsActual)
+                                                                {
+                                                                    if (dtlpackdetail.BaseId == dtlactual.Oid.ToString())
+                                                                    {
+                                                                        picklistoid = dtlactual.PickListDetailOid.ToString();
+
+                                                                        if (dtlactual.SOBaseDoc == so.DocNum)
+                                                                        {
+                                                                            pickitem = true;
+                                                                        }
+                                                                        break;
+                                                                    }
+                                                                }
+
+                                                                foreach (DeliveryOrderDetails dtldelivery in newdelivery.DeliveryOrderDetails)
+                                                                {
+                                                                    if (dtldelivery.PackListLine == picklistoid)
+                                                                    {
+                                                                        dtldelivery.Quantity = dtldelivery.Quantity + dtlpackdetail.Quantity;
+                                                                        pickitem = false;
+                                                                        break;
+                                                                    }
+                                                                }
+
+                                                                if (pickitem == true)
+                                                                {
+                                                                    if (dtlpackdetail.Quantity > 0)
+                                                                    {
+                                                                        DeliveryOrderDetails newdeliveryitem = deliveryos.CreateObject<DeliveryOrderDetails>();
+
+                                                                        newdeliveryitem.ItemCode = newdeliveryitem.Session.GetObjectByKey<vwItemMasters>(dtlpackdetail.ItemCode.ItemCode);
+                                                                        newdeliveryitem.Quantity = dtlpackdetail.Quantity;
+                                                                        newdeliveryitem.PackListLine = picklistoid;
+
+                                                                        if (dtlload.Bin != null)
+                                                                        {
+                                                                            newdeliveryitem.Warehouse = newdeliveryitem.Session.GetObjectByKey<vwWarehouse>(dtlload.Bin.Warehouse);
+                                                                            newdeliveryitem.Bin = newdeliveryitem.Session.GetObjectByKey<vwBin>(dtlload.Bin.BinCode);
+                                                                        }
+
+                                                                        //GET SO
+                                                                        foreach (PickListDetails dtlpick in picklist.PickListDetails)
+                                                                        {
+                                                                            if (dtlpick.Oid.ToString() == picklistoid)
+                                                                            {
+                                                                                foreach (SalesOrderDetails dtlsales in so.SalesOrderDetails)
+                                                                                {
+                                                                                    if (dtlsales.ItemCode.ItemCode == dtlpackdetail.ItemCode.ItemCode &&
+                                                                                        dtlsales.Oid.ToString() == dtlpick.SOBaseId)
+                                                                                    {
+                                                                                        newdeliveryitem.Price = dtlsales.AdjustedPrice;
+                                                                                    }
+                                                                                }
+
+                                                                                newdeliveryitem.SOBaseID = dtlpick.SOBaseId;
+                                                                                newdelivery.CustomerGroup = picklist.CustomerGroup;
+                                                                            }
+                                                                        }
+
+                                                                        newdeliveryitem.BaseDoc = dtlloadnum;
+                                                                        newdeliveryitem.BaseId = dtlload.Oid.ToString();
+                                                                        newdeliveryitem.SODocNum = so.DocNum;
+                                                                        //newdeliveryitem.SOBaseID = dtlpick.SOBaseId;
+                                                                        newdeliveryitem.PickListDocNum = dtlpackdetail.PickListNo;
+
+                                                                        newdelivery.DeliveryOrderDetails.Add(newdeliveryitem);
+                                                                    }
+
+                                                                    picklistnum = dtlpackdetail.PickListNo;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        // Start ver 1.0.8.1
+                                        string dupno = null;
+                                        string dupso = null;
+                                        foreach (DeliveryOrderDetails dtl in newdelivery.DeliveryOrderDetails)
+                                        {
+                                            if (dupno != dtl.BaseDoc)
+                                            {
+                                                if (newdelivery.LoadingNo == null)
+                                                {
+                                                    newdelivery.LoadingNo = dtl.BaseDoc;
+                                                }
+                                                else
+                                                {
+                                                    newdelivery.LoadingNo = newdelivery.LoadingNo + ", " + dtl.BaseDoc;
+                                                }
+
+                                                dupno = dtl.BaseDoc;
+                                            }
+
+                                            if (dupso != dtl.SODocNum)
+                                            {
+                                                if (newdelivery.SONo == null)
+                                                {
+                                                    newdelivery.SONo = dtl.SODocNum;
+                                                }
+                                                else
+                                                {
+                                                    newdelivery.SONo = newdelivery.SONo + ", " + dtl.SODocNum;
+                                                }
+
+                                                dupso = dtl.SODocNum;
+                                            }
+
+                                            // Start ver 1.0.10
+                                            if (newdelivery.Warehouse == null)
+                                            {
+                                                newdelivery.Warehouse = newdelivery.Session.GetObjectByKey<vwWarehouse>(dtl.Warehouse.WarehouseCode);
+                                            }
+                                            // End ver 1.0.10
+                                        }
+                                        // End ver 1.0.8.1
+
+                                        deliveryos.CommitChanges();
+                                    }
+                                }
+                            }
+                            conn.Close();
+                        }
+                    }
+
+                #endregion
+                }
+                // End ver 1.0.13
             }
             catch (Exception ex)
             {
@@ -1498,6 +1841,30 @@ namespace PortalIntegration
 
             log.Close();
         }
+
+        // Start ver 1.0.13
+        public string GetDocPrefix()
+        {
+            string prefix = null;
+
+            string getcompany = "SELECT CompanyPrefix FROM [" + ConfigurationManager.AppSettings.Get("CommonTable").ToString() + "]..ODBC WHERE " +
+                "DBName = '" + conn1.Database + "'";
+            if (conn1.State == ConnectionState.Open)
+            {
+                conn1.Close();
+            }
+            conn1.Open();
+            SqlCommand cmd = new SqlCommand(getcompany, conn1);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                prefix = reader.GetString(0);
+            }
+            conn1.Close();
+
+            return prefix;
+        }
+        // End ver 1.0.13
 
         public int PostSOtoSAP(SalesOrder oTargetDoc, IObjectSpaceProvider ObjectSpaceProvider, SAPCompany sap)
         {
