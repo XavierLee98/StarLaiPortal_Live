@@ -278,8 +278,8 @@ namespace StarLaiPortal.Module.Controllers
                             // End ver 1.0.8.1
                         //}
 
-                        ObjectSpace.CommitChanges();
-                        ObjectSpace.Refresh();
+                        //ObjectSpace.CommitChanges();
+                        //ObjectSpace.Refresh();
 
                         // Start ver 1.0.11
                         IObjectSpace os = Application.CreateObjectSpace();

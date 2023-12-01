@@ -1474,6 +1474,8 @@ namespace PortalIntegration
                 temp = ConfigurationManager.AppSettings["RecreateSO"].ToString().ToUpper();
                 if (temp == "Y" || temp == "YES" || temp == "TRUE" || temp == "1")
                 {
+                    WriteLog("[INFO]", "--Recreate SO Start--");
+
                     #region Recreate SO
 
                     string getSQDoc = "SELECT T0.DocNum " +
@@ -1579,6 +1581,8 @@ namespace PortalIntegration
                 temp = ConfigurationManager.AppSettings["RecreateDO"].ToString().ToUpper();
                 if (temp == "Y" || temp == "YES" || temp == "TRUE" || temp == "1")
                 {
+                    WriteLog("[INFO]", "--Recreate DO Start--");
+
                     #region Recreate DO
 
                     string allload = null;

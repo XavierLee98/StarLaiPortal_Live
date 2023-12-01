@@ -19,6 +19,7 @@ using System.Text;
 // 2023-08-25 add picklistactual validation ver 1.0.9
 // 2023-04-09 fix speed issue ver 1.0.8.1
 // 2023-11-27 add validation to block submit if pickqty is zero ver 1.0.13
+// 2023-12-01 show createtime in list view ver 1.0.13
 
 namespace StarLaiPortal.Module.BusinessObjects.Pick_List
 {
@@ -74,7 +75,11 @@ namespace StarLaiPortal.Module.BusinessObjects.Pick_List
         }
 
         private DateTime? _CreateDate;
-        [Index(301), VisibleInListView(false), VisibleInDetailView(false), VisibleInLookupListView(false)]
+        // Start ver 1.0.13
+        //[Index(301), VisibleInListView(false), VisibleInDetailView(false), VisibleInLookupListView(false)]
+        [Index(301), VisibleInListView(true), VisibleInDetailView(false), VisibleInLookupListView(false)]
+        [ModelDefault("DisplayFormat", "{0:hh:mm tt}")]
+        // End ver 1.0.13
         [Appearance("CreateDate", Enabled = false)]
         public DateTime? CreateDate
         {

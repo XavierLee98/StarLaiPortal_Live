@@ -14,6 +14,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
+// 2023-12-01 add stockadjustment sap docnum ver 1.0.13
+
 namespace StarLaiPortal.Module.BusinessObjects.Stock_Adjustment
 {
     [DefaultClassOptions]
@@ -197,6 +199,21 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Adjustment
                 SetPropertyValue("AppStatus", ref _AppStatus, value);
             }
         }
+
+        // Start ver 1.0.13
+        private string _SAPDocNum;
+        [XafDisplayName("SAP Adjustment No.")]
+        [Appearance("SAPDocNum", Enabled = false)]
+        [Index(15), VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(false)]
+        public string SAPDocNum
+        {
+            get { return _SAPDocNum; }
+            set
+            {
+                SetPropertyValue("SAPDocNum", ref _SAPDocNum, value);
+            }
+        }
+        // End ver 1.0.13
 
         private string _Remarks;
         [XafDisplayName("Remarks")]

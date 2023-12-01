@@ -41,6 +41,7 @@
             this.ApproveAppSQ_Pop = new DevExpress.ExpressApp.Actions.PopupWindowShowAction(this.components);
             this.ExportSQImport = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             this.ImportSQ = new DevExpress.ExpressApp.Actions.PopupWindowShowAction(this.components);
+            this.CreateSalesOrderAction = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             // 
             // BackToInquiry
             // 
@@ -165,6 +166,15 @@
             this.ImportSQ.CustomizePopupWindowParams += new DevExpress.ExpressApp.Actions.CustomizePopupWindowParamsEventHandler(this.ImportSQ_CustomizePopupWindowParams);
             this.ImportSQ.Execute += new DevExpress.ExpressApp.Actions.PopupWindowShowActionExecuteEventHandler(this.ImportSQ_Execute);
             // 
+            // CreateSalesOrderAction
+            // 
+            this.CreateSalesOrderAction.Caption = "Submit";
+            this.CreateSalesOrderAction.Category = "ObjectsCreation";
+            this.CreateSalesOrderAction.ConfirmationMessage = null;
+            this.CreateSalesOrderAction.Id = "CreateSalesOrderAction";
+            this.CreateSalesOrderAction.ToolTip = null;
+            this.CreateSalesOrderAction.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.CreateSalesOrderAction_Execute);
+            // 
             // SalesQuotationControllers
             // 
             this.Actions.Add(this.BackToInquiry);
@@ -179,6 +189,7 @@
             this.Actions.Add(this.ApproveAppSQ_Pop);
             this.Actions.Add(this.ExportSQImport);
             this.Actions.Add(this.ImportSQ);
+            this.Actions.Add(this.CreateSalesOrderAction);
 
         }
 
@@ -196,5 +207,6 @@
         private DevExpress.ExpressApp.Actions.PopupWindowShowAction ApproveAppSQ_Pop;
         private DevExpress.ExpressApp.Actions.SimpleAction ExportSQImport;
         private DevExpress.ExpressApp.Actions.PopupWindowShowAction ImportSQ;
+        private DevExpress.ExpressApp.Actions.SimpleAction CreateSalesOrderAction;
     }
 }
