@@ -52,6 +52,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 // 2023-10-30 Post FOC UDF ver 1.0.12
 // 2023-11-02 Add stock count ver 1.0.12
 // 2023-11-29 Recreate missing SO and DO ver 1.0.13
+// 2023-12-04 enhance posting with adjustment instead of check oimn ver 1.0.13
 
 namespace PortalIntegration
 {
@@ -1334,6 +1335,16 @@ namespace PortalIntegration
                             bool negatif = false;
                             bool postissue = true;
 
+                            if (scobj.GISap == true)
+                            {
+                                negatif = true;
+                            }
+
+                            if (scobj.GRSap == true)
+                            {
+                                positive = true;
+                            }
+
                             if (negatif == false)
                             {
                                 #region Post Goods Issue
@@ -1346,6 +1357,8 @@ namespace PortalIntegration
                                 {
                                     if (sap.oCom.InTransaction)
                                         sap.oCom.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_Commit);
+
+                                    scobj.GISap = true;
 
                                     GC.Collect();
                                 }
@@ -1364,6 +1377,7 @@ namespace PortalIntegration
                                     if (sap.oCom.InTransaction)
                                         sap.oCom.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack);
 
+                                    scobj.GISap = true;
                                     GC.Collect();
                                 }
                                 #endregion
@@ -1384,6 +1398,8 @@ namespace PortalIntegration
                                     if (sap.oCom.InTransaction)
                                         sap.oCom.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_Commit);
 
+                                    scobj.GRSap = true;
+
                                     GC.Collect();
                                 }
                                 else if (tempscin <= 0)
@@ -1399,6 +1415,8 @@ namespace PortalIntegration
                                 {
                                     if (sap.oCom.InTransaction)
                                         sap.oCom.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack);
+
+                                    scobj.GRSap = true;
 
                                     GC.Collect();
                                 }
@@ -5046,80 +5064,124 @@ namespace PortalIntegration
                     oDoc.Comments = oTargetDoc.Remarks;
                     oDoc.UserFields.Fields.Item("U_PortalDocNum").Value = oTargetDoc.DocNum;
 
-                    string getitem = "SELECT T1.ItemCode, T1.Quantity -  ISNULL(SUM(T2.Qty), 0), T1.OID From StockCountConfirm T0 " +
-                       "INNER JOIN StockCountConfirmDetails T1 on T0.OID = T1.StockCountConfirm AND T1.GCRecord is null " +
-                       "LEFT JOIN " +
-                       "( " +
-                       "SELECT " +
-                       "T2.ItemCode, T7.ItemName, T6.BinCode, " +
-                       "SUM(CASE WHEN T2.ActionType in ('1','19') THEN T4.Quantity " +
-                       "WHEN T2.ActionType in ('2', '20') THEN - T4.Quantity ELSE 0 END) as [Qty], T2.DocDate " +
-                       "FROM [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OILM T2 " +
-                       "INNER JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OBTL T4 ON(T2.MessageID = T4.MessageID) " +
-                       "INNER JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OBIN T6 ON(T4.BinAbs = T6.AbsEntry) " +
-                       "INNER JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OITM T7 ON(T2.ItemCode = T7.ItemCode) " +
-                       "GROUP BY T2.ItemCode,T7.ItemName, T6.BinCode, T2.DocDate)  " +
-                       "T2 on T1.ItemCode = T2.ItemCode COLLATE DATABASE_DEFAULT and T1.Bin = T2.BinCode COLLATE DATABASE_DEFAULT " +
-                       "and T2.DocDate <= T0.StockCountDate " +
-                       "LEFT JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OITW T3 with(nolock) on " +
-                       "T3.ItemCode = T1.ItemCode COLLATE DATABASE_DEFAULT " +
-                       "AND T3.WhsCode = T0.Warehouse COLLATE DATABASE_DEFAULT " +
-                       "WHERE T0.DocNum = '" + oTargetDoc.DocNum + "' " +
-                       "GROUP BY T1.ItemCode, T1.Quantity, T1.OID";
-                    if (conn.State == ConnectionState.Open)
-                    {
-                        conn.Close();
-                    }
-                    conn.Open();
-                    SqlCommand cmd = new SqlCommand(getitem, conn);
-                    SqlDataReader reader = cmd.ExecuteReader();
+                    // Start ver 1.0.13
+                    //string getitem = "SELECT T1.ItemCode, T1.Quantity -  ISNULL(SUM(T2.Qty), 0), T1.OID From StockCountConfirm T0 " +
+                    //   "INNER JOIN StockCountConfirmDetails T1 on T0.OID = T1.StockCountConfirm AND T1.GCRecord is null " +
+                    //   "LEFT JOIN " +
+                    //   "( " +
+                    //   "SELECT " +
+                    //   "T2.ItemCode, T7.ItemName, T6.BinCode, " +
+                    //   "SUM(CASE WHEN T2.ActionType in ('1','19') THEN T4.Quantity " +
+                    //   "WHEN T2.ActionType in ('2', '20') THEN - T4.Quantity ELSE 0 END) as [Qty], T2.DocDate " +
+                    //   "FROM [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OILM T2 " +
+                    //   "INNER JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OBTL T4 ON(T2.MessageID = T4.MessageID) " +
+                    //   "INNER JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OBIN T6 ON(T4.BinAbs = T6.AbsEntry) " +
+                    //   "INNER JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OITM T7 ON(T2.ItemCode = T7.ItemCode) " +
+                    //   "GROUP BY T2.ItemCode,T7.ItemName, T6.BinCode, T2.DocDate)  " +
+                    //   "T2 on T1.ItemCode = T2.ItemCode COLLATE DATABASE_DEFAULT and T1.Bin = T2.BinCode COLLATE DATABASE_DEFAULT " +
+                    //   "and T2.DocDate <= T0.StockCountDate " +
+                    //   "LEFT JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OITW T3 with(nolock) on " +
+                    //   "T3.ItemCode = T1.ItemCode COLLATE DATABASE_DEFAULT " +
+                    //   "AND T3.WhsCode = T0.Warehouse COLLATE DATABASE_DEFAULT " +
+                    //   "WHERE T0.DocNum = '" + oTargetDoc.DocNum + "' " +
+                    //   "GROUP BY T1.ItemCode, T1.Quantity, T1.OID";
+                    //if (conn.State == ConnectionState.Open)
+                    //{
+                    //    conn.Close();
+                    //}
+                    //conn.Open();
+                    //SqlCommand cmd = new SqlCommand(getitem, conn);
+                    //SqlDataReader reader = cmd.ExecuteReader();
+                    // End ver 1.0.13
 
                     int cnt = 0;
-                    while (reader.Read())
+
+                    // Start ver 1.0.13
+                    //while (reader.Read())
+                    //{
+                    //    if (reader.GetDecimal(1) < 0)
+                    //    {
+                    //        foreach (StockCountConfirmDetails dtl in oTargetDoc.StockCountConfirmDetails)
+                    //        {
+                    //            if (dtl.Oid == reader.GetInt32(2))
+                    //            {
+                    //                cnt++;
+                    //                if (cnt == 1)
+                    //                {
+                    //                }
+                    //                else
+                    //                {
+                    //                    //oDoc.Lines.BatchNumbers.Add();
+                    //                    //oDoc.Lines.BatchNumbers.SetCurrentLine(oDoc.Lines.Count - 1);
+                    //                    oDoc.Lines.Add();
+                    //                    oDoc.Lines.SetCurrentLine(oDoc.Lines.Count - 1);
+                    //                }
+
+                    //                oDoc.Lines.WarehouseCode = dtl.Warehouse.WarehouseCode;
+                    //                oDoc.Lines.ItemCode = dtl.ItemCode.ItemCode;
+
+                    //                vwStockCountGL glacc = fos.FindObject<vwStockCountGL>(CriteriaOperator.Parse("ItmsGrpNam = ?", dtl.ItemCode.Model));
+                    //                if (glacc != null)
+                    //                {
+                    //                    oDoc.Lines.AccountCode = glacc.GLAccount;
+                    //                }
+
+                    //                oDoc.Lines.ItemDescription = dtl.ItemDesc;
+                    //                oDoc.Lines.Quantity = (double)(reader.GetDecimal(1) - reader.GetDecimal(1) - reader.GetDecimal(1));
+                    //                oDoc.Lines.UserFields.Fields.Item("U_PortalLineOid").Value = dtl.Oid.ToString();
+
+                    //                if (dtl.Bin != null)
+                    //                {
+                    //                    oDoc.Lines.BinAllocations.BinAbsEntry = dtl.Bin.AbsEntry;
+                    //                    oDoc.Lines.BinAllocations.Quantity = (double)(reader.GetDecimal(1) - reader.GetDecimal(1) - reader.GetDecimal(1));
+                    //                }
+
+                    //                break;
+                    //            }
+                    //        }
+                    //    }
+                    //}
+                    //conn.Close();
+                    // End ver 1.0.13
+
+                    // Start ver 1.0.13
+                    foreach (StockCountConfirmDetails dtl in oTargetDoc.StockCountConfirmDetails)
                     {
-                        if (reader.GetDecimal(1) < 0)
+                        if (dtl.Quantity < 0)
                         {
-                            foreach (StockCountConfirmDetails dtl in oTargetDoc.StockCountConfirmDetails)
+                            cnt++;
+                            if (cnt == 1)
                             {
-                                if (dtl.Oid == reader.GetInt32(2))
-                                {
-                                    cnt++;
-                                    if (cnt == 1)
-                                    {
-                                    }
-                                    else
-                                    {
-                                        //oDoc.Lines.BatchNumbers.Add();
-                                        //oDoc.Lines.BatchNumbers.SetCurrentLine(oDoc.Lines.Count - 1);
-                                        oDoc.Lines.Add();
-                                        oDoc.Lines.SetCurrentLine(oDoc.Lines.Count - 1);
-                                    }
+                            }
+                            else
+                            {
+                                //oDoc.Lines.BatchNumbers.Add();
+                                //oDoc.Lines.BatchNumbers.SetCurrentLine(oDoc.Lines.Count - 1);
+                                oDoc.Lines.Add();
+                                oDoc.Lines.SetCurrentLine(oDoc.Lines.Count - 1);
+                            }
 
-                                    oDoc.Lines.WarehouseCode = dtl.Warehouse.WarehouseCode;
-                                    oDoc.Lines.ItemCode = dtl.ItemCode.ItemCode;
+                            oDoc.Lines.WarehouseCode = dtl.Warehouse.WarehouseCode;
+                            oDoc.Lines.ItemCode = dtl.ItemCode.ItemCode;
 
-                                    vwStockCountGL glacc = fos.FindObject<vwStockCountGL>(CriteriaOperator.Parse("ItmsGrpNam = ?", dtl.ItemCode.Model));
-                                    if (glacc != null)
-                                    {
-                                        oDoc.Lines.AccountCode = glacc.GLAccount;
-                                    }
+                            vwStockCountGL glacc = fos.FindObject<vwStockCountGL>(CriteriaOperator.Parse("ItmsGrpNam = ?", dtl.ItemCode.Model));
+                            if (glacc != null)
+                            {
+                                oDoc.Lines.AccountCode = glacc.GLAccount;
+                            }
 
-                                    oDoc.Lines.ItemDescription = dtl.ItemDesc;
-                                    oDoc.Lines.Quantity = (double)(reader.GetDecimal(1) - reader.GetDecimal(1) - reader.GetDecimal(1));
-                                    oDoc.Lines.UserFields.Fields.Item("U_PortalLineOid").Value = dtl.Oid.ToString();
+                            oDoc.Lines.ItemDescription = dtl.ItemDesc;
+                            oDoc.Lines.Quantity = (double)(dtl.Quantity - dtl.Quantity - dtl.Quantity);
+                            oDoc.Lines.UserFields.Fields.Item("U_PortalLineOid").Value = dtl.Oid.ToString();
 
-                                    if (dtl.Bin != null)
-                                    {
-                                        oDoc.Lines.BinAllocations.BinAbsEntry = dtl.Bin.AbsEntry;
-                                        oDoc.Lines.BinAllocations.Quantity = (double)(reader.GetDecimal(1) - reader.GetDecimal(1) - reader.GetDecimal(1));
-                                    }
-
-                                    break;
-                                }
+                            if (dtl.Bin != null)
+                            {
+                                oDoc.Lines.BinAllocations.BinAbsEntry = dtl.Bin.AbsEntry;
+                                oDoc.Lines.BinAllocations.Quantity = (double)(dtl.Quantity - dtl.Quantity - dtl.Quantity);
                             }
                         }
                     }
-                    conn.Close();
+                    // End ver 1.0.13
 
                     if (cnt <= 0)
                     {
@@ -5214,90 +5276,163 @@ namespace PortalIntegration
                     oDoc.Comments = oTargetDoc.Remarks;
                     oDoc.UserFields.Fields.Item("U_PortalDocNum").Value = oTargetDoc.DocNum;
 
-                    string getitem = "SELECT T1.ItemCode, T1.Quantity -  ISNULL(SUM(T2.Qty), 0), T1.OID, ISNULL(T3.AvgPrice, 0) From StockCountConfirm T0 " +
-                        "INNER JOIN StockCountConfirmDetails T1 on T0.OID = T1.StockCountConfirm AND T1.GCRecord is null " +
-                        "LEFT JOIN " +
-                        "( " +
-                        "SELECT " +
-                        "T2.ItemCode, T7.ItemName, T6.BinCode, " +
-                        "SUM(CASE WHEN T2.ActionType in ('1','19') THEN T4.Quantity " +
-                        "WHEN T2.ActionType in ('2', '20') THEN - T4.Quantity ELSE 0 END) as [Qty], T2.DocDate " +
-                        "FROM [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OILM T2 " +
-                        "INNER JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OBTL T4 ON(T2.MessageID = T4.MessageID) " +
-                        "INNER JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OBIN T6 ON(T4.BinAbs = T6.AbsEntry) " +
-                        "INNER JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OITM T7 ON(T2.ItemCode = T7.ItemCode) " +
-                        "GROUP BY T2.ItemCode,T7.ItemName, T6.BinCode, T2.DocDate)  " +
-                        "T2 on T1.ItemCode = T2.ItemCode COLLATE DATABASE_DEFAULT and T1.Bin = T2.BinCode COLLATE DATABASE_DEFAULT " +
-                        "and T2.DocDate <= T0.StockCountDate " +
-                        "LEFT JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OITW T3 with(nolock) on " +
-                        "T3.ItemCode = T1.ItemCode COLLATE DATABASE_DEFAULT " +
-                        "AND T3.WhsCode = T0.Warehouse COLLATE DATABASE_DEFAULT " +
-                        "WHERE T0.DocNum = '" + oTargetDoc.DocNum + "' " +
-                        "GROUP BY T1.ItemCode, T1.Quantity, T1.OID, T3.AvgPrice";
-                    if (conn.State == ConnectionState.Open)
-                    {
-                        conn.Close();
-                    }
-                    conn.Open();
-                    SqlCommand cmd = new SqlCommand(getitem, conn);
-                    SqlDataReader reader = cmd.ExecuteReader();
+                    // Start ver 1.0.13
+                    //string getitem = "SELECT T1.ItemCode, T1.Quantity -  ISNULL(SUM(T2.Qty), 0), T1.OID, ISNULL(T3.AvgPrice, 0) From StockCountConfirm T0 " +
+                    //    "INNER JOIN StockCountConfirmDetails T1 on T0.OID = T1.StockCountConfirm AND T1.GCRecord is null " +
+                    //    "LEFT JOIN " +
+                    //    "( " +
+                    //    "SELECT " +
+                    //    "T2.ItemCode, T7.ItemName, T6.BinCode, " +
+                    //    "SUM(CASE WHEN T2.ActionType in ('1','19') THEN T4.Quantity " +
+                    //    "WHEN T2.ActionType in ('2', '20') THEN - T4.Quantity ELSE 0 END) as [Qty], T2.DocDate " +
+                    //    "FROM [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OILM T2 " +
+                    //    "INNER JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OBTL T4 ON(T2.MessageID = T4.MessageID) " +
+                    //    "INNER JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OBIN T6 ON(T4.BinAbs = T6.AbsEntry) " +
+                    //    "INNER JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OITM T7 ON(T2.ItemCode = T7.ItemCode) " +
+                    //    "GROUP BY T2.ItemCode,T7.ItemName, T6.BinCode, T2.DocDate)  " +
+                    //    "T2 on T1.ItemCode = T2.ItemCode COLLATE DATABASE_DEFAULT and T1.Bin = T2.BinCode COLLATE DATABASE_DEFAULT " +
+                    //    "and T2.DocDate <= T0.StockCountDate " +
+                    //    "LEFT JOIN [" + ConfigurationManager.AppSettings["CompanyDB"].ToString() + "]..OITW T3 with(nolock) on " +
+                    //    "T3.ItemCode = T1.ItemCode COLLATE DATABASE_DEFAULT " +
+                    //    "AND T3.WhsCode = T0.Warehouse COLLATE DATABASE_DEFAULT " +
+                    //    "WHERE T0.DocNum = '" + oTargetDoc.DocNum + "' " +
+                    //    "GROUP BY T1.ItemCode, T1.Quantity, T1.OID, T3.AvgPrice";
+                    //if (conn.State == ConnectionState.Open)
+                    //{
+                    //    conn.Close();
+                    //}
+                    //conn.Open();
+                    //SqlCommand cmd = new SqlCommand(getitem, conn);
+                    //SqlDataReader reader = cmd.ExecuteReader();
+                    // End ver 1.0.13
 
                     int cnt = 0;
-                    while (reader.Read())
+
+                    // Start ver 1.0.13
+                    //while (reader.Read())
+                    //{
+                    //    if (reader.GetDecimal(1) > 0)
+                    //    {
+                    //        foreach (StockCountConfirmDetails dtl in oTargetDoc.StockCountConfirmDetails)
+                    //        {
+                    //            if (dtl.Oid == reader.GetInt32(2))
+                    //            {
+                    //                cnt++;
+                    //                if (cnt == 1)
+                    //                {
+                    //                }
+                    //                else
+                    //                {
+                    //                    //oDoc.Lines.BatchNumbers.Add();
+                    //                    //oDoc.Lines.BatchNumbers.SetCurrentLine(oDoc.Lines.Count - 1);
+                    //                    oDoc.Lines.Add();
+                    //                    oDoc.Lines.SetCurrentLine(oDoc.Lines.Count - 1);
+                    //                }
+
+                    //                oDoc.Lines.WarehouseCode = dtl.Warehouse.WarehouseCode;
+
+                    //                oDoc.Lines.ItemCode = dtl.ItemCode.ItemCode;
+                    //                oDoc.Lines.ItemDescription = dtl.ItemDesc;
+                    //                oDoc.Lines.Quantity = (double)reader.GetDecimal(1);
+
+                    //                vwStockCountGL glacc = fos.FindObject<vwStockCountGL>(CriteriaOperator.Parse("ItmsGrpNam = ?", dtl.ItemCode.Model));
+                    //                if (glacc != null)
+                    //                {
+                    //                    oDoc.Lines.AccountCode = glacc.GLAccount;
+                    //                }
+
+                    //                if (reader.GetDecimal(3) <= 0)
+                    //                {
+                    //                    oDoc.Lines.UnitPrice = 0.01;
+                    //                }
+                    //                else
+                    //                {
+                    //                    oDoc.Lines.UnitPrice = (double)reader.GetDecimal(3);
+                    //                }
+                    //                oDoc.Lines.UserFields.Fields.Item("U_PortalLineOid").Value = dtl.Oid.ToString();
+
+                    //                if (dtl.Bin != null)
+                    //                {
+                    //                    oDoc.Lines.BinAllocations.BinAbsEntry = dtl.Bin.AbsEntry;
+                    //                    oDoc.Lines.BinAllocations.Quantity = (double)reader.GetDecimal(1);
+                    //                }
+
+                    //                break;
+                    //            }
+                    //        }
+                    //    }
+                    //}
+
+                    //conn.Close();
+                    // End ver 1.0.13
+
+                    // Start ver 1.0.13
+                    foreach (StockCountConfirmDetails dtl in oTargetDoc.StockCountConfirmDetails)
                     {
-                        if (reader.GetDecimal(1) > 0)
+                        if (dtl.Quantity > 0)
                         {
-                            foreach (StockCountConfirmDetails dtl in oTargetDoc.StockCountConfirmDetails)
+                            cnt++;
+                            if (cnt == 1)
                             {
-                                if (dtl.Oid == reader.GetInt32(2))
+                            }
+                            else
+                            {
+                                //oDoc.Lines.BatchNumbers.Add();
+                                //oDoc.Lines.BatchNumbers.SetCurrentLine(oDoc.Lines.Count - 1);
+                                oDoc.Lines.Add();
+                                oDoc.Lines.SetCurrentLine(oDoc.Lines.Count - 1);
+                            }
+
+                            oDoc.Lines.WarehouseCode = dtl.Warehouse.WarehouseCode;
+
+                            oDoc.Lines.ItemCode = dtl.ItemCode.ItemCode;
+                            oDoc.Lines.ItemDescription = dtl.ItemDesc;
+                            oDoc.Lines.Quantity = (double)dtl.Quantity;
+
+                            vwStockCountGL glacc = fos.FindObject<vwStockCountGL>(CriteriaOperator.Parse("ItmsGrpNam = ?", dtl.ItemCode.Model));
+                            if (glacc != null)
+                            {
+                                oDoc.Lines.AccountCode = glacc.GLAccount;
+                            }
+
+                            string getavg = "SELECT T1.ItemCode, T1.OID, ISNULL(T3.AvgPrice, 0) From StockCountConfirm T0 " +
+                                "INNER JOIN StockCountConfirmDetails T1 on T0.OID = T1.StockCountConfirm AND T1.GCRecord is null " +
+                                "LEFT JOIN [STL_SAP_LIVE]..OITW T3 with (nolock) on T3.ItemCode = T1.ItemCode COLLATE DATABASE_DEFAULT " +
+                                "AND T3.WhsCode = T0.Warehouse COLLATE DATABASE_DEFAULT " +
+                                "WHERE T0.DocNum = '" + oTargetDoc.DocNum + "' " +
+                                "GROUP BY T1.ItemCode, T1.OID, T3.AvgPrice";
+                            if (conn.State == ConnectionState.Open)
+                            {
+                                conn.Close();
+                            }
+                            conn.Open();
+                            SqlCommand cmd = new SqlCommand(getavg, conn);
+                            SqlDataReader reader = cmd.ExecuteReader();
+                            while (reader.Read())
+                            {
+                                if (reader.GetInt32(1) == dtl.Oid)
                                 {
-                                    cnt++;
-                                    if (cnt == 1)
-                                    {
-                                    }
-                                    else
-                                    {
-                                        //oDoc.Lines.BatchNumbers.Add();
-                                        //oDoc.Lines.BatchNumbers.SetCurrentLine(oDoc.Lines.Count - 1);
-                                        oDoc.Lines.Add();
-                                        oDoc.Lines.SetCurrentLine(oDoc.Lines.Count - 1);
-                                    }
-
-                                    oDoc.Lines.WarehouseCode = dtl.Warehouse.WarehouseCode;
-
-                                    oDoc.Lines.ItemCode = dtl.ItemCode.ItemCode;
-                                    oDoc.Lines.ItemDescription = dtl.ItemDesc;
-                                    oDoc.Lines.Quantity = (double)reader.GetDecimal(1);
-
-                                    vwStockCountGL glacc = fos.FindObject<vwStockCountGL>(CriteriaOperator.Parse("ItmsGrpNam = ?", dtl.ItemCode.Model));
-                                    if (glacc != null)
-                                    {
-                                        oDoc.Lines.AccountCode = glacc.GLAccount;
-                                    }
-
-                                    if (reader.GetDecimal(3) <= 0)
+                                    if (reader.GetDecimal(2) <= 0)
                                     {
                                         oDoc.Lines.UnitPrice = 0.01;
                                     }
                                     else
                                     {
-                                        oDoc.Lines.UnitPrice = (double)reader.GetDecimal(3);
+                                        oDoc.Lines.UnitPrice = (double)reader.GetDecimal(2);
                                     }
-                                    oDoc.Lines.UserFields.Fields.Item("U_PortalLineOid").Value = dtl.Oid.ToString();
-
-                                    if (dtl.Bin != null)
-                                    {
-                                        oDoc.Lines.BinAllocations.BinAbsEntry = dtl.Bin.AbsEntry;
-                                        oDoc.Lines.BinAllocations.Quantity = (double)reader.GetDecimal(1);
-                                    }
-
-                                    break;
                                 }
+                            }
+
+                            oDoc.Lines.UserFields.Fields.Item("U_PortalLineOid").Value = dtl.Oid.ToString();
+
+                            if (dtl.Bin != null)
+                            {
+                                oDoc.Lines.BinAllocations.BinAbsEntry = dtl.Bin.AbsEntry;
+                                oDoc.Lines.BinAllocations.Quantity = (double)dtl.Quantity;
                             }
                         }
                     }
-
-                    conn.Close();
+                    // End ver 1.0.13
 
                     if (cnt <= 0)
                     {

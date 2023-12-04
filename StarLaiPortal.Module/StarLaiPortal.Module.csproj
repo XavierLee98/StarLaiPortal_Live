@@ -147,6 +147,7 @@
     <Compile Include="BusinessObjects\Dashboard\DashboardsPurchase.cs" />
     <Compile Include="BusinessObjects\Dashboard\DashboardsSales.cs" />
     <Compile Include="BusinessObjects\Dashboard\DashboardsWarehouse.cs" />
+    <Compile Include="BusinessObjects\Delivery Order\DailyDeliveryOrders.cs" />
     <Compile Include="BusinessObjects\Delivery Order\DeliveryOrder.cs" />
     <Compile Include="BusinessObjects\Delivery Order\DeliveryOrderDetails.cs" />
     <Compile Include="BusinessObjects\Delivery Order\DeliveryOrderDocTrail.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="BusinessObjects\Inquiry View\vwInquiryBundleTransferDetails.cs" />
     <Compile Include="BusinessObjects\Inquiry View\vwInquiryCreditMemo.cs" />
     <Compile Include="BusinessObjects\Inquiry View\vwInquiryCurrentARAging.cs" />
+    <Compile Include="BusinessObjects\Inquiry View\vwInquiryCustomer.cs" />
     <Compile Include="BusinessObjects\Inquiry View\vwInquiryDelivery.cs" />
     <Compile Include="BusinessObjects\Inquiry View\vwInquiryGRN.cs" />
     <Compile Include="BusinessObjects\Inquiry View\vwInquiryInvoice.cs" />
@@ -340,6 +342,7 @@
     <Compile Include="BusinessObjects\View\vwPaymentSOSimplified.cs" />
     <Compile Include="BusinessObjects\View\vwPaymentTerm.cs" />
     <Compile Include="BusinessObjects\View\vwPaymentType.cs" />
+    <Compile Include="BusinessObjects\View\vwPendingPostQty.cs" />
     <Compile Include="BusinessObjects\View\vwPickList.cs" />
     <Compile Include="BusinessObjects\View\vwPO.cs" />
     <Compile Include="BusinessObjects\View\vwPODetails.cs" />

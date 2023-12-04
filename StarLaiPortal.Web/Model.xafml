@@ -21,6 +21,7 @@
   </ViewItems>
   <Views>
     <ListView Id="GRN_GRNDetails_ListView" InlineEditMode="Inline" />
+    <ListView Id="ItemInquiry_ItemInquiryDetails_ListView_Report" MasterDetailView="ItemInquiryDetails_DetailView" />
     <ListView Id="PurchaseOrders_PurchaseOrderDetails_ListView" InlineEditMode="Inline" />
     <ListView Id="PurchaseReturnRequests_PurchaseReturnRequestDetails_ListView" InlineEditMode="Inline" />
     <ListView Id="SalesQuotation_ListView" IsAdaptive="False" />

@@ -26,6 +26,7 @@ using System.Text;
 using System.Web;
 
 // 2023-07-28 add print button and do not add count in preview ver 0.1
+// 2023-12-04 add daily delivery summary ver 1.0.13
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -52,6 +53,9 @@ namespace StarLaiPortal.Module.Controllers
             this.PrintDO.Active.SetItemValue("Enabled", false);
             // End ver 0.1
             this.PrintDMBundleDO.Active.SetItemValue("Enabled", false);
+            // Start ver 1.0.13
+            this.PrintDailyDeliveryS.Active.SetItemValue("Enabled", false);
+            // End ver 1.0.13
         }
         protected override void OnViewControlsCreated()
         {
@@ -105,6 +109,12 @@ namespace StarLaiPortal.Module.Controllers
                 // End ver 0.1
                 this.PrintDMBundleDO.Active.SetItemValue("Enabled", true);
             }
+            // Start ver 1.0.13
+            else if (View.Id == "DailyDeliveryOrders_DetailView")
+            {
+                this.PrintDailyDeliveryS.Active.SetItemValue("Enabled", true);
+            }
+            // End ver 1.0.13
             else
             {
                 this.DOCopyFromLoading.Active.SetItemValue("Enabled", false);
@@ -117,6 +127,9 @@ namespace StarLaiPortal.Module.Controllers
                 this.PrintDO.Active.SetItemValue("Enabled", false);
                 // End ver 0.1
                 this.PrintDMBundleDO.Active.SetItemValue("Enabled", false);
+                // Start ver 1.0.13
+                this.PrintDailyDeliveryS.Active.SetItemValue("Enabled", false);
+                // End ver 1.0.13
             }
         }
         protected override void OnDeactivated()
@@ -620,5 +633,63 @@ namespace StarLaiPortal.Module.Controllers
                 showMsg("Fail", "Please select one DO only.", InformationType.Error);
             }
         }
+
+        // Start ver 1.0.13
+        private void PrintDailyDeliveryS_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            string strServer;
+            string strDatabase;
+            string strUserID;
+            string strPwd;
+            string filename;
+
+            SqlConnection conn = new SqlConnection(genCon.getConnectionString());
+            DailyDeliveryOrders deliverysummary = (DailyDeliveryOrders)View.CurrentObject;
+            ApplicationUser user = (ApplicationUser)SecuritySystem.CurrentUser;
+
+            if (deliverysummary.CardCode != null)
+            {
+                try
+                {
+                    ReportDocument doc = new ReportDocument();
+                    strServer = ConfigurationManager.AppSettings.Get("SQLserver").ToString();
+                    doc.Load(HttpContext.Current.Server.MapPath("~\\Reports\\DailyDeliverySummary.rpt"));
+                    strDatabase = conn.Database;
+                    strUserID = ConfigurationManager.AppSettings.Get("SQLID").ToString();
+                    strPwd = ConfigurationManager.AppSettings.Get("SQLPass").ToString();
+                    doc.DataSourceConnections[0].SetConnection(strServer, strDatabase, strUserID, strPwd);
+                    doc.Refresh();
+
+                    doc.SetParameterValue("DateFr", deliverysummary.DateFr.Date);
+                    doc.SetParameterValue("DateTo", deliverysummary.DateTo.Date);
+                    doc.SetParameterValue("CardCode", deliverysummary.CardCode.BPCode);
+
+                    filename = ConfigurationManager.AppSettings.Get("ReportPath").ToString() + conn.Database
+                        + "_" + deliverysummary.Oid + "_" + user.UserName + "_DeliverySum_"
+                        + DateTime.Parse(deliverysummary.DateFr.ToString()).ToString("yyyyMMdd") + ".pdf";
+
+                    doc.ExportToDisk(ExportFormatType.PortableDocFormat, filename);
+                    doc.Close();
+                    doc.Dispose();
+
+                    string url = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority +
+                        ConfigurationManager.AppSettings.Get("PrintPath").ToString() + conn.Database
+                        + "_" + deliverysummary.Oid + "_" + user.UserName + "_DeliverySum_"
+                        + DateTime.Parse(deliverysummary.DateFr.ToString()).ToString("yyyyMMdd") + ".pdf";
+                    var script = "window.open('" + url + "');";
+
+                    WebWindow.CurrentRequestWindow.RegisterStartupScript("DownloadFile", script);
+                }
+                catch (Exception ex)
+                {
+                    showMsg("Fail", ex.Message, InformationType.Error);
+                }
+            }
+            else
+            {
+                showMsg("Fail", "Please select cardcode.", InformationType.Error);
+            }
+        }
+        // End ver 1.0.13
     }
 }

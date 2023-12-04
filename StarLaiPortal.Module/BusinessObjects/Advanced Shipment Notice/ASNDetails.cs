@@ -17,6 +17,7 @@ using System.Text;
 
 // 2023-08-25 remove validation for qty ver 1.0.9
 // 2023-09-25 add copyto qty ver 1.0.10
+// 2023-12-04 add outstanding qty ver 1.0.13
 
 namespace StarLaiPortal.Module.BusinessObjects.Advanced_Shipment_Notice
 {
@@ -239,7 +240,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Advanced_Shipment_Notice
 
         private decimal _UnloadQty;
         // Start ver 1.0.9
-        //[ImmediatePostData]
+        // Start ver 1.0.13
+        [ImmediatePostData]
+        // End ver 1.0.13
         // End ver 1.0.9
         [DbType("numeric(18,6)")]
         [ModelDefault("DisplayFormat", "{0:N0}")]
@@ -261,8 +264,33 @@ namespace StarLaiPortal.Module.BusinessObjects.Advanced_Shipment_Notice
                 //    }
                 //}
                 // End ver 1.0.9
+                // Start ver 1.0.13
+                if (!IsLoading)
+                {
+                    OutstandingQty = UnloadQty;
+                }
+                // End ver 1.0.13
             }
         }
+
+        // Start ver 1.0.13
+        private decimal _OutstandingQty;
+        [ImmediatePostData]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:N0}")]
+        [ModelDefault("EditMask", "d")]
+        [XafDisplayName("Outstanding Qty")]
+        [Appearance("OutstandingQty", Enabled = false)]
+        [Index(21), VisibleInListView(true), VisibleInDetailView(false), VisibleInLookupListView(false)]
+        public decimal OutstandingQty
+        {
+            get { return _OutstandingQty; }
+            set
+            {
+                SetPropertyValue("OutstandingQty", ref _OutstandingQty, value);
+            }
+        }
+        // End ver 1.0.13
 
         private string _PORefNo;
         [XafDisplayName("PO Ref. No.")]

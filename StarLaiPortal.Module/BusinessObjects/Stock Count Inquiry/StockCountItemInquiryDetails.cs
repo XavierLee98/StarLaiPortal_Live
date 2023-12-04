@@ -117,6 +117,19 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count_Inquiry
             }
         }
 
+        private string _Bins;
+        [XafDisplayName("Bins")]
+        [Index(12), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
+        [Appearance("Bins", Enabled = false)]
+        public string Bins
+        {
+            get { return _Bins; }
+            set
+            {
+                SetPropertyValue("Bins", ref _Bins, value);
+            }
+        }
+
         private string _ItemCode;
         [XafDisplayName("Item Code")]
         [Index(13), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
@@ -127,6 +140,20 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count_Inquiry
             set
             {
                 SetPropertyValue("ItemCode", ref _ItemCode, value);
+            }
+        }
+
+        private string _ItemBarcode;
+        [XafDisplayName("Item Barcode")]
+        [Index(15), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
+        [Appearance("ItemBarcode", Enabled = false)]
+        public string ItemBarcode
+
+        {
+            get { return _ItemBarcode; }
+            set
+            {
+                SetPropertyValue("ItemBarcode", ref _ItemBarcode, value);
             }
         }
 

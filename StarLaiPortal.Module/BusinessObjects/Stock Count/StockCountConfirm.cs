@@ -16,6 +16,8 @@ using System.Linq;
 using System.Text;
 using static DevExpress.Xpo.Helpers.PerformanceCounters;
 
+// 2023-12-04 enhance posting with adjustment instead of check oimn ver 1.0.13
+
 namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
 {
     [DefaultClassOptions]
@@ -206,6 +208,32 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
                 SetPropertyValue("Sap", ref _Sap, value);
             }
         }
+
+        // Start ver 1.0.13
+        private bool _GRSap;
+        [XafDisplayName("GRSap")]
+        [Index(81), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
+        public bool GRSap
+        {
+            get { return _GRSap; }
+            set
+            {
+                SetPropertyValue("GRSap", ref _GRSap, value);
+            }
+        }
+
+        private bool _GISap;
+        [XafDisplayName("GISap")]
+        [Index(82), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
+        public bool GISap
+        {
+            get { return _GISap; }
+            set
+            {
+                SetPropertyValue("GISap", ref _GISap, value);
+            }
+        }
+        // End ver 1.0.13
 
         [Browsable(false)]
         public bool IsNew

@@ -42,6 +42,7 @@ using System.Text;
 // 2023-09-25 add warehouse field ver 1.0.10
 // 2023-09-25 update asn coptytoqty ver 1.0.10
 // 2023-10-19 write txt log ver 1.0.11
+// 2023-12-04 add outstanding qty ver 1.0.13
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -411,6 +412,9 @@ namespace StarLaiPortal.Module.Controllers
                 foreach (ASNDetails dtl in asn.ASNDetails)
                 {
                     dtl.CopyToQty = dtl.UnloadQty;
+                    // Start ver 1.0.13
+                    dtl.OutstandingQty = 0;
+                    // End ver 1.0.13
                 }
                 // End ver 1.0.10
             }

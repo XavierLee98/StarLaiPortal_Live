@@ -10,6 +10,7 @@ using DevExpress.ExpressApp.Utils;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Validation;
 using StarLaiPortal.Module.BusinessObjects;
+using StarLaiPortal.Module.BusinessObjects.Delivery_Order;
 using StarLaiPortal.Module.BusinessObjects.Item_Inquiry;
 using StarLaiPortal.Module.BusinessObjects.Print_Module;
 using StarLaiPortal.Module.BusinessObjects.Reports;
@@ -23,6 +24,7 @@ using System.Linq;
 using System.Text;
 
 // 2023-10-23 add stock count ver 1.0.12
+// 2023-12-04 add daily delivery summary ver 1.0.13
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -239,6 +241,26 @@ namespace StarLaiPortal.Module.Controllers
                 e.Handled = true;
             }
             // End ver 1.0.12
+
+            // Start ver 1.0.13
+            if (e.ActionArguments.SelectedChoiceActionItem.Id == "DailyDeliveryOrders_ListView")
+            {
+                IObjectSpace objectSpace = Application.CreateObjectSpace();
+                DailyDeliveryOrders newdaily = objectSpace.CreateObject<DailyDeliveryOrders>();
+
+                DetailView detailView = Application.CreateDetailView(objectSpace, "DailyDeliveryOrders_DetailView", true, newdaily);
+                detailView.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
+
+                newdaily.DateFr = DateTime.Today;
+                newdaily.DateTo = DateTime.Today;
+
+                objectSpace.CommitChanges();
+                objectSpace.Refresh();
+
+                e.ActionArguments.ShowViewParameters.CreatedView = detailView;
+                e.Handled = true;
+            }
+            // End ver 1.0.13
         }
     }
 }

@@ -151,6 +151,15 @@
         <ActionLink ActionId="CloseSCS" Index="99" />
         <ActionLink ActionId="CloseSO" Index="100" />
       </ActionContainer>
+      <ActionContainer Id="Unspecified">
+        <ActionLink ActionId="AddToCartPop" Index="0" />
+        <ActionLink ActionId="AddToCartSimple" Index="1" />
+        <ActionLink ActionId="ViewSales" Index="2" />
+        <ActionLink ActionId="ViewOrderStatus" Index="3" />
+        <ActionLink ActionId="ImportData" Index="4" />
+        <ActionLink ActionId="SearchOpenCart" Index="5" />
+        <ActionLink ActionId="SFRCopyToSF" Index="6" />
+      </ActionContainer>
     </ActionToContainerMapping>
   </ActionDesign>
   <BOModel>
@@ -253,6 +262,7 @@
           <Item Id="vwPackList_ListView" Removed="True" />
           <Item Id="vwPaymentSO_ListView" Removed="True" />
           <Item Id="vwPaymentSOSimplified_ListView" Removed="True" />
+          <Item Id="vwPendingPostQty_ListView" Removed="True" />
           <Item Id="vwPickList_ListView" Removed="True" />
           <Item Id="vwPO_ListView" Removed="True" />
           <Item Id="vwPODetails_ListView" Removed="True" />
@@ -332,7 +342,14 @@
           <Item Id="vwInquiryLoadingDetails_ListView" QuickAccessItem="False" Visible="False" />
         </Items>
       </Item>
-      <Item Id="Delivery Order" Index="13" />
+      <Item Id="Delivery Order" Index="13">
+        <Items>
+          <Item Id="vwInquiryDelivery_ListView" Index="0" />
+          <Item Id="DeliveryOrder_ListView" Index="1" />
+          <Item Id="vwInquiryInvoice_ListView" Index="2" />
+          <Item Id="DailyDeliveryOrders_ListView" Index="3" />
+        </Items>
+      </Item>
       <Item Id="Purchase Order" Index="14">
         <Items>
           <Item Id="PurchaseOrders_ListView" Index="0" />
@@ -1262,7 +1279,7 @@
         <PropertyEditor Id="CreateUser" PropertyName="CreateUser" IsNewNode="True" />
         <PropertyEditor Id="DocType" PropertyName="DocType" IsNewNode="True" />
         <PropertyEditor Id="Exclude" PropertyName="Exclude" IsNewNode="True" />
-        <PropertyEditor Id="ItemInquiryDetails" PropertyName="ItemInquiryDetails" View="ItemInquiry_ItemInquiryDetails_ListView" IsNewNode="True" />
+        <PropertyEditor Id="ItemInquiryDetails" PropertyName="ItemInquiryDetails" View="ItemInquiry_ItemInquiryDetails_ListView_Report" IsNewNode="True" />
         <PropertyEditor Id="Method" PropertyName="Method" IsNewNode="True" />
         <PropertyEditor Id="Oid" PropertyName="Oid" IsNewNode="True" />
         <PropertyEditor Id="PriceList1" PropertyName="PriceList1" IsNewNode="True" />
@@ -1347,7 +1364,7 @@
       </Columns>
       <SplitLayout Direction="Vertical" />
     </ListView>
-    <ListView Id="ItemInquiry_ItemInquiryDetails_ListView_Report" ClassName="StarLaiPortal.Module.BusinessObjects.Item_Inquiry.ItemInquiryDetails" DataAccessMode="Client" FreezeColumnIndices="False" IsNewNode="True">
+    <ListView Id="ItemInquiry_ItemInquiryDetails_ListView_Report" ClassName="StarLaiPortal.Module.BusinessObjects.Item_Inquiry.ItemInquiryDetails" DataAccessMode="Client" FreezeColumnIndices="False" DetailViewID="ItemInquiryDetails_DetailView_Report" MasterDetailView="ItemInquiryDetails_DetailView" IsNewNode="True">
       <Columns IsNewNode="True">
         <ColumnInfo Id="Barcode" PropertyName="Barcode" Index="-1" IsNewNode="True" />
         <ColumnInfo Id="HierarchyLevel1" PropertyName="HierarchyLevel1" Index="-1" IsNewNode="True" />
@@ -1490,6 +1507,70 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
+    <DetailView Id="ItemInquiryDetails_DetailView_Report" CaptionColon=":" EnableCaptionColon="True" CaptionLocation="Default" CaptionHorizontalAlignment="Default" CaptionVerticalAlignment="Default" CaptionWordWrap="Default" EnableLayoutGroupImages="True" RequiredFieldMark="*" ClassName="StarLaiPortal.Module.BusinessObjects.Item_Inquiry.ItemInquiryDetails" AllowEdit="False" DefaultFocusedItem="" IsNewNode="True">
+      <Items IsNewNode="True">
+        <StaticText Id="Balance" Text="Balance" Caption="Balance" IsNewNode="True" />
+        <PropertyEditor Id="Barcode" PropertyName="Barcode" IsNewNode="True" />
+        <PropertyEditor Id="BPCatalogNo" PropertyName="BPCatalogNo" IsNewNode="True" />
+        <PropertyEditor Id="ForeignName" PropertyName="ForeignName" IsNewNode="True" />
+        <PropertyEditor Id="HierarchyLevel1" PropertyName="HierarchyLevel1" IsNewNode="True" />
+        <PropertyEditor Id="HierarchyLevel2" PropertyName="HierarchyLevel2" IsNewNode="True" />
+        <PropertyEditor Id="HierarchyLevel3" PropertyName="HierarchyLevel3" IsNewNode="True" />
+        <PropertyEditor Id="HierarchyLevel4" PropertyName="HierarchyLevel4" IsNewNode="True" />
+        <PropertyEditor Id="HierarchyLevel5" PropertyName="HierarchyLevel5" IsNewNode="True" />
+        <PropertyEditor Id="ItemCode" PropertyName="ItemCode" IsNewNode="True" />
+        <PropertyEditor Id="ItemDesc" PropertyName="ItemDesc" IsNewNode="True" />
+        <PropertyEditor Id="ItemInquiry" PropertyName="ItemInquiry" IsNewNode="True" />
+        <PropertyEditor Id="LegacyItemCode" PropertyName="LegacyItemCode" IsNewNode="True" />
+        <StaticText Id="Location" Text="Location" Caption="Location" IsNewNode="True" />
+        <PropertyEditor Id="Model" PropertyName="Model" IsNewNode="True" />
+        <PropertyEditor Id="Oid" PropertyName="Oid" IsNewNode="True" />
+        <PropertyEditor Id="OriginalCatalog" PropertyName="OriginalCatalog" IsNewNode="True" />
+        <PropertyEditor Id="PictureName" PropertyName="PictureName" IsNewNode="True" />
+        <StaticText Id="Price" Text="Price" Caption="Price" IsNewNode="True" />
+        <StaticText Id="Price List" Text="Price List" Caption="Price List" IsNewNode="True" />
+        <PropertyEditor Id="Price1" PropertyName="Price1" IsNewNode="True" />
+        <PropertyEditor Id="Price2" PropertyName="Price2" IsNewNode="True" />
+        <PropertyEditor Id="Price3" PropertyName="Price3" IsNewNode="True" />
+        <PropertyEditor Id="Price4" PropertyName="Price4" IsNewNode="True" />
+        <PropertyEditor Id="PriceList1" PropertyName="PriceList1" IsNewNode="True" />
+        <PropertyEditor Id="PriceList2" PropertyName="PriceList2" IsNewNode="True" />
+        <PropertyEditor Id="PriceList3" PropertyName="PriceList3" IsNewNode="True" />
+        <PropertyEditor Id="PriceList4" PropertyName="PriceList4" IsNewNode="True" />
+        <PropertyEditor Id="Remarks" PropertyName="Remarks" RowCount="3" MaxLength="50000" IsNewNode="True" />
+        <PropertyEditor Id="Stock1" PropertyName="Stock1" IsNewNode="True" />
+        <PropertyEditor Id="Stock2" PropertyName="Stock2" IsNewNode="True" />
+        <PropertyEditor Id="Stock3" PropertyName="Stock3" IsNewNode="True" />
+        <PropertyEditor Id="Stock4" PropertyName="Stock4" IsNewNode="True" />
+        <PropertyEditor Id="StockName1" PropertyName="StockName1" IsNewNode="True" />
+        <PropertyEditor Id="StockName2" PropertyName="StockName2" IsNewNode="True" />
+      </Items>
+      <Layout IsNewNode="True">
+        <LayoutGroup Id="Main" Index="0" ShowCaption="False" RelativeSize="100" IsNewNode="True">
+          <LayoutGroup Id="SimpleEditors" Index="0" ShowCaption="False" RelativeSize="100" IsNewNode="True">
+            <LayoutGroup Id="Auto7ff0352c-e87e-4185-ace8-a7ee1d124643" ShowCaption="False" Caption="Auto7ff0352c-e87e-4185-ace8-a7ee1d124643(3)" Direction="Horizontal" Index="0" RelativeSize="17.744916820702404" IsNewNode="True">
+              <LayoutGroup Id="Auto4585fd0c-e3ae-46e1-b52a-219f5a29f1da" ShowCaption="False" Caption="" Index="0" RelativeSize="32.23981900452489" IsNewNode="True">
+                <LayoutItem Id="HierarchyLevel1" ViewItem="HierarchyLevel1" Index="0" RelativeSize="37.5" IsNewNode="True" />
+                <LayoutItem Id="HierarchyLevel4" ViewItem="HierarchyLevel4" Index="1" RelativeSize="27.083333333333332" IsNewNode="True" />
+                <LayoutItem Id="ForeignName" ViewItem="ForeignName" Index="2" RelativeSize="35.416666666666664" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="Auto3285b81b-6113-4d54-8e8a-e571ebcc95e9" ShowCaption="False" Caption="" Direction="Horizontal" Index="1" RelativeSize="67.76018099547511" IsNewNode="True">
+                <LayoutGroup Id="Autoe467ba64-6237-4b72-a574-2971eb951138" ShowCaption="False" Caption="" Index="0" RelativeSize="43.906510851419029" IsNewNode="True">
+                  <LayoutItem Id="HierarchyLevel2" ViewItem="HierarchyLevel2" Index="0" RelativeSize="37.5" IsNewNode="True" />
+                  <LayoutItem Id="HierarchyLevel5" ViewItem="HierarchyLevel5" Index="1" RelativeSize="27.083333333333332" IsNewNode="True" />
+                  <LayoutItem Id="BPCatalogNo" ViewItem="BPCatalogNo" Index="2" RelativeSize="35.416666666666664" IsNewNode="True" />
+                </LayoutGroup>
+                <LayoutGroup Id="Autod7a6dce2-684b-410d-981f-05a8833100d5" ShowCaption="False" Caption="" Index="1" RelativeSize="56.093489148580971" IsNewNode="True">
+                  <LayoutItem Id="HierarchyLevel3" ViewItem="HierarchyLevel3" Index="0" RelativeSize="37.5" IsNewNode="True" />
+                  <LayoutItem Id="Barcode" ViewItem="Barcode" Index="1" RelativeSize="62.5" IsNewNode="True" />
+                </LayoutGroup>
+              </LayoutGroup>
+            </LayoutGroup>
+            <LayoutItem Id="Remarks" ViewItem="Remarks" Index="1" RelativeSize="82.2550831792976" IsNewNode="True" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
     <ListView Id="ItemInquiryDetails_ListView" FreezeColumnIndices="False">
       <Columns>
         <ColumnInfo Id="ItemCode" Width="79" />
@@ -1618,6 +1699,8 @@
     <ListView Id="Load_ListView" DataAccessMode="Client" />
     <DetailView Id="LoadDetails_DetailView" AllowEdit="False" />
     <DetailView Id="LoadDocTrail_DetailView" AllowEdit="False" />
+    <DetailView Id="OrderStatus_DetailView" AllowEdit="False" />
+    <DetailView Id="OrderStatusList_DetailView" AllowEdit="True" />
     <ListView Id="PackList_AuditTrail_ListView" AllowDelete="False" AllowLink="False" AllowNew="False">
       <Columns>
         <ColumnInfo Id="PropertyName" Index="-1" />
@@ -5023,6 +5106,7 @@
     <ListView Id="vwInquiryCreditMemo_ListView" DataAccessMode="Client" />
     <DetailView Id="vwInquiryCurrentARAging_DetailView" AllowEdit="False" />
     <ListView Id="vwInquiryCurrentARAging_ListView" DataAccessMode="Client" />
+    <DetailView Id="vwInquiryCustomer_DetailView" AllowEdit="False" />
     <DetailView Id="vwInquiryDelivery_DetailView" AllowEdit="False" />
     <ListView Id="vwInquiryDelivery_ListView" DataAccessMode="Client" />
     <DetailView Id="vwInquiryGRN_DetailView" AllowEdit="False" />
@@ -5136,6 +5220,7 @@
     <ListView Id="vwPaymentTerm_ListView" DataAccessMode="Client" />
     <DetailView Id="vwPaymentType_DetailView" AllowEdit="False" />
     <ListView Id="vwPaymentType_ListView" DataAccessMode="Client" />
+    <DetailView Id="vwPendingPostQty_DetailView" AllowEdit="False" />
     <DetailView Id="vwPickList_DetailView" AllowEdit="False" />
     <ListView Id="vwPickList_ListView" DataAccessMode="Client" />
     <DetailView Id="vwPO_DetailView" AllowEdit="False" />

@@ -35,6 +35,7 @@
             this.AddToCartPop = new DevExpress.ExpressApp.Actions.PopupWindowShowAction(this.components);
             this.ViewItemPicture = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             this.AddToCartSimple = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
+            this.ViewOrderStatus = new DevExpress.ExpressApp.Actions.PopupWindowShowAction(this.components);
             // 
             // Search_ItemInquiry
             // 
@@ -93,6 +94,17 @@
             this.AddToCartSimple.ToolTip = null;
             this.AddToCartSimple.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.AddToCartSimple_Execute);
             // 
+            // ViewOrderStatus
+            // 
+            this.ViewOrderStatus.AcceptButtonCaption = null;
+            this.ViewOrderStatus.CancelButtonCaption = null;
+            this.ViewOrderStatus.Caption = "Order Status";
+            this.ViewOrderStatus.ConfirmationMessage = null;
+            this.ViewOrderStatus.Id = "ViewOrderStatus";
+            this.ViewOrderStatus.ToolTip = null;
+            this.ViewOrderStatus.CustomizePopupWindowParams += new DevExpress.ExpressApp.Actions.CustomizePopupWindowParamsEventHandler(this.ViewOrderStatus_CustomizePopupWindowParams);
+            this.ViewOrderStatus.Execute += new DevExpress.ExpressApp.Actions.PopupWindowShowActionExecuteEventHandler(this.ViewOrderStatus_Execute);
+            // 
             // ItemInquiryControllers
             // 
             this.Actions.Add(this.Search_ItemInquiry);
@@ -101,6 +113,7 @@
             this.Actions.Add(this.AddToCartPop);
             this.Actions.Add(this.ViewItemPicture);
             this.Actions.Add(this.AddToCartSimple);
+            this.Actions.Add(this.ViewOrderStatus);
 
         }
 
@@ -112,5 +125,6 @@
         private DevExpress.ExpressApp.Actions.PopupWindowShowAction AddToCartPop;
         private DevExpress.ExpressApp.Actions.SimpleAction ViewItemPicture;
         private DevExpress.ExpressApp.Actions.SimpleAction AddToCartSimple;
+        private DevExpress.ExpressApp.Actions.PopupWindowShowAction ViewOrderStatus;
     }
 }
