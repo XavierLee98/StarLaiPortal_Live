@@ -4936,21 +4936,22 @@
       </Items>
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
-          <LayoutGroup Id="SimpleEditors" RelativeSize="22.975517890772128" Direction="Horizontal">
-            <LayoutGroup Id="StockCountSheet_col1" ShowCaption="False" Index="0" RelativeSize="39.484396200814111" IsNewNode="True">
-              <LayoutItem Id="DocNum" ViewItem="DocNum" Index="0" RelativeSize="29.508196721311474" IsNewNode="True" />
-              <LayoutItem Id="Counter" ViewItem="Counter" Index="1" RelativeSize="21.311475409836067" IsNewNode="True" />
-              <LayoutItem Id="Warehouse" ViewItem="Warehouse" Index="2" RelativeSize="21.311475409836067" IsNewNode="True" />
-              <LayoutItem Id="Counted" ViewItem="Counted" Index="3" RelativeSize="27.868852459016395" IsNewNode="True" />
+          <LayoutGroup Id="SimpleEditors" RelativeSize="31.48936170212766" Direction="Horizontal">
+            <LayoutGroup Id="StockCountSheet_col1" ShowCaption="False" Index="0" RelativeSize="39.467005076142129" IsNewNode="True">
+              <LayoutItem Id="DocNum" ViewItem="DocNum" Index="0" RelativeSize="24.324324324324323" IsNewNode="True" />
+              <LayoutItem Id="Counter" ViewItem="Counter" Index="1" RelativeSize="17.567567567567568" IsNewNode="True" />
+              <LayoutItem Id="Warehouse" ViewItem="Warehouse" Index="2" RelativeSize="17.567567567567568" IsNewNode="True" />
+              <LayoutItem Id="Counted" ViewItem="Counted" Index="3" RelativeSize="40.54054054054054" IsNewNode="True" />
             </LayoutGroup>
-            <LayoutGroup Id="StockCountSheet_col2" ShowCaption="False" Index="1" RelativeSize="60.515603799185889" Direction="Horizontal" Caption="StockCountSheet_col2" IsNewNode="True">
-              <LayoutGroup Id="Auto43fd0715-236a-4dcb-9d9b-7fc12625e5d4" ShowCaption="False" Caption="Auto43fd0715-236a-4dcb-9d9b-7fc12625e5d4(9)" Index="0" RelativeSize="71.300448430493276" IsNewNode="True">
-                <LayoutItem Id="StockCountDate" ViewItem="StockCountDate" Index="0" RelativeSize="29.508196721311474" IsNewNode="True" />
-                <LayoutItem Id="Status" ViewItem="Status" Index="1" RelativeSize="21.311475409836067" IsNewNode="True" />
-                <LayoutItem Id="Round" ViewItem="Round" Index="2" RelativeSize="21.311475409836067" IsNewNode="True" />
-                <LayoutItem Id="Reference" ViewItem="Reference" Index="3" RelativeSize="27.868852459016395" IsNewNode="True" />
+            <LayoutGroup Id="StockCountSheet_col2" ShowCaption="False" Index="1" RelativeSize="60.532994923857871" Direction="Horizontal" Caption="StockCountSheet_col2" IsNewNode="True">
+              <LayoutGroup Id="Auto43fd0715-236a-4dcb-9d9b-7fc12625e5d4" ShowCaption="False" Caption="Auto43fd0715-236a-4dcb-9d9b-7fc12625e5d4(9)" Index="0" RelativeSize="73.165618448637318" IsNewNode="True">
+                <LayoutItem Id="StockCountDate" ViewItem="StockCountDate" Index="0" RelativeSize="24.324324324324323" IsNewNode="True" />
+                <LayoutItem Id="StockCountActualDate" ViewItem="StockCountActualDate" Index="1" RelativeSize="17.567567567567568" IsNewNode="True" />
+                <LayoutItem Id="Status" ViewItem="Status" Index="2" RelativeSize="17.567567567567568" IsNewNode="True" />
+                <LayoutItem Id="Round" ViewItem="Round" Index="3" RelativeSize="17.567567567567568" IsNewNode="True" />
+                <LayoutItem Id="Reference" ViewItem="Reference" Index="4" RelativeSize="22.972972972972972" IsNewNode="True" />
               </LayoutGroup>
-              <LayoutItem Id="StockSheetImport" ViewItem="StockSheetImport" Index="1" RelativeSize="28.699551569506728" IsNewNode="True" />
+              <LayoutItem Id="StockSheetImport" ViewItem="StockSheetImport" Index="1" RelativeSize="26.834381551362682" IsNewNode="True" />
             </LayoutGroup>
             <LayoutGroup Id="StockCountSheet" RelativeSize="100" Removed="True">
               <LayoutGroup Id="StockCountSheet_col1" RelativeSize="49.928057553956833">
@@ -4970,8 +4971,8 @@
               </LayoutGroup>
             </LayoutGroup>
           </LayoutGroup>
-          <LayoutItem Id="Remarks" ViewItem="Remarks" Index="1" RelativeSize="4.8964218455743875" IsNewNode="True" />
-          <TabbedGroup Id="Tabs" RelativeSize="72.128060263653481" Index="2">
+          <LayoutItem Id="Remarks" ViewItem="Remarks" Index="1" RelativeSize="5.5319148936170217" IsNewNode="True" />
+          <TabbedGroup Id="Tabs" RelativeSize="62.978723404255319" Index="2">
             <LayoutGroup Id="StockCountSheetTarget" RelativeSize="100">
               <LayoutItem Id="StockCountSheetTarget" RelativeSize="100" />
             </LayoutGroup>
