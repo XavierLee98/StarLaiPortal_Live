@@ -36,6 +36,7 @@ using System.Web.UI;
 // 2023-08-16 add stock 3 and stock 4 - ver 1.0.8
 // 2023-04-09 fix speed issue ver 1.0.8.1
 // 2023-09-07 check stock when approve ver 1.0.9
+// 2023-12-01 change to action for create SO button ver 1.0.13
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -64,6 +65,9 @@ namespace StarLaiPortal.Module.Controllers
             this.ApproveAppSQ_Pop.Active.SetItemValue("Enabled", false);
             this.ExportSQImport.Active.SetItemValue("Enabled", false);
             this.ImportSQ.Active.SetItemValue("Enabled", false);
+            // Start ver 1.0.13
+            this.CreateSalesOrderAction.Active.SetItemValue("Enabled", false);
+            // End ver 1.0.13
         }
         protected override void OnViewControlsCreated()
         {
@@ -76,7 +80,10 @@ namespace StarLaiPortal.Module.Controllers
                 //this.BackToInquiry.Active.SetItemValue("Enabled", true);
                 if (((DetailView)View).ViewEditMode == ViewEditMode.View)
                 {
-                    this.CreateSalesOrder.Active.SetItemValue("Enabled", true);
+                    // Start ver 1.0.13
+                    //this.CreateSalesOrder.Active.SetItemValue("Enabled", true);
+                    this.CreateSalesOrderAction.Active.SetItemValue("Enabled", true);
+                    // End ver 1.0.13
                     this.CancelSalesOrder.Active.SetItemValue("Enabled", true);
                     this.DuplicateSQ.Active.SetItemValue("Enabled", true);
                     this.PreviewSQ.Active.SetItemValue("Enabled", true);
@@ -87,6 +94,9 @@ namespace StarLaiPortal.Module.Controllers
                     this.CancelSalesOrder.Active.SetItemValue("Enabled", false);
                     this.DuplicateSQ.Active.SetItemValue("Enabled", false);
                     this.PreviewSQ.Active.SetItemValue("Enabled", false);
+                    // Start ver 1.0.13
+                    this.CreateSalesOrderAction.Active.SetItemValue("Enabled", false);
+                    // End ver 1.0.13
                 }
 
                 if (((DetailView)View).ViewEditMode == ViewEditMode.Edit)
@@ -137,6 +147,9 @@ namespace StarLaiPortal.Module.Controllers
                 this.ApproveAppSQ_Pop.Active.SetItemValue("Enabled", false);
                 this.ExportSQImport.Active.SetItemValue("Enabled", false);
                 this.ImportSQ.Active.SetItemValue("Enabled", false);
+                // Start ver 1.0.13
+                this.CreateSalesOrderAction.Active.SetItemValue("Enabled", false);
+                // End ver 1.0.13
             }
 
             if (View.Id == "SalesQuotation_SalesQuotationDetails_ListView")
@@ -1464,5 +1477,216 @@ namespace StarLaiPortal.Module.Controllers
 
             e.View = view;
         }
+
+        // Start ver 1.0.13
+        private void CreateSalesOrderAction_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            SalesQuotation selectedObject = (SalesQuotation)e.CurrentObject;
+            SqlConnection conn = new SqlConnection(genCon.getConnectionString());
+
+            IObjectSpace sq = Application.CreateObjectSpace();
+            SalesQuotation sqtrx = sq.FindObject<SalesQuotation>(new BinaryOperator("Oid", selectedObject.Oid));
+
+            if (sqtrx.Status == DocStatus.Submitted)
+            {
+                showMsg("Failed", "Document already submit, please refresh data.", InformationType.Error);
+                return;
+            }
+
+            if (selectedObject.IsValid5 == true)
+            {
+                showMsg("Failed", "Credit customer not allow use cash series.", InformationType.Error);
+                return;
+            }
+
+            if (selectedObject.IsValid6 == true)
+            {
+                showMsg("Failed", "Salesperson already inactive.", InformationType.Error);
+                return;
+            }
+
+            // Start ver 1.0.7
+            if (selectedObject.IsValid7 == true)
+            {
+                showMsg("Failed", "Cash sales billing and shipping address cannot blank.", InformationType.Error);
+                return;
+            }
+
+            if (selectedObject.IsValid8 == true)
+            {
+                showMsg("Failed", "Priority cannot be blank.", InformationType.Error);
+                return;
+            }
+            // End ver 1.0.7
+
+            if (selectedObject.IsValid == false)
+            {
+                if (selectedObject.IsValid1 == true)
+                {
+                    if (selectedObject.IsValid2 == false)
+                    {
+                        //if (selectedObject.IsValid3 == false)
+                        //{
+                        if (selectedObject.IsValid4 == false)
+                        {
+                            selectedObject.Status = DocStatus.Submitted;
+
+                            SalesQuotationDocTrail ds = ObjectSpace.CreateObject<SalesQuotationDocTrail>();
+                            ds.DocStatus = DocStatus.Submitted;
+                            ds.DocRemarks = "";
+                            selectedObject.SalesQuotationDocTrail.Add(ds);
+
+                            ObjectSpace.CommitChanges();
+                            ObjectSpace.Refresh();
+
+                            #region Get approval
+                            List<string> ToEmails = new List<string>();
+                            string emailbody = "";
+                            string emailsubject = "";
+                            string emailaddress = "";
+                            Guid emailuser;
+                            DateTime emailtime = DateTime.Now;
+
+                            string getapproval = "EXEC sp_GetApproval '" + selectedObject.CreateUser.Oid + "', '" + selectedObject.Oid + "', 'SalesQuotation'";
+                            if (conn.State == ConnectionState.Open)
+                            {
+                                conn.Close();
+                            }
+                            conn.Open();
+                            SqlCommand cmd = new SqlCommand(getapproval, conn);
+                            SqlDataReader reader = cmd.ExecuteReader();
+                            while (reader.Read())
+                            {
+                                if (reader.GetString(1) != "")
+                                {
+                                    emailbody = "Dear Sir/Madam, " + System.Environment.NewLine + System.Environment.NewLine +
+                                           reader.GetString(3) + System.Environment.NewLine + GeneralSettings.appurl + reader.GetString(2) +
+                                           System.Environment.NewLine + System.Environment.NewLine;
+
+                                    emailsubject = "Sales Quotation Approval";
+                                    emailaddress = reader.GetString(1);
+                                    emailuser = reader.GetGuid(0);
+
+                                    ToEmails.Add(emailaddress);
+                                }
+                            }
+                            conn.Close();
+
+                            if (ToEmails.Count > 0)
+                            {
+                                if (genCon.SendEmail(emailsubject, emailbody, ToEmails) == 1)
+                                {
+                                }
+                            }
+
+                            #endregion
+
+                            IObjectSpace os = Application.CreateObjectSpace();
+                            SalesQuotation trx = os.FindObject<SalesQuotation>(new BinaryOperator("Oid", selectedObject.Oid));
+
+                            if (trx.AppStatus == ApprovalStatusType.Not_Applicable && trx.Status == DocStatus.Submitted)
+                            {
+                                #region Add SO
+                                IObjectSpace sos = Application.CreateObjectSpace();
+                                SalesOrder newSO = sos.CreateObject<SalesOrder>();
+
+                                string docprefix = genCon.GetDocPrefix();
+                                newSO.DocNum = genCon.GenerateDocNum(DocTypeList.SO, sos, TransferType.NA, 0, docprefix);
+
+                                if (selectedObject.Customer != null)
+                                {
+                                    newSO.Customer = newSO.Session.GetObjectByKey<vwBusniessPartner>(selectedObject.Customer.BPCode);
+                                }
+                                newSO.CustomerName = selectedObject.CustomerName;
+                                if (selectedObject.Transporter != null)
+                                {
+                                    newSO.Transporter = newSO.Session.GetObjectByKey<vwTransporter>(selectedObject.Transporter.TransporterID);
+                                }
+                                newSO.ContactNo = selectedObject.ContactNo;
+                                if (selectedObject.ContactPerson != null)
+                                {
+                                    newSO.ContactPerson = newSO.Session.GetObjectByKey<vwSalesPerson>(selectedObject.ContactPerson.SlpCode);
+                                }
+                                if (selectedObject.PaymentTerm != null)
+                                {
+                                    newSO.PaymentTerm = newSO.Session.GetObjectByKey<vwPaymentTerm>(selectedObject.PaymentTerm.GroupNum);
+                                }
+                                if (selectedObject.Series != null)
+                                {
+                                    newSO.Series = newSO.Session.GetObjectByKey<vwSeries>(selectedObject.Series.Series);
+                                }
+                                if (selectedObject.Priority != null)
+                                {
+                                    newSO.Priority = newSO.Session.GetObjectByKey<PriorityType>(selectedObject.Priority.Oid);
+                                }
+                                if (selectedObject.BillingAddress != null)
+                                {
+                                    newSO.BillingAddress = newSO.Session.GetObjectByKey<vwBillingAddress>(selectedObject.BillingAddress.PriKey);
+                                }
+                                newSO.BillingAddressfield = selectedObject.BillingAddressfield;
+                                if (selectedObject.ShippingAddress != null)
+                                {
+                                    newSO.ShippingAddress = newSO.Session.GetObjectByKey<vwShippingAddress>(selectedObject.ShippingAddress.PriKey);
+                                }
+                                newSO.ShippingAddressfield = selectedObject.ShippingAddressfield;
+                                newSO.Remarks = selectedObject.Remarks;
+                                newSO.Attn = selectedObject.Attn;
+                                newSO.RefNo = selectedObject.RefNo;
+                                // Start ver 1.0.8.1
+                                newSO.SQNumber = selectedObject.DocNum;
+                                // End ver 1.0.8.1
+
+                                foreach (SalesQuotationDetails dtl in selectedObject.SalesQuotationDetails)
+                                {
+                                    SalesOrderDetails newsodetails = sos.CreateObject<SalesOrderDetails>();
+
+                                    newsodetails.ItemCode = newsodetails.Session.GetObjectByKey<vwItemMasters>(dtl.ItemCode.ItemCode);
+                                    newsodetails.ItemDesc = dtl.ItemDesc;
+                                    newsodetails.Model = dtl.Model;
+                                    newsodetails.CatalogNo = dtl.CatalogNo;
+                                    if (dtl.Location != null)
+                                    {
+                                        newsodetails.Location = newsodetails.Session.GetObjectByKey<vwWarehouse>(dtl.Location.WarehouseCode);
+                                    }
+                                    newsodetails.Quantity = dtl.Quantity;
+                                    newsodetails.Price = dtl.Price;
+                                    newsodetails.AdjustedPrice = dtl.AdjustedPrice;
+                                    newsodetails.BaseDoc = selectedObject.DocNum;
+                                    newsodetails.BaseId = dtl.Oid.ToString();
+                                    newSO.SalesOrderDetails.Add(newsodetails);
+                                }
+
+                                sos.CommitChanges();
+                                #endregion
+                            }
+                            openNewView(os, trx, ViewEditMode.View);
+                            showMsg("Successful", "Submit Done.", InformationType.Success);
+                        }
+                        else
+                        {
+                            showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
+                        }
+                        //}
+                        //else
+                        //{
+                        //    showMsg("Error", "Sales quotation row no allow zero amount.", InformationType.Error);
+                        //}
+                    }
+                    else
+                    {
+                        showMsg("Error", "Please fill in series and contact person.", InformationType.Error);
+                    }
+                }
+                else
+                {
+                    showMsg("Error", "No Content.", InformationType.Error);
+                }
+            }
+            else
+            {
+                showMsg("Error", "Multiple warehouse in same document.", InformationType.Error);
+            }
+        }
+        // End ver 1.0.13
     }
 }

@@ -47,6 +47,7 @@ using static DevExpress.XtraPrinting.Native.ExportOptionsPropertiesNames;
 // 2023-09-25 copy warehouse ver 1.0.10
 // 2023-10-11 fix multi tab issue ver 1.0.10
 // 2023-10-20 add stock count ver 1.0.12
+// 2023-12-04 add outstanding qty ver 1.0.13
 
 namespace StarLaiPortal.Module.Web.Controllers
 {

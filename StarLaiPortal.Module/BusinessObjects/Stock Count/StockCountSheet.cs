@@ -17,6 +17,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
+// 2023-12-04 add stock count actual date ver 1.0.13
+
 namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
 {
     [DefaultClassOptions]
@@ -62,6 +64,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
             }
             CreateDate = DateTime.Now;
             StockCountDate = DateTime.Today;
+            // Start ver 1.0.13
+            StockCountActualDate = DateTime.Today;
+            // End ver 1.0.13
             Round = 1;
             Counted = 0;
 
@@ -208,6 +213,20 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
                 SetPropertyValue("StockCountDate", ref _StockCountDate, value);
             }
         }
+
+        // Start ver 1.0.13
+        private DateTime _StockCountActualDate;
+        [XafDisplayName("Stock Count Actual Date")]
+        [Index(14), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(false)]
+        public DateTime StockCountActualDate
+        {
+            get { return _StockCountActualDate; }
+            set
+            {
+                SetPropertyValue("StockCountActualDate", ref _StockCountActualDate, value);
+            }
+        }
+        // End ver 1.0.13
 
         private DocStatus _Status;
         [XafDisplayName("Status")]

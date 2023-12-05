@@ -34,6 +34,7 @@ using System.Web;
 // 2023-07-20 - do not close asn if partial - ver 1.0.6 (UAT)
 // 2023-04-09 fix speed issue ver 1.0.8.1
 // 2023-09-25 add copyto qty ver 1.0.10
+// 2023-12-04 add outstanding qty ver 1.0.13
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -278,8 +279,8 @@ namespace StarLaiPortal.Module.Controllers
                             // End ver 1.0.8.1
                         //}
 
-                        ObjectSpace.CommitChanges();
-                        ObjectSpace.Refresh();
+                        //ObjectSpace.CommitChanges();
+                        //ObjectSpace.Refresh();
 
                         // Start ver 1.0.11
                         IObjectSpace os = Application.CreateObjectSpace();
@@ -553,6 +554,17 @@ namespace StarLaiPortal.Module.Controllers
                         dtl2.OIDKey = dtl2.Oid;
                     }
 
+                    // Start ver 1.0.13
+                    foreach (GRNDetails dtl3 in trx.GRNDetails)
+                    {
+                        if (dtl3.ASNBaseDoc != null)
+                        {
+                            genCon.CloseASN(dtl3.ASNBaseDoc, "Copy", ObjectSpace);
+                            break;
+                        }
+                    }
+                    // End ver 1.0.13
+
                     if (trx.Oid > 0)
                     {
                         trx.PortalPONo = null;
@@ -701,6 +713,9 @@ namespace StarLaiPortal.Module.Controllers
                                     {
                                         asndetail.CopyToQty = asndetail.CopyToQty - (asndetail.CopyToQty - dtl.Received);
                                         asndetail.CopyTotalQty = asndetail.CopyTotalQty + dtl.Received;
+                                        // Start ver 1.0.13
+                                        asndetail.OutstandingQty = asndetail.UnloadQty - dtl.Received;
+                                        // End ver 1.0.13
                                     }
 
                                     if (asndetail.Oid.ToString() == dtl.ASNBaseId && asndetail.CopyTotalQty >= asndetail.UnloadQty)
@@ -775,6 +790,32 @@ namespace StarLaiPortal.Module.Controllers
 
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
+
+            // Start ver 1.0.13
+            foreach (GRNDetails dtl in selectedObject.GRNDetails)
+            {
+                if (dtl.ASNBaseDoc != null)
+                {
+                    IObjectSpace asnos = Application.CreateObjectSpace();
+                    ASN asn = asnos.FindObject<ASN>(new BinaryOperator("DocNum", dtl.ASNBaseDoc));
+
+                    if (asn != null)
+                    {
+                        foreach (ASNDetails asndetail in asn.ASNDetails)
+                        {
+                            if (asndetail.Oid.ToString() == dtl.ASNBaseId)
+                            {
+                                asndetail.CopyToQty = asndetail.CopyToQty - dtl.OpenQty;
+                                asndetail.OutstandingQty = dtl.OpenQty;
+                            }
+                        }
+                    }
+
+                    asnos.CommitChanges();
+                    asnos.Refresh();
+                }
+            }
+            // End ver 1.0.13
 
             IObjectSpace os = Application.CreateObjectSpace();
             GRN trx = os.FindObject<GRN>(new BinaryOperator("Oid", selectedObject.Oid));

@@ -37,6 +37,7 @@
             this.PreviewBundleDO = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             this.PrintDO = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             this.PrintDMBundleDO = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
+            this.PrintDailyDeliveryS = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             // 
             // DOCopyFromLoading
             // 
@@ -119,6 +120,15 @@
             this.PrintDMBundleDO.ToolTip = null;
             this.PrintDMBundleDO.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.PrintDMBundleDO_Execute);
             // 
+            // PrintDailyDeliveryS
+            // 
+            this.PrintDailyDeliveryS.Caption = "Print";
+            this.PrintDailyDeliveryS.Category = "ObjectsCreation";
+            this.PrintDailyDeliveryS.ConfirmationMessage = null;
+            this.PrintDailyDeliveryS.Id = "PrintDailyDeliveryS";
+            this.PrintDailyDeliveryS.ToolTip = null;
+            this.PrintDailyDeliveryS.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.PrintDailyDeliveryS_Execute);
+            // 
             // DeliveryOrderControllers
             // 
             this.Actions.Add(this.DOCopyFromLoading);
@@ -129,6 +139,7 @@
             this.Actions.Add(this.PreviewBundleDO);
             this.Actions.Add(this.PrintDO);
             this.Actions.Add(this.PrintDMBundleDO);
+            this.Actions.Add(this.PrintDailyDeliveryS);
 
         }
 
@@ -142,5 +153,6 @@
         private DevExpress.ExpressApp.Actions.SimpleAction PreviewBundleDO;
         private DevExpress.ExpressApp.Actions.SimpleAction PrintDO;
         private DevExpress.ExpressApp.Actions.SimpleAction PrintDMBundleDO;
+        private DevExpress.ExpressApp.Actions.SimpleAction PrintDailyDeliveryS;
     }
 }

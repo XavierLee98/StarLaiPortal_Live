@@ -35,6 +35,7 @@ using System.Web;
 
 // 2023-07-28 add item button do not pop out ver 1.0.7
 // 2023-08-16 - add stock 3 and stock 4 - ver 1.0.8
+// 2023-12-04 - add order status - ver 1.0.13
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -59,6 +60,9 @@ namespace StarLaiPortal.Module.Controllers
             // Start ver 1.0.7
             this.AddToCartSimple.Active.SetItemValue("Enabled", false);
             // End ver 1.0.7
+            // Start ver 1.0.13
+            this.ViewOrderStatus.Active.SetItemValue("Enabled", false);
+            // End ver 1.0.13
 
             if (typeof(ItemInquiry).IsAssignableFrom(View.ObjectTypeInfo.Type))
             {
@@ -89,6 +93,9 @@ namespace StarLaiPortal.Module.Controllers
                         // End ver 1.0.7
                     }
                     this.ViewSales.Active.SetItemValue("Enabled", true);
+                    // Start ver 1.0.13
+                    this.ViewOrderStatus.Active.SetItemValue("Enabled", true);
+                    // End ver 1.0.13
                     this.ViewItemPicture.Active.SetItemValue("Enabled", true);
                     this.ViewItemPicture.SelectionDependencyType = DevExpress.ExpressApp.Actions.SelectionDependencyType.RequireSingleObject;
                 }
@@ -1033,5 +1040,68 @@ namespace StarLaiPortal.Module.Controllers
             //}
         }
         // End ver 1.0.7
+
+        // Start ver 1.0.13
+        private void ViewOrderStatus_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
+        {
+
+        }
+
+        private void ViewOrderStatus_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
+        {
+            ItemInquiryDetails iteminquiry = (ItemInquiryDetails)View.CurrentObject;
+
+            IObjectSpace objectSpace = Application.CreateObjectSpace(typeof(OrderStatus));
+
+            XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+            var nonPersistentOS = Application.CreateObjectSpace(typeof(OrderStatusList));
+            OrderStatusList orderstatuslist = nonPersistentOS.CreateObject<OrderStatusList>();
+
+            if (iteminquiry != null)
+            {
+                SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetItemOrderStatus", new OperandValue(iteminquiry.ItemCode));
+
+                int i = 1;
+
+                if (sprocData.ResultSet.Count() > 0)
+                {
+                    if (sprocData.ResultSet[0].Rows.Count() > 0)
+                    {
+                        foreach (SelectStatementResultRow row in sprocData.ResultSet[0].Rows)
+                        {
+                            var itemos = Application.CreateObjectSpace(typeof(OrderStatusList));
+                            var item = itemos.CreateObject<OrderStatus>();
+                            item.Id = i;
+                            item.No = i;
+                            item.ItemCode = row.Values[1].ToString();
+                            item.LegacyCode = row.Values[2].ToString();
+                            item.ItemName = row.Values[3].ToString();
+                            item.Origin = row.Values[4].ToString();
+                            item.Warehouse = row.Values[5].ToString();
+                            item.DocNo = row.Values[6].ToString();
+                            item.Quantity = (decimal)row.Values[7];
+                            item.ESRDate = (DateTime)row.Values[8];
+
+                            orderstatuslist.Orderstatus.Add(item);
+
+                            i++;
+                        }
+                    }
+                }
+            }
+
+            nonPersistentOS.CommitChanges();
+
+            DetailView detailView = Application.CreateDetailView(nonPersistentOS, orderstatuslist);
+            detailView.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
+            if (iteminquiry != null)
+            {
+                ((OrderStatusList)detailView.CurrentObject).ItemCode = iteminquiry.ItemCode + " - " + iteminquiry.ItemDesc;
+            }
+            e.View = detailView;
+            e.DialogController.SaveOnAccept = false;
+            e.DialogController.CancelAction.Active["NothingToCancel"] = false;
+        }
+        // End ver 1.0.13
     }
 }

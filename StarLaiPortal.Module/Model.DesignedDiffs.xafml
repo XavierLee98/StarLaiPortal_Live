@@ -53,95 +53,112 @@
         <ActionLink ActionId="SubmitPL" Index="1" />
         <ActionLink ActionId="CancelPL" Index="2" />
         <ActionLink ActionId="CreateSalesOrder" Index="3" />
-        <ActionLink ActionId="CancelSalesOrder" Index="4" />
-        <ActionLink ActionId="SubmitSOC" Index="5" />
-        <ActionLink ActionId="CancelSOC" Index="6" />
-        <ActionLink ActionId="DashboardWarehouse" Index="7" />
-        <ActionLink ActionId="DuplicateSQ" Index="8" />
-        <ActionLink ActionId="PACopyFromPL" Index="9" />
-        <ActionLink ActionId="PALBundleID" Index="10" />
-        <ActionLink ActionId="PLCopyFromSOCG" Index="11" />
-        <ActionLink ActionId="PLCopyFromSOC" Index="12" />
-        <ActionLink ActionId="PreviewPL" Index="13" />
-        <ActionLink ActionId="PreviewSO" Index="14" />
-        <ActionLink ActionId="SOCCopyFromSO" Index="15" />
-        <ActionLink ActionId="SubmitPA" Index="16" />
-        <ActionLink ActionId="CancelPA" Index="17" />
-        <ActionLink ActionId="PrintBundlePA" Index="18" />
-        <ActionLink ActionId="AddPackList" Index="19" />
-        <ActionLink ActionId="SubmitL" Index="20" />
-        <ActionLink ActionId="CancelL" Index="21" />
-        <ActionLink ActionId="SubmitPO" Index="22" />
-        <ActionLink ActionId="CancelPO" Index="23" />
-        <ActionLink ActionId="DeletePackList" Index="24" />
-        <ActionLink ActionId="LCopyFromPAL" Index="25" />
-        <ActionLink ActionId="LGenerateDO" Index="26" />
-        <ActionLink ActionId="DuplicatePO" Index="27" />
-        <ActionLink ActionId="PreviewPO" Index="28" />
-        <ActionLink ActionId="ASNCopyFromPO" Index="29" />
-        <ActionLink ActionId="ASNCopyFromPODetails" Index="30" />
-        <ActionLink ActionId="SubmitASN" Index="31" />
-        <ActionLink ActionId="CancelASN" Index="32" />
-        <ActionLink ActionId="SubmitGRN" Index="33" />
-        <ActionLink ActionId="SubmitPReturn" Index="34" />
-        <ActionLink ActionId="SubmitPRR" Index="35" />
-        <ActionLink ActionId="SubmitWTR" Index="36" />
-        <ActionLink ActionId="CancelGRN" Index="37" />
-        <ActionLink ActionId="SubmitSA" Index="38" />
-        <ActionLink ActionId="SubmitSAR" Index="39" />
-        <ActionLink ActionId="SubmitSR" Index="40" />
-        <ActionLink ActionId="SubmitSRR" Index="41" />
-        <ActionLink ActionId="SubmitWT" Index="42" />
-        <ActionLink ActionId="CancelPReturn" Index="43" />
-        <ActionLink ActionId="CancelPRR" Index="44" />
-        <ActionLink ActionId="CancelSA" Index="45" />
-        <ActionLink ActionId="CancelSAR" Index="46" />
-        <ActionLink ActionId="CancelSR" Index="47" />
-        <ActionLink ActionId="CancelSRR" Index="48" />
-        <ActionLink ActionId="CancelWT" Index="49" />
-        <ActionLink ActionId="CancelWTR" Index="50" />
-        <ActionLink ActionId="GRNCopyFromASN" Index="51" />
-        <ActionLink ActionId="GRNCopyFromPO" Index="52" />
-        <ActionLink ActionId="CloseASN" Index="53" />
-        <ActionLink ActionId="PreviewASN" Index="54" />
-        <ActionLink ActionId="PreviewGRN" Index="55" />
-        <ActionLink ActionId="PreviewPReturn" Index="56" />
-        <ActionLink ActionId="PreviewPRR" Index="57" />
-        <ActionLink ActionId="PreviewSA" Index="58" />
-        <ActionLink ActionId="PreviewSAR" Index="59" />
-        <ActionLink ActionId="PreviewSR" Index="60" />
-        <ActionLink ActionId="PreviewSRR" Index="61" />
-        <ActionLink ActionId="PreviewWT" Index="62" />
-        <ActionLink ActionId="PreviewWTR" Index="63" />
-        <ActionLink ActionId="PrintLabel" Index="64" />
-        <ActionLink ActionId="PrintLabelASN" Index="65" />
-        <ActionLink ActionId="PRRCopyFromPO" Index="66" />
-        <ActionLink ActionId="PRRCopyToPReturn" Index="67" />
-        <ActionLink ActionId="SARCopyToSA" Index="68" />
-        <ActionLink ActionId="SRRCopyFromInv" Index="69" />
-        <ActionLink ActionId="SRRCopyToSR" Index="70" />
-        <ActionLink ActionId="ApproveAppPO_Pop" Index="71" />
-        <ActionLink ActionId="ApproveAppPRR_Pop" Index="72" />
-        <ActionLink ActionId="ApproveAppSAR_Pop" Index="73" />
-        <ActionLink ActionId="ApproveAppSQ_Pop" Index="74" />
-        <ActionLink ActionId="ApproveAppSRR_Pop" Index="75" />
-        <ActionLink ActionId="ApproveAppWTR_Pop" Index="76" />
-        <ActionLink ActionId="ASNCopyToGRN" Index="77" />
-        <ActionLink ActionId="CancelDO" Index="78" />
-        <ActionLink ActionId="CancelSFR" Index="79" />
-        <ActionLink ActionId="ApproveAppSFR_Pop" Index="80" />
-        <ActionLink ActionId="CancelSRefund" Index="81" />
-        <ActionLink ActionId="DOCopyFromLoading" Index="82" />
-        <ActionLink ActionId="POCopyFromSO" Index="83" />
-        <ActionLink ActionId="PreviewDO" Index="84" />
-        <ActionLink ActionId="PrintDO" Index="85" />
-        <ActionLink ActionId="PreviewInv" Index="86" />
-        <ActionLink ActionId="PreviewBundleDO" Index="87" />
-        <ActionLink ActionId="PreviewPONoCost" Index="88" />
-        <ActionLink ActionId="PreviewSFR" Index="89" />
-        <ActionLink ActionId="PreviewSQ" Index="90" />
-        <ActionLink ActionId="PreviewSRefund" Index="91" />
-        <ActionLink ActionId="PrintARDownpayment" Index="92" />
+        <ActionLink ActionId="CreateSalesOrderAction" Index="4" />
+        <ActionLink ActionId="CancelSalesOrder" Index="5" />
+        <ActionLink ActionId="SubmitSOC" Index="6" />
+        <ActionLink ActionId="CancelSOC" Index="7" />
+        <ActionLink ActionId="DashboardWarehouse" Index="8" />
+        <ActionLink ActionId="DuplicateSQ" Index="9" />
+        <ActionLink ActionId="PACopyFromPL" Index="10" />
+        <ActionLink ActionId="PALBundleID" Index="11" />
+        <ActionLink ActionId="PLCopyFromSOCG" Index="12" />
+        <ActionLink ActionId="PLCopyFromSOC" Index="13" />
+        <ActionLink ActionId="PreviewPL" Index="14" />
+        <ActionLink ActionId="PreviewSO" Index="15" />
+        <ActionLink ActionId="SOCCopyFromSO" Index="16" />
+        <ActionLink ActionId="SubmitPA" Index="17" />
+        <ActionLink ActionId="CancelPA" Index="18" />
+        <ActionLink ActionId="PrintBundlePA" Index="19" />
+        <ActionLink ActionId="AddPackList" Index="20" />
+        <ActionLink ActionId="SubmitL" Index="21" />
+        <ActionLink ActionId="CancelL" Index="22" />
+        <ActionLink ActionId="SubmitPO" Index="23" />
+        <ActionLink ActionId="CancelPO" Index="24" />
+        <ActionLink ActionId="DeletePackList" Index="25" />
+        <ActionLink ActionId="LCopyFromPAL" Index="26" />
+        <ActionLink ActionId="LGenerateDO" Index="27" />
+        <ActionLink ActionId="DuplicatePO" Index="28" />
+        <ActionLink ActionId="PreviewPO" Index="29" />
+        <ActionLink ActionId="ASNCopyFromPO" Index="30" />
+        <ActionLink ActionId="ASNCopyFromPODetails" Index="31" />
+        <ActionLink ActionId="SubmitASN" Index="32" />
+        <ActionLink ActionId="CancelASN" Index="33" />
+        <ActionLink ActionId="SubmitGRN" Index="34" />
+        <ActionLink ActionId="SubmitPReturn" Index="35" />
+        <ActionLink ActionId="SubmitPRR" Index="36" />
+        <ActionLink ActionId="SubmitWTR" Index="37" />
+        <ActionLink ActionId="CancelGRN" Index="38" />
+        <ActionLink ActionId="SubmitSA" Index="39" />
+        <ActionLink ActionId="SubmitSAR" Index="40" />
+        <ActionLink ActionId="SubmitSR" Index="41" />
+        <ActionLink ActionId="SubmitSRR" Index="42" />
+        <ActionLink ActionId="SubmitWT" Index="43" />
+        <ActionLink ActionId="CancelPReturn" Index="44" />
+        <ActionLink ActionId="CancelPRR" Index="45" />
+        <ActionLink ActionId="CancelSA" Index="46" />
+        <ActionLink ActionId="CancelSAR" Index="47" />
+        <ActionLink ActionId="CancelSR" Index="48" />
+        <ActionLink ActionId="CancelSRR" Index="49" />
+        <ActionLink ActionId="CancelWT" Index="50" />
+        <ActionLink ActionId="CancelWTR" Index="51" />
+        <ActionLink ActionId="GRNCopyFromASN" Index="52" />
+        <ActionLink ActionId="GRNCopyFromPO" Index="53" />
+        <ActionLink ActionId="CloseASN" Index="54" />
+        <ActionLink ActionId="PreviewASN" Index="55" />
+        <ActionLink ActionId="PreviewGRN" Index="56" />
+        <ActionLink ActionId="PreviewPReturn" Index="57" />
+        <ActionLink ActionId="PreviewPRR" Index="58" />
+        <ActionLink ActionId="PreviewSA" Index="59" />
+        <ActionLink ActionId="PreviewSAR" Index="60" />
+        <ActionLink ActionId="PreviewSR" Index="61" />
+        <ActionLink ActionId="PreviewSRR" Index="62" />
+        <ActionLink ActionId="PreviewWT" Index="63" />
+        <ActionLink ActionId="PreviewWTR" Index="64" />
+        <ActionLink ActionId="PrintLabel" Index="65" />
+        <ActionLink ActionId="PrintLabelASN" Index="66" />
+        <ActionLink ActionId="PRRCopyFromPO" Index="67" />
+        <ActionLink ActionId="PRRCopyToPReturn" Index="68" />
+        <ActionLink ActionId="SARCopyToSA" Index="69" />
+        <ActionLink ActionId="SRRCopyFromInv" Index="70" />
+        <ActionLink ActionId="SRRCopyToSR" Index="71" />
+        <ActionLink ActionId="ApproveAppPO_Pop" Index="72" />
+        <ActionLink ActionId="ApproveAppPRR_Pop" Index="73" />
+        <ActionLink ActionId="ApproveAppSAR_Pop" Index="74" />
+        <ActionLink ActionId="ApproveAppSQ_Pop" Index="75" />
+        <ActionLink ActionId="ApproveAppSRR_Pop" Index="76" />
+        <ActionLink ActionId="ApproveAppWTR_Pop" Index="77" />
+        <ActionLink ActionId="ASNCopyToGRN" Index="78" />
+        <ActionLink ActionId="CancelDO" Index="79" />
+        <ActionLink ActionId="CancelSFR" Index="80" />
+        <ActionLink ActionId="ApproveAppSFR_Pop" Index="81" />
+        <ActionLink ActionId="CancelSRefund" Index="82" />
+        <ActionLink ActionId="DOCopyFromLoading" Index="83" />
+        <ActionLink ActionId="POCopyFromSO" Index="84" />
+        <ActionLink ActionId="PreviewDO" Index="85" />
+        <ActionLink ActionId="PrintDO" Index="86" />
+        <ActionLink ActionId="PreviewInv" Index="87" />
+        <ActionLink ActionId="PreviewBundleDO" Index="88" />
+        <ActionLink ActionId="PreviewPONoCost" Index="89" />
+        <ActionLink ActionId="PreviewSFR" Index="90" />
+        <ActionLink ActionId="PreviewSQ" Index="91" />
+        <ActionLink ActionId="PreviewSRefund" Index="92" />
+        <ActionLink ActionId="PrintARDownpayment" Index="93" />
+        <ActionLink ActionId="ApproveAppARDPC_Pop" Index="94" />
+        <ActionLink ActionId="CancelDPCancel" Index="95" />
+        <ActionLink ActionId="CancelSCC" Index="96" />
+        <ActionLink ActionId="CancelSCS" Index="97" />
+        <ActionLink ActionId="CancelSO" Index="98" />
+        <ActionLink ActionId="CloseSCS" Index="99" />
+        <ActionLink ActionId="CloseSO" Index="100" />
+      </ActionContainer>
+      <ActionContainer Id="Unspecified">
+        <ActionLink ActionId="AddToCartPop" Index="0" />
+        <ActionLink ActionId="AddToCartSimple" Index="1" />
+        <ActionLink ActionId="ViewSales" Index="2" />
+        <ActionLink ActionId="ViewOrderStatus" Index="3" />
+        <ActionLink ActionId="ImportData" Index="4" />
+        <ActionLink ActionId="SearchOpenCart" Index="5" />
+        <ActionLink ActionId="SFRCopyToSF" Index="6" />
       </ActionContainer>
     </ActionToContainerMapping>
   </ActionDesign>
@@ -245,6 +262,7 @@
           <Item Id="vwPackList_ListView" Removed="True" />
           <Item Id="vwPaymentSO_ListView" Removed="True" />
           <Item Id="vwPaymentSOSimplified_ListView" Removed="True" />
+          <Item Id="vwPendingPostQty_ListView" Removed="True" />
           <Item Id="vwPickList_ListView" Removed="True" />
           <Item Id="vwPO_ListView" Removed="True" />
           <Item Id="vwPODetails_ListView" Removed="True" />
@@ -324,7 +342,14 @@
           <Item Id="vwInquiryLoadingDetails_ListView" QuickAccessItem="False" Visible="False" />
         </Items>
       </Item>
-      <Item Id="Delivery Order" Index="13" />
+      <Item Id="Delivery Order" Index="13">
+        <Items>
+          <Item Id="vwInquiryDelivery_ListView" Index="0" />
+          <Item Id="DeliveryOrder_ListView" Index="1" />
+          <Item Id="vwInquiryInvoice_ListView" Index="2" />
+          <Item Id="DailyDeliveryOrders_ListView" Index="3" />
+        </Items>
+      </Item>
       <Item Id="Purchase Order" Index="14">
         <Items>
           <Item Id="PurchaseOrders_ListView" Index="0" />
@@ -1254,7 +1279,7 @@
         <PropertyEditor Id="CreateUser" PropertyName="CreateUser" IsNewNode="True" />
         <PropertyEditor Id="DocType" PropertyName="DocType" IsNewNode="True" />
         <PropertyEditor Id="Exclude" PropertyName="Exclude" IsNewNode="True" />
-        <PropertyEditor Id="ItemInquiryDetails" PropertyName="ItemInquiryDetails" View="ItemInquiry_ItemInquiryDetails_ListView" IsNewNode="True" />
+        <PropertyEditor Id="ItemInquiryDetails" PropertyName="ItemInquiryDetails" View="ItemInquiry_ItemInquiryDetails_ListView_Report" IsNewNode="True" />
         <PropertyEditor Id="Method" PropertyName="Method" IsNewNode="True" />
         <PropertyEditor Id="Oid" PropertyName="Oid" IsNewNode="True" />
         <PropertyEditor Id="PriceList1" PropertyName="PriceList1" IsNewNode="True" />
@@ -1339,7 +1364,7 @@
       </Columns>
       <SplitLayout Direction="Vertical" />
     </ListView>
-    <ListView Id="ItemInquiry_ItemInquiryDetails_ListView_Report" ClassName="StarLaiPortal.Module.BusinessObjects.Item_Inquiry.ItemInquiryDetails" DataAccessMode="Client" FreezeColumnIndices="False" IsNewNode="True">
+    <ListView Id="ItemInquiry_ItemInquiryDetails_ListView_Report" ClassName="StarLaiPortal.Module.BusinessObjects.Item_Inquiry.ItemInquiryDetails" DataAccessMode="Client" FreezeColumnIndices="False" DetailViewID="ItemInquiryDetails_DetailView_Report" MasterDetailView="ItemInquiryDetails_DetailView" IsNewNode="True">
       <Columns IsNewNode="True">
         <ColumnInfo Id="Barcode" PropertyName="Barcode" Index="-1" IsNewNode="True" />
         <ColumnInfo Id="HierarchyLevel1" PropertyName="HierarchyLevel1" Index="-1" IsNewNode="True" />
@@ -1482,6 +1507,70 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
+    <DetailView Id="ItemInquiryDetails_DetailView_Report" CaptionColon=":" EnableCaptionColon="True" CaptionLocation="Default" CaptionHorizontalAlignment="Default" CaptionVerticalAlignment="Default" CaptionWordWrap="Default" EnableLayoutGroupImages="True" RequiredFieldMark="*" ClassName="StarLaiPortal.Module.BusinessObjects.Item_Inquiry.ItemInquiryDetails" AllowEdit="False" DefaultFocusedItem="" IsNewNode="True">
+      <Items IsNewNode="True">
+        <StaticText Id="Balance" Text="Balance" Caption="Balance" IsNewNode="True" />
+        <PropertyEditor Id="Barcode" PropertyName="Barcode" IsNewNode="True" />
+        <PropertyEditor Id="BPCatalogNo" PropertyName="BPCatalogNo" IsNewNode="True" />
+        <PropertyEditor Id="ForeignName" PropertyName="ForeignName" IsNewNode="True" />
+        <PropertyEditor Id="HierarchyLevel1" PropertyName="HierarchyLevel1" IsNewNode="True" />
+        <PropertyEditor Id="HierarchyLevel2" PropertyName="HierarchyLevel2" IsNewNode="True" />
+        <PropertyEditor Id="HierarchyLevel3" PropertyName="HierarchyLevel3" IsNewNode="True" />
+        <PropertyEditor Id="HierarchyLevel4" PropertyName="HierarchyLevel4" IsNewNode="True" />
+        <PropertyEditor Id="HierarchyLevel5" PropertyName="HierarchyLevel5" IsNewNode="True" />
+        <PropertyEditor Id="ItemCode" PropertyName="ItemCode" IsNewNode="True" />
+        <PropertyEditor Id="ItemDesc" PropertyName="ItemDesc" IsNewNode="True" />
+        <PropertyEditor Id="ItemInquiry" PropertyName="ItemInquiry" IsNewNode="True" />
+        <PropertyEditor Id="LegacyItemCode" PropertyName="LegacyItemCode" IsNewNode="True" />
+        <StaticText Id="Location" Text="Location" Caption="Location" IsNewNode="True" />
+        <PropertyEditor Id="Model" PropertyName="Model" IsNewNode="True" />
+        <PropertyEditor Id="Oid" PropertyName="Oid" IsNewNode="True" />
+        <PropertyEditor Id="OriginalCatalog" PropertyName="OriginalCatalog" IsNewNode="True" />
+        <PropertyEditor Id="PictureName" PropertyName="PictureName" IsNewNode="True" />
+        <StaticText Id="Price" Text="Price" Caption="Price" IsNewNode="True" />
+        <StaticText Id="Price List" Text="Price List" Caption="Price List" IsNewNode="True" />
+        <PropertyEditor Id="Price1" PropertyName="Price1" IsNewNode="True" />
+        <PropertyEditor Id="Price2" PropertyName="Price2" IsNewNode="True" />
+        <PropertyEditor Id="Price3" PropertyName="Price3" IsNewNode="True" />
+        <PropertyEditor Id="Price4" PropertyName="Price4" IsNewNode="True" />
+        <PropertyEditor Id="PriceList1" PropertyName="PriceList1" IsNewNode="True" />
+        <PropertyEditor Id="PriceList2" PropertyName="PriceList2" IsNewNode="True" />
+        <PropertyEditor Id="PriceList3" PropertyName="PriceList3" IsNewNode="True" />
+        <PropertyEditor Id="PriceList4" PropertyName="PriceList4" IsNewNode="True" />
+        <PropertyEditor Id="Remarks" PropertyName="Remarks" RowCount="3" MaxLength="50000" IsNewNode="True" />
+        <PropertyEditor Id="Stock1" PropertyName="Stock1" IsNewNode="True" />
+        <PropertyEditor Id="Stock2" PropertyName="Stock2" IsNewNode="True" />
+        <PropertyEditor Id="Stock3" PropertyName="Stock3" IsNewNode="True" />
+        <PropertyEditor Id="Stock4" PropertyName="Stock4" IsNewNode="True" />
+        <PropertyEditor Id="StockName1" PropertyName="StockName1" IsNewNode="True" />
+        <PropertyEditor Id="StockName2" PropertyName="StockName2" IsNewNode="True" />
+      </Items>
+      <Layout IsNewNode="True">
+        <LayoutGroup Id="Main" Index="0" ShowCaption="False" RelativeSize="100" IsNewNode="True">
+          <LayoutGroup Id="SimpleEditors" Index="0" ShowCaption="False" RelativeSize="100" IsNewNode="True">
+            <LayoutGroup Id="Auto7ff0352c-e87e-4185-ace8-a7ee1d124643" ShowCaption="False" Caption="Auto7ff0352c-e87e-4185-ace8-a7ee1d124643(3)" Direction="Horizontal" Index="0" RelativeSize="17.744916820702404" IsNewNode="True">
+              <LayoutGroup Id="Auto4585fd0c-e3ae-46e1-b52a-219f5a29f1da" ShowCaption="False" Caption="" Index="0" RelativeSize="32.23981900452489" IsNewNode="True">
+                <LayoutItem Id="HierarchyLevel1" ViewItem="HierarchyLevel1" Index="0" RelativeSize="37.5" IsNewNode="True" />
+                <LayoutItem Id="HierarchyLevel4" ViewItem="HierarchyLevel4" Index="1" RelativeSize="27.083333333333332" IsNewNode="True" />
+                <LayoutItem Id="ForeignName" ViewItem="ForeignName" Index="2" RelativeSize="35.416666666666664" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="Auto3285b81b-6113-4d54-8e8a-e571ebcc95e9" ShowCaption="False" Caption="" Direction="Horizontal" Index="1" RelativeSize="67.76018099547511" IsNewNode="True">
+                <LayoutGroup Id="Autoe467ba64-6237-4b72-a574-2971eb951138" ShowCaption="False" Caption="" Index="0" RelativeSize="43.906510851419029" IsNewNode="True">
+                  <LayoutItem Id="HierarchyLevel2" ViewItem="HierarchyLevel2" Index="0" RelativeSize="37.5" IsNewNode="True" />
+                  <LayoutItem Id="HierarchyLevel5" ViewItem="HierarchyLevel5" Index="1" RelativeSize="27.083333333333332" IsNewNode="True" />
+                  <LayoutItem Id="BPCatalogNo" ViewItem="BPCatalogNo" Index="2" RelativeSize="35.416666666666664" IsNewNode="True" />
+                </LayoutGroup>
+                <LayoutGroup Id="Autod7a6dce2-684b-410d-981f-05a8833100d5" ShowCaption="False" Caption="" Index="1" RelativeSize="56.093489148580971" IsNewNode="True">
+                  <LayoutItem Id="HierarchyLevel3" ViewItem="HierarchyLevel3" Index="0" RelativeSize="37.5" IsNewNode="True" />
+                  <LayoutItem Id="Barcode" ViewItem="Barcode" Index="1" RelativeSize="62.5" IsNewNode="True" />
+                </LayoutGroup>
+              </LayoutGroup>
+            </LayoutGroup>
+            <LayoutItem Id="Remarks" ViewItem="Remarks" Index="1" RelativeSize="82.2550831792976" IsNewNode="True" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
     <ListView Id="ItemInquiryDetails_ListView" FreezeColumnIndices="False">
       <Columns>
         <ColumnInfo Id="ItemCode" Width="79" />
@@ -1610,6 +1699,8 @@
     <ListView Id="Load_ListView" DataAccessMode="Client" />
     <DetailView Id="LoadDetails_DetailView" AllowEdit="False" />
     <DetailView Id="LoadDocTrail_DetailView" AllowEdit="False" />
+    <DetailView Id="OrderStatus_DetailView" AllowEdit="False" />
+    <DetailView Id="OrderStatusList_DetailView" AllowEdit="True" />
     <ListView Id="PackList_AuditTrail_ListView" AllowDelete="False" AllowLink="False" AllowNew="False">
       <Columns>
         <ColumnInfo Id="PropertyName" Index="-1" />
@@ -4845,21 +4936,22 @@
       </Items>
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
-          <LayoutGroup Id="SimpleEditors" RelativeSize="22.975517890772128" Direction="Horizontal">
-            <LayoutGroup Id="StockCountSheet_col1" ShowCaption="False" Index="0" RelativeSize="39.484396200814111" IsNewNode="True">
-              <LayoutItem Id="DocNum" ViewItem="DocNum" Index="0" RelativeSize="29.508196721311474" IsNewNode="True" />
-              <LayoutItem Id="Counter" ViewItem="Counter" Index="1" RelativeSize="21.311475409836067" IsNewNode="True" />
-              <LayoutItem Id="Warehouse" ViewItem="Warehouse" Index="2" RelativeSize="21.311475409836067" IsNewNode="True" />
-              <LayoutItem Id="Counted" ViewItem="Counted" Index="3" RelativeSize="27.868852459016395" IsNewNode="True" />
+          <LayoutGroup Id="SimpleEditors" RelativeSize="31.48936170212766" Direction="Horizontal">
+            <LayoutGroup Id="StockCountSheet_col1" ShowCaption="False" Index="0" RelativeSize="39.467005076142129" IsNewNode="True">
+              <LayoutItem Id="DocNum" ViewItem="DocNum" Index="0" RelativeSize="24.324324324324323" IsNewNode="True" />
+              <LayoutItem Id="Counter" ViewItem="Counter" Index="1" RelativeSize="17.567567567567568" IsNewNode="True" />
+              <LayoutItem Id="Warehouse" ViewItem="Warehouse" Index="2" RelativeSize="17.567567567567568" IsNewNode="True" />
+              <LayoutItem Id="Counted" ViewItem="Counted" Index="3" RelativeSize="40.54054054054054" IsNewNode="True" />
             </LayoutGroup>
-            <LayoutGroup Id="StockCountSheet_col2" ShowCaption="False" Index="1" RelativeSize="60.515603799185889" Direction="Horizontal" Caption="StockCountSheet_col2" IsNewNode="True">
-              <LayoutGroup Id="Auto43fd0715-236a-4dcb-9d9b-7fc12625e5d4" ShowCaption="False" Caption="Auto43fd0715-236a-4dcb-9d9b-7fc12625e5d4(9)" Index="0" RelativeSize="71.300448430493276" IsNewNode="True">
-                <LayoutItem Id="StockCountDate" ViewItem="StockCountDate" Index="0" RelativeSize="29.508196721311474" IsNewNode="True" />
-                <LayoutItem Id="Status" ViewItem="Status" Index="1" RelativeSize="21.311475409836067" IsNewNode="True" />
-                <LayoutItem Id="Round" ViewItem="Round" Index="2" RelativeSize="21.311475409836067" IsNewNode="True" />
-                <LayoutItem Id="Reference" ViewItem="Reference" Index="3" RelativeSize="27.868852459016395" IsNewNode="True" />
+            <LayoutGroup Id="StockCountSheet_col2" ShowCaption="False" Index="1" RelativeSize="60.532994923857871" Direction="Horizontal" Caption="StockCountSheet_col2" IsNewNode="True">
+              <LayoutGroup Id="Auto43fd0715-236a-4dcb-9d9b-7fc12625e5d4" ShowCaption="False" Caption="Auto43fd0715-236a-4dcb-9d9b-7fc12625e5d4(9)" Index="0" RelativeSize="73.165618448637318" IsNewNode="True">
+                <LayoutItem Id="StockCountDate" ViewItem="StockCountDate" Index="0" RelativeSize="24.324324324324323" IsNewNode="True" />
+                <LayoutItem Id="StockCountActualDate" ViewItem="StockCountActualDate" Index="1" RelativeSize="17.567567567567568" IsNewNode="True" />
+                <LayoutItem Id="Status" ViewItem="Status" Index="2" RelativeSize="17.567567567567568" IsNewNode="True" />
+                <LayoutItem Id="Round" ViewItem="Round" Index="3" RelativeSize="17.567567567567568" IsNewNode="True" />
+                <LayoutItem Id="Reference" ViewItem="Reference" Index="4" RelativeSize="22.972972972972972" IsNewNode="True" />
               </LayoutGroup>
-              <LayoutItem Id="StockSheetImport" ViewItem="StockSheetImport" Index="1" RelativeSize="28.699551569506728" IsNewNode="True" />
+              <LayoutItem Id="StockSheetImport" ViewItem="StockSheetImport" Index="1" RelativeSize="26.834381551362682" IsNewNode="True" />
             </LayoutGroup>
             <LayoutGroup Id="StockCountSheet" RelativeSize="100" Removed="True">
               <LayoutGroup Id="StockCountSheet_col1" RelativeSize="49.928057553956833">
@@ -4879,8 +4971,8 @@
               </LayoutGroup>
             </LayoutGroup>
           </LayoutGroup>
-          <LayoutItem Id="Remarks" ViewItem="Remarks" Index="1" RelativeSize="4.8964218455743875" IsNewNode="True" />
-          <TabbedGroup Id="Tabs" RelativeSize="72.128060263653481" Index="2">
+          <LayoutItem Id="Remarks" ViewItem="Remarks" Index="1" RelativeSize="5.5319148936170217" IsNewNode="True" />
+          <TabbedGroup Id="Tabs" RelativeSize="62.978723404255319" Index="2">
             <LayoutGroup Id="StockCountSheetTarget" RelativeSize="100">
               <LayoutItem Id="StockCountSheetTarget" RelativeSize="100" />
             </LayoutGroup>
@@ -5015,6 +5107,7 @@
     <ListView Id="vwInquiryCreditMemo_ListView" DataAccessMode="Client" />
     <DetailView Id="vwInquiryCurrentARAging_DetailView" AllowEdit="False" />
     <ListView Id="vwInquiryCurrentARAging_ListView" DataAccessMode="Client" />
+    <DetailView Id="vwInquiryCustomer_DetailView" AllowEdit="False" />
     <DetailView Id="vwInquiryDelivery_DetailView" AllowEdit="False" />
     <ListView Id="vwInquiryDelivery_ListView" DataAccessMode="Client" />
     <DetailView Id="vwInquiryGRN_DetailView" AllowEdit="False" />
@@ -5128,6 +5221,7 @@
     <ListView Id="vwPaymentTerm_ListView" DataAccessMode="Client" />
     <DetailView Id="vwPaymentType_DetailView" AllowEdit="False" />
     <ListView Id="vwPaymentType_ListView" DataAccessMode="Client" />
+    <DetailView Id="vwPendingPostQty_DetailView" AllowEdit="False" />
     <DetailView Id="vwPickList_DetailView" AllowEdit="False" />
     <ListView Id="vwPickList_ListView" DataAccessMode="Client" />
     <DetailView Id="vwPO_DetailView" AllowEdit="False" />

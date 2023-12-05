@@ -29,6 +29,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
@@ -530,6 +531,26 @@ namespace StarLaiPortal.Module.Controllers
                 showMsg("Error", "Pick qty cannot 0.", InformationType.Error);
                 return;
             }
+
+            string getdupso = "SELECT OID From PickListDetails D1  " +
+                "INNER JOIN ( SELECT T1.SOBaseId, T1.PickList From PickList T0 " +
+                "INNER JOIN PickListDetails T1 on T0.OID = T1.PickList and T1.GCRecord is null " +
+                "WHERE T0.Status = 1 and T0.GCRecord is null and T0.DocNum = '" + selectedObject .DocNum + "') " +
+                "D2 on D1.SOBaseId = D2.SOBaseId and D1.PickList<> D2.PickList";
+            if (conn.State == ConnectionState.Open)
+            {
+                conn.Close();
+            }
+            conn.Open();
+            SqlCommand cmdso = new SqlCommand(getdupso, conn);
+            SqlDataReader readerso = cmdso.ExecuteReader();
+            while (readerso.Read())
+            {
+                showMsg("Error", "Duplicate pick list found.", InformationType.Error);
+                conn.Close();
+                return;
+            }
+            conn.Close();
             // End ver 1.0.13
 
             if (selectedObject.IsValid == true)
