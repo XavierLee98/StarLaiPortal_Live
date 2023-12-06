@@ -32,6 +32,7 @@ using System.Web;
 // 2023-08-25 add validation for qty when submit ver 1.0.9
 // 2023-09-25 add copyto qty ver 1.0.10
 // 2023-11-02 pass print user ver 1.0.12
+// 2023-12-04 avoid copy same asn ver 1.0.13
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -667,6 +668,18 @@ namespace StarLaiPortal.Module.Controllers
             try
             {
                 ASN asn = (ASN)View.CurrentObject;
+
+                // Start 1.0.13
+                IObjectSpace asnos = Application.CreateObjectSpace();
+                ASN checkasn = asnos.FindObject<ASN>(CriteriaOperator.Parse("DocNum = ?", asn.DocNum));
+
+                if (checkasn.IsValid1 == false)
+                {
+                    showMsg("Error", "ASN already created GRN, please refresh data.", InformationType.Error);
+                    return;
+                }
+                // End ver 1.0.13
+
                 IObjectSpace os = Application.CreateObjectSpace();
                 GRN newgrn = os.CreateObject<GRN>();
 

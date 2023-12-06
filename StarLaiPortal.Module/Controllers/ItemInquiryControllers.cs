@@ -1025,15 +1025,15 @@ namespace StarLaiPortal.Module.Controllers
 
             //View.ObjectSpace.Delete(((ListView)View).CollectionSource.List);
 
-            string deleterecord = "DELETE FROM ItemInquiryDetails WHERE ItemInquiry = " + oid;
-            if (conn.State == ConnectionState.Open)
-            {
-                conn.Close();
-            }
-            conn.Open();
-            SqlCommand cmd = new SqlCommand(deleterecord, conn);
-            SqlDataReader reader = cmd.ExecuteReader();
-            conn.Close();
+            //string deleterecord = "DELETE FROM ItemInquiryDetails WHERE ItemInquiry = " + oid;
+            //if (conn.State == ConnectionState.Open)
+            //{
+            //    conn.Close();
+            //}
+            //conn.Open();
+            //SqlCommand cmd = new SqlCommand(deleterecord, conn);
+            //SqlDataReader reader = cmd.ExecuteReader();
+            //conn.Close();
 
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();

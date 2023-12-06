@@ -431,6 +431,17 @@ namespace StarLaiPortal.Module.Controllers
                     //{
                         foreach (vwASN asn in e.PopupWindowViewSelectedObjects)
                         {
+                            // Start 1.0.13
+                            IObjectSpace asnos = Application.CreateObjectSpace();
+                            vwASN checkasn = asnos.FindObject<vwASN>(CriteriaOperator.Parse("ASNDocNum = ?", asn.ASNDocNum));
+
+                            if (checkasn == null)
+                            {
+                                showMsg("Error", "ASN already created GRN, please refresh data.", InformationType.Error);
+                                return;
+                            }
+                            // End ver 1.0.13
+
                             IList<vwASNDetails> asnlist = ObjectSpace.GetObjects<vwASNDetails>
                                 (CriteriaOperator.Parse("ASNDocNum = ?", asn.ASNDocNum));
 
