@@ -156,12 +156,12 @@ namespace StarLaiPortal.WebApi.API.Controller
                         {
                             if (string.IsNullOrEmpty(line.ToBin))
                             {
-                                return Problem("The ToBin value is null. Please select Tobin.");
+                                return Problem("The ToBin value is null. Please select Tobin. [JSON]");
                             }
 
                             if (line.FromBin == line.ToBin)
                             {
-                                return Problem($"From Bin and To Bin cannot be same.");
+                                return Problem($"From Bin and To Bin cannot be same. [JSON]");
                             }
 
                             string json = JsonConvert.SerializeObject(new { itemcode = line.ItemCode, bincode = line.FromBin, quantity = line.PickQty });
@@ -218,8 +218,20 @@ namespace StarLaiPortal.WebApi.API.Controller
                     PickListDetailsActual curobj = newObjectSpace.CreateObject<PickListDetailsActual>();
                     ExpandoParser.ParseExObjectXPO<PickListDetailsActual>(new Dictionary<string, object>(exobj), curobj, newObjectSpace);
 
+                    if (curobj.ToBin == null)
+                    {
+                        return Problem("The ToBin value is null. Please select Tobin. [Detail]");
+                    }
+
+                    if (curobj.FromBin == curobj.ToBin)
+                    {
+                        return Problem($"From Bin and To Bin cannot be same. [Detail]");
+                    }
+
                     curobj.CreateUser = newObjectSpace.GetObjectByKey<ApplicationUser>(userId);
                     curobj.UpdateUser = newObjectSpace.GetObjectByKey<ApplicationUser>(userId);
+
+
                     curobj.Save();
                     objs.Add(curobj);
                 }

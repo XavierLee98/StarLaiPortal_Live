@@ -182,22 +182,22 @@ namespace StarLaiPortal.WebApi.API.Controller
 
                     bool isFoundDuplicate = false;
                     string duplicateId = string.Empty;
-                    foreach (var baseId in distinctIds)
-                    {
-                        using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
-                        {
-                            var count = conn.Query<int>($"exec sp_beforedatasave 'ValidatePickToPack', '{JsonConvert.SerializeObject(new { picklist = baseId, packlist = PackOid })}'").FirstOrDefault();
-                            if (count > 0)
-                            {
-                                isFoundDuplicate = true;
-                                duplicateId = baseId;
-                                break;
-                            }
-                        }
-                    }
+                    //foreach (var baseId in distinctIds)
+                    //{
+                    //    using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
+                    //    {
+                    //        var count = conn.Query<int>($"exec sp_beforedatasave 'ValidatePickToPack', '{JsonConvert.SerializeObject(new { picklist = baseId, packlist = PackOid })}'").FirstOrDefault();
+                    //        if (count > 0)
+                    //        {
+                    //            isFoundDuplicate = true;
+                    //            duplicateId = baseId;
+                    //            break;
+                    //        }
+                    //    }
+                    //}
 
-                    if (isFoundDuplicate)
-                        return Problem($"Pick List No. {duplicateId} already been packed.");
+                    //if (isFoundDuplicate)
+                    //    return Problem($"Pick List No. {duplicateId} already been packed.");
 
                     ISecurityStrategyBase security = securityProvider.GetSecurity();
 
@@ -230,8 +230,18 @@ namespace StarLaiPortal.WebApi.API.Controller
 
                         curobj.CreateUser = newObjectSpace.GetObjectByKey<ApplicationUser>(userId);
                         curobj.UpdateUser = newObjectSpace.GetObjectByKey<ApplicationUser>(userId);
+
+
                         foreach (var dtl in curobj.PackListDetails)
                         {
+                            using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
+                            {
+                                var count = conn.Query<int>($"exec sp_beforedatasave 'ValidatePickToPack', '{JsonConvert.SerializeObject(new { picklist = dtl.PickListNo, packlist = PackOid })}'").FirstOrDefault();
+
+                                if (count > 0) return Problem($"Pick List No. {curobj.Oid} already been packed.");
+ 
+                            }
+
                             dtl.CreateUser = newObjectSpace.GetObjectByKey<ApplicationUser>(userId);
                             dtl.UpdateUser = newObjectSpace.GetObjectByKey<ApplicationUser>(userId);
                         }
@@ -319,6 +329,14 @@ namespace StarLaiPortal.WebApi.API.Controller
                         {
                             PackListDetails curobj = newObjectSpace.CreateObject<PackListDetails>();
                             ExpandoParser.ParseExObjectXPO<PackListDetails>(new Dictionary<string, object>(exobj), curobj, newObjectSpace);
+
+                            using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
+                            {
+                                var count = conn.Query<int>($"exec sp_beforedatasave 'ValidatePickToPack', '{JsonConvert.SerializeObject(new { picklist = curobj.PickListNo, packlist = PackOid })}'").FirstOrDefault();
+
+                                if (count > 0) return Problem($"Pick List No. {curobj.Oid} already been packed.");
+
+                            }
 
                             curobj.PackList = newObjectSpace.GetObjectByKey<PackList>(packobj.Oid); ;
                             curobj.CreateUser = newObjectSpace.GetObjectByKey<ApplicationUser>(userId);
@@ -476,6 +494,13 @@ namespace StarLaiPortal.WebApi.API.Controller
                     curobj.UpdateUser = newObjectSpace.GetObjectByKey<ApplicationUser>(userId);
                     foreach (var dtl in curobj.PackListDetails)
                     {
+                        using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
+                        {
+                            var count = conn.Query<int>($"exec sp_beforedatasave 'ValidatePickToPack', '{JsonConvert.SerializeObject(new { picklist = dtl.PickListNo, packlist = PackOid })}'").FirstOrDefault();
+
+                            if (count > 0) return Problem($"Pick List No. {dtl.PickListNo} already been packed.");
+                        }
+
                         dtl.CreateUser = newObjectSpace.GetObjectByKey<ApplicationUser>(userId);
                         dtl.UpdateUser = newObjectSpace.GetObjectByKey<ApplicationUser>(userId);
                     }
@@ -563,6 +588,13 @@ namespace StarLaiPortal.WebApi.API.Controller
                         PackListDetails curobj = newObjectSpace.CreateObject<PackListDetails>();
                         ExpandoParser.ParseExObjectXPO<PackListDetails>(new Dictionary<string, object>(exobj), curobj, newObjectSpace);
 
+                        using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
+                        {
+                            var count = conn.Query<int>($"exec sp_beforedatasave 'ValidatePickToPack', '{JsonConvert.SerializeObject(new { picklist = curobj.PickListNo, packlist = PackOid })}'").FirstOrDefault();
+
+                            if (count > 0) return Problem($"Pick List No. {curobj.PickListNo} already been packed.");
+                        }
+
                         curobj.PackList = newObjectSpace.GetObjectByKey<PackList>(packobj.Oid); ;
                         curobj.CreateUser = newObjectSpace.GetObjectByKey<ApplicationUser>(userId);
                         curobj.UpdateUser = newObjectSpace.GetObjectByKey<ApplicationUser>(userId);
@@ -600,6 +632,7 @@ namespace StarLaiPortal.WebApi.API.Controller
             try
             {
                 dynamic dynamicObj = obj;
+                int PackOid = (int)dynamicObj.PackOid;
                 try
                 {
                     using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
@@ -638,7 +671,7 @@ namespace StarLaiPortal.WebApi.API.Controller
                 {
                     using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
                     {
-                        var count = conn.Query<int>($"exec sp_beforedatasave 'ValidatePickToPack', '{JsonConvert.SerializeObject(new { picklist = baseId })}'").FirstOrDefault();
+                        var count = conn.Query<int>($"exec sp_beforedatasave 'ValidatePickToPack', '{JsonConvert.SerializeObject(new { picklist = baseId, packlist = PackOid })}'").FirstOrDefault();
                         if (count > 0)
                         {
                             isFoundDuplicate = true;
@@ -648,8 +681,7 @@ namespace StarLaiPortal.WebApi.API.Controller
                     }
                 }
 
-                if (isFoundDuplicate) 
-                    return Problem($"Pick List No. {duplicateId} already been packed.");
+                if (isFoundDuplicate) return Problem($"Pick List No. {duplicateId} already been packed.");
 
                 var isduplicatejson = detailsObject
                         .GroupBy(x => new { x.BaseId, x.Bundle })
@@ -667,8 +699,16 @@ namespace StarLaiPortal.WebApi.API.Controller
 
                 curobj.CreateUser = newObjectSpace.GetObjectByKey<ApplicationUser>(userId);
                 curobj.UpdateUser = newObjectSpace.GetObjectByKey<ApplicationUser>(userId);
+
                 foreach(var dtl in curobj.PackListDetails)
                 {
+                    using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
+                    {
+                        var count = conn.Query<int>($"exec sp_beforedatasave 'ValidatePickToPack', '{JsonConvert.SerializeObject(new { picklist = dtl.PickListNo, packlist = PackOid })}'").FirstOrDefault();
+
+                        if (count > 0) return Problem($"Pick List No. {dtl.PickListNo} already been packed.");
+                    }
+
                     dtl.CreateUser = newObjectSpace.GetObjectByKey<ApplicationUser>(userId);
                     dtl.UpdateUser = newObjectSpace.GetObjectByKey<ApplicationUser>(userId);
                 }

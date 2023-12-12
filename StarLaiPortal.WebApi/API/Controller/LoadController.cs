@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using DevExpress.CodeParser;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Core;
 using DevExpress.ExpressApp.Security;
@@ -199,6 +200,16 @@ namespace StarLaiPortal.WebApi.API.Controller
                 {
                     dtl.CreateUser = newObjectSpace.GetObjectByKey<ApplicationUser>(userId);
                     dtl.UpdateUser = newObjectSpace.GetObjectByKey<ApplicationUser>(userId);
+                }
+
+                var isduplicate = curobj.LoadDetails
+                                    .GroupBy(x => new { x.PackList, x.Bundle })
+                                    .Any(g => g.Count() > 1);
+                //var duplicateItemCount = curobj.LoadDetails.GroupBy(x => new { x.PackList, x.Bundle }).Where(y => y.Count() > 1).Count();
+
+                if (isduplicate)
+                {
+                    throw new Exception("Duplicate Details. Please try to load again.");
                 }
 
                 var Packlistid = detailsObject?.Select(x => x.PackList.ToString()).Distinct();
