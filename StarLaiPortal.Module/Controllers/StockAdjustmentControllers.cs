@@ -105,6 +105,12 @@ namespace StarLaiPortal.Module.Controllers
             StringParameters p = (StringParameters)e.PopupWindow.View.CurrentObject;
             if (p.IsErr) return;
 
+            if (selectedObject.IsValid2 == true)
+            {
+                showMsg("Error", "Warehouse/Bin cannot blank.", InformationType.Error);
+                return;
+            }
+
             if (selectedObject.IsValid == true)
             {
                 selectedObject.Status = DocStatus.Submitted;

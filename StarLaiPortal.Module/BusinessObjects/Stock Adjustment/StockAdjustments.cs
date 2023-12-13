@@ -8,6 +8,7 @@ using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
 using StarLaiPortal.Module.BusinessObjects.View;
+using StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -213,6 +214,19 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Adjustment
                 SetPropertyValue("SAPDocNum", ref _SAPDocNum, value);
             }
         }
+
+        private string _StockAdjustmentReq;
+        [XafDisplayName("Stock Adjustment Req. No")]
+        [Appearance("StockAdjustmentReq", Enabled = false)]
+        [Index(16), VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(false)]
+        public string StockAdjustmentReq
+        {
+            get { return _StockAdjustmentReq; }
+            set
+            {
+                SetPropertyValue("StockAdjustmentReq", ref _StockAdjustmentReq, value);
+            }
+        }
         // End ver 1.0.13
 
         private string _Remarks;
@@ -254,6 +268,23 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Adjustment
                 foreach (StockAdjustmentDetails dtl in this.StockAdjustmentDetails)
                 {
                     return true;
+                }
+
+                return false;
+            }
+        }
+
+        [Browsable(false)]
+        public bool IsValid2
+        {
+            get
+            {
+                foreach (StockAdjustmentDetails dtl in this.StockAdjustmentDetails)
+                {
+                    if (dtl.Warehouse == null || dtl.Bin == null)
+                    {
+                        return true;
+                    }
                 }
 
                 return false;

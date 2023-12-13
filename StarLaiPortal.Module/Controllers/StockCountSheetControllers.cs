@@ -214,9 +214,9 @@ namespace StarLaiPortal.Module.Controllers
             StringParameters p = (StringParameters)e.PopupWindow.View.CurrentObject;
             if (p.IsErr) return;
 
-            selectedObject.Status = DocStatus.Cancelled;
+            selectedObject.Status = DocStatus.Closed;
             StockCountSheetDocTrail ds = ObjectSpace.CreateObject<StockCountSheetDocTrail>();
-            ds.DocStatus = DocStatus.Cancelled;
+            ds.DocStatus = DocStatus.Closed;
             ds.DocRemarks = p.ParamString;
             selectedObject.StockCountSheetDocTrail.Add(ds);
 
@@ -226,7 +226,7 @@ namespace StarLaiPortal.Module.Controllers
             IObjectSpace os = Application.CreateObjectSpace();
             StockCountSheet trx = os.FindObject<StockCountSheet>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
-            showMsg("Successful", "Cancel Done.", InformationType.Success);
+            showMsg("Successful", "Close Done.", InformationType.Success);
         }
 
         private void CloseSCS_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)

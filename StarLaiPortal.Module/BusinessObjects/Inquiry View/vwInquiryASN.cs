@@ -266,5 +266,15 @@ namespace StarLaiPortal.Module.BusinessObjects.Inquiry_View
         {
             get; set;
         }
+
+        [XafDisplayName("Open Qty.")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("OpenQty", Enabled = false)]
+        [Index(65)]
+        public decimal OpenQty
+        {
+            get; set;
+        }
     }
 }

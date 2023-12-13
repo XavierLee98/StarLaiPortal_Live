@@ -145,11 +145,30 @@
         <ActionLink ActionId="PrintARDownpayment" Index="93" />
         <ActionLink ActionId="ApproveAppARDPC_Pop" Index="94" />
         <ActionLink ActionId="CancelDPCancel" Index="95" />
-        <ActionLink ActionId="CancelSCC" Index="96" />
-        <ActionLink ActionId="CancelSCS" Index="97" />
-        <ActionLink ActionId="CancelSO" Index="98" />
-        <ActionLink ActionId="CloseSCS" Index="99" />
-        <ActionLink ActionId="CloseSO" Index="100" />
+        <ActionLink ActionId="SubmitSCC" Index="96" />
+        <ActionLink ActionId="SubmitSCS" Index="97" />
+        <ActionLink ActionId="CancelSCC" Index="98" />
+        <ActionLink ActionId="CancelSCS" Index="99" />
+        <ActionLink ActionId="CancelSO" Index="100" />
+        <ActionLink ActionId="CloseSCS" Index="101" />
+        <ActionLink ActionId="CloseSO" Index="102" />
+        <ActionLink ActionId="CopyFromDownpayment" Index="103" />
+        <ActionLink ActionId="InquiryDateFrom" Index="104" />
+        <ActionLink ActionId="InquiryDateTo" Index="105" />
+        <ActionLink ActionId="InquiryFilter" Index="106" />
+        <ActionLink ActionId="InquiryStatus" Index="107" />
+        <ActionLink ActionId="PrintBundle" Index="108" />
+        <ActionLink ActionId="PrintCreditMemo" Index="109" />
+        <ActionLink ActionId="PrintDailyDeliveryS" Index="110" />
+        <ActionLink ActionId="PrintDMBundleDO" Index="111" />
+        <ActionLink ActionId="PrintPL" Index="112" />
+        <ActionLink ActionId="PrintPLByZone" Index="113" />
+        <ActionLink ActionId="PrintStockConfirm" Index="114" />
+        <ActionLink ActionId="PrintStockReordering" Index="115" />
+        <ActionLink ActionId="PrintStockSheet" Index="116" />
+        <ActionLink ActionId="SOCCopyFromSR" Index="117" />
+        <ActionLink ActionId="SRRPrintLabel" Index="118" />
+        <ActionLink ActionId="SubmitDO" Index="119" />
       </ActionContainer>
       <ActionContainer Id="Unspecified">
         <ActionLink ActionId="AddToCartPop" Index="0" />
@@ -4252,7 +4271,7 @@
         <ColumnInfo Id="Reference" Index="9" />
       </Columns>
     </ListView>
-    <ListView Id="SalesReturnRequests_ListView_Approval" ClassName="StarLaiPortal.Module.BusinessObjects.Sales_Return.SalesReturnRequests" DetailViewID="SalesReturnRequests_DetailView_Approval" MasterDetailView="SalesReturnRequests_DetailView" DataAccessMode="Client" IsNewNode="True">
+    <ListView Id="SalesReturnRequests_ListView_Approval" ClassName="StarLaiPortal.Module.BusinessObjects.Sales_Return.SalesReturnRequests" DetailViewID="SalesReturnRequests_DetailView_Approval" MasterDetailView="SalesReturnRequests_DetailView" DataAccessMode="Client" Caption="Sales Return Request Approval" IsNewNode="True">
       <Columns IsNewNode="True">
         <ColumnInfo Id="AppUser" PropertyName="AppUser" Index="-1" IsNewNode="True" />
         <ColumnInfo Id="BillingAddress" PropertyName="BillingAddress" Index="-1" IsNewNode="True" />

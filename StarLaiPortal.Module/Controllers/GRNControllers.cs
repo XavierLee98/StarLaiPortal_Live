@@ -818,6 +818,7 @@ namespace StarLaiPortal.Module.Controllers
                             {
                                 asndetail.CopyToQty = asndetail.CopyToQty - dtl.OpenQty;
                                 asndetail.OutstandingQty = dtl.OpenQty;
+                                break;
                             }
                         }
                     }
