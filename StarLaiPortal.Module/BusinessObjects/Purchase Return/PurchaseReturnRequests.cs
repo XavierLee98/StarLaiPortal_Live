@@ -134,7 +134,6 @@ namespace StarLaiPortal.Module.BusinessObjects.Purchase_Return
         }
 
         private DocTypeList _DocType;
-        [ImmediatePostData]
         [Appearance("DocType", Enabled = false, Criteria = "not IsNew")]
         [Index(304), VisibleInListView(false), VisibleInDetailView(false), VisibleInLookupListView(false)]
         public virtual DocTypeList DocType
@@ -241,7 +240,6 @@ namespace StarLaiPortal.Module.BusinessObjects.Purchase_Return
 
         private vwReasonCode _ReasonCode;
         [NoForeignKey]
-        [ImmediatePostData]
         [LookupEditorMode(LookupEditorMode.AllItems)]
         [DataSourceCriteria("Type = 'PurchaseReturn'")]
         //[RuleRequiredField(DefaultContexts.Save)]
@@ -424,7 +422,6 @@ namespace StarLaiPortal.Module.BusinessObjects.Purchase_Return
         }
 
         private decimal _CurrencyRate;
-        [ImmediatePostData]
         [DbType("numeric(18,6)")]
         [ModelDefault("DisplayFormat", "{0:n2}")]
         [XafDisplayName("Currency Rate")]

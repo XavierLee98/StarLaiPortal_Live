@@ -48,6 +48,7 @@ using static DevExpress.XtraPrinting.Native.ExportOptionsPropertiesNames;
 // 2023-10-11 fix multi tab issue ver 1.0.10
 // 2023-10-20 add stock count ver 1.0.12
 // 2023-12-04 add outstanding qty ver 1.0.13
+// 2024-01-17 block save if no series for PRR ver 1.0.13
 
 namespace StarLaiPortal.Module.Web.Controllers
 {
@@ -651,6 +652,14 @@ namespace StarLaiPortal.Module.Web.Controllers
             else if (View.ObjectTypeInfo.Type == typeof(PurchaseReturnRequests))
             {
                 PurchaseReturnRequests CurrObject = (PurchaseReturnRequests)args.CurrentObject;
+
+                // Start ver 1.0.13
+                if (CurrObject.Series == null)
+                {
+                    genCon.showMsg("Error", "No series selected.", InformationType.Error);
+                    return;
+                }
+                // End ver 1.0.13
 
                 base.Save(args);
                 if (CurrObject.DocNum == null)

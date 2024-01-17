@@ -363,8 +363,8 @@
       </Item>
       <Item Id="Delivery Order" Index="13">
         <Items>
-          <Item Id="vwInquiryDelivery_ListView" Index="0" />
-          <Item Id="DeliveryOrder_ListView" Index="1" />
+          <Item Id="DeliveryOrder_ListView" Index="0" />
+          <Item Id="vwInquiryDelivery_ListView" Index="1" />
           <Item Id="vwInquiryInvoice_ListView" Index="2" />
           <Item Id="DailyDeliveryOrders_ListView" Index="3" />
         </Items>

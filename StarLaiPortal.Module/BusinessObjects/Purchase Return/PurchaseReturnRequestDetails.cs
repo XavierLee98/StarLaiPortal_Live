@@ -198,7 +198,6 @@ namespace StarLaiPortal.Module.BusinessObjects.Purchase_Return
 
         private vwReasonCode _ReasonCode;
         [NoForeignKey]
-        [ImmediatePostData]
         [LookupEditorMode(LookupEditorMode.AllItems)]
         [DataSourceCriteria("Type = 'PurchaseReturn'")]
         //[RuleRequiredField(DefaultContexts.Save)]
@@ -332,7 +331,6 @@ namespace StarLaiPortal.Module.BusinessObjects.Purchase_Return
         }
 
         private decimal _Total;
-        [ImmediatePostData]
         [DbType("numeric(18,6)")]
         [ModelDefault("DisplayFormat", "{0:n2}")]
         [XafDisplayName("Total")]
