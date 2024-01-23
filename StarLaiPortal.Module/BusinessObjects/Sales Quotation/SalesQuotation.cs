@@ -24,6 +24,7 @@ using static System.Net.Mime.MediaTypeNames;
 using DevExpress.Xpo.DB.Helpers;
 
 // 2023-07-28 block submit if no address for OC and OS ver 1.0.7
+// 2023-12-01 change to action for create SO button ver 1.0.13
 
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 {
@@ -40,6 +41,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
     [Appearance("HideDelete", AppearanceItemType.Action, "True", TargetItems = "Delete", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("HideSubmit", AppearanceItemType.Action, "True", TargetItems = "CreateSalesOrder", Criteria = "not (Status in (0))", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("HideSubmit1", AppearanceItemType.Action, "True", TargetItems = "CreateSalesOrder", Criteria = "(AppStatus in (2))", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+    // Start ver 1.0.13
+    [Appearance("HideSubmitAction", AppearanceItemType.Action, "True", TargetItems = "CreateSalesOrderAction", Criteria = "not (Status in (0))", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSubmitAction1", AppearanceItemType.Action, "True", TargetItems = "CreateSalesOrderAction", Criteria = "(AppStatus in (2))", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+    // End ver 1.0.13
 
     [Appearance("HideCancel", AppearanceItemType.Action, "True", TargetItems = "CancelSalesOrder", Criteria = "not (Status in (0))", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("HideCancel1", AppearanceItemType.Action, "True", TargetItems = "CancelSalesOrder", Criteria = "(AppStatus in (2))", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
