@@ -14,6 +14,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
+// 2024-01-29 - remove immediate post - ver 1.0.14
+
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 {
     [DefaultClassOptions]
@@ -302,7 +304,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         }
 
         private vwStockBalance _Available;
-        [ImmediatePostData]
+        // Start ver 1.0.14
+        //[ImmediatePostData]
+        // End ver 1.0.14
         [NoForeignKey]
         //[DbType("numeric(18,6)")]
         //[ModelDefault("DisplayFormat", "{0:N0}")]

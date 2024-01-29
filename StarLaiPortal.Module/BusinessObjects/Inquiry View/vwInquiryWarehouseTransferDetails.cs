@@ -13,6 +13,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
+// 2024-01-29 warehouse and bin rename to 'from' and add towarehouse and tobin ver 1.0.14
+
 namespace StarLaiPortal.Module.BusinessObjects.Inquiry_View
 {
     [DefaultClassOptions]
@@ -167,7 +169,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Inquiry_View
             get; set;
         }
 
-        [XafDisplayName("Warehouse")]
+        // Start ver 1.0.14
+        //[XafDisplayName("Warehouse")]
+        [XafDisplayName("From Warehouse")]
+        // End ver 1.0.14
         [Appearance("Warehouse", Enabled = false)]
         [Index(38)]
         public string Warehouse
@@ -175,7 +180,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Inquiry_View
             get; set;
         }
 
-        [XafDisplayName("Bin Location")]
+        // Start ver 1.0.14
+        //[XafDisplayName("Bin Location")]
+        [XafDisplayName("To Bin")]
+        // End ver 1.0.14
         [Appearance("Bin", Enabled = false)]
         [Index(40)]
         public string Bin
@@ -190,5 +198,23 @@ namespace StarLaiPortal.Module.BusinessObjects.Inquiry_View
         {
             get; set;
         }
+
+        // Start ver 1.0.14
+        [XafDisplayName("To Warehouse")]
+        [Appearance("ToWarehouse", Enabled = false)]
+        [Index(45)]
+        public string ToWarehouse
+        {
+            get; set;
+        }
+
+        [XafDisplayName("To Bin")]
+        [Appearance("ToBin", Enabled = false)]
+        [Index(48)]
+        public string ToBin
+        {
+            get; set;
+        }
+        // End ver 1.0.14
     }
 }

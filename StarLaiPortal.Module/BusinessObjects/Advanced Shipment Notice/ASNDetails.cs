@@ -18,6 +18,7 @@ using System.Text;
 // 2023-08-25 remove validation for qty ver 1.0.9
 // 2023-09-25 add copyto qty ver 1.0.10
 // 2023-12-04 add outstanding qty ver 1.0.13
+// 2024-01-29 change column label ver 1.0.14
 
 namespace StarLaiPortal.Module.BusinessObjects.Advanced_Shipment_Notice
 {
@@ -226,7 +227,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Advanced_Shipment_Notice
         [DbType("numeric(18,6)")]
         [ModelDefault("DisplayFormat", "{0:N0}")]
         [ModelDefault("EditMask", "d")]
-        [XafDisplayName("Open Quantity")]
+        // Start ver 1.0.14
+        //[XafDisplayName("Open Quantity")]
+        [XafDisplayName("Open Qty")]
+        // End ver 1.0.14
         [Appearance("Quantity", Enabled = false)]
         [Index(18), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         public decimal Quantity
@@ -247,7 +251,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Advanced_Shipment_Notice
         [DbType("numeric(18,6)")]
         [ModelDefault("DisplayFormat", "{0:N0}")]
         [ModelDefault("EditMask", "d")]
-        [XafDisplayName("Unload Qty")]
+        // Start ver 1.0.14
+        //[XafDisplayName("Unload Qty")]
+        [XafDisplayName("ASN Qty")]
+        // End ver 1.0.14
         [Index(20), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         public decimal UnloadQty
         {

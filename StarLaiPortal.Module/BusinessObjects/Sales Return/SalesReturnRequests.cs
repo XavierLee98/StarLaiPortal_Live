@@ -17,6 +17,7 @@ using System.Text;
 
 // 2023-09-25 change date format ver 1.0.10
 // 2023-10-05 add payment method for sales return ver 1.0.10
+// 2024-01-29 default payment method credit note ver 1.0.14
 
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
 {
@@ -71,6 +72,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
             Status = DocStatus.Draft;
             AppStatus = ApprovalStatusType.Not_Applicable;
             DocType = DocTypeList.SRR;
+
+            // Start ver 1.0.14
+            PaymentMethod = SRPaymentMethod.CreditNote;
+            // End ver 1.0.14
         }
 
         private ApplicationUser _CreateUser;

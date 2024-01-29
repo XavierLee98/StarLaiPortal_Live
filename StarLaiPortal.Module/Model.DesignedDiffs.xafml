@@ -4271,7 +4271,7 @@
         <ColumnInfo Id="Reference" Index="9" />
       </Columns>
     </ListView>
-    <ListView Id="SalesReturnRequests_ListView_Approval" ClassName="StarLaiPortal.Module.BusinessObjects.Sales_Return.SalesReturnRequests" DetailViewID="SalesReturnRequests_DetailView_Approval" MasterDetailView="SalesReturnRequests_DetailView" DataAccessMode="Client" Caption="Sales Return Request Approval" IsNewNode="True">
+    <ListView Id="SalesReturnRequests_ListView_Approval" ClassName="StarLaiPortal.Module.BusinessObjects.Sales_Return.SalesReturnRequests" DataAccessMode="Client" Caption="Sales Return Request Approval" IsNewNode="True">
       <Columns IsNewNode="True">
         <ColumnInfo Id="AppUser" PropertyName="AppUser" Index="-1" IsNewNode="True" />
         <ColumnInfo Id="BillingAddress" PropertyName="BillingAddress" Index="-1" IsNewNode="True" />
@@ -4282,6 +4282,7 @@
         <ColumnInfo Id="Currency" PropertyName="Currency" Index="-1" IsNewNode="True" />
         <ColumnInfo Id="DocType" PropertyName="DocType" Index="-1" IsNewNode="True" />
         <ColumnInfo Id="Oid" PropertyName="Oid" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="ReasonCode" PropertyName="ReasonCode" Index="-1" IsNewNode="True" />
         <ColumnInfo Id="Remarks" PropertyName="Remarks" Index="-1" IsNewNode="True" />
         <ColumnInfo Id="ShippingAddress" PropertyName="ShippingAddress" Index="-1" IsNewNode="True" />
         <ColumnInfo Id="ShippingAddressfield" PropertyName="ShippingAddressfield" Index="-1" IsNewNode="True" />
@@ -4292,13 +4293,13 @@
         <ColumnInfo Id="Customer" PropertyName="Customer" Index="1" IsNewNode="True" />
         <ColumnInfo Id="CustomerName" PropertyName="CustomerName" Index="2" IsNewNode="True" />
         <ColumnInfo Id="Salesperson" PropertyName="Salesperson" Index="3" IsNewNode="True" />
-        <ColumnInfo Id="ReasonCode" PropertyName="ReasonCode" Index="4" IsNewNode="True" />
-        <ColumnInfo Id="DocDate" PropertyName="DocDate" Index="5" IsNewNode="True" />
-        <ColumnInfo Id="PostingDate" PropertyName="PostingDate" Index="6" IsNewNode="True" />
-        <ColumnInfo Id="Status" PropertyName="Status" Index="7" IsNewNode="True" />
-        <ColumnInfo Id="AppStatus" PropertyName="AppStatus" Index="8" IsNewNode="True" />
-        <ColumnInfo Id="CurrencyRate" PropertyName="CurrencyRate" Index="9" IsNewNode="True" />
-        <ColumnInfo Id="Reference" PropertyName="Reference" Index="10" IsNewNode="True" />
+        <ColumnInfo Id="DocDate" PropertyName="DocDate" Index="4" IsNewNode="True" />
+        <ColumnInfo Id="PostingDate" PropertyName="PostingDate" Index="5" IsNewNode="True" />
+        <ColumnInfo Id="Status" PropertyName="Status" Index="6" IsNewNode="True" />
+        <ColumnInfo Id="AppStatus" PropertyName="AppStatus" Index="7" IsNewNode="True" />
+        <ColumnInfo Id="CurrencyRate" PropertyName="CurrencyRate" Index="8" IsNewNode="True" />
+        <ColumnInfo Id="Reference" PropertyName="Reference" Index="9" IsNewNode="True" />
+        <ColumnInfo Id="PaymentMethod" PropertyName="PaymentMethod" Index="10" IsNewNode="True" />
       </Columns>
     </ListView>
     <ListView Id="SalesReturnRequests_LookupListView" DetailViewID="SalesReturnRequests_DetailView" />
