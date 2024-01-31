@@ -37,6 +37,7 @@
             this.InquiryDateTo = new DevExpress.ExpressApp.Actions.ParametrizedAction(this.components);
             this.InquiryFilter = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             this.ViewSalesOrderInquiry = new DevExpress.ExpressApp.Actions.PopupWindowShowAction(this.components);
+            this.StockMovementSPSearch = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             // 
             // ViewOpenPickList
             // 
@@ -128,6 +129,15 @@
             this.ViewSalesOrderInquiry.CustomizePopupWindowParams += new DevExpress.ExpressApp.Actions.CustomizePopupWindowParamsEventHandler(this.ViewSalesOrderInquiry_CustomizePopupWindowParams);
             this.ViewSalesOrderInquiry.Execute += new DevExpress.ExpressApp.Actions.PopupWindowShowActionExecuteEventHandler(this.ViewSalesOrderInquiry_Execute);
             // 
+            // StockMovementSPSearch
+            // 
+            this.StockMovementSPSearch.Caption = "Search";
+            this.StockMovementSPSearch.Category = "ObjectsCreation";
+            this.StockMovementSPSearch.ConfirmationMessage = null;
+            this.StockMovementSPSearch.Id = "StockMovementSPSearch";
+            this.StockMovementSPSearch.ToolTip = null;
+            this.StockMovementSPSearch.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.StockMovementSPSearch_Execute);
+            // 
             // InquiryViewControllers
             // 
             this.Actions.Add(this.ViewOpenPickList);
@@ -138,6 +148,7 @@
             this.Actions.Add(this.InquiryDateTo);
             this.Actions.Add(this.InquiryFilter);
             this.Actions.Add(this.ViewSalesOrderInquiry);
+            this.Actions.Add(this.StockMovementSPSearch);
 
         }
 
@@ -151,5 +162,6 @@
         private DevExpress.ExpressApp.Actions.ParametrizedAction InquiryDateTo;
         private DevExpress.ExpressApp.Actions.SimpleAction InquiryFilter;
         private DevExpress.ExpressApp.Actions.PopupWindowShowAction ViewSalesOrderInquiry;
+        private DevExpress.ExpressApp.Actions.SimpleAction StockMovementSPSearch;
     }
 }

@@ -16,6 +16,7 @@ using System.Text;
 
 // 2023-07-20 - hide copy from so button for series indent - ver 1.0.6 (LIVE)
 // 2023-09-25 change date format ver 1.0.10
+// 2024-01-30 Add import update button ver 1.0.14
 
 namespace StarLaiPortal.Module.BusinessObjects.Purchase_Order
 {
@@ -41,6 +42,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Purchase_Order
     [Appearance("HideItemInq", AppearanceItemType.Action, "True", TargetItems = "POInquiryItem", Criteria = "Supplier = null or Warehouse = null or Series = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("HideExportPO", AppearanceItemType.Action, "True", TargetItems = "ExportPOFormat", Criteria = "DocNum = null or Warehouse = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("HideImportPO", AppearanceItemType.Action, "True", TargetItems = "ImportPO", Criteria = "DocNum = null or Warehouse = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+    // Start ver 1.0.14
+    [Appearance("HideImportUpdatePO", AppearanceItemType.Action, "True", TargetItems = "ImportUpdatePO", Criteria = "DocNum = null or Warehouse = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+    // End ver 1.0.14
 
     [Appearance("HideCopyFromSO", AppearanceItemType.Action, "True", TargetItems = "POCopyFromSO", Criteria = "Supplier = null or Warehouse = null or Series = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     // Start ver 1.0.6 (LIVE)

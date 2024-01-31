@@ -1,4 +1,5 @@
-﻿using DevExpress.Data.Filtering;
+﻿using Admiral.ImportData;
+using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.ConditionalAppearance;
 using DevExpress.ExpressApp.DC;
@@ -17,10 +18,14 @@ using System.Linq;
 using System.Text;
 
 // 2023-10-30 - add FOC - ver 1.0.12
+// 2024-01-29 - add import update - ver 1.0.14
 
 namespace StarLaiPortal.Module.BusinessObjects.Purchase_Order
 {
     [DefaultClassOptions]
+    // Start ver 1.0.14
+    [UpdateImport("OIDKey")]
+    // End ver 1.0.14
     //[Appearance("HideNew", AppearanceItemType.Action, "True", TargetItems = "New", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     //[Appearance("HideDelete", AppearanceItemType.Action, "True", TargetItems = "Delete", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("LinkDoc", AppearanceItemType = "Action", TargetItems = "Link", Context = "ListView", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide)]
@@ -458,6 +463,21 @@ namespace StarLaiPortal.Module.BusinessObjects.Purchase_Order
             }
         }
         // End ver 1.0.12
+
+        // Start ver 1.0.14
+        private int _OIDKey;
+        [Index(80), VisibleInListView(false), VisibleInDetailView(false), VisibleInLookupListView(false)]
+        [XafDisplayName("OIDKey")]
+        [Appearance("OIDKey", Enabled = false)]
+        public int OIDKey
+        {
+            get { return _OIDKey; }
+            set
+            {
+                SetPropertyValue("OIDKey", ref _OIDKey, value);
+            }
+        }
+        // End ver 1.0.14
 
         [Browsable(false)]
         public bool IsNew

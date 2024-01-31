@@ -42,6 +42,7 @@
             this.ExportSQImport = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             this.ImportSQ = new DevExpress.ExpressApp.Actions.PopupWindowShowAction(this.components);
             this.CreateSalesOrderAction = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
+            this.ImportUpdateSQ = new DevExpress.ExpressApp.Actions.PopupWindowShowAction(this.components);
             // 
             // BackToInquiry
             // 
@@ -147,7 +148,7 @@
             // 
             // ExportSQImport
             // 
-            this.ExportSQImport.Caption = "Export Format";
+            this.ExportSQImport.Caption = "Export Item";
             this.ExportSQImport.Category = "ListView";
             this.ExportSQImport.ConfirmationMessage = null;
             this.ExportSQImport.Id = "ExportSQImport";
@@ -175,6 +176,18 @@
             this.CreateSalesOrderAction.ToolTip = null;
             this.CreateSalesOrderAction.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.CreateSalesOrderAction_Execute);
             // 
+            // ImportUpdateSQ
+            // 
+            this.ImportUpdateSQ.AcceptButtonCaption = null;
+            this.ImportUpdateSQ.CancelButtonCaption = null;
+            this.ImportUpdateSQ.Caption = "Update Data";
+            this.ImportUpdateSQ.Category = "ListView";
+            this.ImportUpdateSQ.ConfirmationMessage = null;
+            this.ImportUpdateSQ.Id = "ImportUpdateSQ";
+            this.ImportUpdateSQ.ToolTip = null;
+            this.ImportUpdateSQ.CustomizePopupWindowParams += new DevExpress.ExpressApp.Actions.CustomizePopupWindowParamsEventHandler(this.ImportUpdateSQ_CustomizePopupWindowParams);
+            this.ImportUpdateSQ.Execute += new DevExpress.ExpressApp.Actions.PopupWindowShowActionExecuteEventHandler(this.ImportUpdateSQ_Execute);
+            // 
             // SalesQuotationControllers
             // 
             this.Actions.Add(this.BackToInquiry);
@@ -190,6 +203,7 @@
             this.Actions.Add(this.ExportSQImport);
             this.Actions.Add(this.ImportSQ);
             this.Actions.Add(this.CreateSalesOrderAction);
+            this.Actions.Add(this.ImportUpdateSQ);
 
         }
 
@@ -208,5 +222,6 @@
         private DevExpress.ExpressApp.Actions.SimpleAction ExportSQImport;
         private DevExpress.ExpressApp.Actions.PopupWindowShowAction ImportSQ;
         private DevExpress.ExpressApp.Actions.SimpleAction CreateSalesOrderAction;
+        private DevExpress.ExpressApp.Actions.PopupWindowShowAction ImportUpdateSQ;
     }
 }

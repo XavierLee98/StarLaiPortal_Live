@@ -36,6 +36,7 @@ using System.Web;
 // 2023-07-28 add item button do not pop out ver 1.0.7
 // 2023-08-16 - add stock 3 and stock 4 - ver 1.0.8
 // 2023-12-04 - add order status - ver 1.0.13
+// 2024-01-30 - orderstatus add new  field - ver 1.0.14
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -1081,6 +1082,10 @@ namespace StarLaiPortal.Module.Controllers
                             item.DocNo = row.Values[6].ToString();
                             item.Quantity = (decimal)row.Values[7];
                             item.ESRDate = (DateTime)row.Values[8];
+                            // Start ver 1.0.14
+                            item.PODate = (DateTime)row.Values[9];
+                            item.PODelivery = (DateTime)row.Values[10];
+                            // End ver 1.0.14
 
                             orderstatuslist.Orderstatus.Add(item);
 

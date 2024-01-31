@@ -26,9 +26,12 @@ using DevExpress.Xpo.DB;
 using DevExpress.ExpressApp.Web.Templates;
 using DevExpress.ExpressApp.Web;
 using StarLaiPortal.Module.BusinessObjects.Sales_Order;
+using DevExpress.ExpressApp.Xpo;
+using StarLaiPortal.Module.BusinessObjects.Item_Inquiry;
 
 // 2023-09-14 - add filter into inquiry - ver 1.0.9
 // 2023-10-16 - sales order inquiry add "All" option for filter and view button - ver 1.0.11
+// 2024-01-30 - add inventory movement search button - ver 1.0.14
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -60,6 +63,9 @@ namespace StarLaiPortal.Module.Controllers
             // Start ver 1.0.11
             this.ViewSalesOrderInquiry.Active.SetItemValue("Enabled", false);
             // End ver 1.0.11
+            // Start ver 1.0.14
+            this.StockMovementSPSearch.Active.SetItemValue("Enabled", false);
+            // End ver 1.0.14
 
             if (typeof(vwInquiryOpenPickList).IsAssignableFrom(View.ObjectTypeInfo.Type))
             {
@@ -188,6 +194,16 @@ namespace StarLaiPortal.Module.Controllers
                 }
             }
             // End ver 1.0.9
+
+            // Start ver 1.0.14
+            if (typeof(StockMovement).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(StockMovement))
+                {
+                    this.StockMovementSPSearch.Active.SetItemValue("Enabled", true);
+                }
+            }
+            // End ver 1.0.14
         }
         protected override void OnViewControlsCreated()
         {
@@ -427,5 +443,65 @@ namespace StarLaiPortal.Module.Controllers
             //e.DialogController.CancelAction.Active["NothingToCancel"] = false;
         }
         // End ver 1.0.11
+
+        // Start ver 1.0.14
+        private void StockMovementSPSearch_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            string itemcode = "";
+            string portalnum = "";
+            StockMovement selectedObject = (StockMovement)e.CurrentObject;
+
+            if (selectedObject.ItemCode != null)
+            {
+                itemcode = selectedObject.ItemCode.ItemCode;
+            }
+
+            if (selectedObject.PortalDocNum != null)
+            {
+                portalnum = selectedObject.PortalDocNum;
+            }
+
+            int cnt = 0;
+            XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+            SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetStockMovement", 
+                new OperandValue(selectedObject.DateFrom.Date),
+                new OperandValue(selectedObject.DateTo.Date),
+                new OperandValue(itemcode), new OperandValue(portalnum));
+
+            if (sprocData.ResultSet.Count() > 0)
+            {
+                if (sprocData.ResultSet[0].Rows.Count() > 0)
+                {
+                    selectedObject.Results.Clear();
+                    foreach (SelectStatementResultRow row in sprocData.ResultSet[0].Rows)
+                    {
+                        StockMovementResult stockmovement = new StockMovementResult();
+
+                        stockmovement.Oid = ++cnt;
+                        stockmovement.TransDate = row.Values[0].ToString();
+                        stockmovement.PortalNo = row.Values[1].ToString();
+                        stockmovement.SAPNo = row.Values[2].ToString();
+                        stockmovement.CardCode = row.Values[3].ToString();
+                        stockmovement.CardName = row.Values[4].ToString();
+                        stockmovement.ItemCode = row.Values[5].ToString();
+                        stockmovement.ItemName = row.Values[6].ToString();
+                        stockmovement.LegacyItemCode = row.Values[7].ToString();
+                        stockmovement.CatalogNo = row.Values[8].ToString();
+                        stockmovement.Model = row.Values[9].ToString();
+                        stockmovement.Quantity = Convert.ToDecimal(row.Values[10].ToString());
+                        stockmovement.UOM = row.Values[11].ToString();
+                        stockmovement.Warehouse = row.Values[12].ToString();
+                        stockmovement.BinLocation = row.Values[13].ToString();
+                        stockmovement.TransType = row.Values[14].ToString();
+
+                        selectedObject.Results.Add(stockmovement);
+                    }
+                }
+            }
+
+            ObjectSpace.Refresh();
+            View.Refresh();
+        }
+        // End ver 1.0.14
     }
 }
