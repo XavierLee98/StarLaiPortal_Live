@@ -19,6 +19,7 @@ using DevExpress.Xpo;
 using StarLaiPortal.Module.BusinessObjects;
 using StarLaiPortal.Module.BusinessObjects.Item_Inquiry;
 using StarLaiPortal.Module.BusinessObjects.Purchase_Order;
+using StarLaiPortal.Module.BusinessObjects.Sales_Order;
 using StarLaiPortal.Module.BusinessObjects.Setup;
 using StarLaiPortal.Module.BusinessObjects.View;
 using System;
@@ -1358,29 +1359,49 @@ namespace StarLaiPortal.Module.Controllers
         private void ImportUpdatePO_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
         {
             PurchaseOrders trx = (PurchaseOrders)View.CurrentObject;
+            bool backsales = false;
 
-            var os = Application.CreateObjectSpace();
-            var solution = os.CreateObject<ImportData>();
-            solution.Option = new ImportOption();
-
-            solution.Option.UpdateProgress = (x) => solution.Progress = x;
-            solution.Option.DocNum = trx.DocNum;
-            solution.Option.ConnectionString = genCon.getConnectionString();
-            solution.Option.Type = "PurchaseOrderUpdate";
-
-            solution.Option.MainTypeInfo = (this.View as DetailView).Model.ModelClass;
-            var view = Application.CreateDetailView(os, solution, false);
-
-            view.Closed += (sss, eee) =>
+            if (trx.PurchaseOrderDetails.Where(x => x.Series == "BackOrdS" || x.Series == "BackOrdP").Count() > 0)
             {
-                this.Frame.GetController<RefreshController>().RefreshAction.DoExecute();
-            };
+                backsales = true;
+            }
 
-            e.DialogController.CancelAction.Active["NothingToCancel"] = false;
-            e.DialogController.AcceptAction.ActionMeaning = ActionMeaning.Unknown;
-            //e.Maximized = true;
+            if (backsales == false)
+            {
+                var os = Application.CreateObjectSpace();
+                var solution = os.CreateObject<ImportData>();
+                solution.Option = new ImportOption();
 
-            e.View = view;
+                solution.Option.UpdateProgress = (x) => solution.Progress = x;
+                solution.Option.DocNum = trx.DocNum;
+                solution.Option.ConnectionString = genCon.getConnectionString();
+                solution.Option.Type = "PurchaseOrderUpdate";
+
+                solution.Option.MainTypeInfo = (this.View as DetailView).Model.ModelClass;
+                var view = Application.CreateDetailView(os, solution, false);
+
+                view.Closed += (sss, eee) =>
+                {
+                    this.Frame.GetController<RefreshController>().RefreshAction.DoExecute();
+                };
+
+                e.DialogController.CancelAction.Active["NothingToCancel"] = false;
+                e.DialogController.AcceptAction.ActionMeaning = ActionMeaning.Unknown;
+                //e.Maximized = true;
+
+                e.View = view;
+            }
+            else
+            {
+                IObjectSpace os = Application.CreateObjectSpace();
+                DetailView dv = Application.CreateDetailView(os, os.CreateObject<Confirmation>(), true);
+                dv.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
+                ((Confirmation)dv.CurrentObject).Message = "Back to back sales order not allow to change quantity.";
+
+                e.DialogController.CancelAction.Active["NothingToCancel"] = false;
+                e.DialogController.AcceptAction.ActionMeaning = ActionMeaning.Accept;
+                e.View = dv;
+            }
         }
         // End ver 1.0.14
     }

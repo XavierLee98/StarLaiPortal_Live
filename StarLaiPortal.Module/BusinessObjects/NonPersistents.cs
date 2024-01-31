@@ -95,6 +95,9 @@ namespace StarLaiPortal.Module.BusinessObjects
 
     [DomainComponent]
     [NonPersistent]
+    // Start ver 1.0.14
+    [XafDisplayName("Message")]
+    // End ver 1.0.14
     public class Confirmation
     { 
         [XafDisplayName("Message")]
