@@ -545,21 +545,21 @@ namespace StarLaiPortal.Module.Controllers
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 // Start ver 1.0.11
-                WriteLog("[INFO]", "-----------------------", conn.Database);
-                WriteLog("[INFO]", "GenerateDO : " + load.DocNum + " -----------------------", conn.Database);
+                //WriteLog("[INFO]", "-----------------------", conn.Database);
+                //WriteLog("[INFO]", "GenerateDO : " + load.DocNum + " -----------------------", conn.Database);
                 // End ver 1.0.11
 
                 while (reader.Read())
                 {
                     // Start ver 1.0.11
-                    WriteLog("[INFO]", "SO Number : " + reader.GetString(0), conn.Database);
+                    //WriteLog("[INFO]", "SO Number : " + reader.GetString(0), conn.Database);
                     // End ver 1.0.11
                     SalesOrder so = soos.FindObject<SalesOrder>(CriteriaOperator.Parse("DocNum = ?", reader.GetString(0)));
 
                     if (so != null)
                     {
                         // Start ver 1.0.11
-                        WriteLog("[INFO]", "SO Number Processed : " + reader.GetString(0), conn.Database);
+                        //WriteLog("[INFO]", "SO Number Processed : " + reader.GetString(0), conn.Database);
                         // End ver 1.0.11
 
                         Load currload = soos.FindObject<Load>(CriteriaOperator.Parse("DocNum = ?", load.DocNum));
@@ -694,7 +694,7 @@ namespace StarLaiPortal.Module.Controllers
                         //}
 
                         // Start ver 1.0.11
-                        WriteLog("[INFO]", "Header done. - " + reader.GetString(0), conn.Database);
+                        //WriteLog("[INFO]", "Header done. - " + reader.GetString(0), conn.Database);
                         // End ver 1.0.11
 
                         string[] packlistnum = currload.PackListNo.Replace(" ", "").Split(',');
@@ -787,7 +787,7 @@ namespace StarLaiPortal.Module.Controllers
                                                         newdelivery.DeliveryOrderDetails.Add(newdeliveryitem);
 
                                                         // Start ver 1.0.11
-                                                        WriteLog("[INFO]", newdeliveryitem.SOBaseID + " added.", conn.Database);
+                                                        //WriteLog("[INFO]", newdeliveryitem.SOBaseID + " added.", conn.Database);
                                                         // End ver 1.0.11
                                                     }
 
@@ -801,7 +801,7 @@ namespace StarLaiPortal.Module.Controllers
                         }
 
                         // Start ver 1.0.11
-                        WriteLog("[INFO]", "Update Header Info. - " + reader.GetString(0), conn.Database);
+                        //WriteLog("[INFO]", "Update Header Info. - " + reader.GetString(0), conn.Database);
                         // End ver 1.0.11
 
                         // Start ver 1.0.8.1
@@ -841,7 +841,7 @@ namespace StarLaiPortal.Module.Controllers
                             if (newdelivery.Warehouse == null)
                             {
                                 // Start ver 1.0.11
-                                WriteLog("[INFO]", "Warehouse Info. - " + dtl.Warehouse.WarehouseCode, conn.Database);
+                                //WriteLog("[INFO]", "Warehouse Info. - " + dtl.Warehouse.WarehouseCode, conn.Database);
                                 // End ver 1.0.11
 
                                 newdelivery.Warehouse = newdelivery.Session.GetObjectByKey<vwWarehouse>(dtl.Warehouse.WarehouseCode);
@@ -851,7 +851,7 @@ namespace StarLaiPortal.Module.Controllers
                         // End ver 1.0.8.1
 
                         // Start ver 1.0.11
-                        WriteLog("[INFO]", "Updated Header Info. - " + reader.GetString(0), conn.Database);
+                        //WriteLog("[INFO]", "Updated Header Info. - " + reader.GetString(0), conn.Database);
                         // End ver 1.0.11
 
                         // Start ver 1.0.11
@@ -874,13 +874,13 @@ namespace StarLaiPortal.Module.Controllers
                         os.CommitChanges();
 
                         // Start ver 1.0.11
-                        WriteLog("[INFO]", "DO Generated. - " + reader.GetString(0), conn.Database);
+                        //WriteLog("[INFO]", "DO Generated. - " + reader.GetString(0), conn.Database);
                         // End ver 1.0.11
                     }
                     // Start ver 1.0.11
                     else
                     {
-                        WriteLog("[INFO]", "SO Number Not Found : " + reader.GetString(0), conn.Database);
+                        //WriteLog("[INFO]", "SO Number Not Found : " + reader.GetString(0), conn.Database);
                     }
                     // End ver 1.0.11
                 }
