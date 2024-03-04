@@ -412,7 +412,6 @@ namespace StarLaiPortal.Module.BusinessObjects
         [Appearance("Model", Enabled = false)]
         public string Model { get; set; }
 
-        [Browsable(false)]
         [XafDisplayName("Quantity")]
         [DbType("numeric(18,6)")]
         [ModelDefault("DisplayFormat", "{0:n2}")]

@@ -182,7 +182,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Inquiry_View
 
         // Start ver 1.0.14
         //[XafDisplayName("Bin Location")]
-        [XafDisplayName("To Bin")]
+        [XafDisplayName("From Bin")]
         // End ver 1.0.14
         [Appearance("Bin", Enabled = false)]
         [Index(40)]
