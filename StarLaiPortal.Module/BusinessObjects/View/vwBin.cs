@@ -13,6 +13,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
+// 2024-03-08 add U_ExclPickFr ver 1.0.14
+
 namespace StarLaiPortal.Module.BusinessObjects.View
 {
     [DefaultClassOptions]
@@ -67,5 +69,15 @@ namespace StarLaiPortal.Module.BusinessObjects.View
         {
             get; set;
         }
+
+        // Start ver 1.0.14
+        [XafDisplayName("U_ExclPickFr")]
+        [Appearance("U_ExclPickFr", Enabled = false)]
+        [Index(8)]
+        public string U_ExclPickFr
+        {
+            get; set;
+        }
+        // End ver 1.0.14
     }
 }
