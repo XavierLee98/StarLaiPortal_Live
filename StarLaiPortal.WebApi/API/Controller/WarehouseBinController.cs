@@ -46,17 +46,17 @@ namespace StarLaiPortal.WebApi.API.Controller
             }
         }
 
-        [HttpGet("whsCode/bincode/count:int/rows:int")]
-        public IActionResult GetBinByWhsCode(string whscode, string bincode, int count, int rows)
+        [HttpGet("whsCode/bincode/isExclPackBin/count:int/rows:int")]
+        public IActionResult GetBinByWhsCode(string whscode, string bincode, int count, int rows, int isExclPackBin = 0)
         {
             try
             {
                 using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
                 {
-                    string json = JsonConvert.SerializeObject(new { whscode = whscode, bincode = bincode, count = count, rows = rows });
+                    string json = JsonConvert.SerializeObject(new { whscode = whscode, bincode = bincode, count = count, rows = rows, isExclPackBin });
                     var val = conn.Query($"exec sp_getdatalist 'WarehouseBin', '{json}'").ToList();
 
-                    string json2 = JsonConvert.SerializeObject(new { whscode = whscode, bincode = bincode});
+                    string json2 = JsonConvert.SerializeObject(new { whscode = whscode, bincode = bincode, isExclPackBin });
                     int resultCount = conn.Query<int>($"exec sp_getdatalist 'WarehouseBinCount', @json = '{json2}'").FirstOrDefault();
 
                     var result = new { TotalCount = resultCount, Bins = val };
@@ -88,13 +88,13 @@ namespace StarLaiPortal.WebApi.API.Controller
         }
 
         [HttpGet("BinCode")]
-        public IActionResult Get(string code)
+        public IActionResult Get(string code, int isExclPackBin = 0)
         {
             try
             {
                 using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
                 {
-                    string json = JsonConvert.SerializeObject(new { bincode = code });
+                    string json = JsonConvert.SerializeObject(new { bincode = code, isExclPackBin });
                     var val = conn.Query($"exec sp_getdatalist 'WarehouseBin', '{json}'").ToList().FirstOrDefault();
                     return Ok(JsonConvert.SerializeObject(val, Formatting.Indented));
                 }
