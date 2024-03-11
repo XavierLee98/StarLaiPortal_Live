@@ -18,7 +18,7 @@ using DevExpress.Xpo;
 // 2023-08-25 - export and import function - ver 1.0.9
 // 2023-10-20 - add stock count - ver 1.0.12
 // 2023-11-06 - not allow zero - ver 1.0.12
-
+// 2024-01-30 - add SQ and PO update - ver 1.0.14
 
 namespace Admiral.ImportData
 {
@@ -298,6 +298,27 @@ namespace Admiral.ImportData
                             result.AddErrorMessage(string.Format("OID Key not match with currect document number.", fields[3]), ws.Cells[r, keyOidKey]);
                         }
                     }
+                    // Start ver 1.0.14
+                    else if (option.Type == "SalesQuotationUpdate")
+                    {
+                        var docnum = obj.GetMemberValue("SalesQuotation");
+
+                        if (docnum.GetType().GetProperty("DocNum").GetValue(docnum).ToString() != option.DocNum)
+                        {
+                            result.AddErrorMessage(string.Format("OID Key not match with currect document number.", fields[3]), ws.Cells[r, keyOidKey]);
+                        }
+                    }
+                    else if (option.Type == "PurchaseOrderUpdate")
+                    {
+                        var docnum = obj.GetMemberValue("PurchaseOrders");
+
+                        if (docnum.GetType().GetProperty("DocNum").GetValue(docnum).ToString() != option.DocNum)
+                        {
+                            result.AddErrorMessage(string.Format("OID Key not match with currect document number.", fields[3]), ws.Cells[r, keyOidKey]);
+                        }
+                    }
+                    // End ver 1.0.14
+
                     var itemcode = obj.GetMemberValue("ItemCode");
 
                     if (itemcode.GetType().GetProperty("ItemCode").GetValue(itemcode).ToString() != ws.Cells[r, keyItem].DisplayText.ToString())
@@ -676,7 +697,10 @@ namespace Admiral.ImportData
                 var listProperties = option.MainTypeInfo.AllMembers.Where(x => x.MemberInfo.IsList && x.MemberInfo.ListElementTypeInfo.IsPersistent);
                 foreach (var item in listProperties)
                 {
-                    if (item.Name == "SalesQuotationDetails")
+                    // Start ver 1.0.14
+                    //if (item.Name == "SalesQuotationDetails")
+                    if (item.Name == "SalesQuotationDetails" && option.Type == "SalesQuotation")
+                    // End ver 1.0.14
                     {
                         var cls = option.MainTypeInfo.Application.BOModel.GetClass(item.MemberInfo.ListElementTypeInfo.Type);
                         var b = book.Worksheets.Add(cls.Caption);
@@ -685,7 +709,10 @@ namespace Admiral.ImportData
                         book.Worksheets.Remove(book.Worksheets[0]);
                     }
 
-                    if (item.Name == "PurchaseOrderDetails")
+                    // Start ver 1.0.14
+                    //if (item.Name == "PurchaseOrderDetails")
+                    if (item.Name == "PurchaseOrderDetails" && option.Type == "PurchaseOrder")
+                    // End ver 1.0.14
                     {
                         var cls = option.MainTypeInfo.Application.BOModel.GetClass(item.MemberInfo.ListElementTypeInfo.Type);
                         var b = book.Worksheets.Add(cls.Caption);
@@ -756,6 +783,27 @@ namespace Admiral.ImportData
                         book.Worksheets.Remove(book.Worksheets[0]);
                     }
                     // End ver 1.0.12
+
+                    // Start ver 1.0.14
+                    if (item.Name == "SalesQuotationDetails" && option.Type == "SalesQuotationUpdate")
+                    {
+                        var cls = option.MainTypeInfo.Application.BOModel.GetClass(item.MemberInfo.ListElementTypeInfo.Type);
+                        var b = book.Worksheets.Add("Update " + cls.Caption);
+                        CreateSheet(b, cls, "SalesQuotationUpdate", option.DocNum);
+
+                        book.Worksheets.Remove(book.Worksheets[0]);
+                    }
+
+                    if (item.Name == "PurchaseOrderDetails" && option.Type == "PurchaseOrderUpdate")
+                    // End ver 1.0.14
+                    {
+                        var cls = option.MainTypeInfo.Application.BOModel.GetClass(item.MemberInfo.ListElementTypeInfo.Type);
+                        var b = book.Worksheets.Add("Update " + cls.Caption);
+                        CreateSheet(b, cls, "PurchaseOrderUpdate", option.DocNum);
+
+                        book.Worksheets.Remove(book.Worksheets[0]);
+                    }
+                    // End ver 1.0.14
                 }
             }
 
@@ -969,6 +1017,52 @@ namespace Admiral.ImportData
                     }
                 }
                 // End ver 1.0.12
+
+                // Start ver 1.0.14
+                if (module == "SalesQuotationUpdate")
+                {
+                    if (item.Name == "OIDKey" || item.Name == "ItemCode" || item.Name == "Quantity")
+                    {
+                        var c = cells[3, i];
+                        c.Value = item.Caption;
+                        c.FillColor = Color.FromArgb(255, 153, 0);
+                        c.Font.Color = Color.White;
+                        var isRequiredField = IsRequiredField(item);
+
+                        var range = book.Range.FromLTRB(i, 2, i, 20000);
+
+                        //DataValidation dv = null;
+
+                        if (isRequiredField)
+                        {
+                            c.Font.Bold = true;
+                        }
+                        i++;
+                    }
+                }
+
+                if (module == "PurchaseOrderUpdate")
+                {
+                    if (item.Name == "OIDKey" || item.Name == "ItemCode" || item.Name == "Quantity")
+                    {
+                        var c = cells[3, i];
+                        c.Value = item.Caption;
+                        c.FillColor = Color.FromArgb(255, 153, 0);
+                        c.Font.Color = Color.White;
+                        var isRequiredField = IsRequiredField(item);
+
+                        var range = book.Range.FromLTRB(i, 2, i, 20000);
+
+                        //DataValidation dv = null;
+
+                        if (isRequiredField)
+                        {
+                            c.Font.Bold = true;
+                        }
+                        i++;
+                    }
+                }
+                // End ver 1.0.14
             }
             #endregion
         }

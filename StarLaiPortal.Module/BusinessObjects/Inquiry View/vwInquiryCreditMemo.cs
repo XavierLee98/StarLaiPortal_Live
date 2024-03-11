@@ -15,6 +15,7 @@ using System.Runtime.Remoting.Contexts;
 using System.Text;
 
 // 2023-10-16 - add row total and doc total - ver 1.0.11
+// 2024-01-29 - add sales return reason - ver 1.0.14
 
 namespace StarLaiPortal.Module.BusinessObjects.Inquiry_View
 {
@@ -291,5 +292,15 @@ namespace StarLaiPortal.Module.BusinessObjects.Inquiry_View
             get; set;
         }
         // End ver 1.0.11
+
+        // Start ver 1.0.14
+        [XafDisplayName("Sales Return Reason")]
+        [Appearance("SalesReturnReason", Enabled = false)]
+        [Index(73)]
+        public string SalesReturnReason
+        {
+            get; set;
+        }
+        // End ver 1.0.14
     }
 }

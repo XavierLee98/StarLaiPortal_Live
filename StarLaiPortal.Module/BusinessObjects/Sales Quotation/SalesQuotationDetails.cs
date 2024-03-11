@@ -1,4 +1,5 @@
-﻿using DevExpress.Data.Filtering;
+﻿using Admiral.ImportData;
+using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.ConditionalAppearance;
 using DevExpress.ExpressApp.DC;
@@ -14,9 +15,15 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
+// 2024-01-29 - remove immediate post - ver 1.0.14
+// 2024-01-29 - add import update - ver 1.0.14
+
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 {
     [DefaultClassOptions]
+    // Start ver 1.0.14
+    [UpdateImport("OIDKey")]
+    // End ver 1.0.14
     //[Appearance("HideNew", AppearanceItemType.Action, "True", TargetItems = "New", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     //[Appearance("HideDelete", AppearanceItemType.Action, "True", TargetItems = "Delete", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("LinkDoc", AppearanceItemType = "Action", TargetItems = "Link", Context = "ListView", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide)]
@@ -302,7 +309,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         }
 
         private vwStockBalance _Available;
-        [ImmediatePostData]
+        // Start ver 1.0.14
+        //[ImmediatePostData]
+        // End ver 1.0.14
         [NoForeignKey]
         //[DbType("numeric(18,6)")]
         //[ModelDefault("DisplayFormat", "{0:N0}")]
@@ -395,6 +404,21 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                 SetPropertyValue("Postingdate", ref _Postingdate, value);
             }
         }
+
+        // Start ver 1.0.14
+        private int _OIDKey;
+        [Index(80), VisibleInListView(false), VisibleInDetailView(false), VisibleInLookupListView(false)]
+        [XafDisplayName("OIDKey")]
+        [Appearance("OIDKey", Enabled = false)]
+        public int OIDKey
+        {
+            get { return _OIDKey; }
+            set
+            {
+                SetPropertyValue("OIDKey", ref _OIDKey, value);
+            }
+        }
+        // End ver 1.0.14
 
         [Browsable(false)]
         public bool IsNew

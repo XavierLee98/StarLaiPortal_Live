@@ -42,6 +42,7 @@
             this.PreviewPONoCost = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             this.ExportPOFormat = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             this.ImportPO = new DevExpress.ExpressApp.Actions.PopupWindowShowAction(this.components);
+            this.ImportUpdatePO = new DevExpress.ExpressApp.Actions.PopupWindowShowAction(this.components);
             // 
             // SubmitPO
             // 
@@ -159,7 +160,7 @@
             // 
             // ExportPOFormat
             // 
-            this.ExportPOFormat.Caption = "Export Format";
+            this.ExportPOFormat.Caption = "Export Item";
             this.ExportPOFormat.Category = "ListView";
             this.ExportPOFormat.ConfirmationMessage = null;
             this.ExportPOFormat.Id = "ExportPOFormat";
@@ -178,6 +179,18 @@
             this.ImportPO.CustomizePopupWindowParams += new DevExpress.ExpressApp.Actions.CustomizePopupWindowParamsEventHandler(this.ImportPO_CustomizePopupWindowParams);
             this.ImportPO.Execute += new DevExpress.ExpressApp.Actions.PopupWindowShowActionExecuteEventHandler(this.ImportPO_Execute);
             // 
+            // ImportUpdatePO
+            // 
+            this.ImportUpdatePO.AcceptButtonCaption = null;
+            this.ImportUpdatePO.CancelButtonCaption = null;
+            this.ImportUpdatePO.Caption = "Update Data";
+            this.ImportUpdatePO.Category = "ListView";
+            this.ImportUpdatePO.ConfirmationMessage = null;
+            this.ImportUpdatePO.Id = "ImportUpdatePO";
+            this.ImportUpdatePO.ToolTip = null;
+            this.ImportUpdatePO.CustomizePopupWindowParams += new DevExpress.ExpressApp.Actions.CustomizePopupWindowParamsEventHandler(this.ImportUpdatePO_CustomizePopupWindowParams);
+            this.ImportUpdatePO.Execute += new DevExpress.ExpressApp.Actions.PopupWindowShowActionExecuteEventHandler(this.ImportUpdatePO_Execute);
+            // 
             // PurchaseOrderControllers
             // 
             this.Actions.Add(this.SubmitPO);
@@ -193,6 +206,7 @@
             this.Actions.Add(this.PreviewPONoCost);
             this.Actions.Add(this.ExportPOFormat);
             this.Actions.Add(this.ImportPO);
+            this.Actions.Add(this.ImportUpdatePO);
 
         }
 
@@ -211,5 +225,6 @@
         private DevExpress.ExpressApp.Actions.SimpleAction PreviewPONoCost;
         private DevExpress.ExpressApp.Actions.SimpleAction ExportPOFormat;
         private DevExpress.ExpressApp.Actions.PopupWindowShowAction ImportPO;
+        private DevExpress.ExpressApp.Actions.PopupWindowShowAction ImportUpdatePO;
     }
 }

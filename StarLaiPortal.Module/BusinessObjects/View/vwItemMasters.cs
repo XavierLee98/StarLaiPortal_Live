@@ -64,7 +64,7 @@ namespace StarLaiPortal.Module.BusinessObjects.View
 
         [XafDisplayName("UOM Group")]
         [Appearance("UOM", Enabled = false)]
-        [Index(4)]
+        [Index(4), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public string UOM
         {
             get; set;
@@ -72,7 +72,7 @@ namespace StarLaiPortal.Module.BusinessObjects.View
 
         [XafDisplayName("ManBtchNum")]
         [Appearance("ManBtchNum", Enabled = false)]
-        [Index(5)]
+        [Index(5), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public string ManBtchNum
         {
             get; set;
@@ -80,7 +80,7 @@ namespace StarLaiPortal.Module.BusinessObjects.View
 
         [XafDisplayName("ManSerNum")]
         [Appearance("ManSerNum", Enabled = false)]
-        [Index(8)]
+        [Index(8), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public string ManSerNum
         {
             get; set;
@@ -88,14 +88,14 @@ namespace StarLaiPortal.Module.BusinessObjects.View
 
         [XafDisplayName("PrchseItem")]
         [Appearance("PrchseItem", Enabled = false)]
-        [Index(10)]
+        [Index(10), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public string PrchseItem
         {
             get; set;
         }
         [XafDisplayName("InvntItem")]
         [Appearance("InvntItem", Enabled = false)]
-        [Index(13)]
+        [Index(13), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public string InvntItem
         {
             get; set;
@@ -103,7 +103,7 @@ namespace StarLaiPortal.Module.BusinessObjects.View
 
         [XafDisplayName("SellItem")]
         [Appearance("SellItem", Enabled = false)]
-        [Index(15)]
+        [Index(15), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public string SellItem
         {
             get; set;
@@ -111,7 +111,7 @@ namespace StarLaiPortal.Module.BusinessObjects.View
 
         [XafDisplayName("Def. Barcode")]
         [Appearance("DefBarcode", Enabled = false)]
-        [Index(18), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        [Index(18), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public string DefBarcode
         {
             get; set;
@@ -119,7 +119,7 @@ namespace StarLaiPortal.Module.BusinessObjects.View
 
         [XafDisplayName("Catalog No")]
         [Appearance("CatalogNo", Enabled = false)]
-        [Index(20), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        [Index(20), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public string CatalogNo
         {
             get; set;
@@ -127,7 +127,7 @@ namespace StarLaiPortal.Module.BusinessObjects.View
 
         [XafDisplayName("Model")]
         [Appearance("Model", Enabled = false)]
-        [Index(23)]
+        [Index(23), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public string Model
         {
             get; set;
@@ -135,7 +135,7 @@ namespace StarLaiPortal.Module.BusinessObjects.View
 
         [XafDisplayName("Legacy Item Code")]
         [Appearance("LegacyItemCode", Enabled = false)]
-        [Index(25), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        [Index(25), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(true)]
         public string LegacyItemCode
         {
             get; set;
@@ -143,6 +143,7 @@ namespace StarLaiPortal.Module.BusinessObjects.View
 
         [XafDisplayName("frozenFor")]
         [Appearance("frozenFor", Enabled = false)]
+        [Index(28), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public string frozenFor
         {
             get; set;
@@ -150,6 +151,7 @@ namespace StarLaiPortal.Module.BusinessObjects.View
 
         [XafDisplayName("LabelType")]
         [Appearance("LabelType", Enabled = false)]
+        [Index(30), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public string LabelType
         {
             get; set;
@@ -157,7 +159,7 @@ namespace StarLaiPortal.Module.BusinessObjects.View
 
         [XafDisplayName("Frgn Name")]
         [Appearance("FrgnName", Enabled = false)]
-        [Index(33), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        [Index(33), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public string FrgnName
         {
             get; set;
@@ -165,7 +167,7 @@ namespace StarLaiPortal.Module.BusinessObjects.View
 
         [XafDisplayName("Picture Name")]
         [Appearance("PicturName", Enabled = false)]
-        [Index(35), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        [Index(35), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public string PicturName
         {
             get; set;
@@ -182,7 +184,7 @@ namespace StarLaiPortal.Module.BusinessObjects.View
         // Start ver 1.0.10
         [XafDisplayName("Print UOM")]
         [Appearance("PrintUoM", Enabled = false)]
-        [Index(40), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        [Index(40), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public string PrintUoM
         {
             get; set;

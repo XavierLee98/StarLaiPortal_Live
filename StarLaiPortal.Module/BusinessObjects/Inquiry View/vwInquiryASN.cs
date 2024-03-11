@@ -13,6 +13,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
+// 2024-01-29 change column label ver 1.0.14
+// 2024-01-29 add series and SO number ver 1.0.14
+
 namespace StarLaiPortal.Module.BusinessObjects.Inquiry_View
 {
     [DefaultClassOptions]
@@ -214,7 +217,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Inquiry_View
             get; set;
         }
 
-        [XafDisplayName("Planned Qty.")]
+        // Start ver 1.0.14
+        //[XafDisplayName("Planned Qty.")]
+        [XafDisplayName("ASN Qty")]
+        // End ver 1.0.14
         [DbType("numeric(18,6)")]
         [ModelDefault("DisplayFormat", "{0:n2}")]
         [Appearance("PlanQty", Enabled = false)]
@@ -232,7 +238,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Inquiry_View
             get; set;
         }
 
-        [XafDisplayName("Loaded Qty.")]
+        // Start ver 1.0.14
+        //[XafDisplayName("Loaded Qty.")]
+        [XafDisplayName("Received Qty")]
+        // End ver 1.0.14
         [DbType("numeric(18,6)")]
         [ModelDefault("DisplayFormat", "{0:n2}")]
         [Appearance("LoadQty", Enabled = false)]
@@ -266,5 +275,36 @@ namespace StarLaiPortal.Module.BusinessObjects.Inquiry_View
         {
             get; set;
         }
+
+        // Start ver 1.0.14
+        //[XafDisplayName("Open Qty.")]
+        [XafDisplayName("Outstanding Qty")]
+        // End ver 1.0.14
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("OpenQty", Enabled = false)]
+        [Index(65)]
+        public decimal OpenQty
+        {
+            get; set;
+        }
+
+        // Start ver 1.0.14
+        [XafDisplayName("Series")]
+        [Appearance("Series", Enabled = false)]
+        [Index(68)]
+        public string Series
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Sales Number")]
+        [Appearance("SalesNumber", Enabled = false)]
+        [Index(70)]
+        public string SalesNumber
+        {
+            get; set;
+        }
+        // End ver 1.0.14
     }
 }

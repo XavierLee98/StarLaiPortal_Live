@@ -48,6 +48,8 @@ using static DevExpress.XtraPrinting.Native.ExportOptionsPropertiesNames;
 // 2023-10-11 fix multi tab issue ver 1.0.10
 // 2023-10-20 add stock count ver 1.0.12
 // 2023-12-04 add outstanding qty ver 1.0.13
+// 2024-01-17 block save if no series for PRR ver 1.0.13
+// 2024-01-29 SQ and PO update OIDKey ver 1.0.14
 
 namespace StarLaiPortal.Module.Web.Controllers
 {
@@ -132,6 +134,13 @@ namespace StarLaiPortal.Module.Web.Controllers
                         genCon.showMsg("Warning", "Please change Shipping Address.", InformationType.Warning);
                     }
                 }
+
+                // Start ver 1.0.14
+                foreach (SalesQuotationDetails details in CurrObject.SalesQuotationDetails)
+                {
+                    details.OIDKey = details.Oid;
+                }
+                // End ver 1.0.14
 
                 base.Save(args);
                 ((DetailView)View).ViewEditMode = ViewEditMode.View;
@@ -440,6 +449,13 @@ namespace StarLaiPortal.Module.Web.Controllers
                     CurrObject.DocNum = genCon.GenerateDocNum(DocTypeList.PO, ObjectSpace, TransferType.NA, 0, docprefix);
                 }
 
+                // Start ver 1.0.14
+                foreach (PurchaseOrderDetails details in CurrObject.PurchaseOrderDetails)
+                {
+                    details.OIDKey = details.Oid;
+                }
+                // End ver 1.0.14
+
                 base.Save(args);
                 ((DetailView)View).ViewEditMode = ViewEditMode.View;
                 View.BreakLinksToControls();
@@ -651,6 +667,14 @@ namespace StarLaiPortal.Module.Web.Controllers
             else if (View.ObjectTypeInfo.Type == typeof(PurchaseReturnRequests))
             {
                 PurchaseReturnRequests CurrObject = (PurchaseReturnRequests)args.CurrentObject;
+
+                // Start ver 1.0.13
+                if (CurrObject.Series == null)
+                {
+                    genCon.showMsg("Error", "No series selected.", InformationType.Error);
+                    return;
+                }
+                // End ver 1.0.13
 
                 base.Save(args);
                 if (CurrObject.DocNum == null)

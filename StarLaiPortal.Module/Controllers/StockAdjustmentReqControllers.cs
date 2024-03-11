@@ -24,6 +24,7 @@ using System.Text;
 
 // 2023-08-16 - add stock 3 and stock 4 - ver 1.0.8
 // 2023-09-26 - copy price and cost type - ver 1.0.10
+// 2023-12-01 add stockadjustment sap docnum ver 1.0.13
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -422,6 +423,9 @@ namespace StarLaiPortal.Module.Controllers
                 }
                 newsa.AdjDate = sar.AdjDate;
                 newsa.Remarks = sar.Remarks;
+                // Start ver 1.0.13
+                newsa.StockAdjustmentReq = sar.DocNum;
+                // End ver 1.0.13
 
                 foreach (StockAdjustmentReqDetails dtl in sar.StockAdjustmentReqDetails)
                 {

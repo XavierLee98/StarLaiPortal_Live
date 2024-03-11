@@ -24,6 +24,8 @@ using static System.Net.Mime.MediaTypeNames;
 using DevExpress.Xpo.DB.Helpers;
 
 // 2023-07-28 block submit if no address for OC and OS ver 1.0.7
+// 2023-12-01 change to action for create SO button ver 1.0.13
+// 2024-01-30 Add import update button ver 1.0.14
 
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 {
@@ -40,6 +42,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
     [Appearance("HideDelete", AppearanceItemType.Action, "True", TargetItems = "Delete", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("HideSubmit", AppearanceItemType.Action, "True", TargetItems = "CreateSalesOrder", Criteria = "not (Status in (0))", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("HideSubmit1", AppearanceItemType.Action, "True", TargetItems = "CreateSalesOrder", Criteria = "(AppStatus in (2))", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+    // Start ver 1.0.13
+    [Appearance("HideSubmitAction", AppearanceItemType.Action, "True", TargetItems = "CreateSalesOrderAction", Criteria = "not (Status in (0))", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSubmitAction1", AppearanceItemType.Action, "True", TargetItems = "CreateSalesOrderAction", Criteria = "(AppStatus in (2))", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+    // End ver 1.0.13
 
     [Appearance("HideCancel", AppearanceItemType.Action, "True", TargetItems = "CancelSalesOrder", Criteria = "not (Status in (0))", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("HideCancel1", AppearanceItemType.Action, "True", TargetItems = "CancelSalesOrder", Criteria = "(AppStatus in (2))", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
@@ -49,6 +55,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
     [Appearance("HideItemInq", AppearanceItemType.Action, "True", TargetItems = "InquiryItem", Criteria = "Customer = null or Transporter = null or CustomerName = null or ContactNo = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("HideExportSQ", AppearanceItemType.Action, "True", TargetItems = "ExportSQImport", Criteria = "DocNum = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("HideImportSQ", AppearanceItemType.Action, "True", TargetItems = "ImportSQ", Criteria = "DocNum = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+    // Start ver 1.0.14
+    [Appearance("HideImportUpdateSQ", AppearanceItemType.Action, "True", TargetItems = "ImportUpdateSQ", Criteria = "DocNum = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+    // End ver 1.0.14
 
     public class SalesQuotation : XPObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (https://documentation.devexpress.com/eXpressAppFramework/CustomDocument113146.aspx).

@@ -17,6 +17,7 @@ using System.Linq;
 using System.Text;
 
 // 2023-08-25 add picklistactual validation ver 1.0.9
+// 2024-03-08 add U_ExclPickFr ver 1.0.14
 
 namespace StarLaiPortal.Module.BusinessObjects.Pick_List
 {
@@ -206,7 +207,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Pick_List
         [NoForeignKey]
         [XafDisplayName("From Bin")]
         [LookupEditorMode(LookupEditorMode.AllItems)]
-        [DataSourceCriteria("Warehouse = '@this.Warehouse.WarehouseCode'")]
+        // Start ver 1.0.14
+        //[DataSourceCriteria("Warehouse = '@this.Warehouse.WarehouseCode'")]
+        [DataSourceCriteria("Warehouse = '@this.Warehouse.WarehouseCode' and U_ExclPickFr = 'N'")]
+        // End ver 1.0.14
         //[Appearance("FromBin", Enabled = false)]
         [Index(15), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         public vwBin FromBin

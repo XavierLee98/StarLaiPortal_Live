@@ -19,6 +19,7 @@ using DevExpress.Xpo;
 using StarLaiPortal.Module.BusinessObjects;
 using StarLaiPortal.Module.BusinessObjects.Item_Inquiry;
 using StarLaiPortal.Module.BusinessObjects.Purchase_Order;
+using StarLaiPortal.Module.BusinessObjects.Sales_Order;
 using StarLaiPortal.Module.BusinessObjects.Setup;
 using StarLaiPortal.Module.BusinessObjects.View;
 using System;
@@ -33,6 +34,7 @@ using System.Web;
 
 // 2023-08-16 - add stock 3 and stock 4 - ver 1.0.8
 // 2023-10-30 - amend validation - ver 1.0.12
+// 2024-01-30 Add import update button ver 1.0.14
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -62,6 +64,9 @@ namespace StarLaiPortal.Module.Controllers
             this.PreviewPONoCost.Active.SetItemValue("Enabled", false);
             this.ExportPOFormat.Active.SetItemValue("Enabled", false);
             this.ImportPO.Active.SetItemValue("Enabled", false);
+            // Start ver 1.0.14
+            this.ImportUpdatePO.Active.SetItemValue("Enabled", false);
+            // End ver 1.0.14
         }
         protected override void OnViewControlsCreated()
         {
@@ -95,6 +100,9 @@ namespace StarLaiPortal.Module.Controllers
                     this.POInquiryItem.Active.SetItemValue("Enabled", true);
                     this.ExportPOFormat.Active.SetItemValue("Enabled", true);
                     this.ImportPO.Active.SetItemValue("Enabled", true);
+                    // Start ver 1.0.14
+                    this.ImportUpdatePO.Active.SetItemValue("Enabled", true);
+                    // End ver 1.0.14
                 }
                 else
                 {
@@ -102,6 +110,9 @@ namespace StarLaiPortal.Module.Controllers
                     this.POInquiryItem.Active.SetItemValue("Enabled", false);
                     this.ExportPOFormat.Active.SetItemValue("Enabled", false);
                     this.ImportPO.Active.SetItemValue("Enabled", false);
+                    // Start ver 1.0.14
+                    this.ImportUpdatePO.Active.SetItemValue("Enabled", false);
+                    // End ver 1.0.14
                 }
             }
             else if (View.Id == "PurchaseOrders_ListView_Approval")
@@ -140,6 +151,9 @@ namespace StarLaiPortal.Module.Controllers
                 this.PreviewPONoCost.Active.SetItemValue("Enabled", false);
                 this.ExportPOFormat.Active.SetItemValue("Enabled", false);
                 this.ImportPO.Active.SetItemValue("Enabled", false);
+                // Start ver 1.0.14
+                this.ImportUpdatePO.Active.SetItemValue("Enabled", false);
+                // End ver 1.0.14
             }
 
             if (View.Id == "PurchaseOrders_PurchaseOrderDetails_ListView")
@@ -525,6 +539,20 @@ namespace StarLaiPortal.Module.Controllers
 
         private void POInquiryItem_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
         {
+            // Start ver 1.0.14
+            PurchaseOrders selectedObject = (PurchaseOrders)e.CurrentObject;
+
+            IObjectSpace os = Application.CreateObjectSpace();
+            PurchaseOrders po = os.FindObject<PurchaseOrders>(new BinaryOperator("Oid", selectedObject.Oid));
+
+            foreach (PurchaseOrderDetails details in po.PurchaseOrderDetails)
+            {
+                details.OIDKey = details.Oid;
+            }
+
+            os.CommitChanges();
+            // End ver 1.0.14
+
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
         }
@@ -1320,5 +1348,61 @@ namespace StarLaiPortal.Module.Controllers
 
             e.View = view;
         }
+
+        // Start ver 1.0.14
+        private void ImportUpdatePO_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
+        {
+            ObjectSpace.CommitChanges();
+            ObjectSpace.Refresh();
+        }
+
+        private void ImportUpdatePO_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
+        {
+            PurchaseOrders trx = (PurchaseOrders)View.CurrentObject;
+            bool backsales = false;
+
+            if (trx.PurchaseOrderDetails.Where(x => x.Series == "BackOrdS" || x.Series == "BackOrdP").Count() > 0)
+            {
+                backsales = true;
+            }
+
+            if (backsales == false)
+            {
+                var os = Application.CreateObjectSpace();
+                var solution = os.CreateObject<ImportData>();
+                solution.Option = new ImportOption();
+
+                solution.Option.UpdateProgress = (x) => solution.Progress = x;
+                solution.Option.DocNum = trx.DocNum;
+                solution.Option.ConnectionString = genCon.getConnectionString();
+                solution.Option.Type = "PurchaseOrderUpdate";
+
+                solution.Option.MainTypeInfo = (this.View as DetailView).Model.ModelClass;
+                var view = Application.CreateDetailView(os, solution, false);
+
+                view.Closed += (sss, eee) =>
+                {
+                    this.Frame.GetController<RefreshController>().RefreshAction.DoExecute();
+                };
+
+                e.DialogController.CancelAction.Active["NothingToCancel"] = false;
+                e.DialogController.AcceptAction.ActionMeaning = ActionMeaning.Unknown;
+                //e.Maximized = true;
+
+                e.View = view;
+            }
+            else
+            {
+                IObjectSpace os = Application.CreateObjectSpace();
+                DetailView dv = Application.CreateDetailView(os, os.CreateObject<Confirmation>(), true);
+                dv.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
+                ((Confirmation)dv.CurrentObject).Message = "Back to back sales order not allow to change quantity.";
+
+                e.DialogController.CancelAction.Active["NothingToCancel"] = false;
+                e.DialogController.AcceptAction.ActionMeaning = ActionMeaning.Accept;
+                e.View = dv;
+            }
+        }
+        // End ver 1.0.14
     }
 }

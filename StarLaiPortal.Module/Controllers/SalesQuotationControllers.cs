@@ -37,6 +37,7 @@ using System.Web.UI;
 // 2023-04-09 fix speed issue ver 1.0.8.1
 // 2023-09-07 check stock when approve ver 1.0.9
 // 2023-12-01 change to action for create SO button ver 1.0.13
+// 2024-01-30 Add import update button ver 1.0.14
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -68,6 +69,9 @@ namespace StarLaiPortal.Module.Controllers
             // Start ver 1.0.13
             this.CreateSalesOrderAction.Active.SetItemValue("Enabled", false);
             // End ver 1.0.13
+            // Start ver 1.0.14
+            this.ImportUpdateSQ.Active.SetItemValue("Enabled", false);
+            // End ver 1.0.14
         }
         protected override void OnViewControlsCreated()
         {
@@ -104,12 +108,18 @@ namespace StarLaiPortal.Module.Controllers
                     this.InquiryItem.Active.SetItemValue("Enabled", true);
                     this.ExportSQImport.Active.SetItemValue("Enabled", true);
                     this.ImportSQ.Active.SetItemValue("Enabled", true);
+                    // Start ver 1.0.14
+                    this.ImportUpdateSQ.Active.SetItemValue("Enabled", true);
+                    // End ver 1.0.14
                 }
                 else
                 {
                     this.InquiryItem.Active.SetItemValue("Enabled", false);
                     this.ExportSQImport.Active.SetItemValue("Enabled", false);
                     this.ImportSQ.Active.SetItemValue("Enabled", false);
+                    // Start ver 1.0.14
+                    this.ImportUpdateSQ.Active.SetItemValue("Enabled", false);
+                    // End ver 1.0.14
                 }
             }
             else if (View.Id == "SalesQuotation_ListView_Approval")
@@ -150,6 +160,9 @@ namespace StarLaiPortal.Module.Controllers
                 // Start ver 1.0.13
                 this.CreateSalesOrderAction.Active.SetItemValue("Enabled", false);
                 // End ver 1.0.13
+                // Start ver 1.0.14
+                this.ImportUpdateSQ.Active.SetItemValue("Enabled", false);
+                // End ver 1.0.14
             }
 
             if (View.Id == "SalesQuotation_SalesQuotationDetails_ListView")
@@ -502,6 +515,19 @@ namespace StarLaiPortal.Module.Controllers
 
         private void InquiryItem_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
         {
+            // Start ver 1.0.14
+            SalesQuotation selectedObject = (SalesQuotation)e.CurrentObject;
+
+            IObjectSpace os = Application.CreateObjectSpace();
+            SalesQuotation sq = os.FindObject<SalesQuotation>(new BinaryOperator("Oid", selectedObject.Oid));
+
+            foreach (SalesQuotationDetails details in sq.SalesQuotationDetails)
+            {
+                details.OIDKey = details.Oid;
+            }
+
+            os.CommitChanges();
+            // End ver 1.0.14
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
         }
@@ -1688,5 +1714,41 @@ namespace StarLaiPortal.Module.Controllers
             }
         }
         // End ver 1.0.13
+
+        // Start ver 1.0.14
+        private void ImportUpdateSQ_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
+        {
+            ObjectSpace.CommitChanges();
+            ObjectSpace.Refresh();
+        }
+
+        private void ImportUpdateSQ_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
+        {
+            SalesQuotation trx = (SalesQuotation)View.CurrentObject;
+
+            var os = Application.CreateObjectSpace();
+            var solution = os.CreateObject<ImportData>();
+            solution.Option = new ImportOption();
+
+            solution.Option.UpdateProgress = (x) => solution.Progress = x;
+            solution.Option.DocNum = trx.DocNum;
+            solution.Option.ConnectionString = genCon.getConnectionString();
+            solution.Option.Type = "SalesQuotationUpdate";
+
+            solution.Option.MainTypeInfo = (this.View as DetailView).Model.ModelClass;
+            var view = Application.CreateDetailView(os, solution, false);
+
+            view.Closed += (sss, eee) =>
+            {
+                this.Frame.GetController<RefreshController>().RefreshAction.DoExecute();
+            };
+
+            e.DialogController.CancelAction.Active["NothingToCancel"] = false;
+            e.DialogController.AcceptAction.ActionMeaning = ActionMeaning.Unknown;
+            //e.Maximized = true;
+
+            e.View = view;
+        }
+        // End ver 1.0.14
     }
 }

@@ -78,7 +78,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Pick_List
         // Start ver 1.0.13
         //[Index(301), VisibleInListView(false), VisibleInDetailView(false), VisibleInLookupListView(false)]
         [Index(301), VisibleInListView(true), VisibleInDetailView(false), VisibleInLookupListView(false)]
-        [ModelDefault("DisplayFormat", "{0:hh:mm tt}")]
+        [ModelDefault("DisplayFormat", "{0: dd/MM/yyyy hh:mm tt}")]
         // End ver 1.0.13
         [Appearance("CreateDate", Enabled = false)]
         public DateTime? CreateDate

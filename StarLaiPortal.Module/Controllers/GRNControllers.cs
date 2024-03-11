@@ -817,7 +817,8 @@ namespace StarLaiPortal.Module.Controllers
                             if (asndetail.Oid.ToString() == dtl.ASNBaseId)
                             {
                                 asndetail.CopyToQty = asndetail.CopyToQty - dtl.OpenQty;
-                                asndetail.OutstandingQty = dtl.OpenQty;
+                                asndetail.OutstandingQty = dtl.OpenQty - asndetail.CopyToQty;
+                                break;
                             }
                         }
                     }

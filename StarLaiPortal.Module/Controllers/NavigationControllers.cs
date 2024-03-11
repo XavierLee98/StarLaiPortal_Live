@@ -7,6 +7,7 @@ using DevExpress.ExpressApp.Model.NodeGenerators;
 using DevExpress.ExpressApp.SystemModule;
 using DevExpress.ExpressApp.Templates;
 using DevExpress.ExpressApp.Utils;
+using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Validation;
 using StarLaiPortal.Module.BusinessObjects;
@@ -25,6 +26,7 @@ using System.Text;
 
 // 2023-10-23 add stock count ver 1.0.12
 // 2023-12-04 add daily delivery summary ver 1.0.13
+// 2024-01-30 - add inventory movement table - ver 1.0.14
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -261,6 +263,21 @@ namespace StarLaiPortal.Module.Controllers
                 e.Handled = true;
             }
             // End ver 1.0.13
+
+            // Start ver 1.0.14
+            if (e.ActionArguments.SelectedChoiceActionItem.Id == "StockMovement_ListView")
+            {
+                XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                var nonPersistentOS = Application.CreateObjectSpace(typeof(StockMovement));
+                StockMovement list = nonPersistentOS.CreateObject<StockMovement>();
+
+                DetailView detailView = Application.CreateDetailView(nonPersistentOS, list);
+                detailView.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
+
+                e.ActionArguments.ShowViewParameters.CreatedView = detailView;
+                e.Handled = true;
+            }
+            // End ver 1.0.14
         }
     }
 }

@@ -16,6 +16,7 @@ using System.Text;
 
 // 2023-08-25 - export and import function - ver 1.0.9
 // 2023-10-16 - add legacyitemcode - ver 1.0.11
+// 2024-01-29 - add available qty and variance - ver 1.0.14
 
 namespace StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer
 {
@@ -121,6 +122,11 @@ namespace StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer
                     {
                         FromBin = Session.FindObject<vwBinStockBalance>(CriteriaOperator.Parse("BinAbs = ? and ItemCode = ? and Warehouse = ?",
                             FromWarehouse.DftBinAbs, ItemCode.ItemCode, FromWarehouse.WarehouseCode));
+
+                        // Start ver 1.0.14
+                        Available = Session.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
+                            ItemCode, FromWarehouse.WarehouseCode));
+                        // End ver 1.0.14
                     }
                     // End ver 1.0.9
 
@@ -247,6 +253,48 @@ namespace StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer
             }
         }
 
+        // Start ver 1.0.14
+        private vwStockBalance _Available;
+        [ImmediatePostData]
+        [NoForeignKey]
+        [XafDisplayName("Available")]
+        [Appearance("Available", Enabled = false)]
+        [Index(16), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
+        public vwStockBalance Available
+        {
+            get { return _Available; }
+            set
+            {
+                SetPropertyValue("Available", ref _Available, value);
+                if (!IsLoading && value != null)
+                {
+                    Variance = (decimal)Available.InStock - Quantity;
+                }
+                else if (!IsLoading && value == null)
+                {
+                    Variance = 0 - Quantity;
+                }
+            }
+        }
+
+        private decimal _Variance;
+        [ImmediatePostData]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:N0}")]
+        [ModelDefault("EditMask", "d")]
+        [XafDisplayName("Variance")]
+        [Appearance("Variance", Enabled = false)]
+        [Index(17), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
+        public decimal Variance
+        {
+            get { return _Variance; }
+            set
+            {
+                SetPropertyValue("Variance", ref _Variance, value);
+            }
+        }
+        // End ver 1.0.14
+
         private vwWarehouse _FromWarehouse;
         [NoForeignKey]
         [ImmediatePostData]
@@ -255,7 +303,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer
         //[RuleRequiredField(DefaultContexts.Save)]
         // End ver 1.0.9
         [XafDisplayName("From Warehouse")]
-        [Index(10), VisibleInListView(false), VisibleInDetailView(false), VisibleInLookupListView(false)]
+        [Index(18), VisibleInListView(false), VisibleInDetailView(false), VisibleInLookupListView(false)]
         public vwWarehouse FromWarehouse
         {
             get { return _FromWarehouse; }
@@ -281,7 +329,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer
         //[RuleRequiredField(DefaultContexts.Save)]
         // End ver 1.0.9
         [XafDisplayName("To Warehouse")]
-        [Index(13), VisibleInListView(false), VisibleInDetailView(false), VisibleInLookupListView(false)]
+        [Index(20), VisibleInListView(false), VisibleInDetailView(false), VisibleInLookupListView(false)]
         public vwWarehouse ToWarehouse
         {
             get { return _ToWarehouse; }

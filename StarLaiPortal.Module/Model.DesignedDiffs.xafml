@@ -45,9 +45,73 @@
     <ActionToContainerMapping>
       <ActionContainer Id="ListView">
         <ActionLink ActionId="BackToInquiry" Index="0" />
-        <ActionLink ActionId="ListViewShowObject" Index="3" />
-        <ActionLink ActionId="Search_ItemInquiry" Index="4" />
-        <ActionLink ActionId="OpenCart" Index="5" />
+        <ActionLink ActionId="ListViewShowObject" Index="1" />
+        <ActionLink ActionId="Search_ItemInquiry" Index="2" />
+        <ActionLink ActionId="OpenCart" Index="3" />
+        <ActionLink ActionId="AddReportItem" Index="4" />
+        <ActionLink ActionId="ApproveAppPO" Index="5" />
+        <ActionLink ActionId="ApproveAppPRR" Index="6" />
+        <ActionLink ActionId="ApproveAppSAR" Index="7" />
+        <ActionLink ActionId="ApproveAppSFR" Index="8" />
+        <ActionLink ActionId="ApproveAppSQ" Index="9" />
+        <ActionLink ActionId="ApproveAppSRR" Index="10" />
+        <ActionLink ActionId="ApproveAppWTR" Index="11" />
+        <ActionLink ActionId="InquiryItem" Index="12" />
+        <ActionLink ActionId="POInquiryItem" Index="13" />
+        <ActionLink ActionId="WTRInquiryItem" Index="14" />
+        <ActionLink ActionId="PRRInquiryItem" Index="15" />
+        <ActionLink ActionId="SARInquiryItem" Index="16" />
+        <ActionLink ActionId="SFRInquiryItem" Index="17" />
+        <ActionLink ActionId="SRRInquiryItem" Index="18" />
+        <ActionLink ActionId="ExportASN" Index="19" />
+        <ActionLink ActionId="ExportConfirmCountItems" Index="20" />
+        <ActionLink ActionId="ExportGRN" Index="21" />
+        <ActionLink ActionId="ExportSheetCountedItems" Index="22" />
+        <ActionLink ActionId="ExportSheetTargetItems" Index="23" />
+        <ActionLink ActionId="ExportWHReq" Index="24" />
+        <ActionLink ActionId="ImportASN" Index="25" />
+        <ActionLink ActionId="ImportConfirmCountItems" Index="26" />
+        <ActionLink ActionId="ImportGRN" Index="27" />
+        <ActionLink ActionId="ImportPO" Index="28" />
+        <ActionLink ActionId="ImportSheetCountedItems" Index="29" />
+        <ActionLink ActionId="ImportSheetTargetItems" Index="30" />
+        <ActionLink ActionId="ImportSQ" Index="31" />
+        <ActionLink ActionId="ExportPOFormat" Index="32" />
+        <ActionLink ActionId="ExportSQImport" Index="33" />
+        <ActionLink ActionId="ImportUpdateSQ" Index="34" />
+        <ActionLink ActionId="ImportWHReq" Index="35" />
+        <ActionLink ActionId="ListNewButton" Index="36" />
+        <ActionLink ActionId="PLCopyFromPLDetail" Index="37" />
+        <ActionLink ActionId="RejectAppPO" Index="38" />
+        <ActionLink ActionId="RejectAppPRR" Index="39" />
+        <ActionLink ActionId="RejectAppSAR" Index="40" />
+        <ActionLink ActionId="RejectAppSFR" Index="41" />
+        <ActionLink ActionId="RejectAppSQ" Index="42" />
+        <ActionLink ActionId="RejectAppSRR" Index="43" />
+        <ActionLink ActionId="RejectAppWTR" Index="44" />
+        <ActionLink ActionId="RetriveDocItem" Index="45" />
+        <ActionLink ActionId="ReviewAppPO" Index="46" />
+        <ActionLink ActionId="ReviewAppPRR" Index="47" />
+        <ActionLink ActionId="ReviewAppSAR" Index="48" />
+        <ActionLink ActionId="ReviewAppSFR" Index="49" />
+        <ActionLink ActionId="ReviewAppSQ" Index="50" />
+        <ActionLink ActionId="ReviewAppSRR" Index="51" />
+        <ActionLink ActionId="ReviewAppWTR" Index="52" />
+        <ActionLink ActionId="StockCountBinSearch" Index="53" />
+        <ActionLink ActionId="StockCountItemSearch" Index="54" />
+        <ActionLink ActionId="StockCountVarianceSearch" Index="55" />
+        <ActionLink ActionId="ViewDashboardDoc" Index="56" />
+        <ActionLink ActionId="ViewDashboardDocPurchase" Index="57" />
+        <ActionLink ActionId="ViewDashboardDocSales" Index="58" />
+        <ActionLink ActionId="ViewDashboardDocWhs" Index="59" />
+        <ActionLink ActionId="ViewDoc" Index="60" />
+        <ActionLink ActionId="ViewDocPurchase" Index="61" />
+        <ActionLink ActionId="ViewDocSales" Index="62" />
+        <ActionLink ActionId="ViewDocWhs" Index="63" />
+        <ActionLink ActionId="ViewItemPicture" Index="64" />
+        <ActionLink ActionId="ViewOpenPickList" Index="65" />
+        <ActionLink ActionId="ViewPickListDetailInquiry" Index="66" />
+        <ActionLink ActionId="ViewPickListInquiry" Index="67" />
       </ActionContainer>
       <ActionContainer Id="ObjectsCreation">
         <ActionLink ActionId="SubmitPL" Index="1" />
@@ -145,11 +209,30 @@
         <ActionLink ActionId="PrintARDownpayment" Index="93" />
         <ActionLink ActionId="ApproveAppARDPC_Pop" Index="94" />
         <ActionLink ActionId="CancelDPCancel" Index="95" />
-        <ActionLink ActionId="CancelSCC" Index="96" />
-        <ActionLink ActionId="CancelSCS" Index="97" />
-        <ActionLink ActionId="CancelSO" Index="98" />
-        <ActionLink ActionId="CloseSCS" Index="99" />
-        <ActionLink ActionId="CloseSO" Index="100" />
+        <ActionLink ActionId="SubmitSCC" Index="96" />
+        <ActionLink ActionId="SubmitSCS" Index="97" />
+        <ActionLink ActionId="CancelSCC" Index="98" />
+        <ActionLink ActionId="CancelSCS" Index="99" />
+        <ActionLink ActionId="CancelSO" Index="100" />
+        <ActionLink ActionId="CloseSCS" Index="101" />
+        <ActionLink ActionId="CloseSO" Index="102" />
+        <ActionLink ActionId="CopyFromDownpayment" Index="103" />
+        <ActionLink ActionId="InquiryDateFrom" Index="104" />
+        <ActionLink ActionId="InquiryDateTo" Index="105" />
+        <ActionLink ActionId="InquiryFilter" Index="106" />
+        <ActionLink ActionId="InquiryStatus" Index="107" />
+        <ActionLink ActionId="PrintBundle" Index="108" />
+        <ActionLink ActionId="PrintCreditMemo" Index="109" />
+        <ActionLink ActionId="PrintDailyDeliveryS" Index="110" />
+        <ActionLink ActionId="PrintDMBundleDO" Index="111" />
+        <ActionLink ActionId="PrintPL" Index="112" />
+        <ActionLink ActionId="PrintPLByZone" Index="113" />
+        <ActionLink ActionId="PrintStockConfirm" Index="114" />
+        <ActionLink ActionId="PrintStockReordering" Index="115" />
+        <ActionLink ActionId="PrintStockSheet" Index="116" />
+        <ActionLink ActionId="SOCCopyFromSR" Index="117" />
+        <ActionLink ActionId="SRRPrintLabel" Index="118" />
+        <ActionLink ActionId="SubmitDO" Index="119" />
       </ActionContainer>
       <ActionContainer Id="Unspecified">
         <ActionLink ActionId="AddToCartPop" Index="0" />
@@ -286,9 +369,13 @@
           <Item Id="ReportsV2" Index="0" />
           <Item Id="vwInquiryStockBalance_ListView" Index="1" />
           <Item Id="vwInquiryStockBalancebyWhs_ListView" Index="2" />
-          <Item Id="vwInquiryStockMovement_ListView" Index="3" />
-          <Item Id="StockReorderingReport_ListView" Visible="False" Index="4" />
-          <Item Id="ItemInquiry_ListView_Report" Caption="Item Inquiry" Index="5" ViewId="ItemInquiry_ListView_Report" IsNewNode="True" />
+          <Item Id="vwInquiryStockMovement_ListView" Index="3" Visible="False" />
+          <Item Id="StockMovement_ListView" Index="4" />
+          <Item Id="StockReorderingReport_ListView" Visible="False" Index="5" />
+          <Item Id="ItemInquiry_ListView_Report" Caption="Item Inquiry" Index="6" ViewId="ItemInquiry_ListView_Report" IsNewNode="True" />
+          <Item Id="vwInquiryCurrentARAging_ListView" Index="7" />
+          <Item Id="vwInquiryCustomer_ListView" Index="8" />
+          <Item Id="vwInquiryOrderTemplateMapping_ListView" Index="9" />
         </Items>
       </Item>
       <Item Id="SAP" Index="3" />
@@ -344,8 +431,8 @@
       </Item>
       <Item Id="Delivery Order" Index="13">
         <Items>
-          <Item Id="vwInquiryDelivery_ListView" Index="0" />
-          <Item Id="DeliveryOrder_ListView" Index="1" />
+          <Item Id="DeliveryOrder_ListView" Index="0" />
+          <Item Id="vwInquiryDelivery_ListView" Index="1" />
           <Item Id="vwInquiryInvoice_ListView" Index="2" />
           <Item Id="DailyDeliveryOrders_ListView" Index="3" />
         </Items>
@@ -1701,6 +1788,11 @@
     <DetailView Id="LoadDocTrail_DetailView" AllowEdit="False" />
     <DetailView Id="OrderStatus_DetailView" AllowEdit="False" />
     <DetailView Id="OrderStatusList_DetailView" AllowEdit="True" />
+    <ListView Id="OrderStatusList_Orderstatus_ListView">
+      <Columns>
+        <ColumnInfo Id="ItemName" SortIndex="-1" SortOrder="None" />
+      </Columns>
+    </ListView>
     <ListView Id="PackList_AuditTrail_ListView" AllowDelete="False" AllowLink="False" AllowNew="False">
       <Columns>
         <ColumnInfo Id="PropertyName" Index="-1" />
@@ -4252,7 +4344,7 @@
         <ColumnInfo Id="Reference" Index="9" />
       </Columns>
     </ListView>
-    <ListView Id="SalesReturnRequests_ListView_Approval" ClassName="StarLaiPortal.Module.BusinessObjects.Sales_Return.SalesReturnRequests" DetailViewID="SalesReturnRequests_DetailView_Approval" MasterDetailView="SalesReturnRequests_DetailView" DataAccessMode="Client" IsNewNode="True">
+    <ListView Id="SalesReturnRequests_ListView_Approval" ClassName="StarLaiPortal.Module.BusinessObjects.Sales_Return.SalesReturnRequests" DataAccessMode="Client" Caption="Sales Return Request Approval" IsNewNode="True">
       <Columns IsNewNode="True">
         <ColumnInfo Id="AppUser" PropertyName="AppUser" Index="-1" IsNewNode="True" />
         <ColumnInfo Id="BillingAddress" PropertyName="BillingAddress" Index="-1" IsNewNode="True" />
@@ -4263,6 +4355,7 @@
         <ColumnInfo Id="Currency" PropertyName="Currency" Index="-1" IsNewNode="True" />
         <ColumnInfo Id="DocType" PropertyName="DocType" Index="-1" IsNewNode="True" />
         <ColumnInfo Id="Oid" PropertyName="Oid" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="ReasonCode" PropertyName="ReasonCode" Index="-1" IsNewNode="True" />
         <ColumnInfo Id="Remarks" PropertyName="Remarks" Index="-1" IsNewNode="True" />
         <ColumnInfo Id="ShippingAddress" PropertyName="ShippingAddress" Index="-1" IsNewNode="True" />
         <ColumnInfo Id="ShippingAddressfield" PropertyName="ShippingAddressfield" Index="-1" IsNewNode="True" />
@@ -4273,13 +4366,13 @@
         <ColumnInfo Id="Customer" PropertyName="Customer" Index="1" IsNewNode="True" />
         <ColumnInfo Id="CustomerName" PropertyName="CustomerName" Index="2" IsNewNode="True" />
         <ColumnInfo Id="Salesperson" PropertyName="Salesperson" Index="3" IsNewNode="True" />
-        <ColumnInfo Id="ReasonCode" PropertyName="ReasonCode" Index="4" IsNewNode="True" />
-        <ColumnInfo Id="DocDate" PropertyName="DocDate" Index="5" IsNewNode="True" />
-        <ColumnInfo Id="PostingDate" PropertyName="PostingDate" Index="6" IsNewNode="True" />
-        <ColumnInfo Id="Status" PropertyName="Status" Index="7" IsNewNode="True" />
-        <ColumnInfo Id="AppStatus" PropertyName="AppStatus" Index="8" IsNewNode="True" />
-        <ColumnInfo Id="CurrencyRate" PropertyName="CurrencyRate" Index="9" IsNewNode="True" />
-        <ColumnInfo Id="Reference" PropertyName="Reference" Index="10" IsNewNode="True" />
+        <ColumnInfo Id="DocDate" PropertyName="DocDate" Index="4" IsNewNode="True" />
+        <ColumnInfo Id="PostingDate" PropertyName="PostingDate" Index="5" IsNewNode="True" />
+        <ColumnInfo Id="Status" PropertyName="Status" Index="6" IsNewNode="True" />
+        <ColumnInfo Id="AppStatus" PropertyName="AppStatus" Index="7" IsNewNode="True" />
+        <ColumnInfo Id="CurrencyRate" PropertyName="CurrencyRate" Index="8" IsNewNode="True" />
+        <ColumnInfo Id="Reference" PropertyName="Reference" Index="9" IsNewNode="True" />
+        <ColumnInfo Id="PaymentMethod" PropertyName="PaymentMethod" Index="10" IsNewNode="True" />
       </Columns>
     </ListView>
     <ListView Id="SalesReturnRequests_LookupListView" DetailViewID="SalesReturnRequests_DetailView" />
@@ -5064,6 +5157,37 @@
         <ColumnInfo Id="ItemName" SortIndex="-1" SortOrder="None" />
       </Columns>
     </ListView>
+    <DetailView Id="StockMovement_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="13.20754716981132">
+            <LayoutGroup Id="StockMovement" RelativeSize="100" Direction="Horizontal">
+              <LayoutGroup Id="Auto73c5011a-7bbf-4914-9456-ccd513f565b4" ShowCaption="False" Caption="" Index="0" RelativeSize="50" IsNewNode="True">
+                <LayoutItem Id="DateFrom" ViewItem="DateFrom" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                <LayoutItem Id="ItemCode" ViewItem="ItemCode" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="Autoc4498efe-26e0-4f8a-ae01-822d6324f749" ShowCaption="False" Caption="" Index="1" RelativeSize="50" IsNewNode="True">
+                <LayoutItem Id="DateTo" ViewItem="DateTo" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                <LayoutItem Id="PortalDocNum" ViewItem="PortalDocNum" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutItem Id="ItemCode" Index="1" RelativeSize="27.083333333333332" Removed="True" />
+              <LayoutItem Id="PortalDocNum" Index="2" RelativeSize="35.416666666666664" Removed="True" />
+              <LayoutItem Id="DateFrom" Removed="True" />
+              <LayoutItem Id="DateTo" Removed="True" />
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="Results_Group" Direction="Vertical" RelativeSize="86.79245283018868">
+            <LayoutItem Id="Results" RelativeSize="100" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="StockMovement_Results_ListView">
+      <Columns>
+        <ColumnInfo Id="CardName" SortIndex="-1" SortOrder="None" />
+      </Columns>
+    </ListView>
+    <DetailView Id="StockMovementResult_DetailView" AllowEdit="False" />
     <ListView Id="Transporter_AuditTrail_ListView" AllowDelete="False" AllowLink="False" AllowNew="False">
       <Columns>
         <ColumnInfo Id="PropertyName" Index="-1" />
