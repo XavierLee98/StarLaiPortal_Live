@@ -129,23 +129,26 @@ namespace StarLaiPortal.WebApi.API.Controller
             {
                 dynamic dynamicObj = obj;
 
+                ISecurityStrategyBase security = securityProvider.GetSecurity();
+                var userId = security.UserId.ToString();
+                var userName = security.UserName;
+
+                LogHelper.CreateLog(Configuration.GetConnectionString("ConnectionString"), userId, "StockCount", obj);
+
                 IObjectSpace sheetOS = objectSpaceFactory.CreateObjectSpace<StockCountSheet>();
                 IObjectSpace stockCountedOS = objectSpaceFactory.CreateObjectSpace<StockCountSheetCounted>();
 
                 StockCountSheet stockCountSheet = sheetOS.FindObject<StockCountSheet>(CriteriaOperator.Parse("Oid = ?", dynamicObj.Oid));
+
+                if (stockCountSheet == null) throw new Exception($"Document not found.[{dynamicObj.Oid}]");
 
                 if (stockCountSheet.Status != DocStatus.Draft)
                 {
                     return Problem($"Update Failed. Stock Count Sheet No.{stockCountSheet.DocNum} already {stockCountSheet.Status}.");
                 }
 
-                ISecurityStrategyBase security = securityProvider.GetSecurity();
-                var userId = security.UserId.ToString();
-                var userName = security.UserName;
-
                 if (dynamicObj.CountDetails != null && ((IEnumerable<dynamic>)dynamicObj.CountDetails).Count() > 0)
                 {
-                    LogHelper.CreateLog(Configuration.GetConnectionString("ConnectionString"), userId, "StockCount", obj);
 
                     foreach (ExpandoObject exobj in dynamicObj.CountDetails)
                     {
