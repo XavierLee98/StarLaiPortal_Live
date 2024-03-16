@@ -36,6 +36,7 @@ using System.Web;
 // 2023-08-25 - export and import function - ver 1.0.9
 // 2023-09-12 add warehouse transfer req no ver 1.0.9
 // 2023-09-25 - add stock balance checking - ver 1.0.10
+// 2024-03-15 - do not check stock balance if same warehouse - ver 1.0.14
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -280,22 +281,29 @@ namespace StarLaiPortal.Module.Controllers
             // Start ver 1.0.10
             foreach(WarehouseTransferReqDetails dtl in selectedObject.WarehouseTransferReqDetails)
             {
-                vwStockBalance available = ObjectSpace.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
-                    dtl.ItemCode, selectedObject.FromWarehouse.WarehouseCode));
-
-                if (available != null)
+                // Start ver 1.0.14
+                if (selectedObject.FromWarehouse.WarehouseCode != selectedObject.ToWarehouse.WarehouseCode)
                 {
-                    if (available.InStock < (double)dtl.Quantity)
+                // End ver 1.0.14
+                    vwStockBalance available = ObjectSpace.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
+                        dtl.ItemCode, selectedObject.FromWarehouse.WarehouseCode));
+
+                    if (available != null)
+                    {
+                        if (available.InStock < (double)dtl.Quantity)
+                        {
+                            showMsg("Error", "Insufficient onhand quantity.", InformationType.Error);
+                            return;
+                        }
+                    }
+                    else
                     {
                         showMsg("Error", "Insufficient onhand quantity.", InformationType.Error);
                         return;
                     }
+                // Start ver 1.0.14
                 }
-                else
-                {
-                    showMsg("Error", "Insufficient onhand quantity.", InformationType.Error);
-                    return;
-                }
+                // End ver 1.0.14
 
                 if (dtl.FromBin != null)
                 {
