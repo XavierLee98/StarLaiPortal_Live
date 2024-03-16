@@ -194,6 +194,13 @@ namespace Admiral.ImportData
                 }
             }
 
+            // Start ver 1.0.14
+            if (OidField == null)
+            {
+                isUpdateImport = false;
+            }
+            // End ver 1.0.14
+
             var sheetContext = new SheetContext(ws, fields.ToDictionary(x => x.Value.Name, x => x.Key));
 
             var rowCount = ws.Rows.LastUsedIndex;
