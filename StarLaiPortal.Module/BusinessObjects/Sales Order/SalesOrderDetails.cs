@@ -228,8 +228,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Order
         }
 
         private vwStockBalance _Available;
-        [ImmediatePostData]
         [NoForeignKey]
+        // Start ver 1.0.15
+        //[ImmediatePostData]
+        // End ver 1.0.15
         [DbType("numeric(18,6)")]
         [ModelDefault("DisplayFormat", "{0:N0}")]
         [ModelDefault("EditMask", "d")]

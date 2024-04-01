@@ -15,6 +15,7 @@ using System.Text;
 
 // 2023-07-28 add createdate ver 1.0.7
 // 2023-09-25 add Territory/Price List ver 1.0.10
+// 2024-04-01 add U_blockSales ver 1.0.15
 
 namespace StarLaiPortal.Module.BusinessObjects.View
 {
@@ -227,6 +228,16 @@ namespace StarLaiPortal.Module.BusinessObjects.View
             get; set;
         }
         // End ver 1.0.10
+
+        // Start ver 1.0.15
+        [XafDisplayName("U_blockSales")]
+        [Appearance("U_blockSales", Enabled = false)]
+        [Index(45)]
+        public string U_blockSales
+        {
+            get; set;
+        }
+        // End ver 1.0.15
 
         [Index(88), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(true)]
         public string BoFullName

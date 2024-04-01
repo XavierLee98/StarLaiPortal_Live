@@ -19,6 +19,7 @@ using System.Text;
 // 2023-09-25 add copyto qty ver 1.0.10
 // 2023-12-04 add outstanding qty ver 1.0.13
 // 2024-01-29 change column label ver 1.0.14
+// 2024-04-01 add foreignname field ver 1.0.15
 
 namespace StarLaiPortal.Module.BusinessObjects.Advanced_Shipment_Notice
 {
@@ -132,10 +133,16 @@ namespace StarLaiPortal.Module.BusinessObjects.Advanced_Shipment_Notice
                 if (!IsLoading && value != null)
                 {
                     LegacyItemCode = ItemCode.LegacyItemCode;
+                    // Start ver 1.0.15
+                    ForeignName = ItemCode.FrgnName;
+                    // End ver 1.0.15
                 }
                 else if (!IsLoading && value != null)
                 {
                     LegacyItemCode = null;
+                    // Start ver 1.0.15
+                    ForeignName = null;
+                    // End ver 1.0.15
                 }
             }
         }
@@ -179,6 +186,21 @@ namespace StarLaiPortal.Module.BusinessObjects.Advanced_Shipment_Notice
                 SetPropertyValue("CatalogNo", ref _CatalogNo, value);
             }
         }
+
+        // Start ver 1.0.15
+        private string _ForeignName;
+        [XafDisplayName("Foreign Name")]
+        [Index(9), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(false)]
+        [Appearance("ForeignName", Enabled = false)]
+        public string ForeignName
+        {
+            get { return _ForeignName; }
+            set
+            {
+                SetPropertyValue("ForeignName", ref _ForeignName, value);
+            }
+        }
+        // End ver 1.0.15
 
         private string _UOM;
         [XafDisplayName("UOM Group")]

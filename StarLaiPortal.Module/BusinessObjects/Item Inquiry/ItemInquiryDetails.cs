@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 
 // 2023-08-16 - add stock 3 and stock 4 - ver 1.0.8
+// 2024-04-01 - add Origin - ver 1.0.15
 
 namespace StarLaiPortal.Module.BusinessObjects.Item_Inquiry
 {
@@ -444,6 +445,21 @@ namespace StarLaiPortal.Module.BusinessObjects.Item_Inquiry
                 SetPropertyValue("BPCatalogNo", ref _BPCatalogNo, value);
             }
         }
+
+        // Start ver 1.0.15
+        private string _Origin;
+        [XafDisplayName("Origin")]
+        [Index(39), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(false)]
+        [Appearance("Origin", Enabled = false)]
+        public string Origin
+        {
+            get { return _Origin; }
+            set
+            {
+                SetPropertyValue("Origin", ref _Origin, value);
+            }
+        }
+        // End ver 1.0.15
 
         private string _PictureName;
         [XafDisplayName("Picture Name")]

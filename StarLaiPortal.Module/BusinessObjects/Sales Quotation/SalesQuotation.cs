@@ -26,6 +26,8 @@ using DevExpress.Xpo.DB.Helpers;
 // 2023-07-28 block submit if no address for OC and OS ver 1.0.7
 // 2023-12-01 change to action for create SO button ver 1.0.13
 // 2024-01-30 Add import update button ver 1.0.14
+// 2024-04-01 Enhance performance ver 1.0.15
+// 2024-04-01 filter customer by U_blockSales ver 1.0.15
 
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 {
@@ -184,7 +186,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         [NoForeignKey]
         [ImmediatePostData]
         [LookupEditorMode(LookupEditorMode.AllItems)]
-        [DataSourceCriteria("ValidFor = 'Y' and CardType = 'C'")]
+        // Start ver 1.0.15
+        //[DataSourceCriteria("ValidFor = 'Y' and CardType = 'C'")]
+        [DataSourceCriteria("ValidFor = 'Y' and CardType = 'C' and U_blockSales = 'Y'")]
+        // End ver 1.0.15
         [Index(5), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(false)]
         public vwBusniessPartner Customer
         {
@@ -358,7 +363,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         private vwPaymentTerm _PaymentTerm;
         [NoForeignKey]
         [XafDisplayName("Payment Term")]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.15
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.15
         [Appearance("PaymentTerm", Enabled = false)]
         [Index(19), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwPaymentTerm PaymentTerm
@@ -372,7 +379,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 
         private vwSeries _Series;
         [NoForeignKey]
-        [ImmediatePostData]
+        // Start ver 1.0.15
+        //[ImmediatePostData]
+        // End ver 1.0.15
         [LookupEditorMode(LookupEditorMode.AllItems)]
         [DataSourceCriteria("ObjectCode = '17' and (('@this.Customer.GroupName' != 'Trade Debtor - Cash' and SeriesName != 'Cash') " +
             "or ('@this.Customer.GroupName' = 'Trade Debtor - Cash'))")]
@@ -400,6 +409,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         }
 
         private DateTime _PostingDate;
+        // Start ver 1.0.15
+        [ImmediatePostData]
+        // End ver 1.0.15
         [XafDisplayName("Posting Date")]
         [Index(24), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public DateTime PostingDate
@@ -663,7 +675,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         }
 
         private decimal _CurrencyRate;
-        [ImmediatePostData]
+        // Start ver 1.0.15
+        //[ImmediatePostData]
+        // End ver 1.0.15
         [DbType("numeric(18,6)")]
         [ModelDefault("DisplayFormat", "{0:n2}")]
         [XafDisplayName("Currency Rate")]

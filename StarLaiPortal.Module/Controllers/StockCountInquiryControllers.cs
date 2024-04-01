@@ -18,6 +18,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+// 2024-04-01 add status filter ver 1.0.15
+
 namespace StarLaiPortal.Module.Controllers
 {
     // For more typical usage scenarios, be sure to check out https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppViewControllertopic.aspx.
@@ -107,7 +109,10 @@ namespace StarLaiPortal.Module.Controllers
             XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
             SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_StockCountBin", new OperandValue(selectedObject.Oid), 
                 new OperandValue(selectedObject.FromDate.Date),
-                new OperandValue(selectedObject.ToDate.Date), new OperandValue(selectedObject.Round));
+                new OperandValue(selectedObject.ToDate.Date), new OperandValue(selectedObject.Round),
+                // Start ver 1.0.15
+                new OperandValue(selectedObject.Status));
+                // End ver 1.0.15
 
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
