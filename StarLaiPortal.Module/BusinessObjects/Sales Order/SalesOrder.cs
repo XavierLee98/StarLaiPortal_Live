@@ -483,7 +483,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Order
         }
 
         private string _Currency;
-        [ImmediatePostData]
+        // Start ver 1.0.15
+        //[ImmediatePostData]
+        // End ver 1.0.15
         [XafDisplayName("Currency")]
         [Appearance("Currency", Enabled = false)]
         [Index(48), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]

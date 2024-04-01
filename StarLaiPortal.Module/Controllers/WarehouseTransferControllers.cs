@@ -142,22 +142,29 @@ namespace StarLaiPortal.Module.Controllers
             // Start ver 1.0.10
             foreach (WarehouseTransferDetails dtl in selectedObject.WarehouseTransferDetails)
             {
-                vwStockBalance available = ObjectSpace.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
+                // Start ver 1.0.14
+                if (selectedObject.FromWarehouse.WarehouseCode != selectedObject.ToWarehouse.WarehouseCode)
+                {
+                    // End ver 1.0.14
+                    vwStockBalance available = ObjectSpace.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
                    dtl.ItemCode, selectedObject.FromWarehouse.WarehouseCode));
 
-                if (available != null)
-                {
-                    if (available.InStock < (double)dtl.Quantity)
+                    if (available != null)
+                    {
+                        if (available.InStock < (double)dtl.Quantity)
+                        {
+                            showMsg("Error", "Insufficient onhand quantity.", InformationType.Error);
+                            return;
+                        }
+                    }
+                    else
                     {
                         showMsg("Error", "Insufficient onhand quantity.", InformationType.Error);
                         return;
                     }
+                // Start ver 1.0.14
                 }
-                else
-                {
-                    showMsg("Error", "Insufficient onhand quantity.", InformationType.Error);
-                    return;
-                }
+                // End ver 1.0.14
             }
             // End ver 1.0.10
 

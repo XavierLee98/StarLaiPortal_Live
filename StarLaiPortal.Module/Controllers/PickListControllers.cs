@@ -597,9 +597,11 @@ namespace StarLaiPortal.Module.Controllers
             while (readerso.Read())
             {
                 showMsg("Error", "Duplicate pick list found.", InformationType.Error);
+                cmdso.Dispose();
                 conn.Close();
                 return;
             }
+            cmdso.Dispose();
             conn.Close();
             // End ver 1.0.14
 

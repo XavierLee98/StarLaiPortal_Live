@@ -54,6 +54,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 CompanyName = reader.GetString(0);
             }
+            cmd.Dispose();
+            conn.Close();
 
             MyDetailsController myDetailsController = Frame.GetController<MyDetailsController>();
             if (myDetailsController != null)

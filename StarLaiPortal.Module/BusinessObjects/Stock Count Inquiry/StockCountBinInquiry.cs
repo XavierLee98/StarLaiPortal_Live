@@ -14,6 +14,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
+// 2024-04-01 add status filter ver 1.0.15
+
 namespace StarLaiPortal.Module.BusinessObjects.Stock_Count_Inquiry
 {
     [DefaultClassOptions]
@@ -133,6 +135,20 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count_Inquiry
                 SetPropertyValue("Round", ref _Round, value);
             }
         }
+
+        // Start ver 1.0.15
+        private InquiryStatus _Status;
+        [XafDisplayName("Status")]
+        [Index(8), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(false)]
+        public InquiryStatus Status
+        {
+            get { return _Status; }
+            set
+            {
+                SetPropertyValue("Status", ref _Status, value);
+            }
+        }
+        // End ver 1.0.15
 
         [Association("StockCountBinInquiry-StockCountBinInquiryDetails")]
         [XafDisplayName("Stock Count Bin")]

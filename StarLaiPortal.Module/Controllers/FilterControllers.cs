@@ -14,6 +14,7 @@ using StarLaiPortal.Module.BusinessObjects.Credit_Notes_Cancellation;
 using StarLaiPortal.Module.BusinessObjects.Pack_List;
 using StarLaiPortal.Module.BusinessObjects.Purchase_Order;
 using StarLaiPortal.Module.BusinessObjects.Purchase_Return;
+using StarLaiPortal.Module.BusinessObjects.Sales_Order;
 using StarLaiPortal.Module.BusinessObjects.Sales_Quotation;
 using StarLaiPortal.Module.BusinessObjects.Sales_Refund;
 using StarLaiPortal.Module.BusinessObjects.Sales_Return;
@@ -26,6 +27,7 @@ using System.Linq;
 using System.Text;
 
 // 2023-07-28 add AR Downpayment Cancel ver 1.0.7
+// 2024-04-01 SQ and SO filter by data and status ver 1.0.15
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -52,7 +54,27 @@ namespace StarLaiPortal.Module.Controllers
                     ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[AppStatus] = ? and Contains([AppUser],?)",
                         2, user.Staff.StaffName);
                 }
+
+                // Start ver 1.0.15
+                if (View.Id == "SalesQuotation_ListView")
+                {
+                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[CreateDate] >= ? or ([Status] = ?) " +
+                        "or ([Status] = ? and [AppStatus] = ?)",
+                        DateTime.Now.AddMonths(-3), 0, 1, 2);
+                }
+                // End ver 1.0.15
             }
+
+            // Start ver 1.0.15
+            if (View.ObjectTypeInfo.Type == typeof(SalesOrder))
+            {
+                if (View.Id == "SalesOrder_ListView")
+                {
+                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[CreateDate] >= ? or ([Status] = ?)",
+                        DateTime.Now.AddMonths(-3), 6);
+                }
+            }
+            // End ver 1.0.15
 
             if (View.ObjectTypeInfo.Type == typeof(PurchaseOrders))
             {

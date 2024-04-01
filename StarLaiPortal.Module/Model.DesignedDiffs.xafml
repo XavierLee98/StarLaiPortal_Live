@@ -1484,6 +1484,7 @@
         <ColumnInfo Id="Remarks" PropertyName="Remarks" Index="12" IsNewNode="True" />
         <ColumnInfo Id="BPCatalogNo" PropertyName="BPCatalogNo" Index="13" IsNewNode="True" />
         <ColumnInfo Id="OriginalCatalog" PropertyName="OriginalCatalog" Index="13" IsNewNode="True" />
+        <ColumnInfo Id="Origin" PropertyName="Origin" Index="16" IsNewNode="True" />
       </Columns>
       <SplitLayout Direction="Vertical" IsNewNode="True" />
     </ListView>
@@ -1893,7 +1894,8 @@
       </Columns>
     </ListView>
     <ListView Id="PaymentType_ListView" DataAccessMode="Client" />
-    <DetailView Id="PermissionPolicyRole_DetailView" AllowDelete="True" />
+    <DetailView Id="PermissionPolicyRole_DetailView" AllowDelete="False" />
+    <ListView Id="PermissionPolicyRole_ListView" AllowDelete="False" />
     <ListView Id="PermissionPolicyUser_Roles_ListView" AllowDelete="False" AllowUnlink="True" />
     <ListView Id="PickList_AuditTrail_ListView" AllowDelete="False" AllowLink="False" AllowNew="False">
       <Columns>
@@ -4344,7 +4346,7 @@
         <ColumnInfo Id="Reference" Index="9" />
       </Columns>
     </ListView>
-    <ListView Id="SalesReturnRequests_ListView_Approval" ClassName="StarLaiPortal.Module.BusinessObjects.Sales_Return.SalesReturnRequests" DataAccessMode="Client" Caption="Sales Return Request Approval" IsNewNode="True">
+    <ListView Id="SalesReturnRequests_ListView_Approval" ClassName="StarLaiPortal.Module.BusinessObjects.Sales_Return.SalesReturnRequests" DataAccessMode="Client" Caption="Sales Return Request Approval" MasterDetailView="SalesReturnRequests_DetailView" DetailViewID="SalesReturnRequests_DetailView_Approval" IsNewNode="True">
       <Columns IsNewNode="True">
         <ColumnInfo Id="AppUser" PropertyName="AppUser" Index="-1" IsNewNode="True" />
         <ColumnInfo Id="BillingAddress" PropertyName="BillingAddress" Index="-1" IsNewNode="True" />
@@ -4886,22 +4888,26 @@
       </Items>
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
-          <LayoutGroup Id="SimpleEditors" RelativeSize="13.059701492537313">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="13.20754716981132">
             <LayoutGroup Id="StockCountBinInquiry" Direction="Horizontal" RelativeSize="100" Caption="StockCountBinInquiry">
-              <LayoutGroup Id="Auto96d16b6c-4564-4d49-bc05-8ac1fee58ef7" ShowCaption="False" Caption="Auto96d16b6c-4564-4d49-bc05-8ac1fee58ef7(4)" Index="0" RelativeSize="81.038961038961034" Direction="Horizontal" IsNewNode="True">
-                <LayoutGroup Id="Auto4939c969-6ad5-4070-bca0-e7fe934e0440" ShowCaption="False" Caption="" Index="0" RelativeSize="51.92307692307692" IsNewNode="True">
+              <LayoutGroup Id="Auto96d16b6c-4564-4d49-bc05-8ac1fee58ef7" ShowCaption="False" Caption="Auto96d16b6c-4564-4d49-bc05-8ac1fee58ef7(4)" Index="0" RelativeSize="82.3671497584541" Direction="Horizontal" IsNewNode="True">
+                <LayoutGroup Id="Auto4939c969-6ad5-4070-bca0-e7fe934e0440" ShowCaption="False" Caption="Auto4939c969-6ad5-4070-bca0-e7fe934e0440(5)" Index="0" RelativeSize="48.387096774193552" IsNewNode="True">
                   <LayoutItem Id="FromDate" ViewItem="FromDate" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
                   <LayoutItem Id="Round" ViewItem="Round" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
                 </LayoutGroup>
-                <LayoutItem Id="ToDate" ViewItem="ToDate" Index="1" RelativeSize="48.07692307692308" IsNewNode="True" />
+                <LayoutGroup Id="Autobf1476c6-93c8-458d-858e-76efde6d0f5c" ShowCaption="False" Caption="" Index="1" RelativeSize="51.612903225806448" IsNewNode="True">
+                  <LayoutItem Id="ToDate" ViewItem="ToDate" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                  <LayoutItem Id="Status" ViewItem="Status" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+                </LayoutGroup>
               </LayoutGroup>
-              <LayoutItem Id="StockCountBinSearch" ViewItem="StockCountBinSearch" Index="1" RelativeSize="18.961038961038962" IsNewNode="True" />
+              <LayoutItem Id="StockCountBinSearch" ViewItem="StockCountBinSearch" Index="1" RelativeSize="17.632850241545892" IsNewNode="True" />
               <LayoutItem Id="FromDate" Removed="True" />
               <LayoutItem Id="Round" Removed="True" />
+              <LayoutItem Id="Status" Removed="True" />
               <LayoutItem Id="ToDate" Removed="True" />
             </LayoutGroup>
           </LayoutGroup>
-          <LayoutGroup Id="StockCountBinInquiryDetails_Group" Direction="Vertical" RelativeSize="86.940298507462686">
+          <LayoutGroup Id="StockCountBinInquiryDetails_Group" Direction="Vertical" RelativeSize="86.79245283018868">
             <LayoutItem Id="StockCountBinInquiryDetails" RelativeSize="100" />
           </LayoutGroup>
         </LayoutGroup>
