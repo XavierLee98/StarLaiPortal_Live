@@ -11,9 +11,12 @@ using DevExpress.ExpressApp.Templates;
 using DevExpress.ExpressApp.Utils;
 using DevExpress.ExpressApp.Web;
 using DevExpress.ExpressApp.Web.Editors.ASPx;
+using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Validation;
+using DevExpress.Web;
 using DevExpress.Web.Internal.XmlProcessor;
+using DevExpress.Xpo.DB;
 using DevExpress.XtraPrinting;
 using StarLaiPortal.Module.BusinessObjects;
 using StarLaiPortal.Module.BusinessObjects.Delivery_Order;
@@ -294,163 +297,169 @@ namespace StarLaiPortal.Module.Controllers
                     //else
                     //{
                     string dupcustomer = null;
-                        foreach (vwPaymentSO customer in e.PopupWindowViewSelectedObjects)
+                    // Start ver 1.0.15
+                    //foreach (vwPaymentSO customer in e.PopupWindowViewSelectedObjects)
+                    foreach (PickListSO customer in e.PopupWindowViewSelectedObjects)
+                    // End ver 1.0.15
+                    {
+                        if (dupcustomer != null)
                         {
-                            if (dupcustomer != null)
+                            if (customer.Customer != dupcustomer)
                             {
-                                if (customer.Customer != dupcustomer)
-                                {
-                                    showMsg("Error", "Copy fail, duplicate customer found.", InformationType.Error);
-                                    return;
-                                }
-                            }
-                            if (dupcustomer == null)
-                            {
-                                dupcustomer = customer.Customer;
-                            }
-
-                            foreach (PickListDetails pllist in pl.PickListDetails)
-                            {
-                                if (customer.Customer != pllist.Customer.BPCode)
-                                {
-                                    showMsg("Error", "Copy fail, duplicate customer found.", InformationType.Error);
-                                    return;
-                                }
-                            }
-                        }
-
-                        foreach (vwPaymentSO dtl in e.PopupWindowViewSelectedObjects)
-                        {
-                            PickListDetails newplitem = ObjectSpace.CreateObject<PickListDetails>();
-
-                            vwBusniessPartner customer = ObjectSpace.FindObject<vwBusniessPartner>(CriteriaOperator.Parse("BPCode = ?", dtl.Customer));
-                            if (customer != null)
-                            {
-                                pl.CustomerGroup = customer.GroupName;
-
-                                // Start ver 1.0.8.1
-                                if (pl.Customer == null)
-                                {
-                                    pl.Customer = customer.BPCode;
-                                }
-                                if (pl.CustomerName == null)
-                                {
-                                    pl.CustomerName = customer.BPName;
-                                }
-                                // End ver 1.0.8.1
-                            }
-                            if (dtl.Transporter != null)
-                            {
-                                //pl.Transporter = newplitem.Session.GetObjectByKey<vwTransporter>(dtl.Transporter.TransporterID);
-                                pl.Transporter = newplitem.Session.FindObject<vwTransporter>(CriteriaOperator.Parse("TransporterName = ?", dtl.Transporter));
-                            }
-
-                            newplitem.ItemCode = newplitem.Session.GetObjectByKey<vwItemMasters>(dtl.ItemCode);
-                            newplitem.ItemDesc = dtl.ItemDesc;
-                            newplitem.CatalogNo = dtl.CatalogNo;
-                            if (dtl.Warehouse != null)
-                            {
-                                newplitem.Warehouse = newplitem.Session.GetObjectByKey<vwWarehouse>(dtl.Warehouse);
-                            }
-                            newplitem.PlanQty = dtl.Quantity;
-                            if (dtl.Customer != null)
-                            {
-                                newplitem.Customer = newplitem.Session.GetObjectByKey<vwBusniessPartner>(dtl.Customer);
-                            }
-                            newplitem.SOBaseDoc = dtl.DocNum;
-                            newplitem.SOBaseId = dtl.Oid;
-                            newplitem.SOCreateDate = dtl.CreateDate;
-                            newplitem.SOExpectedDate = dtl.PostingDate;
-                            newplitem.SORemarks = dtl.Remarks;
-                            newplitem.SOSalesperson = dtl.Salesperson;
-                            //newplitem.SOTransporter = dtl.Transporter.TransporterName.ToString();
-                            newplitem.SOTransporter = dtl.Transporter.ToString();
-                            newplitem.SODeliveryDate = dtl.DeliveryDate;
-                            if (dtl.Priority != null)
-                            {
-                                newplitem.Priority = newplitem.Session.GetObjectByKey<PriorityType>(dtl.Priority.Oid);
-                                // Start ver 1.0.8.1
-                                if (pl.Priority == null)
-                                {
-                                    pl.Priority = pl.Session.GetObjectByKey<PriorityType>(dtl.Priority.Oid);
-                                }
-                                // End ver 1.0.8.1
-                            }
-
-                            // Start ver 1.0.13
-                            //IObjectSpace os = Application.CreateObjectSpace();
-                            //// Start ver 1.0.10
-                            ////vwPaymentSO so = os.FindObject<vwPaymentSO>(CriteriaOperator.Parse("Oid = ? and DocNum = ?",
-                            ////    dtl.Oid, dtl.DocNum));
-                            //  vwPaymentSOSimplified so = os.FindObject<vwPaymentSOSimplified>(CriteriaOperator.Parse("RowOID = ? and DocNum = ?",
-                            //      dtl.Oid, dtl.DocNum));
-                            //// End ver 1.0.10
-
-                            //if (so == null)
-                            //{
-                            //    showMsg("Error", "SO already created pick list, please refresh data.", InformationType.Error);
-                            //    return;
-                            //}
-
-                            int socnt = 0;
-                            string getapproval = "EXEC sp_SalesOrderRowOpenForPick '" + dtl.Oid + "'";
-                            if (conn.State == ConnectionState.Open)
-                            {
-                                conn.Close();
-                            }
-                            conn.Open();
-                            SqlCommand cmd = new SqlCommand(getapproval, conn);
-                            SqlDataReader reader = cmd.ExecuteReader();
-                            while (reader.Read())
-                            {
-                                socnt++;
-                            }
-                            conn.Close();
-                            
-                            if (socnt == 0)
-                            {
-                                showMsg("Error", "SO already created pick list, please refresh data.", InformationType.Error);
+                                showMsg("Error", "Copy fail, duplicate customer found.", InformationType.Error);
                                 return;
                             }
-                            // End ver 1.0.13
-
-                            pl.PickListDetails.Add(newplitem);
-
-                            showMsg("Success", "Copy Success.", InformationType.Success);
+                        }
+                        if (dupcustomer == null)
+                        {
+                            dupcustomer = customer.Customer;
                         }
 
-                        // Start ver 1.0.8.1
-                        string dupso = null;
-                        pl.SONumber = null;
-                        foreach (PickListDetails dtlsonum in pl.PickListDetails)
+                        foreach (PickListDetails pllist in pl.PickListDetails)
                         {
-                            if (dupso != dtlsonum.SOBaseDoc)
+                            if (customer.Customer != pllist.Customer.BPCode)
                             {
-                                if (pl.SONumber == null)
-                                {
-                                    pl.SONumber = dtlsonum.SOBaseDoc;
-                                }
-                                else
-                                {
-                                    pl.SONumber = pl.SONumber + ", " + dtlsonum.SOBaseDoc;
-                                }
-
-                                dupso = dtlsonum.SOBaseDoc;
+                                showMsg("Error", "Copy fail, duplicate customer found.", InformationType.Error);
+                                return;
                             }
                         }
+                    }
 
-                        string deliverydate = pl.PickListDetails.Where(x => x.SOBaseDoc != null).OrderBy(c => c.SODeliveryDate).Min().SODeliveryDate.Date.ToString();
-                        pl.SODeliveryDate = deliverydate.Substring(0, 10);
-                        // End ver 1.0.8.1
+                    // Start ver 1.0.15
+                    //foreach (vwPaymentSO dtl in e.PopupWindowViewSelectedObjects)
+                    foreach (PickListSO dtl in e.PopupWindowViewSelectedObjects)
+                    // End ver 1.0.15
+                    {
+                        PickListDetails newplitem = ObjectSpace.CreateObject<PickListDetails>();
 
-                        if (pl.DocNum == null)
+                        vwBusniessPartner customer = ObjectSpace.FindObject<vwBusniessPartner>(CriteriaOperator.Parse("BPCode = ?", dtl.Customer));
+                        if (customer != null)
                         {
-                            string docprefix = genCon.GetDocPrefix();
-                            pl.DocNum = genCon.GenerateDocNum(DocTypeList.PL, ObjectSpace, TransferType.NA, 0, docprefix);
+                            pl.CustomerGroup = customer.GroupName;
+
+                            // Start ver 1.0.8.1
+                            if (pl.Customer == null)
+                            {
+                                pl.Customer = customer.BPCode;
+                            }
+                            if (pl.CustomerName == null)
+                            {
+                                pl.CustomerName = customer.BPName;
+                            }
+                            // End ver 1.0.8.1
+                        }
+                        if (dtl.Transporter != null)
+                        {
+                            //pl.Transporter = newplitem.Session.GetObjectByKey<vwTransporter>(dtl.Transporter.TransporterID);
+                            pl.Transporter = newplitem.Session.FindObject<vwTransporter>(CriteriaOperator.Parse("TransporterName = ?", dtl.Transporter));
                         }
 
-                        ObjectSpace.CommitChanges();
-                        ObjectSpace.Refresh();
+                        newplitem.ItemCode = newplitem.Session.GetObjectByKey<vwItemMasters>(dtl.ItemCode);
+                        newplitem.ItemDesc = dtl.ItemDesc;
+                        newplitem.CatalogNo = dtl.CatalogNo;
+                        if (dtl.Warehouse != null)
+                        {
+                            newplitem.Warehouse = newplitem.Session.GetObjectByKey<vwWarehouse>(dtl.Warehouse);
+                        }
+                        newplitem.PlanQty = dtl.Quantity;
+                        if (dtl.Customer != null)
+                        {
+                            newplitem.Customer = newplitem.Session.GetObjectByKey<vwBusniessPartner>(dtl.Customer);
+                        }
+                        newplitem.SOBaseDoc = dtl.DocNum;
+                        newplitem.SOBaseId = dtl.Oid;
+                        newplitem.SOCreateDate = dtl.CreateDate;
+                        newplitem.SOExpectedDate = dtl.PostingDate;
+                        newplitem.SORemarks = dtl.Remarks;
+                        newplitem.SOSalesperson = dtl.Salesperson;
+                        //newplitem.SOTransporter = dtl.Transporter.TransporterName.ToString();
+                        newplitem.SOTransporter = dtl.Transporter.ToString();
+                        newplitem.SODeliveryDate = dtl.DeliveryDate;
+                        if (dtl.Priority != null)
+                        {
+                            newplitem.Priority = newplitem.Session.GetObjectByKey<PriorityType>(dtl.Priority.Oid);
+                            // Start ver 1.0.8.1
+                            if (pl.Priority == null)
+                            {
+                                pl.Priority = pl.Session.GetObjectByKey<PriorityType>(dtl.Priority.Oid);
+                            }
+                            // End ver 1.0.8.1
+                        }
+
+                        // Start ver 1.0.13
+                        //IObjectSpace os = Application.CreateObjectSpace();
+                        //// Start ver 1.0.10
+                        ////vwPaymentSO so = os.FindObject<vwPaymentSO>(CriteriaOperator.Parse("Oid = ? and DocNum = ?",
+                        ////    dtl.Oid, dtl.DocNum));
+                        //  vwPaymentSOSimplified so = os.FindObject<vwPaymentSOSimplified>(CriteriaOperator.Parse("RowOID = ? and DocNum = ?",
+                        //      dtl.Oid, dtl.DocNum));
+                        //// End ver 1.0.10
+
+                        //if (so == null)
+                        //{
+                        //    showMsg("Error", "SO already created pick list, please refresh data.", InformationType.Error);
+                        //    return;
+                        //}
+
+                        int socnt = 0;
+                        string getpicklist = "EXEC sp_SalesOrderRowOpenForPick '" + dtl.Oid + "'";
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                        conn.Open();
+                        SqlCommand cmd = new SqlCommand(getpicklist, conn);
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            socnt++;
+                        }
+                        conn.Close();
+                            
+                        if (socnt == 0)
+                        {
+                            showMsg("Error", "SO already created pick list, please refresh data.", InformationType.Error);
+                            return;
+                        }
+                        // End ver 1.0.13
+
+                        pl.PickListDetails.Add(newplitem);
+
+                        showMsg("Success", "Copy Success.", InformationType.Success);
+                    }
+
+                    // Start ver 1.0.8.1
+                    string dupso = null;
+                    pl.SONumber = null;
+                    foreach (PickListDetails dtlsonum in pl.PickListDetails)
+                    {
+                        if (dupso != dtlsonum.SOBaseDoc)
+                        {
+                            if (pl.SONumber == null)
+                            {
+                                pl.SONumber = dtlsonum.SOBaseDoc;
+                            }
+                            else
+                            {
+                                pl.SONumber = pl.SONumber + ", " + dtlsonum.SOBaseDoc;
+                            }
+
+                            dupso = dtlsonum.SOBaseDoc;
+                        }
+                    }
+
+                    string deliverydate = pl.PickListDetails.Where(x => x.SOBaseDoc != null).OrderBy(c => c.SODeliveryDate).Min().SODeliveryDate.Date.ToString();
+                    pl.SODeliveryDate = deliverydate.Substring(0, 10);
+                    // End ver 1.0.8.1
+
+                    if (pl.DocNum == null)
+                    {
+                        string docprefix = genCon.GetDocPrefix();
+                        pl.DocNum = genCon.GenerateDocNum(DocTypeList.PL, ObjectSpace, TransferType.NA, 0, docprefix);
+                    }
+
+                    ObjectSpace.CommitChanges();
+                    ObjectSpace.Refresh();
                     //}
                 }
                 catch (Exception)
@@ -464,30 +473,83 @@ namespace StarLaiPortal.Module.Controllers
         {
             PickList pl = (PickList)View.CurrentObject;
 
-            var os = Application.CreateObjectSpace();
-            var viewId = Application.FindListViewId(typeof(vwPaymentSO));
-            var cs = Application.CreateCollectionSource(os, typeof(vwPaymentSO), viewId);
-            if (pl.Warehouse != null)
+            // Start ver 1.0.15
+            //var os = Application.CreateObjectSpace();
+            //var viewId = Application.FindListViewId(typeof(vwPaymentSO));
+            //var cs = Application.CreateCollectionSource(os, typeof(vwPaymentSO), viewId);
+            //if (pl.Warehouse != null)
+            //{
+            //    cs.Criteria["Warehouse"] = new BinaryOperator("Warehouse", pl.Warehouse.WarehouseCode);
+            //}
+            //else
+            //{
+            //    cs.Criteria["Warehouse"] = new BinaryOperator("Warehouse", "");
+            //}
+
+            //if (pl.Transporter != null)
+            //{
+            //    cs.Criteria["Transporter"] = new BinaryOperator("Transporter", pl.Transporter.TransporterName);
+            //}
+
+            //if (pl.DeliveryDate != null)
+            //{
+            //    cs.Criteria["DeliveryDate"] = new BinaryOperator("DeliveryDate", pl.DeliveryDate.Year + "-" + pl.DeliveryDate.Month.ToString("00") + "-" + pl.DeliveryDate.Day.ToString("00"),BinaryOperatorType.LessOrEqual);
+            //}
+
+            //var lv1 = Application.CreateListView(viewId, cs, true);
+            //e.View = lv1;
+
+            IObjectSpace os = Application.CreateObjectSpace(typeof(PickListSO));
+            string listViewId = Application.FindListViewId(typeof(PickListSO));
+            CollectionSourceBase collectionSource = Application.CreateCollectionSource(os, typeof(PickListSO), listViewId);
+
+            XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+            SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetPickList", 
+                new OperandValue(pl.Warehouse == null ? "" : pl.Warehouse.WarehouseCode), 
+                new OperandValue(pl.Transporter == null ? "" : pl.Transporter.TransporterName), 
+                new OperandValue(pl.DeliveryDate.ToString("yyyy-MM-dd") == "0001-01-01" ? "1900-01-01" : pl.DeliveryDate.ToString("yyyy-MM-dd")), new OperandValue("Line"));
             {
-                cs.Criteria["Warehouse"] = new BinaryOperator("Warehouse", pl.Warehouse.WarehouseCode);
-            }
-            else
-            {
-                cs.Criteria["Warehouse"] = new BinaryOperator("Warehouse", "");
+                if (sprocData.ResultSet[0].Rows.Count() > 0)
+                {
+                    int cnt = 0;
+                    foreach (SelectStatementResultRow row in sprocData.ResultSet[0].Rows)
+                    {
+
+                        PickListSO dtl = os.CreateObject<PickListSO>();
+                        dtl.PriKey = ++cnt;
+
+                        dtl.Series = row.Values[0].ToString();
+                        dtl.DocNum = row.Values[1].ToString();
+                        dtl.PostingDateStr = row.Values[2].ToString();
+                        dtl.DeliveryDateStr = row.Values[3].ToString();
+                        dtl.PostingDate = DateTime.Parse(row.Values[4].ToString());
+                        dtl.DeliveryDate = DateTime.Parse(row.Values[5].ToString());
+                        dtl.Priority = persistentObjectSpace.FindObject<PriorityType>(CriteriaOperator.Parse("Oid = ?", Int32.Parse(row.Values[6].ToString())));
+                        dtl.Customer = row.Values[7].ToString();
+                        dtl.CustomerName = row.Values[8].ToString();
+                        dtl.Transporter = row.Values[9].ToString();
+                        dtl.Salesperson = row.Values[10].ToString();
+                        dtl.Remarks = row.Values[11].ToString();
+                        dtl.ItemCode = row.Values[12].ToString();
+                        dtl.ItemDesc = row.Values[13].ToString();
+                        dtl.Quantity = decimal.Parse(row.Values[14].ToString());
+                        dtl.Warehouse = row.Values[15].ToString();
+                        dtl.CatalogNo = row.Values[16].ToString();
+                        dtl.Oid = row.Values[17].ToString();
+                        dtl.CreateDate = DateTime.Parse(row.Values[18].ToString());
+                        dtl.Status = row.Values[19].ToString();
+                        dtl.SAPDocNum = row.Values[20].ToString();
+                        dtl.InStock = decimal.Parse(row.Values[21].ToString());
+                        dtl.PartialPicked = Int32.Parse(row.Values[22].ToString());
+                        dtl.FirstBinZone = row.Values[23].ToString();
+
+                        collectionSource.List.Add(dtl);
+                    }
+                }
             }
 
-            if (pl.Transporter != null)
-            {
-                cs.Criteria["Transporter"] = new BinaryOperator("Transporter", pl.Transporter.TransporterName);
-            }
-
-            if (pl.DeliveryDate != null)
-            {
-                cs.Criteria["DeliveryDate"] = new BinaryOperator("DeliveryDate", pl.DeliveryDate.Year + "-" + pl.DeliveryDate.Month.ToString("00") + "-" + pl.DeliveryDate.Day.ToString("00"),BinaryOperatorType.LessOrEqual);
-            }
-
-            var lv1 = Application.CreateListView(viewId, cs, true);
-            e.View = lv1;
+            e.View = Application.CreateListView(listViewId, collectionSource, true);
+            // End ver 1.0.15
         }
 
         private void SubmitPL_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
@@ -1170,7 +1232,10 @@ namespace StarLaiPortal.Module.Controllers
                     // End ver 1.0.13
 
                     string dupcustomer = null;
-                    foreach (vwPaymentSOGroup customer in e.PopupWindowViewSelectedObjects)
+                    // Start ver 1.0.15
+                    //foreach (vwPaymentSOGroup customer in e.PopupWindowViewSelectedObjects)
+                    foreach (PickListSOGroup customer in e.PopupWindowViewSelectedObjects)
+                    // End ver 1.0.15
                     {
                         if (dupcustomer != null)
                         {
@@ -1195,7 +1260,10 @@ namespace StarLaiPortal.Module.Controllers
                         }
                     }
 
-                    foreach (vwPaymentSOGroup sog in e.PopupWindowViewSelectedObjects)
+                    // Start ver 1.0.15
+                    //foreach (vwPaymentSOGroup sog in e.PopupWindowViewSelectedObjects)
+                    foreach (PickListSOGroup sog in e.PopupWindowViewSelectedObjects)
+                    // End ver 1.0.15
                     {
                         IObjectSpace os = Application.CreateObjectSpace();
                         vwPaymentSOGroup so = os.FindObject<vwPaymentSOGroup>(CriteriaOperator.Parse("DocNum = ?", sog.DocNum));
@@ -1287,13 +1355,13 @@ namespace StarLaiPortal.Module.Controllers
                             //}
 
                             int socnt = 0;
-                            string getapproval = "EXEC sp_SalesOrderRowOpenForPick '" + dtl.Oid + "'";
+                            string getpicklist = "EXEC sp_SalesOrderRowOpenForPick '" + dtl.Oid + "'";
                             if (conn.State == ConnectionState.Open)
                             {
                                 conn.Close();
                             }
                             conn.Open();
-                            SqlCommand cmd = new SqlCommand(getapproval, conn);
+                            SqlCommand cmd = new SqlCommand(getpicklist, conn);
                             SqlDataReader reader = cmd.ExecuteReader();
                             while (reader.Read())
                             {
@@ -1359,30 +1427,75 @@ namespace StarLaiPortal.Module.Controllers
         {
             PickList pl = (PickList)View.CurrentObject;
 
-            var os = Application.CreateObjectSpace();
-            var viewId = Application.FindListViewId(typeof(vwPaymentSOGroup));
-            var cs = Application.CreateCollectionSource(os, typeof(vwPaymentSOGroup), viewId);
-            if (pl.Warehouse != null)
+            // Start ver 1.0.15
+            //var os = Application.CreateObjectSpace();
+            //var viewId = Application.FindListViewId(typeof(vwPaymentSOGroup));
+            //var cs = Application.CreateCollectionSource(os, typeof(vwPaymentSOGroup), viewId);
+            //if (pl.Warehouse != null)
+            //{
+            //    cs.Criteria["Warehouse"] = new BinaryOperator("Warehouse", pl.Warehouse.WarehouseCode);
+            //}
+            //else
+            //{
+            //    cs.Criteria["Warehouse"] = new BinaryOperator("Warehouse", "");
+            //}
+
+            //if (pl.Transporter != null)
+            //{
+            //    cs.Criteria["Transporter"] = new BinaryOperator("Transporter", pl.Transporter.TransporterName);
+            //}
+
+            //if (pl.DeliveryDate != null)
+            //{
+            //    cs.Criteria["DeliveryDate"] = new BinaryOperator("DeliveryDate", pl.DeliveryDate.Year + "-" + pl.DeliveryDate.Month.ToString("00") + "-" + pl.DeliveryDate.Day.ToString("00"), BinaryOperatorType.LessOrEqual);
+            //}
+
+            //var lv1 = Application.CreateListView(viewId, cs, true);
+            //e.View = lv1;
+
+            IObjectSpace os = Application.CreateObjectSpace(typeof(PickListSOGroup));
+            string listViewId = Application.FindListViewId(typeof(PickListSOGroup));
+            CollectionSourceBase collectionSource = Application.CreateCollectionSource(os, typeof(PickListSOGroup), listViewId);
+
+            XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+            SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetPickList",
+                new OperandValue(pl.Warehouse == null ? "" : pl.Warehouse.WarehouseCode),
+                new OperandValue(pl.Transporter == null ? "" : pl.Transporter.TransporterName),
+                new OperandValue(pl.DeliveryDate.ToString("yyyy-MM-dd") == "0001-01-01" ? "1900-01-01" : pl.DeliveryDate.ToString("yyyy-MM-dd")), new OperandValue("Group"));
             {
-                cs.Criteria["Warehouse"] = new BinaryOperator("Warehouse", pl.Warehouse.WarehouseCode);
-            }
-            else
-            {
-                cs.Criteria["Warehouse"] = new BinaryOperator("Warehouse", "");
+                if (sprocData.ResultSet[0].Rows.Count() > 0)
+                {
+                    int cnt = 0;
+                    foreach (SelectStatementResultRow row in sprocData.ResultSet[0].Rows)
+                    {
+
+                        PickListSOGroup dtl = os.CreateObject<PickListSOGroup>();
+                        dtl.PriKey = ++cnt;
+
+                        dtl.DocNum = row.Values[0].ToString();
+                        dtl.Series = row.Values[1].ToString();
+                        dtl.PostingDate = DateTime.Parse(row.Values[2].ToString());
+                        dtl.DeliveryDate = DateTime.Parse(row.Values[3].ToString());
+                        dtl.Priority = persistentObjectSpace.FindObject<PriorityType>(CriteriaOperator.Parse("Oid = ?", Int32.Parse(row.Values[4].ToString())));
+                        dtl.Customer = row.Values[5].ToString();
+                        dtl.CustomerName = row.Values[6].ToString();
+                        dtl.Transporter = row.Values[7].ToString();
+                        dtl.Salesperson = row.Values[8].ToString();
+                        dtl.Remarks = row.Values[9].ToString();
+                        dtl.Status = row.Values[10].ToString();
+                        dtl.SAPDocNum = row.Values[11].ToString();
+                        dtl.Warehouse = row.Values[12].ToString();
+                        dtl.PostingDateStr = row.Values[13].ToString();
+                        dtl.DeliveryDateStr = row.Values[14].ToString();
+                        dtl.PartialPicked = Int32.Parse(row.Values[15].ToString());
+
+                        collectionSource.List.Add(dtl);
+                    }
+                }
             }
 
-            if (pl.Transporter != null)
-            {
-                cs.Criteria["Transporter"] = new BinaryOperator("Transporter", pl.Transporter.TransporterName);
-            }
-
-            if (pl.DeliveryDate != null)
-            {
-                cs.Criteria["DeliveryDate"] = new BinaryOperator("DeliveryDate", pl.DeliveryDate.Year + "-" + pl.DeliveryDate.Month.ToString("00") + "-" + pl.DeliveryDate.Day.ToString("00"), BinaryOperatorType.LessOrEqual);
-            }
-
-            var lv1 = Application.CreateListView(viewId, cs, true);
-            e.View = lv1;
+            e.View = Application.CreateListView(listViewId, collectionSource, true);
+            // End ver 1.0.15
         }
 
         private void PLCopyFromPLDetail_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)

@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 
 // 2023-08-16 - add stock 3 and stock 4 - ver 1.0.8
+// 2024-04-01 - add Old code and catalog number - ver 1.0.15
 
 namespace StarLaiPortal.Module.BusinessObjects.Item_Inquiry
 {
@@ -283,6 +284,32 @@ namespace StarLaiPortal.Module.BusinessObjects.Item_Inquiry
                 SetPropertyValue("CardCode", ref _CardCode, value);
             }
         }
+
+        // Start ver 1.0.15
+        private string _OldCode;
+        [XafDisplayName("Old Code")]
+        [Index(21), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public string OldCode
+        {
+            get { return _OldCode; }
+            set
+            {
+                SetPropertyValue("OldCode", ref _OldCode, value);
+            }
+        }
+
+        private string _CatalogNumber;
+        [XafDisplayName("Catalog Number")]
+        [Index(22), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public string CatalogNumber
+        {
+            get { return _CatalogNumber; }
+            set
+            {
+                SetPropertyValue("CatalogNumber", ref _CatalogNumber, value);
+            }
+        }
+        // End ver 1.0.15
 
         [Association("ItemInquiry-ItemInquiryDetails")]
         [XafDisplayName("Items")]

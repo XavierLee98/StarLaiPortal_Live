@@ -8,6 +8,7 @@ using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
+using StarLaiPortal.Module.BusinessObjects.Setup;
 using StarLaiPortal.Module.BusinessObjects.View;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ using System.Text;
 // 2023-12-04 - add order status - ver 1.0.13
 // 2024-01-30 - add inventory movement table - ver 1.0.14
 // 2024-01-30 - add PODate and PODelivery - ver 1.0.14
+// 2024-04-01 - add paymentso and paymentgroup - ver 1.0.15
 
 namespace StarLaiPortal.Module.BusinessObjects
 {
@@ -440,4 +442,413 @@ namespace StarLaiPortal.Module.BusinessObjects
         public string TransType { get; set; }
     }
     // End ver 1.0.14
+
+    // Start ver 1.0.15
+    [DomainComponent]
+    [NonPersistent]
+    [XafDisplayName("Sales Order Items")]
+    [Appearance("HideNew", AppearanceItemType.Action, "True", TargetItems = "New", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideDelete", AppearanceItemType.Action, "True", TargetItems = "Delete", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideEdit", AppearanceItemType.Action, "True", TargetItems = "SwitchToEditMode; Edit", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideLink", AppearanceItemType.Action, "True", TargetItems = "Link", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideUnlink", AppearanceItemType.Action, "True", TargetItems = "Unlink", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave", AppearanceItemType.Action, "True", TargetItems = "Save", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&New", AppearanceItemType.Action, "True", TargetItems = "SaveAndNew", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideValidate", AppearanceItemType.Action, "True", TargetItems = "ShowAllContexts", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    public class PickListSO
+    {
+        [DevExpress.ExpressApp.Data.Key, Browsable(false)]
+        public int PriKey;
+
+        [XafDisplayName("Series")]
+        //[NoForeignKey]
+        [Appearance("Series", Enabled = false)]
+        [Appearance("Series1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(3)]
+        public string Series
+        {
+            get; set;
+        }
+
+        [XafDisplayName("DocNum")]
+        [Appearance("DocNum", Enabled = false)]
+        [Appearance("DocNum1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(5)]
+        public string DocNum
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Posting Date")]
+        [Appearance("PostingDateStr", Enabled = false)]
+        [Appearance("PostingDateStr1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(6)]
+        public string PostingDateStr
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Delivery Date")]
+        [Appearance("DeliveryDateStr", Enabled = false)]
+        [Appearance("DeliveryDateStr1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(7)]
+        public string DeliveryDateStr
+        {
+            get; set;
+        }
+
+        [XafDisplayName("PostingDate")]
+        [Appearance("PostingDate", Enabled = false)]
+        [Appearance("PostingDate1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(8)]
+        public DateTime PostingDate
+        {
+            get; set;
+        }
+
+        [XafDisplayName("DeliveryDate")]
+        [Appearance("DeliveryDate", Enabled = false)]
+        [Appearance("DeliveryDate1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(10)]
+        public DateTime DeliveryDate
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Priority")]
+        [Appearance("Priority", Enabled = false)]
+        [Appearance("Priority1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(13)]
+        public PriorityType Priority
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Customer")]
+        [Appearance("Customer", Enabled = false)]
+        [Appearance("Customer1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(15), VisibleInListView(false), VisibleInDetailView(false), VisibleInLookupListView(false)]
+        public string Customer
+        {
+            get; set;
+        }
+
+        [XafDisplayName("CustomerName")]
+        [Appearance("CustomerName", Enabled = false)]
+        [Appearance("CustomerName1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(18)]
+        public string CustomerName
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Transporter")]
+        //[NoForeignKey]
+        [Appearance("Transporter", Enabled = false)]
+        [Appearance("Transporter1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(20)]
+        public string Transporter
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Salesperson")]
+        [Appearance("Salesperson", Enabled = false)]
+        [Appearance("Salesperson1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(23)]
+        public string Salesperson
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Remarks")]
+        [Appearance("Remarks", Enabled = false)]
+        [Appearance("Remarks1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(25)]
+        public string Remarks
+        {
+            get; set;
+        }
+
+        [XafDisplayName("ItemCode")]
+        [Appearance("ItemCode", Enabled = false)]
+        [Appearance("ItemCode1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(28)]
+        public string ItemCode
+        {
+            get; set;
+        }
+
+        [XafDisplayName("ItemDesc")]
+        [Appearance("ItemDesc", Enabled = false)]
+        [Appearance("ItemDesc1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(30)]
+        public string ItemDesc
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Quantity")]
+        [DbType("numeric(19,6)")]
+        [ModelDefault("DisplayFormat", "{0:n4}")]
+        [ModelDefault("EditMask", "{0:n4}")]
+        [Appearance("Quantity", Enabled = false)]
+        [Appearance("Quantity1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(33), VisibleInListView(false), VisibleInDetailView(false), VisibleInLookupListView(false)]
+        public decimal Quantity
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Warehouse")]
+        [Appearance("Warehouse", Enabled = false)]
+        [Appearance("Warehouse1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(35)]
+        public string Warehouse
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Mfg Catalog No")]
+        [Appearance("CatalogNo", Enabled = false)]
+        [Appearance("CatalogNo1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(38)]
+        public string CatalogNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Oid")]
+        [Appearance("Oid", Enabled = false)]
+        [Appearance("Oid1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(40), VisibleInListView(false), VisibleInDetailView(false), VisibleInLookupListView(false)]
+        public string Oid
+        {
+            get; set;
+        }
+
+        [XafDisplayName("CreateDate")]
+        [Appearance("CreateDate", Enabled = false)]
+        [Appearance("CreateDate1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(43), VisibleInListView(false), VisibleInDetailView(false), VisibleInLookupListView(false)]
+        public DateTime CreateDate
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Status")]
+        [Appearance("Status", Enabled = false)]
+        [Appearance("Status1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(45)]
+        public string Status
+        {
+            get; set;
+        }
+
+        [XafDisplayName("SAP Doc No")]
+        [Appearance("SAPDocNum", Enabled = false)]
+        [Appearance("SAPDocNum1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(48)]
+        public string SAPDocNum
+        {
+            get; set;
+        }
+
+        [XafDisplayName("InStock")]
+        [DbType("numeric(19,6)")]
+        [ModelDefault("DisplayFormat", "{0:n4}")]
+        [ModelDefault("EditMask", "{0:n4}")]
+        [Appearance("InStock", Enabled = false)]
+        [Appearance("InStock1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(33), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
+        public decimal InStock
+        {
+            get; set;
+        }
+
+        [XafDisplayName("PartialPicked ")]
+        [Appearance("PartialPicked ", Enabled = false)]
+        [Appearance("PartialPicked1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(35)]
+        public int PartialPicked
+        {
+            get; set;
+        }
+
+        // Start ver 1.0.9
+        [XafDisplayName("Zone")]
+        [Appearance("FirstBinZone", Enabled = false)]
+        [Appearance("FirstBinZone1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(38)]
+        public string FirstBinZone
+        {
+            get; set;
+        }
+    }
+
+    [DomainComponent]
+    [NonPersistent]
+    [XafDisplayName("Sales Order")]
+    [Appearance("HideNew", AppearanceItemType.Action, "True", TargetItems = "New", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideDelete", AppearanceItemType.Action, "True", TargetItems = "Delete", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideEdit", AppearanceItemType.Action, "True", TargetItems = "SwitchToEditMode; Edit", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideLink", AppearanceItemType.Action, "True", TargetItems = "Link", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideUnlink", AppearanceItemType.Action, "True", TargetItems = "Unlink", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave", AppearanceItemType.Action, "True", TargetItems = "Save", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&New", AppearanceItemType.Action, "True", TargetItems = "SaveAndNew", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideValidate", AppearanceItemType.Action, "True", TargetItems = "ShowAllContexts", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    public class PickListSOGroup
+    {
+        [DevExpress.ExpressApp.Data.Key, Browsable(false)]
+        public int PriKey;
+
+        [Key]
+        [Browsable(true)]
+        [XafDisplayName("DocNum")]
+        [Appearance("DocNum", Enabled = false)]
+        [Appearance("DocNum1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(0)]
+        public string DocNum
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Series")]
+        //[NoForeignKey]
+        [Appearance("Series", Enabled = false)]
+        [Appearance("Series1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(3)]
+        public string Series
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Posting Date")]
+        [Appearance("PostingDateStr", Enabled = false)]
+        [Appearance("PostingDateStr1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(4)]
+        public string PostingDateStr
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Delivery Date")]
+        [Appearance("DeliveryDateStr", Enabled = false)]
+        [Appearance("DeliveryDateStr1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(5)]
+        public string DeliveryDateStr
+        {
+            get; set;
+        }
+
+        [XafDisplayName("PostingDate")]
+        [Appearance("PostingDate", Enabled = false)]
+        [Appearance("PostingDate1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(6)]
+        public DateTime PostingDate
+        {
+            get; set;
+        }
+
+        [XafDisplayName("DeliveryDate")]
+        [Appearance("DeliveryDate", Enabled = false)]
+        [Appearance("DeliveryDate1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(7)]
+        public DateTime DeliveryDate
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Priority")]
+        [Appearance("Priority", Enabled = false)]
+        [Appearance("Priority1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(10)]
+        public PriorityType Priority
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Customer")]
+        [Appearance("Customer", Enabled = false)]
+        [Appearance("Customer1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(13), VisibleInListView(false), VisibleInDetailView(false), VisibleInLookupListView(false)]
+        public string Customer
+        {
+            get; set;
+        }
+
+        [XafDisplayName("CustomerName")]
+        [Appearance("CustomerName", Enabled = false)]
+        [Appearance("CustomerName1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(15)]
+        public string CustomerName
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Transporter")]
+        //[NoForeignKey]
+        [Appearance("Transporter", Enabled = false)]
+        [Appearance("Transporter1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(18)]
+        public string Transporter
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Salesperson")]
+        [Appearance("Salesperson", Enabled = false)]
+        [Appearance("Salesperson1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(20)]
+        public string Salesperson
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Remarks")]
+        [Appearance("Remarks", Enabled = false)]
+        [Appearance("Remarks1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(23)]
+        public string Remarks
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Status")]
+        [Appearance("Status", Enabled = false)]
+        [Appearance("Status1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(25)]
+        public string Status
+        {
+            get; set;
+        }
+
+        [XafDisplayName("SAP Doc No")]
+        [Appearance("SAPDocNum", Enabled = false)]
+        [Appearance("SAPDocNum1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(28)]
+        public string SAPDocNum
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Warehouse")]
+        [Appearance("Warehouse", Enabled = false)]
+        [Appearance("Warehouse1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(30)]
+        public string Warehouse
+        {
+            get; set;
+        }
+
+        [XafDisplayName("PartialPicked ")]
+        [Appearance("PartialPicked ", Enabled = false)]
+        [Appearance("PartialPicked1", BackColor = "#FF7C80", FontColor = "Black", Criteria = "PartialPicked > 0")]
+        [Index(33)]
+        public int PartialPicked
+        {
+            get; set;
+        }
+    }
+    // End ver 1.0.15
 }

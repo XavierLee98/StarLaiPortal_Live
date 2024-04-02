@@ -400,6 +400,12 @@
     <Compile Include="Controllers\DeliveryOrderControllers.Designer.cs">
       <DependentUpon>DeliveryOrderControllers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\DocumentControllers.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\DocumentControllers.Designer.cs">
+      <DependentUpon>DocumentControllers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\FilterControllers.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -609,6 +615,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controllers\DeliveryOrderControllers.resx">
       <DependentUpon>DeliveryOrderControllers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controllers\DocumentControllers.resx">
+      <DependentUpon>DocumentControllers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controllers\GeneralControllers.resx">
       <DependentUpon>GeneralControllers.cs</DependentUpon>

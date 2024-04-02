@@ -37,6 +37,7 @@ using System.Web;
 // 2023-08-16 - add stock 3 and stock 4 - ver 1.0.8
 // 2023-12-04 - add order status - ver 1.0.13
 // 2024-01-30 - orderstatus add new  field - ver 1.0.14
+// 2024-04-01 - add catalog number and old code search - ver 1.0.15
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -148,70 +149,122 @@ namespace StarLaiPortal.Module.Controllers
                 cardcode = selectedObject.CardCode.BPCode;
             }
 
-            if (selectedObject.PriceList1 != null && selectedObject.PriceList2 != null 
-                && selectedObject.PriceList3 != null && selectedObject.PriceList4 != null 
-                && selectedObject.Stock1 != null && selectedObject.Stock2 != null
-                // Start ver 1.0.8
-                && selectedObject.Stock3 != null && selectedObject.Stock4 != null)
-                // End ver 1.0.8
+            // Start ver 1.0.15
+            if (selectedObject.Search != null && selectedObject.OldCode == null && selectedObject.CatalogNumber == null ||
+                selectedObject.Search == null && selectedObject.OldCode != null && selectedObject.CatalogNumber == null ||
+                selectedObject.Search == null && selectedObject.OldCode == null && selectedObject.CatalogNumber != null ||
+                selectedObject.Search == null && selectedObject.OldCode == null && selectedObject.CatalogNumber == null)
             {
-                //for (int i = 0; selectedObject.ItemInquiryDetails.Count > i;)
-                //{
-                //    selectedObject.ItemInquiryDetails.Remove(selectedObject.ItemInquiryDetails[i]);
-                //}
+            // End ver 1.0.15
 
-                XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
-                SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetItem", new OperandValue(selectedObject.Search),
-                    new OperandValue(selectedObject.Exclude),
-                    new OperandValue(selectedObject.PriceList1.ListNum), new OperandValue(selectedObject.PriceList2.ListNum),
-                    new OperandValue(selectedObject.PriceList3.ListNum), new OperandValue(selectedObject.PriceList4.ListNum),
-                    new OperandValue(selectedObject.Stock1.WarehouseCode), new OperandValue(selectedObject.Stock2.WarehouseCode),
+                if (selectedObject.PriceList1 != null && selectedObject.PriceList2 != null
+                    && selectedObject.PriceList3 != null && selectedObject.PriceList4 != null
+                    && selectedObject.Stock1 != null && selectedObject.Stock2 != null
                     // Start ver 1.0.8
-                    new OperandValue(selectedObject.Stock3.WarehouseCode), new OperandValue(selectedObject.Stock4.WarehouseCode),
-                    // End ver 1.0.8
-                    new OperandValue(selectedObject.Method), new OperandValue(cardcode), new OperandValue(selectedObject.Oid));
+                    && selectedObject.Stock3 != null && selectedObject.Stock4 != null)
+                // End ver 1.0.8
+                {
+                    //for (int i = 0; selectedObject.ItemInquiryDetails.Count > i;)
+                    //{
+                    //    selectedObject.ItemInquiryDetails.Remove(selectedObject.ItemInquiryDetails[i]);
+                    //}
 
-                //if (sprocData.ResultSet.Count() > 0)
-                //{
-                //    if (sprocData.ResultSet[0].Rows.Count() > 0)
-                //    {
-                //        foreach (SelectStatementResultRow row in sprocData.ResultSet[0].Rows)
-                //        {
-                //            ItemInquiryDetails searchitem = ObjectSpace.CreateObject<ItemInquiryDetails>();
-                //            searchitem.ItemCode = row.Values[0].ToString();
-                //            searchitem.ItemDesc = row.Values[1].ToString();
-                //            searchitem.Model = row.Values[2].ToString();
-                //            searchitem.PriceList1 = selectedObject.PriceList1.ListName;
-                //            searchitem.Price1 = Convert.ToDecimal(row.Values[3]);
-                //            searchitem.PriceList2 = selectedObject.PriceList2.ListName;
-                //            searchitem.Price2 = Convert.ToDecimal(row.Values[4]);
-                //            searchitem.StockName1 = selectedObject.Stock1.WarehouseName;
-                //            searchitem.Stock1 = Convert.ToDecimal(row.Values[5]);
-                //            searchitem.StockName2 = selectedObject.Stock2.WarehouseName;
-                //            searchitem.Stock2 = Convert.ToDecimal(row.Values[6]);
-                //            searchitem.OriginalCatalog = row.Values[7].ToString();
-                //            searchitem.HierarchyLevel1 = row.Values[8].ToString();
-                //            searchitem.HierarchyLevel2 = row.Values[9].ToString();
-                //            searchitem.HierarchyLevel3 = row.Values[10].ToString();
-                //            searchitem.HierarchyLevel4 = row.Values[11].ToString();
-                //            searchitem.HierarchyLevel5 = row.Values[12].ToString();
-                //            searchitem.Remarks = row.Values[13].ToString();
-                //            searchitem.Barcode = row.Values[14].ToString();
-                //            searchitem.ForeignName = row.Values[15].ToString();
-                //            searchitem.BPCatalogNo = row.Values[16].ToString();
+                    // Start ver 1.0.15
+                    if (selectedObject.Search != null)
+                    {
+                        XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                        SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetItem", new OperandValue(selectedObject.Search),
+                            new OperandValue(selectedObject.Exclude),
+                            new OperandValue(selectedObject.PriceList1.ListNum), new OperandValue(selectedObject.PriceList2.ListNum),
+                            new OperandValue(selectedObject.PriceList3.ListNum), new OperandValue(selectedObject.PriceList4.ListNum),
+                            new OperandValue(selectedObject.Stock1.WarehouseCode), new OperandValue(selectedObject.Stock2.WarehouseCode),
+                            // Start ver 1.0.8
+                            new OperandValue(selectedObject.Stock3.WarehouseCode), new OperandValue(selectedObject.Stock4.WarehouseCode),
+                            // End ver 1.0.8
+                            new OperandValue(selectedObject.Method), new OperandValue(cardcode), new OperandValue(selectedObject.Oid));
+                    }
+                    // End ver 1.0.15 
 
-                //            selectedObject.ItemInquiryDetails.Add(searchitem);
-                //        }
-                //    }
-                //}
-                ObjectSpace.CommitChanges();
-                ObjectSpace.Refresh();
-                View.Refresh();
+                    // Start ver 1.0.15
+                    if (selectedObject.OldCode != null)
+                    {
+                        XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                        SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetItemOldCode", new OperandValue(selectedObject.OldCode),
+                            new OperandValue(selectedObject.Exclude),
+                            new OperandValue(selectedObject.PriceList1.ListNum), new OperandValue(selectedObject.PriceList2.ListNum),
+                            new OperandValue(selectedObject.PriceList3.ListNum), new OperandValue(selectedObject.PriceList4.ListNum),
+                            new OperandValue(selectedObject.Stock1.WarehouseCode), new OperandValue(selectedObject.Stock2.WarehouseCode),
+                            // Start ver 1.0.8
+                            new OperandValue(selectedObject.Stock3.WarehouseCode), new OperandValue(selectedObject.Stock4.WarehouseCode),
+                            // End ver 1.0.8
+                            new OperandValue(selectedObject.Method), new OperandValue(cardcode), new OperandValue(selectedObject.Oid));
+                    }
+                    // End ver 1.0.15 
+
+                    // Start ver 1.0.15
+                    if (selectedObject.CatalogNumber != null)
+                    {
+                        XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                        SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetItemCatalogNumber", new OperandValue(selectedObject.CatalogNumber),
+                            new OperandValue(selectedObject.Exclude),
+                            new OperandValue(selectedObject.PriceList1.ListNum), new OperandValue(selectedObject.PriceList2.ListNum),
+                            new OperandValue(selectedObject.PriceList3.ListNum), new OperandValue(selectedObject.PriceList4.ListNum),
+                            new OperandValue(selectedObject.Stock1.WarehouseCode), new OperandValue(selectedObject.Stock2.WarehouseCode),
+                            // Start ver 1.0.8
+                            new OperandValue(selectedObject.Stock3.WarehouseCode), new OperandValue(selectedObject.Stock4.WarehouseCode),
+                            // End ver 1.0.8
+                            new OperandValue(selectedObject.Method), new OperandValue(cardcode), new OperandValue(selectedObject.Oid));
+                    }
+                    // End ver 1.0.15 
+
+                    //if (sprocData.ResultSet.Count() > 0)
+                    //{
+                    //    if (sprocData.ResultSet[0].Rows.Count() > 0)
+                    //    {
+                    //        foreach (SelectStatementResultRow row in sprocData.ResultSet[0].Rows)
+                    //        {
+                    //            ItemInquiryDetails searchitem = ObjectSpace.CreateObject<ItemInquiryDetails>();
+                    //            searchitem.ItemCode = row.Values[0].ToString();
+                    //            searchitem.ItemDesc = row.Values[1].ToString();
+                    //            searchitem.Model = row.Values[2].ToString();
+                    //            searchitem.PriceList1 = selectedObject.PriceList1.ListName;
+                    //            searchitem.Price1 = Convert.ToDecimal(row.Values[3]);
+                    //            searchitem.PriceList2 = selectedObject.PriceList2.ListName;
+                    //            searchitem.Price2 = Convert.ToDecimal(row.Values[4]);
+                    //            searchitem.StockName1 = selectedObject.Stock1.WarehouseName;
+                    //            searchitem.Stock1 = Convert.ToDecimal(row.Values[5]);
+                    //            searchitem.StockName2 = selectedObject.Stock2.WarehouseName;
+                    //            searchitem.Stock2 = Convert.ToDecimal(row.Values[6]);
+                    //            searchitem.OriginalCatalog = row.Values[7].ToString();
+                    //            searchitem.HierarchyLevel1 = row.Values[8].ToString();
+                    //            searchitem.HierarchyLevel2 = row.Values[9].ToString();
+                    //            searchitem.HierarchyLevel3 = row.Values[10].ToString();
+                    //            searchitem.HierarchyLevel4 = row.Values[11].ToString();
+                    //            searchitem.HierarchyLevel5 = row.Values[12].ToString();
+                    //            searchitem.Remarks = row.Values[13].ToString();
+                    //            searchitem.Barcode = row.Values[14].ToString();
+                    //            searchitem.ForeignName = row.Values[15].ToString();
+                    //            searchitem.BPCatalogNo = row.Values[16].ToString();
+
+                    //            selectedObject.ItemInquiryDetails.Add(searchitem);
+                    //        }
+                    //    }
+                    //}
+                    ObjectSpace.CommitChanges();
+                    ObjectSpace.Refresh();
+                    View.Refresh();
+                }
+                else
+                {
+                    showMsg("Fail", "PriceList1/2/3/4 and Stock1/2 is empty.", InformationType.Error);
+                }
+            // Start ver 1.0.15
             }
             else
             {
-                showMsg("Fail", "PriceList1/2/3/4 and Stock1/2 is empty.", InformationType.Error);
+                showMsg("Fail", "Not allow enter multiple searching field.", InformationType.Error);
             }
+            // End ver 1.0.15
         }
 
         private void ViewSales_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
