@@ -58,9 +58,10 @@ namespace StarLaiPortal.Module.Controllers
                 // Start ver 1.0.15
                 if (View.Id == "SalesQuotation_ListView")
                 {
-                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[CreateDate] >= ? or ([Status] = ?) " +
-                        "or ([Status] = ? and [AppStatus] = ?)",
-                        DateTime.Now.AddMonths(-3), 0, 1, 2);
+                    //((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[CreateDate] >= ? or ([Status] = ?) " +
+                    //    "or ([Status] = ? and [AppStatus] = ?)",
+                    //    DateTime.Now.AddMonths(-3), 0, 1, 2);
+                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[CreateDate] >= ?",  DateTime.Now.AddMonths(-3));
                 }
                 // End ver 1.0.15
             }
