@@ -14,11 +14,11 @@
             display: inline-block;
             transition: all .2s;
             /*position: absolute;*/
-            background-color: crimson;
+            background-color: black;
             border-radius: 100px;
             font-size: large;
             font:bolder;
-            color:white;
+            color:ghostwhite;
         }
 
         .btn:hover {
@@ -64,47 +64,32 @@
         }
     </style>
 
-    <link href="Image/Mainpage.css" rel="stylesheet" />
-    <title>BWY Login</title>
+    <link href="Image/Background.css" rel="stylesheet" />
+    <title>Company Login</title>
 
 
 </head>
 <body style="background-color: #E6E6FA">
-    <form id="form1" runat="server">
+    <form id="LoginScreen" runat="server">
             <br/>
         <div>
             <div class="container-fluid">
-                    <div class="row">
-                        <center>
+                    <div class="row" style="margin-left:80px">
                             <img src="Image/Logo.png" />
-                        </center>
                     </div>
                 </div>
         </div>
-        <br/>
-        <br/>
-        <div style="background-color: #EADDCA; width:430px; margin:auto; border-radius: 20px; opacity:0.8; border:groove">
-            <%--            <div>          
-                <div class="container-fluid">
+            <div style="background-color: darkslategrey; width:400px; border-radius: 30px; opacity:0.8; margin-left:300px;">
+                <div>
+                    <div class="container-fluid">
                         <div class="row">
                             <center>
                                 <div>
-                                    <asp:Label ID="Label1" Style="margin-top:10px; color:gold"  Font-Bold="true" Font-Names="Roboto" 
-                                        Font-Size="50px" runat="server" Text="Outlet Selection" Visible ="False"></asp:Label>
-                                </div>
-                            </center>
-                        </div>
-                    </div>
-            </div>--%>
-            <div>
-                <div class="container-fluid">
-                        <div class="row">
-                            <center>
-                                <div>
-                                    <b style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-size:18px">Company</b>
-                                    <asp:DropDownList ID="CompanyList" runat="server" Style="margin-top: 25px; width: 400px; border-radius: 10px; font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;font-size:15px" AutoPostBack="True" OnSelectedIndexChanged="CompanyList_SelectedIndexChanged">
+                                    <br>
+                                    <asp:Label ID="Label" runat="server" Text="Company" Style="font-family:sans-serif;font-size:20px;font-weight: bold;color:ghostwhite"></asp:Label>
+                                    <asp:DropDownList ID="CompanyList" runat="server" Style="margin-top: 10px; height: 50px; width: 380px; border-radius: 10px; font-family:sans-serif;font-size:20px" AutoPostBack="True" OnSelectedIndexChanged="CompanyList_SelectedIndexChanged">
                                     </asp:DropDownList>
-                                    <asp:TextBox ID="CompanyName" runat="server" Visible="False"></asp:TextBox>
+                                    <asp:TextBox ID="Company" runat="server" Visible="False"></asp:TextBox>
                                 </div>
                             </center>
                         </div>
@@ -117,7 +102,7 @@
                             <center>
                                 <div>
                                     <asp:Button ID="ButtonProceed" runat="server" class="btn btn-white btn-animated" Text="Proceed" 
-                                        AutoPostBack="True" OnClick="ButtonProceed_Click" />
+                                        AutoPostBack="True" OnClick="ButtonProceed_Click" BorderStyle="None" />
                                 </div>
                             </center>
                         </div>

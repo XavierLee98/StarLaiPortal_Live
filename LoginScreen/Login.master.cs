@@ -72,16 +72,16 @@ public partial class LoginMaster : MasterPage
     {
         if (!IsPostBack)
         {
-            string selectoutlet = "SELECT Description FROM ODBC";
+            string company = "SELECT Description FROM ODBC WHERE IsActive = 1";
 
-            CompanyList.Items.Add("");
+            CompanyList.Items.Add(new ListItem("..."));
 
             if (conn.State == ConnectionState.Open)
             {
                 conn.Close();
             }
             conn.Open();
-            SqlCommand cmd3 = new SqlCommand(selectoutlet, conn);
+            SqlCommand cmd3 = new SqlCommand(company, conn);
             SqlDataReader reader3 = cmd3.ExecuteReader();
             while (reader3.Read())
             {
@@ -98,13 +98,11 @@ public partial class LoginMaster : MasterPage
 
     protected void ButtonProceed_Click(object sender, EventArgs e)
     {
-        string company = CompanyList.SelectedItem.Text.ToString();
-
-        if (CompanyName.Text != null)
+        if (Company.Text != null)
         {
             string url = "";
 
-            string selecturl = "SELECT PortalUrl FROM ODBC WHERE Description = '" + company + "'";
+            string selecturl = "SELECT PortalUrl FROM ODBC WHERE Description = '" + Company.Text + "'";
 
             if (conn.State == ConnectionState.Open)
             {
@@ -132,6 +130,6 @@ public partial class LoginMaster : MasterPage
 
     protected void CompanyList_SelectedIndexChanged(object sender, EventArgs e)
     {
-        CompanyName.Text = CompanyList.SelectedItem.Text.ToString();
+        Company.Text = CompanyList.SelectedItem.Text.ToString();
     }
 }

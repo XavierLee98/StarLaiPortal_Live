@@ -7,6 +7,9 @@ using DevExpress.ExpressApp.Xpo;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.ClientServer;
 using StarLaiPortal.Module.BusinessObjects;
+using System.Configuration;
+
+// 2024-04-04 add login new loginpage ver 1.0.15
 
 namespace StarLaiPortal.Web {
     // For more typical usage scenarios, be sure to check out https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.WebApplication
@@ -48,11 +51,20 @@ namespace StarLaiPortal.Web {
         public StarLaiPortalAspNetApplication() {
             InitializeComponent();
             InitializeDefaults();
+
+            // Start ver 1.0.15
+            this.LoggedOff += Application_LoggedOff;
+            // End ver 1.0.15
         }
 
         protected override void OnLoggingOn(LogonEventArgs args)
         {
             base.OnLoggingOn(args);
+
+            // Start ver 1.0.15
+            ((IDatabaseNameParameter)args.LogonParameters).DatabaseName = ConfigurationManager.AppSettings["PortalDB"].ToString();
+            // End ver 1.0.15
+
             if (String.IsNullOrEmpty(((IDatabaseNameParameter)args.LogonParameters).DatabaseName))
                 throw new InvalidOperationException("Please select Company.");
             MSSqlServerChangeDatabaseHelper.UpdateDatabaseName(this, ((IDatabaseNameParameter)args.LogonParameters).DatabaseName);
@@ -186,5 +198,12 @@ namespace StarLaiPortal.Web {
         {
             return false;
         }
+
+        // Start ver 1.0.15
+        private void Application_LoggedOff(object sender, EventArgs e)
+        {
+            Redirect(ConfigurationManager.AppSettings["CommonUrl"].ToString());
+        }
+        // End ver 1.0.15
     }
 }

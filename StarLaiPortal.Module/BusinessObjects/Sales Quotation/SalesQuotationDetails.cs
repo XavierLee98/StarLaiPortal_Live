@@ -17,6 +17,7 @@ using System.Text;
 
 // 2024-01-29 - remove immediate post - ver 1.0.14
 // 2024-01-29 - add import update - ver 1.0.14
+// 2024-04-04 - remove stockbalance view - ver 1.0.15
 
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 {
@@ -127,8 +128,21 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                     CatalogNo = ItemCode.CatalogNo;
                     if (Location != null)
                     {
-                        Available = Session.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
+                        // Start ver 1.0.15
+                        //Available = Session.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
+                        //    ItemCode, Location.WarehouseCode));
+                        vwStockBalance avail = Session.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
                             ItemCode, Location.WarehouseCode));
+
+                        if (avail != null)
+                        {
+                            Available = (decimal)avail.InStock;
+                        }
+                        else
+                        {
+                            Available = 0;
+                        }
+                        // End ver 1.0.15
                     }
                     LegacyItemCode = ItemCode.LegacyItemCode;
 
@@ -166,7 +180,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                     ItemDesc = null;
                     Model = null;
                     CatalogNo = null;
-                    Available = null;
+                    // Start ver 1.0.15
+                    //Available = null;
+                    Available = 0;
+                    // End ver 1.0.15
                     LegacyItemCode = null;
                     Price = 0;
                     AdjustedPrice = 0;
@@ -245,13 +262,29 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                 {
                     if (ItemCode != null)
                     {
-                        Available = Session.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
+                        // Start ver 1.0.15
+                        //Available = Session.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
+                        //    ItemCode, Location.WarehouseCode));
+                        vwStockBalance avail = Session.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
                             ItemCode, Location.WarehouseCode));
+
+                        if (avail != null)
+                        {
+                            Available = (decimal)avail.InStock;
+                        }
+                        else
+                        {
+                            Available = 0;
+                        }
+                        // End ver 1.0.15
                     }
                 }
                 else if (!IsLoading && value == null)
                 {
-                    Available = null;
+                    // Start ver 1.0.15
+                    //Available = null;
+                    Available = 0;
+                    // End ver 1.0.15
                 }
             }
         }
@@ -308,18 +341,26 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
             }
         }
 
-        private vwStockBalance _Available;
+        // Start ver 1.0.15
+        //private vwStockBalance _Available;
+        private decimal _Available;
+        // End ver 1.0.15
         // Start ver 1.0.14
         //[ImmediatePostData]
         // End ver 1.0.14
-        [NoForeignKey]
-        //[DbType("numeric(18,6)")]
-        //[ModelDefault("DisplayFormat", "{0:N0}")]
-        //[ModelDefault("EditMask", "{0:N0}")]
+        // Start ver 1.0.15
+        //[NoForeignKey]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:N0}")]
+        [ModelDefault("EditMask", "{0:N0}")]
+        // End ver 1.0.15
         [XafDisplayName("Available")]
         [Appearance("Available", Enabled = false)]
         [Index(13), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
-        public vwStockBalance Available
+        // Start ver 1.0.15
+        //public vwStockBalance Available
+        public decimal Available
+        // End ver 1.0.15
         {
             get { return _Available; }
             set

@@ -10,6 +10,7 @@ using DevExpress.ExpressApp.Utils;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Validation;
 using DevExpress.Web.Internal.XmlProcessor;
+using DevExpress.Xpo;
 using DevExpress.Xpo.DB.Helpers;
 using DevExpress.XtraPrinting.Export.Pdf;
 using StarLaiPortal.Module.BusinessObjects;
@@ -43,6 +44,7 @@ using System.Text;
 // 2023-09-25 update asn coptytoqty ver 1.0.10
 // 2023-10-19 write txt log ver 1.0.11
 // 2023-12-04 add outstanding qty ver 1.0.13
+// 2024-04-04 add generateinstock ver 1.0.15
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -1523,5 +1525,22 @@ namespace StarLaiPortal.Module.Controllers
             log.Close();
         }
         // End ver 1.0.11
+
+        // Start ver 1.0.15
+        public decimal GenerateInstock(IObjectSpace os, string ItemCode, string Warehouse)
+        {
+            decimal instock = 0;
+
+            vwStockBalance avail = os.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
+                ItemCode, Warehouse));
+
+            if (avail != null)
+            {
+                instock = (decimal)avail.InStock;
+            }
+
+            return instock;
+        }
+        // End ver 1.0.15
     }
 }

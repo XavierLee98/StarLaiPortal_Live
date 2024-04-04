@@ -37,6 +37,7 @@ using System.Web;
 // 2023-09-12 add warehouse transfer req no ver 1.0.9
 // 2023-09-25 - add stock balance checking - ver 1.0.10
 // 2024-03-15 - do not check stock balance if same warehouse - ver 1.0.14
+// 2024-04-04 - Update available qty ver 1.0.15
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -106,6 +107,34 @@ namespace StarLaiPortal.Module.Controllers
                     this.ImportWHReq.Active.SetItemValue("Enabled", false);
                     // End ver 1.0.9
                 }
+
+                // Start ver 1.0.15
+                if (View.ObjectTypeInfo.Type == typeof(WarehouseTransferReq))
+                {
+                    if (View is DetailView)
+                    {
+                        BusinessObjects.Warehouse_Transfer.WarehouseTransferReq warehousereq = View.CurrentObject as BusinessObjects.Warehouse_Transfer.WarehouseTransferReq;
+
+                        foreach (WarehouseTransferReqDetails dtl in warehousereq.WarehouseTransferReqDetails)
+                        {
+                            if (dtl.FromWarehouse != null)
+                            {
+                                dtl.Available = genCon.GenerateInstock(ObjectSpace, dtl.ItemCode.ItemCode, dtl.FromWarehouse.WarehouseCode);
+                            }
+                            else
+                            {
+                                dtl.Available = 0;
+                            }
+                        }
+
+                        if (warehousereq.IsNew == false)
+                        {
+                            ObjectSpace.CommitChanges();
+                            ObjectSpace.Refresh();
+                        }
+                    }
+                }
+                // End ver 1.0.15
             }
             else if (View.Id == "WarehouseTransferReq_ListView_Approval")
             {
@@ -144,12 +173,41 @@ namespace StarLaiPortal.Module.Controllers
                 this.ImportWHReq.Active.SetItemValue("Enabled", false);
                 // End ver 1.0.9
             }
+
+            // Start ver 1.0.15
+            if (View.Id == "WarehouseTransferReq_WarehouseTransferReqDetails_ListView")
+            {
+                ((ASPxGridListEditor)((ListView)View).Editor).Grid.RowUpdating += new DevExpress.Web.Data.ASPxDataUpdatingEventHandler(Grid_RowUpdating);
+            }
+            // End ver 1.0.15
         }
         protected override void OnDeactivated()
         {
             // Unsubscribe from previously subscribed events and release other references and resources.
             base.OnDeactivated();
         }
+
+        // Start ver 1.0.15
+        private void Grid_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
+        {
+            ASPxGridListEditor listEditor = ((ListView)View).Editor as ASPxGridListEditor;
+            if (listEditor != null)
+            {
+                object currentObject = listEditor.Grid.GetRow(listEditor.Grid.EditingRowVisibleIndex);
+                if (currentObject != null)
+                {
+                    object warehouse = currentObject.GetType().GetProperty("FromWarehouse").GetValue(currentObject);
+                    object itemcode = currentObject.GetType().GetProperty("ItemCode").GetValue(currentObject);
+
+                    if (warehouse != null)
+                    {
+                        currentObject.GetType().GetProperty("Available").SetValue(currentObject, genCon.GenerateInstock(ObjectSpace,
+                            (itemcode as vwItemMasters).ItemCode, (warehouse as vwWarehouse).WarehouseCode));
+                    }
+                }
+            }
+        }
+        // End ver 1.0.15
 
         public void openNewView(IObjectSpace os, object target, ViewEditMode viewmode)
         {

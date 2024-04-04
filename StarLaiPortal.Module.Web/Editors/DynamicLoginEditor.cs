@@ -14,10 +14,13 @@ using StarLaiPortal.Module.BusinessObjects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Web.UI.WebControls;
+
+// 2024-04-04 add login new loginpage ver 1.0.15
 
 namespace StarLaiPortal.Module.Web.Editors
 {
@@ -33,7 +36,10 @@ namespace StarLaiPortal.Module.Web.Editors
             {
                 DataTable dt = null;
                 string databases = "";
-                string sqlQuery = "SELECT * FROM ODBC ";
+                // Start ver 1.0.15
+                //string sqlQuery = "SELECT * FROM ODBC ";
+                string sqlQuery = "SELECT * FROM ODBC WHERE DBName = '" + ConfigurationManager.AppSettings["PortalDB"].ToString() + "'";
+                // End ver 1.0.15
 
                 dt = SQLHandler.GetDataTable(sqlQuery);
                 if (dt.Rows.Count > 0)
@@ -48,7 +54,11 @@ namespace StarLaiPortal.Module.Web.Editors
                         else
                             databases += ";" + row["Description"].ToString();
                     }
-                    ((ASPxComboBox)control).SelectedIndex = 0;
+
+                    // Start ver 1.0.15
+                    //((ASPxComboBox)control).SelectedIndex = 0;
+                    ((ASPxComboBox)control).SelectedItem.Text = databases;
+                    // Start ver 1.0.15
                 }
             }
         }

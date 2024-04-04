@@ -17,6 +17,7 @@ using DevExpress.Web;
 using StarLaiPortal.Module.BusinessObjects;
 using StarLaiPortal.Module.BusinessObjects.Load;
 using StarLaiPortal.Module.BusinessObjects.Sales_Order;
+using StarLaiPortal.Module.BusinessObjects.Sales_Quotation;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -28,6 +29,7 @@ using System.Text;
 using System.Web;
 
 // 2023-08-22 add cancel and close button ver 1.0.9
+// 2024-04-04 Update available qty ver 1.0.15
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -49,6 +51,27 @@ namespace StarLaiPortal.Module.Controllers
             this.CancelSO.Active.SetItemValue("Enabled", false);
             this.CloseSO.Active.SetItemValue("Enabled", false);
             // End ver 1.0.9
+
+            // Start ver 1.0.15
+            if (View.ObjectTypeInfo.Type == typeof(SalesOrder))
+            {
+                if (View is DetailView)
+                {
+                    BusinessObjects.Sales_Order.SalesOrder salesorder = View.CurrentObject as BusinessObjects.Sales_Order.SalesOrder;
+
+                    foreach (SalesOrderDetails dtl in salesorder.SalesOrderDetails)
+                    {
+                        dtl.Available = genCon.GenerateInstock(ObjectSpace, dtl.ItemCode.ItemCode, dtl.Location.WarehouseCode);
+                    }
+
+                    if (salesorder.IsNew == false)
+                    {
+                        ObjectSpace.CommitChanges();
+                        ObjectSpace.Refresh();
+                    }
+                }
+            }
+            // End ver 1.0.15
         }
         protected override void OnViewControlsCreated()
         {
