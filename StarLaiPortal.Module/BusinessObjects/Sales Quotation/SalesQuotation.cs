@@ -28,6 +28,7 @@ using DevExpress.Xpo.DB.Helpers;
 // 2024-01-30 Add import update button ver 1.0.14
 // 2024-04-01 Enhance performance ver 1.0.15
 // 2024-04-01 filter customer by U_blockSales ver 1.0.15
+// 2024-04-04 - remove stockbalance view - ver 1.0.15
 
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 {
@@ -848,7 +849,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
             {
                 foreach (SalesQuotationDetails dtl in this.SalesQuotationDetails)
                 {
-                    if (dtl.Quantity > (decimal)dtl.Available.InStock)
+                    // Start ver 1.0.15
+                    //if (dtl.Quantity > (decimal)dtl.Available.InStock)
+                    if (dtl.Quantity > dtl.Available)
+                    // Start ver 1.0.15
                     {
                         if (this.Series.SeriesName != "BackOrdP" && this.Series.SeriesName != "BackOrdS")
                         {

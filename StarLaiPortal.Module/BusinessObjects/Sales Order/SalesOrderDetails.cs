@@ -15,6 +15,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
+// 2024-04-04 - remove stockbalance view - ver 1.0.15
+
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Order
 {
     [DefaultClassOptions]
@@ -117,16 +119,18 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Order
             set
             {
                 SetPropertyValue("ItemCode", ref _ItemCode, value);
-                if (!IsLoading && value != null)
-                {
-                    if (Location != null)
-                    {
-                        Available = Session.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
-                            ItemCode, Location.WarehouseCode));
-                    }
+                // Start ver 1.0.15
+                //if (!IsLoading && value != null)
+                //{
+                //    if (Location != null)
+                //    {
+                //        Available = Session.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
+                //            ItemCode, Location.WarehouseCode));
+                //    }
 
-                    LegacyItemCode = ItemCode.LegacyItemCode;
-                }
+                //    LegacyItemCode = ItemCode.LegacyItemCode;
+                //}
+                // End ver 1.0.15
             }
         }
 
@@ -196,14 +200,16 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Order
             set
             {
                 SetPropertyValue("Location", ref _Location, value);
-                if (!IsLoading && value != null)
-                {
-                    if (ItemCode != null)
-                    {
-                        Available = Session.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?", 
-                            ItemCode, Location.WarehouseCode));
-                    }
-                }
+                // Start ver 1.0.15
+                //if (!IsLoading && value != null)
+                //{
+                //    if (ItemCode != null)
+                //    {
+                //        Available = Session.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?", 
+                //            ItemCode, Location.WarehouseCode));
+                //    }
+                //}
+                // End ver 1.0.15
             }
         }
 
@@ -227,8 +233,11 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Order
             }
         }
 
-        private vwStockBalance _Available;
-        [NoForeignKey]
+        // Start ver 1.0.15
+        //private vwStockBalance _Available;
+        private decimal _Available;
+        //[NoForeignKey]
+        // End ver 1.0.15
         // Start ver 1.0.15
         //[ImmediatePostData]
         // End ver 1.0.15
@@ -238,7 +247,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Order
         [XafDisplayName("Available")]
         [Appearance("Available", Enabled = false)]
         [Index(13), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
-        public vwStockBalance Available
+        // Start ver 1.0.15
+        //public vwStockBalance Available
+        public decimal Available
+        // End ver 1.0.15
         {
             get { return _Available; }
             set

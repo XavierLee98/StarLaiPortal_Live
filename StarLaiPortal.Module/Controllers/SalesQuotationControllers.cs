@@ -31,6 +31,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.UI;
+using static System.Net.Mime.MediaTypeNames;
 
 // 2023-07-28 block submit if no address for OC and OS ver 1.0.7
 // 2023-08-16 add stock 3 and stock 4 - ver 1.0.8
@@ -38,6 +39,7 @@ using System.Web.UI;
 // 2023-09-07 check stock when approve ver 1.0.9
 // 2023-12-01 change to action for create SO button ver 1.0.13
 // 2024-01-30 Add import update button ver 1.0.14
+// 2024-04-04 Update available qty ver 1.0.15
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -72,6 +74,27 @@ namespace StarLaiPortal.Module.Controllers
             // Start ver 1.0.14
             this.ImportUpdateSQ.Active.SetItemValue("Enabled", false);
             // End ver 1.0.14
+
+            // Start ver 1.0.15
+            if (View.ObjectTypeInfo.Type == typeof(SalesQuotation))
+            {
+                if (View is DetailView)
+                {
+                    BusinessObjects.Sales_Quotation.SalesQuotation salesquotation = View.CurrentObject as BusinessObjects.Sales_Quotation.SalesQuotation;
+
+                    foreach (SalesQuotationDetails dtl in salesquotation.SalesQuotationDetails)
+                    {
+                        dtl.Available = genCon.GenerateInstock(ObjectSpace, dtl.ItemCode.ItemCode, dtl.Location.WarehouseCode);
+                    }
+
+                    if (salesquotation.IsNew == false)
+                    {
+                        ObjectSpace.CommitChanges();
+                        ObjectSpace.Refresh();
+                    }
+                }
+            }
+            // End ver 1.0.15
         }
         protected override void OnViewControlsCreated()
         {
@@ -187,6 +210,13 @@ namespace StarLaiPortal.Module.Controllers
                 {
                     object adjustprice = currentObject.GetType().GetProperty("AdjustedPrice").GetValue(currentObject);
                     object price = currentObject.GetType().GetProperty("Price").GetValue(currentObject);
+                    // Start ver 1.0.15
+                    object warehouse = currentObject.GetType().GetProperty("Location").GetValue(currentObject);
+                    object itemcode = currentObject.GetType().GetProperty("ItemCode").GetValue(currentObject);
+
+                    currentObject.GetType().GetProperty("Available").SetValue(currentObject, genCon.GenerateInstock(ObjectSpace,
+                          (itemcode as vwItemMasters).ItemCode, (warehouse as vwWarehouse).WarehouseCode));
+                    // End ver 1.0.15
 
                     if ((decimal)adjustprice < (decimal)price)
                     {

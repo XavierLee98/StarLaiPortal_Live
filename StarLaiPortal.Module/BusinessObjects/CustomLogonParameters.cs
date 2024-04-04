@@ -1,5 +1,6 @@
 ﻿using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.ConditionalAppearance;
 using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Model;
 using DevExpress.ExpressApp.Security;
@@ -16,6 +17,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
+// 2024-04-04 add login new loginpage ver 1.0.15
+
 namespace StarLaiPortal.Module.BusinessObjects
 {
     public interface IDatabaseNameParameter
@@ -30,6 +33,9 @@ namespace StarLaiPortal.Module.BusinessObjects
         private string databaseName;
         [XafDisplayName("Company")]
         [EditorAlias("CustomLogin")]
+        // Start ver 1.0.15
+        [Appearance("DatabaseName", Enabled = false)]
+        // End ver 1.0.15
         [ModelDefault("PredefinedValues", MSSqlServerChangeDatabaseHelper.Databases)]
         public string DatabaseName
         {

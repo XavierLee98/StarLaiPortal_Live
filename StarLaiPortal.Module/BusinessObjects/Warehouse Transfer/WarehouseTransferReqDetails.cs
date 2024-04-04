@@ -17,6 +17,7 @@ using System.Text;
 // 2023-08-25 - export and import function - ver 1.0.9
 // 2023-10-16 - add legacyitemcode - ver 1.0.11
 // 2024-01-29 - add available qty and variance - ver 1.0.14
+// 2024-04-04 - remove stockbalance view - ver 1.0.15
 
 namespace StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer
 {
@@ -124,8 +125,22 @@ namespace StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer
                             FromWarehouse.DftBinAbs, ItemCode.ItemCode, FromWarehouse.WarehouseCode));
 
                         // Start ver 1.0.14
-                        Available = Session.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
+                        // Start ver 1.0.15
+                        //Available = Session.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
+                        //    ItemCode, FromWarehouse.WarehouseCode));
+
+                        vwStockBalance avail = Session.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
                             ItemCode, FromWarehouse.WarehouseCode));
+
+                        if (avail != null)
+                        {
+                            Available = (decimal)avail.InStock;
+                        }
+                        else
+                        {
+                            Available = 0;
+                        }
+                        // End ver 1.0.15
                         // End ver 1.0.14
                     }
                     // End ver 1.0.9
@@ -147,6 +162,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer
                     // End ver 1.0.11
                     CatalogNo = null;
                     UOM = null;
+                    // Start ver 1.0.15
+                    Available = 0;
+                    // End ver 1.0.15
                 }
             }
         }
@@ -254,26 +272,46 @@ namespace StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer
         }
 
         // Start ver 1.0.14
-        private vwStockBalance _Available;
+        // Start ver 1.0.15
+        //private vwStockBalance _Available;
+        private decimal _Available;
         [ImmediatePostData]
-        [NoForeignKey]
+        //[NoForeignKey]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:N0}")]
+        [ModelDefault("EditMask", "{0:N0}")]
+        // End ver 1.0.15
         [XafDisplayName("Available")]
         [Appearance("Available", Enabled = false)]
         [Index(16), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
-        public vwStockBalance Available
+        // Start ver 1.0.15
+        //public vwStockBalance Available
+        public decimal Available
+        // End ver 1.0.15
         {
             get { return _Available; }
             set
             {
                 SetPropertyValue("Available", ref _Available, value);
-                if (!IsLoading && value != null)
+                // Start ver 1.0.15
+                //if (!IsLoading && value != null)
+                //{
+                //    Variance = (decimal)Available.InStock - Quantity;
+                //}
+                //else if (!IsLoading && value == null)
+                //{
+                //    Variance = 0 - Quantity;
+                //}
+
+                if (!IsLoading && value != 0)
                 {
-                    Variance = (decimal)Available.InStock - Quantity;
+                    Variance = Available - Quantity;
                 }
-                else if (!IsLoading && value == null)
+                else if (!IsLoading && value == 0)
                 {
                     Variance = 0 - Quantity;
                 }
+                // End ver 1.0.15
             }
         }
 
