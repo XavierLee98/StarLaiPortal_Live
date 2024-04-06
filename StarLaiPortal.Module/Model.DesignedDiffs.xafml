@@ -3696,6 +3696,35 @@
     <DetailView Id="SalesQuotationAppStatus_DetailView" AllowEdit="False" />
     <ListView Id="SalesQuotationDetails_ListView" AllowEdit="True" />
     <DetailView Id="SalesQuotationDocTrail_DetailView" AllowEdit="False" />
+    <DetailView Id="SalesQuotationInquiry_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="13.20754716981132">
+            <LayoutGroup Id="SalesQuotationInquiry" Caption="SalesQuotationInquiry" RelativeSize="100" Direction="Horizontal">
+              <LayoutGroup Id="Auto60a9e965-d24f-4cc7-b11f-b08e68ca5174" ShowCaption="False" Caption="" Index="0" RelativeSize="50" IsNewNode="True">
+                <LayoutItem Id="DateFrom" ViewItem="DateFrom" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                <LayoutItem Id="DateTo" ViewItem="DateTo" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="Auto95b4a6d2-76f0-4094-95c3-cb2c39f7c780" ShowCaption="False" Caption="" Index="1" RelativeSize="50" IsNewNode="True">
+                <LayoutItem Id="Status" ViewItem="Status" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                <LayoutItem Id="Item1" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutItem Id="DateFrom" Removed="True" />
+              <LayoutItem Id="DateTo" RelativeSize="48.571428571428569" Removed="True" />
+              <LayoutItem Id="Status" Removed="True" />
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="Results_Group" Direction="Vertical" RelativeSize="86.79245283018868">
+            <LayoutItem Id="Results" RelativeSize="100" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="SalesQuotationInquiry_Results_ListView">
+      <Columns>
+        <ColumnInfo Id="CardName" SortIndex="-1" SortOrder="None" />
+      </Columns>
+    </ListView>
     <DetailView Id="SalesRefundDetails_DetailView">
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">

@@ -163,5 +163,18 @@ namespace StarLaiPortal.Module.BusinessObjects
         [XafDisplayName("Draft")] Draft = 1,
         [XafDisplayName("Submitted")] Submitted = 2,
     }
+
+    public enum InquiryViewStatus
+    {
+        [XafDisplayName("All")] All = 0,
+        [XafDisplayName("Draft")] Draft = 1,
+        [XafDisplayName("Submitted")] Submitted = 2,
+        [XafDisplayName("Cancelled")] Cancelled = 3,
+        [XafDisplayName("Closed")] Closed = 4,
+        [XafDisplayName("Pending Post")] PendPost = 5,
+        [XafDisplayName("Posted")] Post = 6,
+        [XafDisplayName("Open")] Open = 7,
+        [XafDisplayName("Counting")] Counting = 8
+    }
     // End ver 1.0.15
 }

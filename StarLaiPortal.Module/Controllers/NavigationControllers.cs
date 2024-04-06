@@ -27,6 +27,7 @@ using System.Text;
 // 2023-10-23 add stock count ver 1.0.12
 // 2023-12-04 add daily delivery summary ver 1.0.13
 // 2024-01-30 - add inventory movement table - ver 1.0.14
+// 2024-04-05 - add inquiry view sp - ver 1.0.15
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -278,6 +279,21 @@ namespace StarLaiPortal.Module.Controllers
                 e.Handled = true;
             }
             // End ver 1.0.14
+
+            // Start ver 1.0.15
+            if (e.ActionArguments.SelectedChoiceActionItem.Id == "SalesQuotationInquiry_ListView")
+            {
+                XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                var nonPersistentOS = Application.CreateObjectSpace(typeof(SalesQuotationInquiry));
+                SalesQuotationInquiry list = nonPersistentOS.CreateObject<SalesQuotationInquiry>();
+
+                DetailView detailView = Application.CreateDetailView(nonPersistentOS, list);
+                detailView.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
+
+                e.ActionArguments.ShowViewParameters.CreatedView = detailView;
+                e.Handled = true;
+            }
+            // End ver 1.0.15
         }
     }
 }

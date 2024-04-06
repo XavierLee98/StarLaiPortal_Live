@@ -32,6 +32,7 @@ using StarLaiPortal.Module.BusinessObjects.Item_Inquiry;
 // 2023-09-14 - add filter into inquiry - ver 1.0.9
 // 2023-10-16 - sales order inquiry add "All" option for filter and view button - ver 1.0.11
 // 2024-01-30 - add inventory movement search button - ver 1.0.14
+// 2024-04-05 - add inquiry search button - ver 1.0.15
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -66,6 +67,9 @@ namespace StarLaiPortal.Module.Controllers
             // Start ver 1.0.14
             this.StockMovementSPSearch.Active.SetItemValue("Enabled", false);
             // End ver 1.0.14
+            // Start ver 1.0.15
+            this.InquirySearch.Active.SetItemValue("Enabled", false);
+            // End ver 1.0.15
 
             if (typeof(vwInquiryOpenPickList).IsAssignableFrom(View.ObjectTypeInfo.Type))
             {
@@ -204,6 +208,16 @@ namespace StarLaiPortal.Module.Controllers
                 }
             }
             // End ver 1.0.14
+
+            // Start ver 1.0.15
+            if (typeof(SalesQuotationInquiry).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(SalesQuotationInquiry))
+                {
+                    this.InquirySearch.Active.SetItemValue("Enabled", true);
+                }
+            }
+            // End ver 1.0.15
         }
         protected override void OnViewControlsCreated()
         {
@@ -501,7 +515,76 @@ namespace StarLaiPortal.Module.Controllers
 
             ObjectSpace.Refresh();
             View.Refresh();
+
+            persistentObjectSpace.Session.DropIdentityMap();
+            persistentObjectSpace.Dispose();
         }
         // End ver 1.0.14
+
+        // Start ver 1.0.15
+        private void InquirySearch_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            if (View.ObjectTypeInfo.Type == typeof(SalesQuotationInquiry))
+            {
+                SalesQuotationInquiry currObject = (SalesQuotationInquiry)e.CurrentObject;
+                currObject.Results.Clear();
+
+                XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
+                    new OperandValue(currObject.DateFrom.Date),
+                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("SalesQuotationInquiry"));
+
+                if (sprocData.ResultSet.Count() > 0)
+                {
+                    if (sprocData.ResultSet[0].Rows.Count() > 0)
+                    {
+                        foreach (SelectStatementResultRow row in sprocData.ResultSet[0].Rows)
+                        {
+                            SalesQuotationInquiryResult result = new SalesQuotationInquiryResult();
+
+                            result.PriKey = row.Values[0].ToString();
+                            result.PortalNo = row.Values[1].ToString();
+                            result.DocDate = DateTime.Parse(row.Values[2].ToString());
+                            result.DueDate = DateTime.Parse(row.Values[3].ToString());
+                            result.Status = row.Values[4].ToString();
+                            result.HitCreditLimit = row.Values[5].ToString();
+                            result.HitCreditTerm = row.Values[6].ToString();
+                            result.HitPriceChange = row.Values[7].ToString();
+                            result.CardGroup = row.Values[8].ToString();
+                            result.CardCode = row.Values[9].ToString();
+                            result.CardName = row.Values[10].ToString();
+                            result.ContactNo = row.Values[11].ToString();
+                            result.Transporter = row.Values[12].ToString();
+                            result.Salesperson = row.Values[13].ToString();
+                            result.Priority = row.Values[14].ToString();
+                            result.Series = row.Values[15].ToString();
+                            result.Amount = decimal.Parse(row.Values[16].ToString());
+                            result.Remarks = row.Values[17].ToString();
+                            result.PortalSONo = row.Values[18].ToString();
+                            result.SONo = row.Values[19].ToString();
+                            result.PickListNo = row.Values[20].ToString();
+                            result.PackListNo = row.Values[21].ToString();
+                            result.LoadingNo = row.Values[22].ToString();
+                            result.PortalDONo = row.Values[23].ToString();
+                            result.SAPDONo = row.Values[24].ToString();
+                            result.SAPInvNo = row.Values[25].ToString();
+                            result.CreateDate = DateTime.Parse(row.Values[26].ToString());
+                            result.PriceChange = bool.Parse(row.Values[27].ToString());
+                            result.ExceedPrice = bool.Parse(row.Values[28].ToString());
+                            result.ExceedCreditControl = bool.Parse(row.Values[29].ToString());
+
+                            currObject.Results.Add(result);
+                        }
+                    }
+                }
+
+                ObjectSpace.Refresh();
+                View.Refresh();
+
+                persistentObjectSpace.Session.DropIdentityMap();
+                persistentObjectSpace.Dispose();
+            }
+        }
+        // End ver 1.0.15
     }
 }

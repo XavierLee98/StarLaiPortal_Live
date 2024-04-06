@@ -117,6 +117,9 @@ namespace StarLaiPortal.Module.Controllers
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
             View.Refresh();
+
+            persistentObjectSpace.Session.DropIdentityMap();
+            persistentObjectSpace.Dispose();
         }
 
         private void StockCountItemSearch_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -131,6 +134,9 @@ namespace StarLaiPortal.Module.Controllers
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
             View.Refresh();
+
+            persistentObjectSpace.Session.DropIdentityMap();
+            persistentObjectSpace.Dispose();
         }
 
         private void StockCountVarianceSearch_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -148,6 +154,9 @@ namespace StarLaiPortal.Module.Controllers
                 ObjectSpace.CommitChanges();
                 ObjectSpace.Refresh();
                 View.Refresh();
+
+                persistentObjectSpace.Session.DropIdentityMap();
+                persistentObjectSpace.Dispose();
             }
             else
             {

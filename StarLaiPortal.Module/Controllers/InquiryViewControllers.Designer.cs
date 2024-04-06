@@ -38,6 +38,7 @@
             this.InquiryFilter = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             this.ViewSalesOrderInquiry = new DevExpress.ExpressApp.Actions.PopupWindowShowAction(this.components);
             this.StockMovementSPSearch = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
+            this.InquirySearch = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             // 
             // ViewOpenPickList
             // 
@@ -138,6 +139,15 @@
             this.StockMovementSPSearch.ToolTip = null;
             this.StockMovementSPSearch.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.StockMovementSPSearch_Execute);
             // 
+            // InquirySearch
+            // 
+            this.InquirySearch.Caption = "Search";
+            this.InquirySearch.Category = "ObjectsCreation";
+            this.InquirySearch.ConfirmationMessage = null;
+            this.InquirySearch.Id = "InquirySearch";
+            this.InquirySearch.ToolTip = null;
+            this.InquirySearch.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.InquirySearch_Execute);
+            // 
             // InquiryViewControllers
             // 
             this.Actions.Add(this.ViewOpenPickList);
@@ -149,6 +159,7 @@
             this.Actions.Add(this.InquiryFilter);
             this.Actions.Add(this.ViewSalesOrderInquiry);
             this.Actions.Add(this.StockMovementSPSearch);
+            this.Actions.Add(this.InquirySearch);
 
         }
 
@@ -163,5 +174,6 @@
         private DevExpress.ExpressApp.Actions.SimpleAction InquiryFilter;
         private DevExpress.ExpressApp.Actions.PopupWindowShowAction ViewSalesOrderInquiry;
         private DevExpress.ExpressApp.Actions.SimpleAction StockMovementSPSearch;
+        private DevExpress.ExpressApp.Actions.SimpleAction InquirySearch;
     }
 }
