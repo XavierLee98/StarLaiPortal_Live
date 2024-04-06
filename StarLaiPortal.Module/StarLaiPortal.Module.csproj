@@ -194,6 +194,7 @@
     <Compile Include="BusinessObjects\Load\LoadDetails.cs" />
     <Compile Include="BusinessObjects\Load\LoadDocTrail.cs" />
     <Compile Include="BusinessObjects\NonPersistents.cs" />
+    <Compile Include="BusinessObjects\NonPersistentsInquiry.cs" />
     <Compile Include="BusinessObjects\Pack List\AddPickList.cs" />
     <Compile Include="BusinessObjects\Pack List\AddPickListDetails.cs" />
     <Compile Include="BusinessObjects\Pack List\PackList.cs" />

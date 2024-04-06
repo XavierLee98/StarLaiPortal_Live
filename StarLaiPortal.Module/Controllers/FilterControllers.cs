@@ -71,7 +71,7 @@ namespace StarLaiPortal.Module.Controllers
             {
                 if (View.Id == "SalesOrder_ListView")
                 {
-                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[CreateDate] >= ? or ([Status] = ?)",
+                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[CreateDate] >= ? and ([Status] = ?)",
                         DateTime.Now.AddMonths(-3), 6);
                 }
             }

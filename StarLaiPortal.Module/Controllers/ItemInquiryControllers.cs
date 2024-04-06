@@ -182,6 +182,9 @@ namespace StarLaiPortal.Module.Controllers
                             new OperandValue(selectedObject.Stock3.WarehouseCode), new OperandValue(selectedObject.Stock4.WarehouseCode),
                             // End ver 1.0.8
                             new OperandValue(selectedObject.Method), new OperandValue(cardcode), new OperandValue(selectedObject.Oid));
+
+                        persistentObjectSpace.Session.DropIdentityMap();
+                        persistentObjectSpace.Dispose();
                     }
                     // End ver 1.0.15 
 
@@ -198,6 +201,9 @@ namespace StarLaiPortal.Module.Controllers
                             new OperandValue(selectedObject.Stock3.WarehouseCode), new OperandValue(selectedObject.Stock4.WarehouseCode),
                             // End ver 1.0.8
                             new OperandValue(selectedObject.Method), new OperandValue(cardcode), new OperandValue(selectedObject.Oid));
+
+                        persistentObjectSpace.Session.DropIdentityMap();
+                        persistentObjectSpace.Dispose();
                     }
                     // End ver 1.0.15 
 
@@ -214,6 +220,9 @@ namespace StarLaiPortal.Module.Controllers
                             new OperandValue(selectedObject.Stock3.WarehouseCode), new OperandValue(selectedObject.Stock4.WarehouseCode),
                             // End ver 1.0.8
                             new OperandValue(selectedObject.Method), new OperandValue(cardcode), new OperandValue(selectedObject.Oid));
+
+                        persistentObjectSpace.Session.DropIdentityMap();
+                        persistentObjectSpace.Dispose();
                     }
                     // End ver 1.0.15 
 
@@ -312,6 +321,8 @@ namespace StarLaiPortal.Module.Controllers
             }
 
             nonPersistentOS.CommitChanges();
+            persistentObjectSpace.Session.DropIdentityMap();
+            persistentObjectSpace.Dispose();
 
             DetailView detailView = Application.CreateDetailView(nonPersistentOS, saleslist);
             detailView.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
@@ -1149,6 +1160,8 @@ namespace StarLaiPortal.Module.Controllers
             }
 
             nonPersistentOS.CommitChanges();
+            persistentObjectSpace.Session.DropIdentityMap();
+            persistentObjectSpace.Dispose();
 
             DetailView detailView = Application.CreateDetailView(nonPersistentOS, orderstatuslist);
             detailView.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;

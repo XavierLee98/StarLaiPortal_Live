@@ -548,6 +548,9 @@ namespace StarLaiPortal.Module.Controllers
                 }
             }
 
+            persistentObjectSpace.Session.DropIdentityMap();
+            persistentObjectSpace.Dispose();
+
             e.View = Application.CreateListView(listViewId, collectionSource, true);
             // End ver 1.0.15
         }
@@ -1493,6 +1496,9 @@ namespace StarLaiPortal.Module.Controllers
                     }
                 }
             }
+
+            persistentObjectSpace.Session.DropIdentityMap();
+            persistentObjectSpace.Dispose();
 
             e.View = Application.CreateListView(listViewId, collectionSource, true);
             // End ver 1.0.15
