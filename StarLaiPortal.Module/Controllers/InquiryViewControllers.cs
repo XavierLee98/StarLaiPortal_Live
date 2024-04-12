@@ -48,10 +48,6 @@ namespace StarLaiPortal.Module.Controllers
         private DateTime Todate;
         // End ver 1.0.9
 
-        // Start ver 1.0.15
-        GeneralControllers genCon;
-        // End ver 1.0.15
-
         public InquiryViewControllers()
         {
             InitializeComponent();
@@ -89,14 +85,24 @@ namespace StarLaiPortal.Module.Controllers
                 }
             }
 
-            if (typeof(vwInquiryPickListDetails).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            // Start ver 1.0.15
+            //if (typeof(vwInquiryPickListDetails).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            //{
+            //    if (View.ObjectTypeInfo.Type == typeof(vwInquiryPickListDetails))
+            //    {
+            //        this.ViewPickListDetailInquiry.Active.SetItemValue("Enabled", true);
+            //        this.ViewPickListDetailInquiry.SelectionDependencyType = DevExpress.ExpressApp.Actions.SelectionDependencyType.RequireSingleObject;
+            //    }
+            //}
+            if (typeof(PickListDetailsInquiryResult).IsAssignableFrom(View.ObjectTypeInfo.Type))
             {
-                if (View.ObjectTypeInfo.Type == typeof(vwInquiryPickListDetails))
+                if (View.ObjectTypeInfo.Type == typeof(PickListDetailsInquiryResult))
                 {
                     this.ViewPickListDetailInquiry.Active.SetItemValue("Enabled", true);
                     this.ViewPickListDetailInquiry.SelectionDependencyType = DevExpress.ExpressApp.Actions.SelectionDependencyType.RequireSingleObject;
                 }
             }
+            // End ver 1.0.15
 
             if (typeof(vwInquiryPickList).IsAssignableFrom(View.ObjectTypeInfo.Type))
             {
@@ -290,15 +296,68 @@ namespace StarLaiPortal.Module.Controllers
                     this.InquirySearch.Active.SetItemValue("Enabled", true);
                 }
             }
+
+            if (typeof(GRPOInquiry).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(GRPOInquiry))
+                {
+                    this.InquirySearch.Active.SetItemValue("Enabled", true);
+                }
+            }
+
+            if (typeof(ASNInquiry).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(ASNInquiry))
+                {
+                    this.InquirySearch.Active.SetItemValue("Enabled", true);
+                }
+            }
+
+            if (typeof(PurchaseReturnInquiry).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(PurchaseReturnInquiry))
+                {
+                    this.InquirySearch.Active.SetItemValue("Enabled", true);
+                }
+            }
+
+            if (typeof(SalesReturnRequestInquiry).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(SalesReturnRequestInquiry))
+                {
+                    this.InquirySearch.Active.SetItemValue("Enabled", true);
+                }
+            }
+
+            if (typeof(CreditMemoInquiry).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(CreditMemoInquiry))
+                {
+                    this.InquirySearch.Active.SetItemValue("Enabled", true);
+                }
+            }
+
+            if (typeof(WarehouseTransferDetailsInquiry).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(WarehouseTransferDetailsInquiry))
+                {
+                    this.InquirySearch.Active.SetItemValue("Enabled", true);
+                }
+            }
+
+            if (typeof(StockAdjustmentDetailsInquiry).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(StockAdjustmentDetailsInquiry))
+                {
+                    this.InquirySearch.Active.SetItemValue("Enabled", true);
+                }
+            }
             // End ver 1.0.15
         }
         protected override void OnViewControlsCreated()
         {
             base.OnViewControlsCreated();
             // Access and customize the target View control. 
-            // Start ver 1.0.15
-            genCon = Frame.GetController<GeneralControllers>();
-            // End ver 1.0.15
         }
 
         protected override void OnDeactivated()
@@ -408,7 +467,10 @@ namespace StarLaiPortal.Module.Controllers
 
         private void ViewPickListDetailInquiry_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
         {
-            vwInquiryPickListDetails selectedObject = (vwInquiryPickListDetails)e.CurrentObject;
+            // Start ver 1.0.15
+            //vwInquiryPickListDetails selectedObject = (vwInquiryPickListDetails)e.CurrentObject;
+            PickListDetailsInquiryResult selectedObject = (PickListDetailsInquiryResult)e.CurrentObject;
+            // End ver 1.0.15
 
             IObjectSpace os = Application.CreateObjectSpace();
             PickList trx = os.FindObject<PickList>(new BinaryOperator("DocNum", selectedObject.PortalNo));
@@ -417,7 +479,10 @@ namespace StarLaiPortal.Module.Controllers
 
         private void ViewPickListDetailInquiry_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
         {
-            vwInquiryPickListDetails selectedObject = (vwInquiryPickListDetails)View.CurrentObject;
+            // Start ver 1.0.15
+            //vwInquiryPickListDetails selectedObject = (vwInquiryPickListDetails)View.CurrentObject;
+            PickListDetailsInquiryResult selectedObject = (PickListDetailsInquiryResult)View.CurrentObject;
+            // End ver 1.0.15
 
             IObjectSpace os = Application.CreateObjectSpace();
             PickList trx = os.FindObject<PickList>(new BinaryOperator("DocNum", selectedObject.PortalNo));
@@ -1087,32 +1152,13 @@ namespace StarLaiPortal.Module.Controllers
 
             if (View.ObjectTypeInfo.Type == typeof(PurchaseOrderInquiry))
             {
-                SqlConnection conn = new SqlConnection(genCon.getConnectionString());
-                string CompanyName = null;
                 PurchaseOrderInquiry currObject = (PurchaseOrderInquiry)e.CurrentObject;
                 currObject.Results.Clear();
-
-                string getcompany = "SELECT SAPDB FROM [" + ConfigurationManager.AppSettings.Get("CommonTable").ToString() + "]..ODBC WHERE " +
-                    "DBName = '" + conn.Database + "'";
-                if (conn.State == ConnectionState.Open)
-                {
-                    conn.Close();
-                }
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(getcompany, conn);
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    CompanyName = reader.GetString(0);
-                }
-                cmd.Dispose();
-                conn.Close();
-
                 XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
                 SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
                     new OperandValue(currObject.DateFrom.Date),
                     new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("PurchaseOrderInquiry"),
-                     new OperandValue(""), new OperandValue(CompanyName));
+                     new OperandValue(""));
 
                 if (sprocData.ResultSet.Count() > 0)
                 {
@@ -1148,6 +1194,483 @@ namespace StarLaiPortal.Module.Controllers
                             result.SAPStatus = row.Values[23].ToString();
                             result.OpenQty = Int32.Parse(row.Values[24].ToString());
                             result.LabelPrintCount = Int32.Parse(row.Values[25].ToString());
+
+                            currObject.Results.Add(result);
+                        }
+                    }
+                }
+
+                ObjectSpace.Refresh();
+                View.Refresh();
+
+                persistentObjectSpace.Session.DropIdentityMap();
+                persistentObjectSpace.Dispose();
+            }
+
+            if (View.ObjectTypeInfo.Type == typeof(GRPOInquiry))
+            {
+                GRPOInquiry currObject = (GRPOInquiry)e.CurrentObject;
+                currObject.Results.Clear();
+
+                string itemcode = null;
+
+                if (currObject.ItemCode != null)
+                {
+                    itemcode = currObject.ItemCode.ItemCode;
+                }
+                else
+                {
+                    itemcode = "All";
+                }
+
+                XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
+                    new OperandValue(currObject.DateFrom.Date),
+                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("GRPOInquiry"),
+                     new OperandValue(itemcode));
+
+                if (sprocData.ResultSet.Count() > 0)
+                {
+                    if (sprocData.ResultSet[0].Rows.Count() > 0)
+                    {
+                        foreach (SelectStatementResultRow row in sprocData.ResultSet[0].Rows)
+                        {
+                            GRPOInquiryResult result = new GRPOInquiryResult();
+
+                            result.PriKey = row.Values[0].ToString();
+                            result.PortalNo = row.Values[1].ToString();
+                            result.SAPNo = row.Values[2].ToString();
+                            result.PortalPONo = row.Values[3].ToString();
+                            result.SAPPONo = row.Values[4].ToString();
+                            result.ASNNo = row.Values[5].ToString();
+                            result.DocDate = DateTime.Parse(row.Values[6].ToString());
+                            result.Status = row.Values[7].ToString();
+                            result.CardCode = row.Values[8].ToString();
+                            result.CardName = row.Values[9].ToString();
+                            result.ItemCode = row.Values[10].ToString();
+                            result.ItemName = row.Values[11].ToString();
+                            result.LegacyItemCode = row.Values[12].ToString();
+                            result.CatalogNo = row.Values[13].ToString();
+                            result.Model =row.Values[14].ToString();
+                            result.Brand = row.Values[15].ToString();
+                            result.ASNQty = decimal.Parse(row.Values[16].ToString());
+                            result.ReceivedQty = decimal.Parse(row.Values[17].ToString());
+                            result.DiscrepancyQty = decimal.Parse(row.Values[18].ToString());
+                            result.DiscrepancyReason = row.Values[19].ToString();
+                            result.UOM = row.Values[20].ToString();
+                            result.Warehouse = row.Values[21].ToString();
+                            result.Bin = row.Values[22].ToString();
+                            result.Remark = row.Values[23].ToString();
+                            result.Reference = row.Values[24].ToString();
+
+                            currObject.Results.Add(result);
+                        }
+                    }
+                }
+
+                ObjectSpace.Refresh();
+                View.Refresh();
+
+                persistentObjectSpace.Session.DropIdentityMap();
+                persistentObjectSpace.Dispose();
+            }
+
+            if (View.ObjectTypeInfo.Type == typeof(ASNInquiry))
+            {
+                ASNInquiry currObject = (ASNInquiry)e.CurrentObject;
+                currObject.Results.Clear();
+
+                string itemcode = null;
+
+                if (currObject.ItemCode != null)
+                {
+                    itemcode = currObject.ItemCode.ItemCode;
+                }
+                else
+                {
+                    itemcode = "All";
+                }
+
+                XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
+                    new OperandValue(currObject.DateFrom.Date),
+                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("ASNInquiry"),
+                     new OperandValue(itemcode));
+
+                if (sprocData.ResultSet.Count() > 0)
+                {
+                    if (sprocData.ResultSet[0].Rows.Count() > 0)
+                    {
+                        foreach (SelectStatementResultRow row in sprocData.ResultSet[0].Rows)
+                        {
+                            ASNInquiryResult result = new ASNInquiryResult();
+
+                            result.PriKey = row.Values[0].ToString();
+                            result.PortalNo = row.Values[1].ToString();
+                            result.DocDate = DateTime.Parse(row.Values[2].ToString());
+                            result.TaxDate = DateTime.Parse(row.Values[3].ToString());
+                            result.ETADate = DateTime.Parse(row.Values[4].ToString());
+                            result.ESRDate = DateTime.Parse(row.Values[5].ToString());
+                            result.Status =row.Values[6].ToString();
+                            result.PrintStatus = row.Values[7].ToString();
+                            result.Vehicle = row.Values[8].ToString();
+                            result.Container = row.Values[9].ToString();
+                            result.CardCode = row.Values[10].ToString();
+                            result.CardName = row.Values[11].ToString();
+                            result.SAPPONo = row.Values[12].ToString();
+                            result.PortalPONo = row.Values[13].ToString();
+                            result.ItemCode = row.Values[14].ToString();
+                            result.ItemName = row.Values[15].ToString();
+                            result.LegacyItemCode = row.Values[16].ToString();
+                            result.CatalogNo = row.Values[17].ToString();
+                            result.Model = row.Values[18].ToString();
+                            result.Brand = row.Values[19].ToString();
+                            result.PlanQty = decimal.Parse(row.Values[20].ToString());
+                            result.UOM = row.Values[21].ToString();
+                            result.LoadQty = decimal.Parse(row.Values[22].ToString());
+                            result.Warehouse = row.Values[23].ToString();
+                            result.Remark = row.Values[24].ToString();
+                            result.Reference = row.Values[25].ToString();
+                            result.LabelPrintCount = Int32.Parse(row.Values[26].ToString());
+                            result.OpenQty = decimal.Parse(row.Values[27].ToString());
+                            result.Series = row.Values[28].ToString();
+                            result.SalesNumber = row.Values[29].ToString();
+
+                            currObject.Results.Add(result);
+                        }
+                    }
+                }
+
+                ObjectSpace.Refresh();
+                View.Refresh();
+
+                persistentObjectSpace.Session.DropIdentityMap();
+                persistentObjectSpace.Dispose();
+            }
+
+            if (View.ObjectTypeInfo.Type == typeof(PurchaseReturnInquiry))
+            {
+                PurchaseReturnInquiry currObject = (PurchaseReturnInquiry)e.CurrentObject;
+                currObject.Results.Clear();
+
+                string itemcode = null;
+
+                if (currObject.ItemCode != null)
+                {
+                    itemcode = currObject.ItemCode.ItemCode;
+                }
+                else
+                {
+                    itemcode = "All";
+                }
+
+                XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
+                    new OperandValue(currObject.DateFrom.Date),
+                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("PurchaseReturnInquiry"),
+                     new OperandValue(itemcode));
+
+                if (sprocData.ResultSet.Count() > 0)
+                {
+                    if (sprocData.ResultSet[0].Rows.Count() > 0)
+                    {
+                        foreach (SelectStatementResultRow row in sprocData.ResultSet[0].Rows)
+                        {
+                            PurchaseReturnInquiryResult result = new PurchaseReturnInquiryResult();
+
+                            result.PriKey = row.Values[0].ToString();
+                            result.PortalNo = row.Values[1].ToString();
+                            result.SAPNo = row.Values[2].ToString();
+                            result.SAPGRPONo = row.Values[3].ToString();
+                            result.PortalGRPONo = row.Values[4].ToString();
+                            result.DocDate = DateTime.Parse(row.Values[5].ToString());
+                            result.Status = row.Values[6].ToString();
+                            result.CardCode = row.Values[7].ToString();
+                            result.CardName = row.Values[8].ToString();
+                            result.ItemCode = row.Values[9].ToString();
+                            result.ItemName = row.Values[10].ToString();
+                            result.LegacyItemCode = row.Values[11].ToString();
+                            result.CatalogNo = row.Values[12].ToString();
+                            result.Model = row.Values[13].ToString();
+                            result.Brand = row.Values[14].ToString();
+                            result.Quantity = decimal.Parse(row.Values[15].ToString());
+                            result.UOM = row.Values[16].ToString();
+                            result.Warehouse = row.Values[17].ToString();
+                            result.Bin = row.Values[18].ToString();
+                            result.Remark = row.Values[19].ToString();
+                            result.Price = decimal.Parse(row.Values[20].ToString());
+                            result.Amount = decimal.Parse(row.Values[21].ToString());
+                            result.ReturnReason = row.Values[22].ToString();
+                            result.Reference = row.Values[23].ToString();
+                            result.Transporter = row.Values[24].ToString();
+
+                            currObject.Results.Add(result);
+                        }
+                    }
+                }
+
+                ObjectSpace.Refresh();
+                View.Refresh();
+
+                persistentObjectSpace.Session.DropIdentityMap();
+                persistentObjectSpace.Dispose();
+            }
+
+            if (View.ObjectTypeInfo.Type == typeof(SalesReturnRequestInquiry))
+            {
+                SalesReturnRequestInquiry currObject = (SalesReturnRequestInquiry)e.CurrentObject;
+                currObject.Results.Clear();
+
+                string itemcode = null;
+
+                if (currObject.ItemCode != null)
+                {
+                    itemcode = currObject.ItemCode.ItemCode;
+                }
+                else
+                {
+                    itemcode = "All";
+                }
+
+                XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
+                    new OperandValue(currObject.DateFrom.Date),
+                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("SalesReturnRequestInquiry"),
+                     new OperandValue(itemcode));
+
+                if (sprocData.ResultSet.Count() > 0)
+                {
+                    if (sprocData.ResultSet[0].Rows.Count() > 0)
+                    {
+                        foreach (SelectStatementResultRow row in sprocData.ResultSet[0].Rows)
+                        {
+                            SalesReturnRequestInquiryResult result = new SalesReturnRequestInquiryResult();
+
+                            result.PriKey = row.Values[0].ToString();
+                            result.PortalNo = row.Values[1].ToString();
+                            result.PortalReturnNo = row.Values[2].ToString();
+                            result.SAPReturnNo = row.Values[3].ToString();
+                            result.SAPCNNo = row.Values[4].ToString();
+                            result.DocDate = DateTime.Parse(row.Values[5].ToString());
+                            result.TaxDate = DateTime.Parse(row.Values[6].ToString());
+                            result.Status = row.Values[7].ToString();
+                            result.CardCode = row.Values[8].ToString();
+                            result.CardName = row.Values[9].ToString();
+                            result.Reference = row.Values[10].ToString();
+                            result.Transporter = row.Values[11].ToString();
+                            result.Remarks = row.Values[12].ToString();
+                            result.ItemCode = row.Values[13].ToString();
+                            result.ItemName = row.Values[14].ToString();
+                            result.LegacyItemCode = row.Values[15].ToString();
+                            result.CatalogNo = row.Values[16].ToString();
+                            result.Model = row.Values[17].ToString();
+                            result.Brand = row.Values[18].ToString();
+                            result.Quantity = decimal.Parse(row.Values[19].ToString());
+                            result.UOM = row.Values[20].ToString();
+                            result.ReturnReason = row.Values[21].ToString();
+                            result.Warehouse = row.Values[22].ToString();
+                            result.Bin = row.Values[23].ToString();
+                            result.Price = decimal.Parse(row.Values[24].ToString());
+                            result.Amount = decimal.Parse(row.Values[25].ToString());
+
+                            currObject.Results.Add(result);
+                        }
+                    }
+                }
+
+                ObjectSpace.Refresh();
+                View.Refresh();
+
+                persistentObjectSpace.Session.DropIdentityMap();
+                persistentObjectSpace.Dispose();
+            }
+
+            if (View.ObjectTypeInfo.Type == typeof(CreditMemoInquiry))
+            {
+                CreditMemoInquiry currObject = (CreditMemoInquiry)e.CurrentObject;
+                currObject.Results.Clear();
+
+                string itemcode = null;
+
+                if (currObject.ItemCode != null)
+                {
+                    itemcode = currObject.ItemCode.ItemCode;
+                }
+                else
+                {
+                    itemcode = "All";
+                }
+
+                XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
+                    new OperandValue(currObject.DateFrom.Date),
+                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("CreditMemoInquiry"),
+                     new OperandValue(itemcode));
+
+                if (sprocData.ResultSet.Count() > 0)
+                {
+                    if (sprocData.ResultSet[0].Rows.Count() > 0)
+                    {
+                        foreach (SelectStatementResultRow row in sprocData.ResultSet[0].Rows)
+                        {
+                            CreditMemoInquiryResult result = new CreditMemoInquiryResult();
+
+                            result.PriKey = row.Values[0].ToString();
+                            result.SAPNo = row.Values[1].ToString();
+                            result.CreateDT = DateTime.Parse(row.Values[2].ToString());
+                            result.DocDate = DateTime.Parse(row.Values[3].ToString());
+                            result.DueDate = DateTime.Parse(row.Values[4].ToString());
+                            result.Status = row.Values[5].ToString();
+                            result.CardCode = row.Values[6].ToString();
+                            result.CardName = row.Values[7].ToString();
+                            result.ItemCode = row.Values[8].ToString();
+                            result.ItemName = row.Values[9].ToString();
+                            result.OldCode = row.Values[10].ToString();
+                            result.CatalogNo = row.Values[11].ToString();
+                            result.Model = row.Values[12].ToString();
+                            result.Brand = row.Values[13].ToString();
+                            result.Quantity = decimal.Parse(row.Values[14].ToString());
+                            result.UOM = row.Values[15].ToString();
+                            result.Warehouse = row.Values[16].ToString();
+                            result.Remark = row.Values[17].ToString();
+                            result.PortalSONo = row.Values[18].ToString();
+                            result.SOSeries = row.Values[19].ToString();
+                            result.LoadingNo = row.Values[20].ToString();
+                            result.PortalInvNo = row.Values[21].ToString();
+                            result.SAPInvNo = row.Values[22].ToString();
+                            result.PortalDONo = row.Values[23].ToString();
+                            result.SAPDONo = row.Values[24].ToString();
+                            result.Transporter = row.Values[25].ToString();
+                            result.DocKey = row.Values[26].ToString();
+                            result.RowTotal = decimal.Parse(row.Values[27].ToString());
+                            result.DocTotal = decimal.Parse(row.Values[28].ToString());
+                            result.SalesReturnReason = row.Values[29].ToString();
+
+                            currObject.Results.Add(result);
+                        }
+                    }
+                }
+
+                ObjectSpace.Refresh();
+                View.Refresh();
+
+                persistentObjectSpace.Session.DropIdentityMap();
+                persistentObjectSpace.Dispose();
+            }
+
+            if (View.ObjectTypeInfo.Type == typeof(WarehouseTransferDetailsInquiry))
+            {
+                WarehouseTransferDetailsInquiry currObject = (WarehouseTransferDetailsInquiry)e.CurrentObject;
+                currObject.Results.Clear();
+
+                string itemcode = null;
+
+                if (currObject.ItemCode != null)
+                {
+                    itemcode = currObject.ItemCode.ItemCode;
+                }
+                else
+                {
+                    itemcode = "All";
+                }
+
+                XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
+                    new OperandValue(currObject.DateFrom.Date),
+                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("WarehouseTransferDetailsInquiry"),
+                     new OperandValue(itemcode));
+
+                if (sprocData.ResultSet.Count() > 0)
+                {
+                    if (sprocData.ResultSet[0].Rows.Count() > 0)
+                    {
+                        foreach (SelectStatementResultRow row in sprocData.ResultSet[0].Rows)
+                        {
+                            WarehouseTransferDetailsInquiryResult result = new WarehouseTransferDetailsInquiryResult();
+
+                            result.PriKey = row.Values[0].ToString();
+                            result.PortalNo = row.Values[1].ToString();
+                            result.SAPNo = row.Values[2].ToString();
+                            result.DocDate = DateTime.Parse(row.Values[3].ToString());
+                            result.Status = row.Values[4].ToString();
+                            result.Reference = row.Values[5].ToString();
+                            result.Remark = row.Values[6].ToString();
+                            result.ItemCode = row.Values[7].ToString();
+                            result.ItemName = row.Values[8].ToString();
+                            result.LegacyItemCode = row.Values[9].ToString();
+                            result.CatalogNo = row.Values[10].ToString();
+                            result.Model = row.Values[11].ToString();
+                            result.Brand = row.Values[12].ToString();
+                            result.Quantity = decimal.Parse(row.Values[13].ToString());
+                            result.UOM = row.Values[14].ToString();
+                            result.Warehouse = row.Values[15].ToString();
+                            result.Bin = row.Values[16].ToString();
+                            result.TransferType = row.Values[17].ToString();
+                            result.ToWarehouse = row.Values[18].ToString();
+                            result.ToBin = row.Values[19].ToString();
+
+                            currObject.Results.Add(result);
+                        }
+                    }
+                }
+
+                ObjectSpace.Refresh();
+                View.Refresh();
+
+                persistentObjectSpace.Session.DropIdentityMap();
+                persistentObjectSpace.Dispose();
+            }
+
+            if (View.ObjectTypeInfo.Type == typeof(StockAdjustmentDetailsInquiry))
+            {
+                StockAdjustmentDetailsInquiry currObject = (StockAdjustmentDetailsInquiry)e.CurrentObject;
+                currObject.Results.Clear();
+
+                string itemcode = null;
+
+                if (currObject.ItemCode != null)
+                {
+                    itemcode = currObject.ItemCode.ItemCode;
+                }
+                else
+                {
+                    itemcode = "All";
+                }
+
+                XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
+                    new OperandValue(currObject.DateFrom.Date),
+                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("StockAdjustmentDetailsInquiry"),
+                     new OperandValue(itemcode));
+
+                if (sprocData.ResultSet.Count() > 0)
+                {
+                    if (sprocData.ResultSet[0].Rows.Count() > 0)
+                    {
+                        foreach (SelectStatementResultRow row in sprocData.ResultSet[0].Rows)
+                        {
+                            StockAdjustmentDetailsInquiryResult result = new StockAdjustmentDetailsInquiryResult();
+
+                            result.PriKey = row.Values[0].ToString();
+                            result.PortalNo = row.Values[1].ToString();
+                            result.SAPNo = row.Values[2].ToString();
+                            result.DocDate = DateTime.Parse(row.Values[3].ToString());
+                            result.Status = row.Values[4].ToString();
+                            result.ItemCode = row.Values[5].ToString();
+                            result.ItemName = row.Values[6].ToString();
+                            result.LegacyItemCode = row.Values[7].ToString();
+                            result.CatalogNo = row.Values[8].ToString();
+                            result.Model = row.Values[9].ToString();
+                            result.Brand = row.Values[10].ToString();
+                            result.Quantity = decimal.Parse(row.Values[11].ToString());
+                            result.UOM = row.Values[12].ToString();
+                            result.Warehouse = row.Values[13].ToString();
+                            result.Bin = row.Values[14].ToString();
+                            result.Remark = row.Values[15].ToString();
+                            result.Price = decimal.Parse(row.Values[16].ToString());
+                            result.Amount = decimal.Parse(row.Values[17].ToString());
+                            result.ReasonCode = row.Values[18].ToString();
+                            result.CostType = row.Values[19].ToString();
 
                             currObject.Results.Add(result);
                         }
