@@ -172,7 +172,7 @@ namespace StarLaiPortal.Module.BusinessObjects
         [XafDisplayName("Cancelled")] Cancelled = 3,
         [XafDisplayName("Closed")] Closed = 4,
         [XafDisplayName("Pending Post")] PendPost = 5,
-        [XafDisplayName("Posted")] Post = 6,
+        [XafDisplayName("Posted")] Posted = 6,
         [XafDisplayName("Open")] Open = 7,
         [XafDisplayName("Counting")] Counting = 8
     }
