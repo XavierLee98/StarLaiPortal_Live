@@ -189,7 +189,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         [LookupEditorMode(LookupEditorMode.AllItems)]
         // Start ver 1.0.15
         //[DataSourceCriteria("ValidFor = 'Y' and CardType = 'C'")]
-        [DataSourceCriteria("ValidFor = 'Y' and CardType = 'C' and U_blockSales = 'Y'")]
+        [DataSourceCriteria("ValidFor = 'Y' and CardType = 'C' and U_blockSales = 'N'")]
         // End ver 1.0.15
         [Index(5), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(false)]
         public vwBusniessPartner Customer
