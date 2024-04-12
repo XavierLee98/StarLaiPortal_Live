@@ -397,6 +397,97 @@ namespace StarLaiPortal.Module.Controllers
                 e.ActionArguments.ShowViewParameters.CreatedView = detailView;
                 e.Handled = true;
             }
+
+            if (e.ActionArguments.SelectedChoiceActionItem.Id == "GRPOInquiry_ListView")
+            {
+                XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                var nonPersistentOS = Application.CreateObjectSpace(typeof(GRPOInquiry));
+                GRPOInquiry list = nonPersistentOS.CreateObject<GRPOInquiry>();
+
+                DetailView detailView = Application.CreateDetailView(nonPersistentOS, list);
+                detailView.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
+
+                e.ActionArguments.ShowViewParameters.CreatedView = detailView;
+                e.Handled = true;
+            }
+
+            if (e.ActionArguments.SelectedChoiceActionItem.Id == "ASNInquiry_ListView")
+            {
+                XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                var nonPersistentOS = Application.CreateObjectSpace(typeof(ASNInquiry));
+                ASNInquiry list = nonPersistentOS.CreateObject<ASNInquiry>();
+
+                DetailView detailView = Application.CreateDetailView(nonPersistentOS, list);
+                detailView.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
+
+                e.ActionArguments.ShowViewParameters.CreatedView = detailView;
+                e.Handled = true;
+            }
+
+            if (e.ActionArguments.SelectedChoiceActionItem.Id == "PurchaseReturnInquiry_ListView")
+            {
+                XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                var nonPersistentOS = Application.CreateObjectSpace(typeof(PurchaseReturnInquiry));
+                PurchaseReturnInquiry list = nonPersistentOS.CreateObject<PurchaseReturnInquiry>();
+
+                DetailView detailView = Application.CreateDetailView(nonPersistentOS, list);
+                detailView.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
+
+                e.ActionArguments.ShowViewParameters.CreatedView = detailView;
+                e.Handled = true;
+            }
+
+            if (e.ActionArguments.SelectedChoiceActionItem.Id == "SalesReturnRequestInquiry_ListView")
+            {
+                XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                var nonPersistentOS = Application.CreateObjectSpace(typeof(SalesReturnRequestInquiry));
+                SalesReturnRequestInquiry list = nonPersistentOS.CreateObject<SalesReturnRequestInquiry>();
+
+                DetailView detailView = Application.CreateDetailView(nonPersistentOS, list);
+                detailView.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
+
+                e.ActionArguments.ShowViewParameters.CreatedView = detailView;
+                e.Handled = true;
+            }
+
+            if (e.ActionArguments.SelectedChoiceActionItem.Id == "CreditMemoInquiry_ListView")
+            {
+                XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                var nonPersistentOS = Application.CreateObjectSpace(typeof(CreditMemoInquiry));
+                CreditMemoInquiry list = nonPersistentOS.CreateObject<CreditMemoInquiry>();
+
+                DetailView detailView = Application.CreateDetailView(nonPersistentOS, list);
+                detailView.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
+
+                e.ActionArguments.ShowViewParameters.CreatedView = detailView;
+                e.Handled = true;
+            }
+
+            if (e.ActionArguments.SelectedChoiceActionItem.Id == "WarehouseTransferDetailsInquiry_ListView")
+            {
+                XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                var nonPersistentOS = Application.CreateObjectSpace(typeof(WarehouseTransferDetailsInquiry));
+                WarehouseTransferDetailsInquiry list = nonPersistentOS.CreateObject<WarehouseTransferDetailsInquiry>();
+
+                DetailView detailView = Application.CreateDetailView(nonPersistentOS, list);
+                detailView.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
+
+                e.ActionArguments.ShowViewParameters.CreatedView = detailView;
+                e.Handled = true;
+            }
+
+            if (e.ActionArguments.SelectedChoiceActionItem.Id == "StockAdjustmentDetailsInquiry_ListView")
+            {
+                XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                var nonPersistentOS = Application.CreateObjectSpace(typeof(StockAdjustmentDetailsInquiry));
+                StockAdjustmentDetailsInquiry list = nonPersistentOS.CreateObject<StockAdjustmentDetailsInquiry>();
+
+                DetailView detailView = Application.CreateDetailView(nonPersistentOS, list);
+                detailView.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
+
+                e.ActionArguments.ShowViewParameters.CreatedView = detailView;
+                e.Handled = true;
+            }
             // End ver 1.0.15
         }
     }

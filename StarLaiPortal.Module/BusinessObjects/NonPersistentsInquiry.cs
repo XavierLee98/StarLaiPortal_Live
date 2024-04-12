@@ -2210,4 +2210,1915 @@ namespace StarLaiPortal.Module.BusinessObjects
         }
     }
     #endregion
+
+    #region GRPO Inquiry
+    [DomainComponent]
+    [NavigationItem("GRPO")]
+    [DefaultProperty("PortalNo")]
+    [Appearance("HideNew", AppearanceItemType.Action, "True", TargetItems = "New", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideDelete", AppearanceItemType.Action, "True", TargetItems = "Delete", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideEdit", AppearanceItemType.Action, "True", TargetItems = "SwitchToEditMode; Edit", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideLink", AppearanceItemType.Action, "True", TargetItems = "Link", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideUnlink", AppearanceItemType.Action, "True", TargetItems = "Unlink", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave", AppearanceItemType.Action, "True", TargetItems = "Save", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&New", AppearanceItemType.Action, "True", TargetItems = "SaveAndNew", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&Close", AppearanceItemType = "Action", TargetItems = "SaveAndClose", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideCancel", AppearanceItemType.Action, "True", TargetItems = "Cancel", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideValidate", AppearanceItemType.Action, "True", TargetItems = "ShowAllContexts", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideResetViewSetting", AppearanceItemType.Action, "True", TargetItems = "ResetViewSettings", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideExport", AppearanceItemType.Action, "True", TargetItems = "Export", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideRefresh", AppearanceItemType.Action, "True", TargetItems = "Refresh", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+
+    [XafDisplayName("GRPO Inquiry (SP)")]
+    public class GRPOInquiry
+    {
+        [Key(AutoGenerate = true), Browsable(false)]
+        public int Oid;
+
+        [XafDisplayName("Date From")]
+        [Index(0), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public DateTime DateFrom { get; set; }
+
+        [XafDisplayName("Date To")]
+        [Index(1), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public DateTime DateTo { get; set; }
+
+        [XafDisplayName("Status")]
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        [Index(2), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public InquiryViewStatus Status { get; set; }
+
+        [XafDisplayName("ItemCode")]
+        [Index(3), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public vwItemMasters ItemCode { get; set; }
+
+        public GRPOInquiry()
+        {
+            _Results = new BindingList<GRPOInquiryResult>();
+
+            DateTo = DateTime.Today;
+            DateFrom = DateTo.AddDays(-7);
+        }
+
+        private BindingList<GRPOInquiryResult> _Results;
+
+        public BindingList<GRPOInquiryResult> Results { get { return _Results; } }
+    }
+
+    [DomainComponent]
+    [NonPersistent]
+    [Appearance("HideNew", AppearanceItemType.Action, "True", TargetItems = "New", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideDelete", AppearanceItemType.Action, "True", TargetItems = "Delete", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideEdit", AppearanceItemType.Action, "True", TargetItems = "SwitchToEditMode; Edit", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideLink", AppearanceItemType.Action, "True", TargetItems = "Link", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideUnlink", AppearanceItemType.Action, "True", TargetItems = "Unlink", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave", AppearanceItemType.Action, "True", TargetItems = "Save", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&New", AppearanceItemType.Action, "True", TargetItems = "SaveAndNew", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideValidate", AppearanceItemType.Action, "True", TargetItems = "ShowAllContexts", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [XafDisplayName("GRPO Inquiry Result")]
+    public class GRPOInquiryResult
+    {
+        [DevExpress.ExpressApp.Data.Key, Browsable(false)]
+        public string PriKey;
+
+        [XafDisplayName("Portal Transaction No.")]
+        [Appearance("PortalNo", Enabled = false)]
+        [Index(3)]
+        public string PortalNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("SAP GRPO No.")]
+        [Appearance("SAPNo", Enabled = false)]
+        [Index(5)]
+        public string SAPNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("SAP PO No.")]
+        [Appearance("SAPPONo", Enabled = false)]
+        [Index(6)]
+        public string SAPPONo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Portal PO No.")]
+        [Appearance("PortalPONo", Enabled = false)]
+        [Index(8)]
+        public string PortalPONo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("ASN No.")]
+        [Appearance("ASNNo", Enabled = false)]
+        [Index(10)]
+        public string ASNNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Date")]
+        [Appearance("DocDate", Enabled = false)]
+        [Index(13)]
+        public DateTime DocDate
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Status")]
+        [Appearance("Status", Enabled = false)]
+        [Index(15)]
+        public string Status
+        {
+            get; set;
+        }
+        [XafDisplayName("Customer/Vendor Code")]
+        [Appearance("CardCode", Enabled = false)]
+        [Index(18)]
+        public string CardCode
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Customer/Vendor Name")]
+        [Appearance("CardName", Enabled = false)]
+        [Index(20)]
+        [Size(200)]
+        public string CardName
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Item Code")]
+        [Appearance("ItemCode", Enabled = false)]
+        [Index(23)]
+        public string ItemCode
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Item Name")]
+        [Appearance("ItemName", Enabled = false)]
+        [Index(25)]
+        public string ItemName
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Legacy Item Code")]
+        [Appearance("LegacyItemCode", Enabled = false)]
+        [Index(25)]
+        public string LegacyItemCode
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Catalog No")]
+        [Appearance("CatalogNo", Enabled = false)]
+        [Index(28)]
+        public string CatalogNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Model")]
+        [Appearance("Model", Enabled = false)]
+        [Index(30)]
+        public string Model
+        {
+            get; set;
+        }
+        [XafDisplayName("Brand")]
+        [Appearance("Brand", Enabled = false)]
+        [Index(33)]
+        public string Brand
+        {
+            get; set;
+        }
+
+        [XafDisplayName("ASN Qty")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("ASNQty ", Enabled = false)]
+        [Index(35)]
+        public decimal ASNQty
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Received Qty")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("ReceivedQty", Enabled = false)]
+        [Index(35)]
+        public decimal ReceivedQty
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Discrepancy Qty")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("DiscrepancyQty", Enabled = false)]
+        [Index(35)]
+        public decimal DiscrepancyQty
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Discrepancy Reason")]
+        [Appearance("DiscrepancyReason", Enabled = false)]
+        [Size(200)]
+        [Index(38)]
+        public string DiscrepancyReason
+        {
+            get; set;
+        }
+
+        [XafDisplayName("UOM")]
+        [Appearance("UOM", Enabled = false)]
+        [Index(38)]
+        public string UOM
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Warehouse")]
+        [Appearance("Warehouse", Enabled = false)]
+        [Index(40)]
+        public string Warehouse
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Bin Location")]
+        [Appearance("Bin", Enabled = false)]
+        [Index(43)]
+        public string Bin
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Remark")]
+        [Appearance("Remark", Enabled = false)]
+        [Index(45)]
+        [Size(254)]
+        public string Remark
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Reference No.")]
+        [Appearance("Reference", Enabled = false)]
+        [Index(48)]
+        public string Reference
+        {
+            get; set;
+        }
+    }
+    #endregion
+
+    #region ASN Inquiry
+    [DomainComponent]
+    [NavigationItem("Advanced Shipment Notice")]
+    [DefaultProperty("PortalNo")]
+    [Appearance("HideNew", AppearanceItemType.Action, "True", TargetItems = "New", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideDelete", AppearanceItemType.Action, "True", TargetItems = "Delete", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideEdit", AppearanceItemType.Action, "True", TargetItems = "SwitchToEditMode; Edit", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideLink", AppearanceItemType.Action, "True", TargetItems = "Link", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideUnlink", AppearanceItemType.Action, "True", TargetItems = "Unlink", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave", AppearanceItemType.Action, "True", TargetItems = "Save", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&New", AppearanceItemType.Action, "True", TargetItems = "SaveAndNew", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&Close", AppearanceItemType = "Action", TargetItems = "SaveAndClose", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideCancel", AppearanceItemType.Action, "True", TargetItems = "Cancel", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideValidate", AppearanceItemType.Action, "True", TargetItems = "ShowAllContexts", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideResetViewSetting", AppearanceItemType.Action, "True", TargetItems = "ResetViewSettings", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideExport", AppearanceItemType.Action, "True", TargetItems = "Export", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideRefresh", AppearanceItemType.Action, "True", TargetItems = "Refresh", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+
+    [XafDisplayName("ASN Inquiry (SP)")]
+    public class ASNInquiry
+    {
+        [Key(AutoGenerate = true), Browsable(false)]
+        public int Oid;
+
+        [XafDisplayName("Date From")]
+        [Index(0), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public DateTime DateFrom { get; set; }
+
+        [XafDisplayName("Date To")]
+        [Index(1), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public DateTime DateTo { get; set; }
+
+        [XafDisplayName("Status")]
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        [Index(2), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public InquiryViewStatus Status { get; set; }
+
+        [XafDisplayName("ItemCode")]
+        [Index(3), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public vwItemMasters ItemCode { get; set; }
+
+        public ASNInquiry()
+        {
+            _Results = new BindingList<ASNInquiryResult>();
+
+            DateTo = DateTime.Today;
+            DateFrom = DateTo.AddDays(-7);
+        }
+
+        private BindingList<ASNInquiryResult> _Results;
+
+        public BindingList<ASNInquiryResult> Results { get { return _Results; } }
+    }
+
+    [DomainComponent]
+    [NonPersistent]
+    [Appearance("HideNew", AppearanceItemType.Action, "True", TargetItems = "New", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideDelete", AppearanceItemType.Action, "True", TargetItems = "Delete", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideEdit", AppearanceItemType.Action, "True", TargetItems = "SwitchToEditMode; Edit", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideLink", AppearanceItemType.Action, "True", TargetItems = "Link", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideUnlink", AppearanceItemType.Action, "True", TargetItems = "Unlink", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave", AppearanceItemType.Action, "True", TargetItems = "Save", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&New", AppearanceItemType.Action, "True", TargetItems = "SaveAndNew", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideValidate", AppearanceItemType.Action, "True", TargetItems = "ShowAllContexts", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [XafDisplayName("ASN Inquiry Result")]
+    public class ASNInquiryResult
+    {
+        [DevExpress.ExpressApp.Data.Key, Browsable(false)]
+        public string PriKey;
+
+        [XafDisplayName("Portal ASN No.")]
+        [Appearance("PortalNo", Enabled = false)]
+        [Index(3)]
+        public string PortalNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Posting Date")]
+        [Appearance("DocDate", Enabled = false)]
+        [Index(5)]
+        public DateTime DocDate
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Document Date")]
+        [Appearance("TaxDate", Enabled = false)]
+        [Index(8)]
+        public DateTime TaxDate
+        {
+            get; set;
+        }
+
+        [XafDisplayName("ETA Date")]
+        [Appearance("ETADate", Enabled = false)]
+        [Index(10)]
+        public DateTime ETADate
+        {
+            get; set;
+        }
+
+        [XafDisplayName("ESR Date")]
+        [Appearance("ESRDate", Enabled = false)]
+        [Index(13)]
+        public DateTime ESRDate
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Status")]
+        [Appearance("Status", Enabled = false)]
+        [Index(15)]
+        public string Status
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Print Status")]
+        [Appearance("PrintStatus", Enabled = false)]
+        [Index(18)]
+        public string PrintStatus
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Label Print Count ")]
+        [Appearance("LabelPrintCount ", Enabled = false)]
+        [Index(19)]
+        public int LabelPrintCount
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Vehicle")]
+        [Appearance("Vehicle", Enabled = false)]
+        [Index(20)]
+        public string Vehicle
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Container")]
+        [Appearance("Container", Enabled = false)]
+        [Index(23)]
+        public string Container
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Customer/Vendor Code")]
+        [Appearance("CardCode", Enabled = false)]
+        [Index(25)]
+        public string CardCode
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Customer/Vendor Name")]
+        [Appearance("CardName", Enabled = false)]
+        [Index(28)]
+        [Size(200)]
+        public string CardName
+        {
+            get; set;
+        }
+
+        [XafDisplayName("SAP PO No.")]
+        [Appearance("SAPPONo", Enabled = false)]
+        [Index(30)]
+        public string SAPPONo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Portal PO No.")]
+        [Appearance("PortalPONo", Enabled = false)]
+        [Index(33)]
+        public string PortalPONo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Item Code")]
+        [Appearance("ItemCode", Enabled = false)]
+        [Index(35)]
+        public string ItemCode
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Item Name")]
+        [Appearance("ItemName", Enabled = false)]
+        [Index(38)]
+        [Size(200)]
+        public string ItemName
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Legacy Item Code")]
+        [Appearance("LegacyItemCode", Enabled = false)]
+        [Index(40)]
+        public string LegacyItemCode
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Catalog No")]
+        [Appearance("CatalogNo", Enabled = false)]
+        [Index(43)]
+        public string CatalogNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Model")]
+        [Appearance("Model", Enabled = false)]
+        [Index(45)]
+        public string Model
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Brand")]
+        [Appearance("Brand", Enabled = false)]
+        [Index(48)]
+        public string Brand
+        {
+            get; set;
+        }
+
+        [XafDisplayName("ASN Qty")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("PlanQty", Enabled = false)]
+        [Index(50)]
+        public decimal PlanQty
+        {
+            get; set;
+        }
+
+        [XafDisplayName("UOM")]
+        [Appearance("UOM", Enabled = false)]
+        [Index(53)]
+        public string UOM
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Received Qty")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("LoadQty", Enabled = false)]
+        [Index(55)]
+        public decimal LoadQty
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Warehouse")]
+        [Appearance("Warehouse", Enabled = false)]
+        [Index(58)]
+        public string Warehouse
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Remark")]
+        [Appearance("Remark", Enabled = false)]
+        [Index(60)]
+        [Size(254)]
+        public string Remark
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Reference No.")]
+        [Appearance("Reference", Enabled = false)]
+        [Index(63)]
+        public string Reference
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Outstanding Qty")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("OpenQty", Enabled = false)]
+        [Index(65)]
+        public decimal OpenQty
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Series")]
+        [Appearance("Series", Enabled = false)]
+        [Index(68)]
+        public string Series
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Sales Number")]
+        [Appearance("SalesNumber", Enabled = false)]
+        [Index(70)]
+        public string SalesNumber
+        {
+            get; set;
+        }
+    }
+    #endregion
+
+    #region Purchase Return Inquiry
+    [DomainComponent]
+    [NavigationItem("Purchase Return")]
+    [DefaultProperty("PortalNo")]
+    [Appearance("HideNew", AppearanceItemType.Action, "True", TargetItems = "New", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideDelete", AppearanceItemType.Action, "True", TargetItems = "Delete", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideEdit", AppearanceItemType.Action, "True", TargetItems = "SwitchToEditMode; Edit", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideLink", AppearanceItemType.Action, "True", TargetItems = "Link", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideUnlink", AppearanceItemType.Action, "True", TargetItems = "Unlink", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave", AppearanceItemType.Action, "True", TargetItems = "Save", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&New", AppearanceItemType.Action, "True", TargetItems = "SaveAndNew", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&Close", AppearanceItemType = "Action", TargetItems = "SaveAndClose", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideCancel", AppearanceItemType.Action, "True", TargetItems = "Cancel", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideValidate", AppearanceItemType.Action, "True", TargetItems = "ShowAllContexts", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideResetViewSetting", AppearanceItemType.Action, "True", TargetItems = "ResetViewSettings", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideExport", AppearanceItemType.Action, "True", TargetItems = "Export", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideRefresh", AppearanceItemType.Action, "True", TargetItems = "Refresh", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+
+    [XafDisplayName("Purchase Return Inquiry (SP)")]
+    public class PurchaseReturnInquiry
+    {
+        [Key(AutoGenerate = true), Browsable(false)]
+        public int Oid;
+
+        [XafDisplayName("Date From")]
+        [Index(0), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public DateTime DateFrom { get; set; }
+
+        [XafDisplayName("Date To")]
+        [Index(1), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public DateTime DateTo { get; set; }
+
+        [XafDisplayName("Status")]
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        [Index(2), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public InquiryViewStatus Status { get; set; }
+
+        [XafDisplayName("ItemCode")]
+        [Index(3), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public vwItemMasters ItemCode { get; set; }
+
+        public PurchaseReturnInquiry()
+        {
+            _Results = new BindingList<PurchaseReturnInquiryResult>();
+
+            DateTo = DateTime.Today;
+            DateFrom = DateTo.AddDays(-7);
+        }
+
+        private BindingList<PurchaseReturnInquiryResult> _Results;
+
+        public BindingList<PurchaseReturnInquiryResult> Results { get { return _Results; } }
+    }
+
+    [DomainComponent]
+    [NonPersistent]
+    [Appearance("HideNew", AppearanceItemType.Action, "True", TargetItems = "New", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideDelete", AppearanceItemType.Action, "True", TargetItems = "Delete", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideEdit", AppearanceItemType.Action, "True", TargetItems = "SwitchToEditMode; Edit", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideLink", AppearanceItemType.Action, "True", TargetItems = "Link", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideUnlink", AppearanceItemType.Action, "True", TargetItems = "Unlink", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave", AppearanceItemType.Action, "True", TargetItems = "Save", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&New", AppearanceItemType.Action, "True", TargetItems = "SaveAndNew", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideValidate", AppearanceItemType.Action, "True", TargetItems = "ShowAllContexts", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [XafDisplayName("Purchase Return Inquiry Result")]
+    public class PurchaseReturnInquiryResult
+    {
+        [DevExpress.ExpressApp.Data.Key, Browsable(false)]
+        public string PriKey;
+
+        [XafDisplayName("Portal Transaction No.")]
+        [Appearance("PortalNo", Enabled = false)]
+        [Index(3)]
+        public string PortalNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("SAP Transaction No.")]
+        [Appearance("SAPNo", Enabled = false)]
+        [Index(5)]
+        public string SAPNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("SAP GRPO No.")]
+        [Appearance("SAPGRPONo", Enabled = false)]
+        [Index(8)]
+        public string SAPGRPONo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Portal GRPO No.")]
+        [Appearance("PortalGRPONo", Enabled = false)]
+        [Index(10)]
+        public string PortalGRPONo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Date")]
+        [Appearance("DocDate", Enabled = false)]
+        [Index(13)]
+        public DateTime DocDate
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Status")]
+        [Appearance("Status", Enabled = false)]
+        [Index(15)]
+        public string Status
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Customer/Vendor Code")]
+        [Appearance("CardCode", Enabled = false)]
+        [Index(18)]
+        public string CardCode
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Customer/Vendor Name")]
+        [Appearance("CardName", Enabled = false)]
+        [Index(20)]
+        [Size(200)]
+        public string CardName
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Item Code")]
+        [Appearance("ItemCode", Enabled = false)]
+        [Index(23)]
+        public string ItemCode
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Item Name")]
+        [Appearance("ItemName", Enabled = false)]
+        [Index(25)]
+        [Size(200)]
+        public string ItemName
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Legacy Item Code")]
+        [Appearance("LegacyItemCode", Enabled = false)]
+        [Index(28)]
+        public string LegacyItemCode
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Catalog No")]
+        [Appearance("CatalogNo", Enabled = false)]
+        [Index(30)]
+        public string CatalogNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Model")]
+        [Appearance("Model", Enabled = false)]
+        [Index(33)]
+        public string Model
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Brand")]
+        [Appearance("Brand", Enabled = false)]
+        [Index(35)]
+        public string Brand
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Quantity")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("Quantity", Enabled = false)]
+        [Index(38)]
+        public decimal Quantity
+        {
+            get; set;
+        }
+
+        [XafDisplayName("UOM")]
+        [Appearance("UOM", Enabled = false)]
+        [Index(40)]
+        public string UOM
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Warehouse")]
+        [Appearance("Warehouse", Enabled = false)]
+        [Index(43)]
+        public string Warehouse
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Bin Location")]
+        [Appearance("Bin", Enabled = false)]
+        [Index(45)]
+        public string Bin
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Remark")]
+        [Appearance("Remark", Enabled = false)]
+        [Index(48)]
+        public string Remark
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Unit Price")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("Price", Enabled = false)]
+        [Index(50)]
+        public decimal Price
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Amount")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("Amount", Enabled = false)]
+        [Index(53)]
+        public decimal Amount
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Return Reason")]
+        [Appearance("ReturnReason", Enabled = false)]
+        [Index(55)]
+        public string ReturnReason
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Reference")]
+        [Appearance("Reference", Enabled = false)]
+        [Index(58)]
+        public string Reference
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Transporter")]
+        [Appearance("Transporter", Enabled = false)]
+        [Index(60)]
+        public string Transporter
+        {
+            get; set;
+        }
+    }
+    #endregion
+
+    #region Sales Return Request Inquiry
+    [DomainComponent]
+    [NavigationItem("Sales Return")]
+    [DefaultProperty("PortalNo")]
+    [Appearance("HideNew", AppearanceItemType.Action, "True", TargetItems = "New", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideDelete", AppearanceItemType.Action, "True", TargetItems = "Delete", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideEdit", AppearanceItemType.Action, "True", TargetItems = "SwitchToEditMode; Edit", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideLink", AppearanceItemType.Action, "True", TargetItems = "Link", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideUnlink", AppearanceItemType.Action, "True", TargetItems = "Unlink", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave", AppearanceItemType.Action, "True", TargetItems = "Save", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&New", AppearanceItemType.Action, "True", TargetItems = "SaveAndNew", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&Close", AppearanceItemType = "Action", TargetItems = "SaveAndClose", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideCancel", AppearanceItemType.Action, "True", TargetItems = "Cancel", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideValidate", AppearanceItemType.Action, "True", TargetItems = "ShowAllContexts", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideResetViewSetting", AppearanceItemType.Action, "True", TargetItems = "ResetViewSettings", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideExport", AppearanceItemType.Action, "True", TargetItems = "Export", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideRefresh", AppearanceItemType.Action, "True", TargetItems = "Refresh", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+
+    [XafDisplayName("Sales Return Request Inquiry (SP)")]
+    public class SalesReturnRequestInquiry
+    {
+        [Key(AutoGenerate = true), Browsable(false)]
+        public int Oid;
+
+        [XafDisplayName("Date From")]
+        [Index(0), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public DateTime DateFrom { get; set; }
+
+        [XafDisplayName("Date To")]
+        [Index(1), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public DateTime DateTo { get; set; }
+
+        [XafDisplayName("Status")]
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        [Index(2), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public InquiryViewStatus Status { get; set; }
+
+        [XafDisplayName("ItemCode")]
+        [Index(3), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public vwItemMasters ItemCode { get; set; }
+
+        public SalesReturnRequestInquiry()
+        {
+            _Results = new BindingList<SalesReturnRequestInquiryResult>();
+
+            DateTo = DateTime.Today;
+            DateFrom = DateTo.AddDays(-7);
+        }
+
+        private BindingList<SalesReturnRequestInquiryResult> _Results;
+
+        public BindingList<SalesReturnRequestInquiryResult> Results { get { return _Results; } }
+    }
+
+    [DomainComponent]
+    [NonPersistent]
+    [Appearance("HideNew", AppearanceItemType.Action, "True", TargetItems = "New", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideDelete", AppearanceItemType.Action, "True", TargetItems = "Delete", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideEdit", AppearanceItemType.Action, "True", TargetItems = "SwitchToEditMode; Edit", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideLink", AppearanceItemType.Action, "True", TargetItems = "Link", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideUnlink", AppearanceItemType.Action, "True", TargetItems = "Unlink", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave", AppearanceItemType.Action, "True", TargetItems = "Save", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&New", AppearanceItemType.Action, "True", TargetItems = "SaveAndNew", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideValidate", AppearanceItemType.Action, "True", TargetItems = "ShowAllContexts", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [XafDisplayName("Sales Return Request Inquiry Result")]
+    public class SalesReturnRequestInquiryResult
+    {
+        [DevExpress.ExpressApp.Data.Key, Browsable(false)]
+        public string PriKey;
+
+        [XafDisplayName("Portal SRR No.")]
+        [Appearance("PortalNo", Enabled = false)]
+        [Index(3)]
+        public string PortalNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Portal Return No.")]
+        [Appearance("PortalReturnNo", Enabled = false)]
+        [Index(5)]
+        public string PortalReturnNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("SAP Sales Return No.")]
+        [Appearance("SAPReturnNo", Enabled = false)]
+        [Index(8)]
+        public string SAPReturnNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("SAP CN No.")]
+        [Appearance("SAPCNNo", Enabled = false)]
+        [Index(10)]
+        public string SAPCNNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Posting Date")]
+        [Appearance("DocDate", Enabled = false)]
+        [Index(13)]
+        public DateTime DocDate
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Document Date")]
+        [Appearance("TaxDate", Enabled = false)]
+        [Index(15)]
+        public DateTime TaxDate
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Status")]
+        [Appearance("Status", Enabled = false)]
+        [Index(18)]
+        public string Status
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Customer Code")]
+        [Appearance("CardCode", Enabled = false)]
+        [Index(20)]
+        public string CardCode
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Customer Name")]
+        [Appearance("CardName", Enabled = false)]
+        [Index(23)]
+        public string CardName
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Reference")]
+        [Appearance("Reference", Enabled = false)]
+        [Index(25)]
+        public string Reference
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Transporter")]
+        [Appearance("Transporter", Enabled = false)]
+        [Index(28)]
+        public string Transporter
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Remarks")]
+        [Appearance("Remarks", Enabled = false)]
+        [Index(30)]
+        [Size(254)]
+        public string Remarks
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Item Code")]
+        [Appearance("ItemCode", Enabled = false)]
+        [Index(33)]
+        public string ItemCode
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Item Name")]
+        [Appearance("ItemName", Enabled = false)]
+        [Index(35)]
+        [Size(200)]
+        public string ItemName
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Legacy Item Code")]
+        [Appearance("LegacyItemCode", Enabled = false)]
+        [Index(38)]
+        public string LegacyItemCode
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Catalog No")]
+        [Appearance("CatalogNo", Enabled = false)]
+        [Index(40)]
+        public string CatalogNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Model")]
+        [Appearance("Model", Enabled = false)]
+        [Index(43)]
+        public string Model
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Brand")]
+        [Appearance("Brand", Enabled = false)]
+        [Index(45)]
+        public string Brand
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Quantity")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("Quantity", Enabled = false)]
+        [Index(48)]
+        public decimal Quantity
+        {
+            get; set;
+        }
+
+        [XafDisplayName("UOM")]
+        [Appearance("UOM", Enabled = false)]
+        [Index(50)]
+        public string UOM
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Return Reason")]
+        [Appearance("ReturnReason", Enabled = false)]
+        [Index(53)]
+        public string ReturnReason
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Warehouse")]
+        [Appearance("Warehouse", Enabled = false)]
+        [Index(55)]
+        public string Warehouse
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Bin Location")]
+        [Appearance("Bin", Enabled = false)]
+        [Index(58)]
+        public string Bin
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Unit Price")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("Price", Enabled = false)]
+        [Index(60)]
+        public decimal Price
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Amount")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("Amount", Enabled = false)]
+        [Index(63)]
+        public decimal Amount
+        {
+            get; set;
+        }
+    }
+    #endregion
+
+    #region A/R Credit Memo Inquiry
+    [DomainComponent]
+    [NavigationItem("Sales Return")]
+    [DefaultProperty("PortalNo")]
+    [Appearance("HideNew", AppearanceItemType.Action, "True", TargetItems = "New", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideDelete", AppearanceItemType.Action, "True", TargetItems = "Delete", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideEdit", AppearanceItemType.Action, "True", TargetItems = "SwitchToEditMode; Edit", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideLink", AppearanceItemType.Action, "True", TargetItems = "Link", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideUnlink", AppearanceItemType.Action, "True", TargetItems = "Unlink", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave", AppearanceItemType.Action, "True", TargetItems = "Save", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&New", AppearanceItemType.Action, "True", TargetItems = "SaveAndNew", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&Close", AppearanceItemType = "Action", TargetItems = "SaveAndClose", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideCancel", AppearanceItemType.Action, "True", TargetItems = "Cancel", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideValidate", AppearanceItemType.Action, "True", TargetItems = "ShowAllContexts", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideResetViewSetting", AppearanceItemType.Action, "True", TargetItems = "ResetViewSettings", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideExport", AppearanceItemType.Action, "True", TargetItems = "Export", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideRefresh", AppearanceItemType.Action, "True", TargetItems = "Refresh", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+
+    [XafDisplayName("A/R Credit Memo Inquiry (SP)")]
+    public class CreditMemoInquiry
+    {
+        [Key(AutoGenerate = true), Browsable(false)]
+        public int Oid;
+
+        [XafDisplayName("Date From")]
+        [Index(0), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public DateTime DateFrom { get; set; }
+
+        [XafDisplayName("Date To")]
+        [Index(1), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public DateTime DateTo { get; set; }
+
+        [XafDisplayName("Status")]
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        [Index(2), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public InquiryViewStatus Status { get; set; }
+
+        [XafDisplayName("ItemCode")]
+        [Index(3), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public vwItemMasters ItemCode { get; set; }
+
+        public CreditMemoInquiry()
+        {
+            _Results = new BindingList<CreditMemoInquiryResult>();
+
+            DateTo = DateTime.Today;
+            DateFrom = DateTo.AddDays(-7);
+        }
+
+        private BindingList<CreditMemoInquiryResult> _Results;
+
+        public BindingList<CreditMemoInquiryResult> Results { get { return _Results; } }
+    }
+
+    [DomainComponent]
+    [NonPersistent]
+    [Appearance("HideNew", AppearanceItemType.Action, "True", TargetItems = "New", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideDelete", AppearanceItemType.Action, "True", TargetItems = "Delete", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideEdit", AppearanceItemType.Action, "True", TargetItems = "SwitchToEditMode; Edit", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideLink", AppearanceItemType.Action, "True", TargetItems = "Link", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideUnlink", AppearanceItemType.Action, "True", TargetItems = "Unlink", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave", AppearanceItemType.Action, "True", TargetItems = "Save", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&New", AppearanceItemType.Action, "True", TargetItems = "SaveAndNew", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideValidate", AppearanceItemType.Action, "True", TargetItems = "ShowAllContexts", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [XafDisplayName("Credit Memo Inquiry Result")]
+    public class CreditMemoInquiryResult
+    {
+        [DevExpress.ExpressApp.Data.Key, Browsable(false)]
+        public string PriKey;
+
+        [XafDisplayName("SAP No")]
+        [Appearance("SAPNo", Enabled = false)]
+        [Index(3)]
+        public string SAPNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Create DT")]
+        [Appearance("CreateDT", Enabled = false)]
+        [Index(5)]
+        public DateTime CreateDT
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Doc Date")]
+        [Appearance("DocDate", Enabled = false)]
+        [Index(8)]
+        public DateTime DocDate
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Due Date")]
+        [Appearance("DueDate", Enabled = false)]
+        [Index(10)]
+        public DateTime DueDate
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Status")]
+        [Appearance("Status", Enabled = false)]
+        [Index(13)]
+        public string Status
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Card Code")]
+        [Appearance("CardCode", Enabled = false)]
+        [Index(15)]
+        public string CardCode
+        {
+            get; set;
+        }
+
+
+        [XafDisplayName("Card Name")]
+        [Appearance("CardName", Enabled = false)]
+        [Index(18)]
+        public string CardName
+        {
+            get; set;
+        }
+
+
+        [XafDisplayName("Item Code")]
+        [Appearance("ItemCode", Enabled = false)]
+        [Index(20)]
+        public string ItemCode
+        {
+            get; set;
+        }
+
+
+        [XafDisplayName("Item Name")]
+        [Appearance("ItemName", Enabled = false)]
+        [Index(23)]
+        public string ItemName
+        {
+            get; set;
+        }
+
+
+        [XafDisplayName("Old Code")]
+        [Appearance("OldCode", Enabled = false)]
+        [Index(25)]
+        public string OldCode
+        {
+            get; set;
+        }
+
+
+        [XafDisplayName("Catalog No")]
+        [Appearance("CatalogNo", Enabled = false)]
+        [Index(28)]
+        public string CatalogNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Model")]
+        [Appearance("Model", Enabled = false)]
+        [Index(30)]
+        public string Model
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Brand")]
+        [Appearance("Brand", Enabled = false)]
+        [Index(33)]
+        public string Brand
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Quantity")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("Quantity", Enabled = false)]
+        [Index(35)]
+        public decimal Quantity
+        {
+            get; set;
+        }
+
+        [XafDisplayName("UOM")]
+        [Appearance("UOM", Enabled = false)]
+        [Index(38)]
+        public string UOM
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Warehouse")]
+        [Appearance("Warehouse", Enabled = false)]
+        [Index(40)]
+        public string Warehouse
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Remark")]
+        [Appearance("Remark", Enabled = false)]
+        [Index(43)]
+        public string Remark
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Portal SO No")]
+        [Appearance("PortalSONo", Enabled = false)]
+        [Index(45)]
+        public string PortalSONo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("SO Series")]
+        [Appearance("SOSeries", Enabled = false)]
+        [Index(48)]
+        public string SOSeries
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Loading No")]
+        [Appearance("LoadingNo", Enabled = false)]
+        [Index(50)]
+        public string LoadingNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Portal Inv No")]
+        [Appearance("PortalInvNo", Enabled = false)]
+        [Index(53)]
+        public string PortalInvNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("SAP Inv No")]
+        [Appearance("SAPInvNo", Enabled = false)]
+        [Index(55)]
+        public string SAPInvNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Portal DO No")]
+        [Appearance("PortalDONo", Enabled = false)]
+        [Index(58)]
+        public string PortalDONo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("SAP DO No")]
+        [Appearance("SAPDONo", Enabled = false)]
+        [Index(60)]
+        public string SAPDONo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Transporter")]
+        [Appearance("Transporter", Enabled = false)]
+        [Index(63)]
+        public string Transporter
+        {
+            get; set;
+        }
+
+        [XafDisplayName("DocKey")]
+        [Appearance("DocKey", Enabled = false)]
+        [Index(65), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string DocKey
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Row Total")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("RowTotal", Enabled = false)]
+        [Index(68)]
+        public decimal RowTotal
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Doc. Total")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("DocTotal", Enabled = false)]
+        [Index(70)]
+        public decimal DocTotal
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Sales Return Reason")]
+        [Appearance("SalesReturnReason", Enabled = false)]
+        [Index(73)]
+        public string SalesReturnReason
+        {
+            get; set;
+        }
+    }
+    #endregion
+
+    #region Warehouse Transfer Details Inquiry
+    [DomainComponent]
+    [NavigationItem("Warehouse Transfer")]
+    [DefaultProperty("PortalNo")]
+    [Appearance("HideNew", AppearanceItemType.Action, "True", TargetItems = "New", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideDelete", AppearanceItemType.Action, "True", TargetItems = "Delete", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideEdit", AppearanceItemType.Action, "True", TargetItems = "SwitchToEditMode; Edit", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideLink", AppearanceItemType.Action, "True", TargetItems = "Link", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideUnlink", AppearanceItemType.Action, "True", TargetItems = "Unlink", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave", AppearanceItemType.Action, "True", TargetItems = "Save", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&New", AppearanceItemType.Action, "True", TargetItems = "SaveAndNew", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&Close", AppearanceItemType = "Action", TargetItems = "SaveAndClose", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideCancel", AppearanceItemType.Action, "True", TargetItems = "Cancel", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideValidate", AppearanceItemType.Action, "True", TargetItems = "ShowAllContexts", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideResetViewSetting", AppearanceItemType.Action, "True", TargetItems = "ResetViewSettings", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideExport", AppearanceItemType.Action, "True", TargetItems = "Export", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideRefresh", AppearanceItemType.Action, "True", TargetItems = "Refresh", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+
+    [XafDisplayName("Warehouse Transfer Details Inquiry (SP)")]
+    public class WarehouseTransferDetailsInquiry
+    {
+        [Key(AutoGenerate = true), Browsable(false)]
+        public int Oid;
+
+        [XafDisplayName("Date From")]
+        [Index(0), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public DateTime DateFrom { get; set; }
+
+        [XafDisplayName("Date To")]
+        [Index(1), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public DateTime DateTo { get; set; }
+
+        [XafDisplayName("Status")]
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        [Index(2), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public InquiryViewStatus Status { get; set; }
+
+        [XafDisplayName("ItemCode")]
+        [Index(3), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public vwItemMasters ItemCode { get; set; }
+
+        public WarehouseTransferDetailsInquiry()
+        {
+            _Results = new BindingList<WarehouseTransferDetailsInquiryResult>();
+
+            DateTo = DateTime.Today;
+            DateFrom = DateTo.AddDays(-7);
+        }
+
+        private BindingList<WarehouseTransferDetailsInquiryResult> _Results;
+
+        public BindingList<WarehouseTransferDetailsInquiryResult> Results { get { return _Results; } }
+    }
+
+    [DomainComponent]
+    [NonPersistent]
+    [Appearance("HideNew", AppearanceItemType.Action, "True", TargetItems = "New", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideDelete", AppearanceItemType.Action, "True", TargetItems = "Delete", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideEdit", AppearanceItemType.Action, "True", TargetItems = "SwitchToEditMode; Edit", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideLink", AppearanceItemType.Action, "True", TargetItems = "Link", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideUnlink", AppearanceItemType.Action, "True", TargetItems = "Unlink", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave", AppearanceItemType.Action, "True", TargetItems = "Save", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&New", AppearanceItemType.Action, "True", TargetItems = "SaveAndNew", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideValidate", AppearanceItemType.Action, "True", TargetItems = "ShowAllContexts", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [XafDisplayName("Warehouse Transfer Details Inquiry Result")]
+    public class WarehouseTransferDetailsInquiryResult
+    {
+        [DevExpress.ExpressApp.Data.Key, Browsable(false)]
+        public string PriKey;
+
+        [XafDisplayName("Portal Transfer Req. No.")]
+        [Appearance("PortalNo", Enabled = false)]
+        [Index(3)]
+        public string PortalNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("SAP Transfer No.")]
+        [Appearance("SAPNo", Enabled = false)]
+        [Index(5)]
+        public string SAPNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Posting Date")]
+        [Appearance("DocDate", Enabled = false)]
+        [Index(8)]
+        public DateTime DocDate
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Status")]
+        [Appearance("Status", Enabled = false)]
+        [Index(10)]
+        public string Status
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Reference")]
+        [Appearance("Reference", Enabled = false)]
+        [Index(13)]
+        public string Reference
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Remark")]
+        [Appearance("Remark", Enabled = false)]
+        [Index(15)]
+        [Size(254)]
+        public string Remark
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Item Code")]
+        [Appearance("ItemCode", Enabled = false)]
+        [Index(18)]
+        public string ItemCode
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Item Name")]
+        [Appearance("ItemName", Enabled = false)]
+        [Index(20)]
+        public string ItemName
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Legacy Item Code")]
+        [Appearance("LegacyItemCode", Enabled = false)]
+        [Index(23)]
+        public string LegacyItemCode
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Catalog No")]
+        [Appearance("CatalogNo", Enabled = false)]
+        [Index(25)]
+        public string CatalogNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Model")]
+        [Appearance("Model", Enabled = false)]
+        [Index(28)]
+        public string Model
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Brand")]
+        [Appearance("Brand", Enabled = false)]
+        [Index(30)]
+        public string Brand
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Quantity")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("Quantity", Enabled = false)]
+        [Index(33)]
+        public decimal Quantity
+        {
+            get; set;
+        }
+
+        [XafDisplayName("UOM")]
+        [Appearance("UOM", Enabled = false)]
+        [Index(35)]
+        public string UOM
+        {
+            get; set;
+        }
+
+        [XafDisplayName("From Warehouse")]
+        [Appearance("Warehouse", Enabled = false)]
+        [Index(38)]
+        public string Warehouse
+        {
+            get; set;
+        }
+
+        [XafDisplayName("From Bin")]
+        [Appearance("Bin", Enabled = false)]
+        [Index(40)]
+        public string Bin
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Transfer Type")]
+        [Appearance("TransferType ", Enabled = false)]
+        [Index(43)]
+        public string TransferType
+        {
+            get; set;
+        }
+
+        [XafDisplayName("To Warehouse")]
+        [Appearance("ToWarehouse", Enabled = false)]
+        [Index(45)]
+        public string ToWarehouse
+        {
+            get; set;
+        }
+
+        [XafDisplayName("To Bin")]
+        [Appearance("ToBin", Enabled = false)]
+        [Index(48)]
+        public string ToBin
+        {
+            get; set;
+        }
+    }
+    #endregion
+
+    #region Stock Adjustment Details Inquiry
+    [DomainComponent]
+    [NavigationItem("Stock Adjustment")]
+    [DefaultProperty("PortalNo")]
+    [Appearance("HideNew", AppearanceItemType.Action, "True", TargetItems = "New", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideDelete", AppearanceItemType.Action, "True", TargetItems = "Delete", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideEdit", AppearanceItemType.Action, "True", TargetItems = "SwitchToEditMode; Edit", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideLink", AppearanceItemType.Action, "True", TargetItems = "Link", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideUnlink", AppearanceItemType.Action, "True", TargetItems = "Unlink", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave", AppearanceItemType.Action, "True", TargetItems = "Save", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&New", AppearanceItemType.Action, "True", TargetItems = "SaveAndNew", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&Close", AppearanceItemType = "Action", TargetItems = "SaveAndClose", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideCancel", AppearanceItemType.Action, "True", TargetItems = "Cancel", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideValidate", AppearanceItemType.Action, "True", TargetItems = "ShowAllContexts", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideResetViewSetting", AppearanceItemType.Action, "True", TargetItems = "ResetViewSettings", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideExport", AppearanceItemType.Action, "True", TargetItems = "Export", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideRefresh", AppearanceItemType.Action, "True", TargetItems = "Refresh", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+
+    [XafDisplayName("Stock Adjustment Details Inquiry (SP)")]
+    public class StockAdjustmentDetailsInquiry
+    {
+        [Key(AutoGenerate = true), Browsable(false)]
+        public int Oid;
+
+        [XafDisplayName("Date From")]
+        [Index(0), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public DateTime DateFrom { get; set; }
+
+        [XafDisplayName("Date To")]
+        [Index(1), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public DateTime DateTo { get; set; }
+
+        [XafDisplayName("Status")]
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        [Index(2), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public InquiryViewStatus Status { get; set; }
+
+        [XafDisplayName("ItemCode")]
+        [Index(3), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
+        public vwItemMasters ItemCode { get; set; }
+
+        public StockAdjustmentDetailsInquiry()
+        {
+            _Results = new BindingList<StockAdjustmentDetailsInquiryResult>();
+
+            DateTo = DateTime.Today;
+            DateFrom = DateTo.AddDays(-7);
+        }
+
+        private BindingList<StockAdjustmentDetailsInquiryResult> _Results;
+
+        public BindingList<StockAdjustmentDetailsInquiryResult> Results { get { return _Results; } }
+    }
+
+    [DomainComponent]
+    [NonPersistent]
+    [Appearance("HideNew", AppearanceItemType.Action, "True", TargetItems = "New", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideDelete", AppearanceItemType.Action, "True", TargetItems = "Delete", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideEdit", AppearanceItemType.Action, "True", TargetItems = "SwitchToEditMode; Edit", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideLink", AppearanceItemType.Action, "True", TargetItems = "Link", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideUnlink", AppearanceItemType.Action, "True", TargetItems = "Unlink", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave", AppearanceItemType.Action, "True", TargetItems = "Save", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideSave&New", AppearanceItemType.Action, "True", TargetItems = "SaveAndNew", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideValidate", AppearanceItemType.Action, "True", TargetItems = "ShowAllContexts", Visibility = ViewItemVisibility.Hide, Context = "Any")]
+    [XafDisplayName("Stock Adjustment Details Inquiry Result")]
+    public class StockAdjustmentDetailsInquiryResult
+    {
+        [DevExpress.ExpressApp.Data.Key, Browsable(false)]
+        public string PriKey;
+
+        [XafDisplayName("Portal Transaction No.")]
+        [Appearance("PortalNo", Enabled = false)]
+        [Index(3)]
+        public string PortalNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("SAP Transaction No.")]
+        [Appearance("SAPNo", Enabled = false)]
+        [Index(5)]
+        public string SAPNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Posting Date")]
+        [Appearance("DocDate", Enabled = false)]
+        [Index(8)]
+        public DateTime DocDate
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Status")]
+        [Appearance("Status", Enabled = false)]
+        [Index(10)]
+        public string Status
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Item Code")]
+        [Appearance("ItemCode", Enabled = false)]
+        [Index(13)]
+        public string ItemCode
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Item Name")]
+        [Appearance("ItemName", Enabled = false)]
+        [Index(15)]
+        [Size(200)]
+        public string ItemName
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Legacy Item Code")]
+        [Appearance("LegacyItemCode", Enabled = false)]
+        [Index(18)]
+        public string LegacyItemCode
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Catalog No")]
+        [Appearance("CatalogNo", Enabled = false)]
+        [Index(20)]
+        public string CatalogNo
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Model")]
+        [Appearance("Model", Enabled = false)]
+        [Index(23)]
+        public string Model
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Brand")]
+        [Appearance("Brand", Enabled = false)]
+        [Index(25)]
+        public string Brand
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Quantity")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("Quantity", Enabled = false)]
+        [Index(28)]
+        public decimal Quantity
+        {
+            get; set;
+        }
+
+        [XafDisplayName("UOM")]
+        [Appearance("UOM", Enabled = false)]
+        [Index(30)]
+        public string UOM
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Warehouse")]
+        [Appearance("Warehouse", Enabled = false)]
+        [Index(33)]
+        public string Warehouse
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Bin Location")]
+        [Appearance("Bin", Enabled = false)]
+        [Index(35)]
+        public string Bin
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Remark")]
+        [Appearance("Remark", Enabled = false)]
+        [Index(38)]
+        [Size(254)]
+        public string Remark
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Unit Price")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("Price", Enabled = false)]
+        [Index(40)]
+        public decimal Price
+        {
+            get; set;
+        }
+
+
+        [XafDisplayName("Amount")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("Amount", Enabled = false)]
+        [Index(43)]
+        public decimal Amount
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Reason Code")]
+        [Appearance("ReasonCode", Enabled = false)]
+        [Index(45)]
+        public string ReasonCode
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Cost Type")]
+        [Appearance("CostType", Enabled = false)]
+        [Index(48)]
+        public string CostType
+        {
+            get; set;
+        }
+    }
+    #endregion
 }
