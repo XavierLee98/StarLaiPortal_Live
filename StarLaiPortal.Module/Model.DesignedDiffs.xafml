@@ -389,7 +389,7 @@
         <Items>
           <Item Id="SalesQuotation_ListView" Index="0" />
           <Item Id="Sales Quotation Approval" Caption="Sales Quotation - Approval" Index="1" ViewId="SalesQuotation_ListView_Approval" IsNewNode="True" />
-          <Item Id="vwInquirySalesQuotation_ListView" Index="2" />
+          <Item Id="vwInquirySalesQuotation_ListView" Index="2" Visible="False" />
           <Item Id="vwInquirySalesQuotationDetails_ListView" QuickAccessItem="True" Visible="False" />
         </Items>
       </Item>
@@ -399,6 +399,7 @@
           <Item Id="SalesOrderCollection_ListView" Index="1" />
           <Item Id="SalesOrderCollectionReport_ListView" Index="2" />
           <Item Id="vwInquirySalesOrder_ListView" Index="3" />
+          <Item Id="vwInquiryARDownpayment_ListView" Visible="False" />
           <Item Id="vwInquirySalesOrderDetails_ListView" Visible="False" />
         </Items>
       </Item>
@@ -420,21 +421,34 @@
           <Item Id="PickList_ListView" Index="0" />
           <Item Id="vwInquiryOpenPickList_ListView" Index="1" />
           <Item Id="vwInquiryPickList_ListView" Index="2" />
-          <Item Id="vwInquiryPickListDetails_ListView" QuickAccessItem="True" Visible="True" Index="3" />
+          <Item Id="vwInquiryPickListDetails_ListView" QuickAccessItem="True" Visible="False" Index="3" />
         </Items>
       </Item>
-      <Item Id="Pack List" Index="11" />
+      <Item Id="Pack List" Index="11">
+        <Items>
+          <Item Id="PackList_ListView" Index="0" />
+          <Item Id="vwInquiryBundleID_ListView" QuickAccessItem="False" Index="1" Visible="False" />
+          <Item Id="BundleIDInquiry_ListView" Index="2" QuickAccessItem="False" />
+          <Item Id="vwInquiryPackList_ListView" Index="3" QuickAccessItem="False" Visible="False" />
+          <Item Id="PackListInquiry_ListView" Index="4" />
+        </Items>
+      </Item>
       <Item Id="Loading Bay" Index="12">
         <Items>
-          <Item Id="vwInquiryLoadingDetails_ListView" QuickAccessItem="False" Visible="False" />
+          <Item Id="Load_ListView" Index="0" />
+          <Item Id="vwInquiryLoadingDetails_ListView" QuickAccessItem="False" Visible="False" Index="1" />
+          <Item Id="vwInquiryLoading_ListView" Index="2" Visible="False" />
+          <Item Id="LoadingInquiry_ListView" Index="3" />
         </Items>
       </Item>
       <Item Id="Delivery Order" Index="13">
         <Items>
           <Item Id="DeliveryOrder_ListView" Index="0" />
-          <Item Id="vwInquiryDelivery_ListView" Index="1" />
-          <Item Id="vwInquiryInvoice_ListView" Index="2" />
-          <Item Id="DailyDeliveryOrders_ListView" Index="3" />
+          <Item Id="vwInquiryDelivery_ListView" Index="1" Visible="False" />
+          <Item Id="DeliveryInquiry_ListView" Index="2" />
+          <Item Id="vwInquiryInvoice_ListView" Index="3" Visible="False" />
+          <Item Id="InvoiceInquiry_ListView" Index="4" />
+          <Item Id="DailyDeliveryOrders_ListView" Index="5" />
         </Items>
       </Item>
       <Item Id="Purchase Order" Index="14">
@@ -723,6 +737,32 @@
     <DetailView Id="ARDownpaymentCancellationAppStage_DetailView" AllowEdit="False" />
     <DetailView Id="ARDownpaymentCancellationAppStatus_DetailView" AllowEdit="False" />
     <DetailView Id="ARDownpaymentCancellationDocTrail_DetailView" AllowEdit="False" />
+    <DetailView Id="ARDownpaymentInquiry_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="14.675052410901468">
+            <LayoutGroup Id="ARDownpaymentInquiry" Caption="ARDownpaymentInquiry" RelativeSize="100" Direction="Horizontal">
+              <LayoutGroup Id="Auto522d3464-0a4a-4491-8a7b-30eaaaad1cc6" ShowCaption="False" Caption="" Index="0" RelativeSize="49.940688018979834" IsNewNode="True">
+                <LayoutItem Id="DateFrom" ViewItem="DateFrom" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                <LayoutItem Id="DateTo" ViewItem="DateTo" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="Autoaebfcb9c-f00f-4966-9f9e-b66975532154" ShowCaption="False" Caption="" Index="1" RelativeSize="50.059311981020166" IsNewNode="True">
+                <LayoutItem Id="Status" ViewItem="Status" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                <LayoutItem Id="Item1" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutItem Id="DateFrom" Removed="True" />
+              <LayoutItem Id="DateTo" RelativeSize="48.571428571428569" Removed="True" />
+              <LayoutItem Id="Status" Removed="True" />
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="Results_Group" Direction="Vertical" RelativeSize="85.324947589098528">
+            <LayoutItem Id="Results" RelativeSize="100" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="ARDownpaymentInquiry_Results_ListView" AllowEdit="False" />
+    <DetailView Id="ARDownpaymentInquiryResult_DetailView" AllowEdit="False" />
     <ListView Id="ASN_ASNDetails_ListView" AllowEdit="True" />
     <ListView Id="ASN_AuditTrail_ListView" AllowLink="False" AllowNew="False" AllowUnlink="False" AllowDelete="False">
       <Columns>
@@ -885,6 +925,36 @@
     </DetailView>
     <DetailView Id="ASNDocTrail_DetailView" AllowEdit="False" />
     <DetailView Id="AuditDataItemPersistent_DetailView" AllowEdit="False" />
+    <DetailView Id="BundleIDInquiry_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="14.675052410901468">
+            <LayoutGroup Id="BundleIDInquiry" Caption="BundleIDInquiry" RelativeSize="100" Direction="Horizontal">
+              <LayoutGroup Id="Auto379e3ce8-b4b1-4bd3-8bec-3962b864d38e" ShowCaption="False" Caption="" Index="0" RelativeSize="49.896694214876035" IsNewNode="True">
+                <LayoutItem Id="DateFrom" ViewItem="DateFrom" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                <LayoutItem Id="DateTo" ViewItem="DateTo" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="Autode93a521-b584-4460-b59a-9f38a51bfd64" ShowCaption="False" Caption="" Index="1" RelativeSize="50.103305785123965" IsNewNode="True">
+                <LayoutItem Id="ItemCode" ViewItem="ItemCode" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                <LayoutItem Id="Item1" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutItem Id="DateFrom" Removed="True" />
+              <LayoutItem Id="DateTo" RelativeSize="48.571428571428569" Removed="True" />
+              <LayoutItem Id="ItemCode" Removed="True" />
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="Results_Group" Direction="Vertical" RelativeSize="85.324947589098528">
+            <LayoutItem Id="Results" RelativeSize="100" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="BundleIDInquiry_Results_ListView">
+      <Columns>
+        <ColumnInfo Id="ItemName" SortIndex="-1" SortOrder="None" />
+      </Columns>
+    </ListView>
+    <DetailView Id="BundleIDInquiryResult_DetailView" AllowEdit="False" />
     <ListView Id="BundleType_AuditTrail_ListView" AllowDelete="False" AllowLink="False" AllowNew="False">
       <Columns>
         <ColumnInfo Id="PropertyName" Index="-1" />
@@ -973,6 +1043,37 @@
         <ColumnInfo Id="Department" SortOrder="Ascending" GroupIndex="0" Index="14" />
       </Columns>
     </ListView>
+    <DetailView Id="DeliveryInquiry_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="14.675052410901468">
+            <LayoutGroup Id="DeliveryInquiry" RelativeSize="100" Direction="Horizontal">
+              <LayoutGroup Id="Autoc05c4cda-27cc-4c85-8347-0e37c31efa25" ShowCaption="False" Caption="" Index="0" RelativeSize="49.941383352872215" IsNewNode="True">
+                <LayoutItem Id="DateFrom" ViewItem="DateFrom" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                <LayoutItem Id="DateTo" ViewItem="DateTo" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="Auto58b27774-374c-4bc5-ae6e-ae7e413afb5d" ShowCaption="False" Caption="" Index="1" RelativeSize="50.058616647127785" IsNewNode="True">
+                <LayoutItem Id="Status" ViewItem="Status" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                <LayoutItem Id="ItemCode" ViewItem="ItemCode" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutItem Id="ItemCode" Index="2" RelativeSize="35.416666666666664" Removed="True" />
+              <LayoutItem Id="DateFrom" Removed="True" />
+              <LayoutItem Id="DateTo" RelativeSize="27.083333333333332" Removed="True" />
+              <LayoutItem Id="Status" Removed="True" />
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="Results_Group" Direction="Vertical" RelativeSize="85.324947589098528">
+            <LayoutItem Id="Results" RelativeSize="100" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="DeliveryInquiry_Results_ListView">
+      <Columns>
+        <ColumnInfo Id="CardName" SortIndex="-1" SortOrder="None" />
+      </Columns>
+    </ListView>
+    <DetailView Id="DeliveryInquiryResult_DetailView" AllowEdit="False" />
     <ListView Id="DeliveryOrder_AuditTrail_ListView" AllowDelete="False" AllowLink="False" AllowNew="False">
       <Columns>
         <ColumnInfo Id="PropertyName" Index="-1" />
@@ -1278,6 +1379,37 @@
       </Layout>
     </DetailView>
     <DetailView Id="GRNDocTrail_DetailView" AllowEdit="False" />
+    <DetailView Id="InvoiceInquiry_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="14.675052410901468">
+            <LayoutGroup Id="InvoiceInquiry" RelativeSize="100" Direction="Horizontal">
+              <LayoutGroup Id="Auto3b461af4-6017-47d8-a044-ee31ff8d3d0c" ShowCaption="False" Caption="" Index="0" RelativeSize="49.941520467836256" IsNewNode="True">
+                <LayoutItem Id="DateFrom" ViewItem="DateFrom" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                <LayoutItem Id="DateTo" ViewItem="DateTo" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="Autoa5182fef-5662-416b-8db6-c227727175bd" ShowCaption="False" Caption="" Index="1" RelativeSize="50.058479532163744" IsNewNode="True">
+                <LayoutItem Id="Status" ViewItem="Status" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                <LayoutItem Id="ItemCode" ViewItem="ItemCode" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutItem Id="ItemCode" Index="2" RelativeSize="35.416666666666664" Removed="True" />
+              <LayoutItem Id="DateFrom" Removed="True" />
+              <LayoutItem Id="DateTo" RelativeSize="27.083333333333332" Removed="True" />
+              <LayoutItem Id="Status" Removed="True" />
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="Results_Group" Direction="Vertical" RelativeSize="85.324947589098528">
+            <LayoutItem Id="Results" RelativeSize="100" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="InvoiceInquiry_Results_ListView">
+      <Columns>
+        <ColumnInfo Id="CardName" SortIndex="-1" SortOrder="None" />
+      </Columns>
+    </ListView>
+    <DetailView Id="InvoiceInquiryResult_DetailView" AllowEdit="False" />
     <DetailView Id="ItemInquiry_DetailView" AllowEdit="True">
       <Items>
         <ActionContainerViewItem Id="Button" Caption="Button" ActionContainer="ListView" Orientation="Vertical" IsNewNode="True" />
@@ -1802,6 +1934,31 @@
     <ListView Id="Load_ListView" DataAccessMode="Client" />
     <DetailView Id="LoadDetails_DetailView" AllowEdit="False" />
     <DetailView Id="LoadDocTrail_DetailView" AllowEdit="False" />
+    <DetailView Id="LoadingInquiry_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="14.675052410901468">
+            <LayoutGroup Id="LoadingInquiry" Caption="LoadingInquiry" RelativeSize="100" Direction="Horizontal">
+              <LayoutGroup Id="Auto9489f0db-5470-4a7b-8331-4649289328ea" ShowCaption="False" Caption="" Index="0" RelativeSize="50" IsNewNode="True">
+                <LayoutItem Id="DateFrom" ViewItem="DateFrom" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                <LayoutItem Id="DateTo" ViewItem="DateTo" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="Auto0a8941c6-ad6e-4c36-862c-bae938c22206" ShowCaption="False" Caption="" Index="1" RelativeSize="50" IsNewNode="True">
+                <LayoutItem Id="Status" ViewItem="Status" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                <LayoutItem Id="Item1" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutItem Id="DateFrom" Removed="True" />
+              <LayoutItem Id="DateTo" RelativeSize="48.571428571428569" Removed="True" />
+              <LayoutItem Id="Status" Removed="True" />
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="Results_Group" Direction="Vertical" RelativeSize="85.324947589098528">
+            <LayoutItem Id="Results" RelativeSize="100" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <DetailView Id="LoadingInquiryResult_DetailView" AllowEdit="False" />
     <DetailView Id="OrderStatus_DetailView" AllowEdit="False" />
     <DetailView Id="OrderStatusList_DetailView" AllowEdit="True" />
     <ListView Id="OrderStatusList_Orderstatus_ListView">
@@ -1901,6 +2058,37 @@
     </DetailView>
     <ListView Id="PackList_ListView" DataAccessMode="Client" />
     <DetailView Id="PackListDocTrail_DetailView" AllowEdit="False" />
+    <DetailView Id="PackListInquiry_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="14.675052410901468">
+            <LayoutGroup Id="PackListInquiry" RelativeSize="100" Direction="Horizontal">
+              <LayoutGroup Id="Auto31c63de7-b999-435e-99b9-d20124ff7a32" ShowCaption="False" Caption="" Index="0" RelativeSize="49.896907216494846" IsNewNode="True">
+                <LayoutItem Id="DateFrom" ViewItem="DateFrom" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                <LayoutItem Id="DateTo" ViewItem="DateTo" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="Autobdbd973f-29b2-4f6a-b862-9e62f9e4a9d7" ShowCaption="False" Caption="" Index="1" RelativeSize="50.103092783505154" IsNewNode="True">
+                <LayoutItem Id="Status" ViewItem="Status" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                <LayoutItem Id="ItemCode" ViewItem="ItemCode" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutItem Id="ItemCode" Index="2" RelativeSize="35.416666666666664" Removed="True" />
+              <LayoutItem Id="DateFrom" Removed="True" />
+              <LayoutItem Id="DateTo" RelativeSize="27.083333333333332" Removed="True" />
+              <LayoutItem Id="Status" Removed="True" />
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="Results_Group" Direction="Vertical" RelativeSize="85.324947589098528">
+            <LayoutItem Id="Results" RelativeSize="100" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="PackListInquiry_Results_ListView">
+      <Columns>
+        <ColumnInfo Id="CardName" SortIndex="-1" SortOrder="None" />
+      </Columns>
+    </ListView>
+    <DetailView Id="PackListInquiryResult_DetailView" AllowEdit="False" />
     <ListView Id="PaymentType_AuditTrail_ListView" AllowDelete="False" AllowLink="False" AllowNew="False">
       <Columns>
         <ColumnInfo Id="PropertyName" Index="-1" />
@@ -2074,6 +2262,37 @@
     </ListView>
     <ListView Id="PickList_PickListDetails_ListView" AllowEdit="True" />
     <ListView Id="PickList_PickListDetailsActual_ListView" AllowEdit="True" />
+    <DetailView Id="PickListDetailsInquiry_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="14.675052410901468">
+            <LayoutGroup Id="PickListDetailsInquiry" RelativeSize="100" Direction="Horizontal">
+              <LayoutGroup Id="Autof0ee1aaa-f185-431f-bb82-3e3cdfe6beb3" ShowCaption="False" Caption="" Index="0" RelativeSize="50" IsNewNode="True">
+                <LayoutItem Id="DateFrom" ViewItem="DateFrom" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                <LayoutItem Id="DateTo" ViewItem="DateTo" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="Autof88ca6ae-b7be-4a1c-a959-11c53758e976" ShowCaption="False" Caption="" Index="1" RelativeSize="50" IsNewNode="True">
+                <LayoutItem Id="Status" ViewItem="Status" Index="0" RelativeSize="51.428571428571431" IsNewNode="True" />
+                <LayoutItem Id="ItemCode" ViewItem="ItemCode" Index="1" RelativeSize="48.571428571428569" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutItem Id="ItemCode" Index="2" RelativeSize="35.416666666666664" Removed="True" />
+              <LayoutItem Id="DateFrom" Removed="True" />
+              <LayoutItem Id="DateTo" RelativeSize="27.083333333333332" Removed="True" />
+              <LayoutItem Id="Status" Removed="True" />
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="Results_Group" Direction="Vertical" RelativeSize="85.324947589098528">
+            <LayoutItem Id="Results" RelativeSize="100" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="PickListDetailsInquiry_Results_ListView">
+      <Columns>
+        <ColumnInfo Id="CardName" SortIndex="-1" SortOrder="None" />
+      </Columns>
+    </ListView>
+    <DetailView Id="PickListDetailsInquiryResult_DetailView" AllowEdit="False" />
     <DetailView Id="PickListDocTrail_DetailView" AllowEdit="False" />
     <DetailView Id="PickListSO_DetailView" AllowEdit="False" />
     <ListView Id="PickListSO_ListView">
@@ -3725,6 +3944,7 @@
         <ColumnInfo Id="CardName" SortIndex="-1" SortOrder="None" />
       </Columns>
     </ListView>
+    <DetailView Id="SalesQuotationInquiryResult_DetailView" AllowEdit="False" />
     <DetailView Id="SalesRefundDetails_DetailView">
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
