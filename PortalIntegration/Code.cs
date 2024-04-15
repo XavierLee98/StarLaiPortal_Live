@@ -1591,6 +1591,7 @@ namespace PortalIntegration
                             #endregion
                         }
                     }
+                    cmdsq.Dispose();
                     conn.Close();
 
                     #endregion

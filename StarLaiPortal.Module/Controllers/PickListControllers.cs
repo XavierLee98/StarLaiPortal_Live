@@ -414,6 +414,7 @@ namespace StarLaiPortal.Module.Controllers
                         {
                             socnt++;
                         }
+                        cmd.Dispose();
                         conn.Close();
                             
                         if (socnt == 0)
@@ -1370,6 +1371,7 @@ namespace StarLaiPortal.Module.Controllers
                             {
                                 socnt++;
                             }
+                            cmd.Dispose();
                             conn.Close();
 
                             if (socnt == 0)

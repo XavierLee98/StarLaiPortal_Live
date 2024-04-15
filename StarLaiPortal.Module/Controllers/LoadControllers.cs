@@ -463,6 +463,7 @@ namespace StarLaiPortal.Module.Controllers
                         deiveryos.CommitChanges();
                     }
                 }
+                cmd.Dispose();
                 conn.Close();
 
                 ObjectSpace.CommitChanges();

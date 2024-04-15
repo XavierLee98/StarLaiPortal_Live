@@ -298,6 +298,8 @@ namespace StarLaiPortal.Module.Controllers
                                     trx.PONo = reader.GetString(0);
                                 }
                             }
+                            cmd.Dispose();
+                            conn.Close();
                         }
 
                         os.CommitChanges();
@@ -473,6 +475,8 @@ namespace StarLaiPortal.Module.Controllers
                                     trx.PONo = reader.GetString(0);
                                 }
                             }
+                            cmd.Dispose();
+                            conn.Close();
                         }
 
                         os.CommitChanges();
