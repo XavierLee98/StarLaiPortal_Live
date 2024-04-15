@@ -687,6 +687,7 @@ namespace StarLaiPortal.Module.Controllers
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(deleterecord, conn);
                 SqlDataReader reader = cmd.ExecuteReader();
+                cmd.Dispose();
                 conn.Close();
 
                 ObjectSpace.CommitChanges();

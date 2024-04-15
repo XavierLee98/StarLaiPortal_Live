@@ -207,6 +207,7 @@ namespace StarLaiPortal.Module.Controllers
             {
                 sapdb = reader.GetString(0);
             }
+            cmd.Dispose();
             conn.Close();
 
             if (sapdb != null && docentry > 0)
@@ -224,6 +225,7 @@ namespace StarLaiPortal.Module.Controllers
                     error = reader1.GetString(0);
                     break;
                 }
+                cmd1.Dispose();
                 conn.Close();
             }
 
@@ -292,6 +294,7 @@ namespace StarLaiPortal.Module.Controllers
             {
                 sapdb = reader.GetString(0);
             }
+            cmd.Dispose();
             conn.Close();
 
             if (sapdb != null && docentry > 0)
@@ -309,6 +312,7 @@ namespace StarLaiPortal.Module.Controllers
                     error = reader1.GetString(0);
                     break;
                 }
+                cmd1.Dispose();
                 conn.Close();
             }
 

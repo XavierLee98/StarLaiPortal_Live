@@ -286,6 +286,7 @@ namespace StarLaiPortal.Module.Controllers
                         ToEmails.Add(emailaddress);
                     }
                 }
+                cmd.Dispose();
                 conn.Close();
 
                 if (ToEmails.Count > 0)
@@ -590,6 +591,7 @@ namespace StarLaiPortal.Module.Controllers
                                     ToEmails.Add(emailaddress);
                                 }
                             }
+                            cmd.Dispose();
                             conn.Close();
 
                             if (ToEmails.Count > 0)
@@ -717,6 +719,7 @@ namespace StarLaiPortal.Module.Controllers
                                 ToEmails.Add(emailaddress);
                             }
                         }
+                        cmd.Dispose();
                         conn.Close();
 
                         if (ToEmails.Count > 0)

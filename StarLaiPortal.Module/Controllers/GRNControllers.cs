@@ -327,6 +327,8 @@ namespace StarLaiPortal.Module.Controllers
                                     trx.SAPPONo = reader.GetString(0);
                                 }
                             }
+                            cmd.Dispose();
+                            conn.Close();
                         }
 
                         os.CommitChanges();
@@ -612,6 +614,8 @@ namespace StarLaiPortal.Module.Controllers
                                 trx.SAPPONo = reader.GetString(0);
                             }
                         }
+                        cmd.Dispose();
+                        conn.Close();
                     }
 
                     os.CommitChanges();

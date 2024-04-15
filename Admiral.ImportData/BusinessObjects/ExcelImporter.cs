@@ -99,6 +99,7 @@ namespace Admiral.ImportData
                             TransactionNotification.CommandText = "EXEC [" + conn.Database + "]..sp_ImportUpdate '" + option.DocNum + "', '" + option.Type + "'";
 
                             SqlDataReader reader = TransactionNotification.ExecuteReader();
+                            TransactionNotification.Dispose();
                             conn.Close();
                         }
                         catch (Exception ex)

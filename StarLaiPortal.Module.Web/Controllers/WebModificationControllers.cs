@@ -518,6 +518,8 @@ namespace StarLaiPortal.Module.Web.Controllers
                             CurrObject.PONo = reader.GetString(0);
                         }
                     }
+                    cmd.Dispose();
+                    conn.Close();
                 }
                 // End ver 1.0.8.1
 
@@ -645,6 +647,8 @@ namespace StarLaiPortal.Module.Web.Controllers
                             CurrObject.SAPPONo = reader.GetString(0);
                         }
                     }
+                    cmd.Dispose();
+                    conn.Close();
                 }
                 // End ver 1.0.11
 
