@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 
 // 2023-07-28 add GRPO Correction ver 1.0.7
+// 2024-05-16 - enhance speed - ver 1.0.15
 
 namespace StarLaiPortal.Module.BusinessObjects.Purchase_Return
 {
@@ -101,7 +102,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Purchase_Return
         private vwItemMasters _ItemCode;
         [ImmediatePostData]
         [NoForeignKey]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.15
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.15
         [XafDisplayName("Item Code")]
         [Index(0), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         [Appearance("ItemCode", Enabled = false)]
@@ -197,7 +200,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Purchase_Return
         private vwReasonCode _ReasonCode;
         [NoForeignKey]
         [ImmediatePostData]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.15
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.15
         [DataSourceCriteria("Type = 'PurchaseReturn'")]
         [RuleRequiredField(DefaultContexts.Save)]
         [XafDisplayName("Reason Code")]
@@ -214,7 +219,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Purchase_Return
         private vwWarehouse _Warehouse;
         [NoForeignKey]
         [ImmediatePostData]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.15
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.15
         [RuleRequiredField(DefaultContexts.Save)]
         [XafDisplayName("Warehouse")]
         [DataSourceCriteria("Inactive = 'N'")]
@@ -240,7 +247,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Purchase_Return
         [NoForeignKey]
         [RuleRequiredField(DefaultContexts.Save)]
         [XafDisplayName("Bin")]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.15
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.15
         [DataSourceCriteria("Warehouse = '@this.Warehouse.WarehouseCode'")]
         [Index(14), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         public vwBin Bin

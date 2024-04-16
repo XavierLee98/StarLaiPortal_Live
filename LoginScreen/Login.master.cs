@@ -87,6 +87,7 @@ public partial class LoginMaster : MasterPage
             {
                 CompanyList.Items.Add(new ListItem(reader3.GetString(0)));
             }
+            cmd3.Dispose();
             conn.Close();
         }
     }
@@ -115,6 +116,7 @@ public partial class LoginMaster : MasterPage
             {
                 url = reader3.GetString(0).ToString();
             }
+            cmd3.Dispose();
             conn.Close();
 
             if (url != "")

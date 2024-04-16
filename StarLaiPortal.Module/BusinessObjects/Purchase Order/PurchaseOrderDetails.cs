@@ -19,6 +19,7 @@ using System.Text;
 
 // 2023-10-30 - add FOC - ver 1.0.12
 // 2024-01-29 - add import update - ver 1.0.14
+// 2024-05-16 - enhance speed - ver 1.0.15
 
 namespace StarLaiPortal.Module.BusinessObjects.Purchase_Order
 {
@@ -115,7 +116,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Purchase_Order
         [NoForeignKey]
         [XafDisplayName("Item Code")]
         [DataSourceCriteria("frozenFor = 'N'")]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.15
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.15
         [Index(0), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         [Appearance("ItemCode", Enabled = false, Criteria = "not IsNew")]
         [RuleRequiredField(DefaultContexts.Save)]
@@ -245,7 +248,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Purchase_Order
 
         private vwWarehouse _Location;
         [NoForeignKey]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.15
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.15
         [Appearance("Warehouse", Enabled = false)]
         //[RuleRequiredField(DefaultContexts.Save)]
         [XafDisplayName("Warehouse")]

@@ -19,6 +19,7 @@ using System.Text;
 
 // 2023-04-09 fix speed issue ver 1.0.8.1
 // 2023-09-25 add warehouse field ver 1.0.10
+// 2024-05-16 enhance speed - ver 1.0.15
 
 namespace StarLaiPortal.Module.BusinessObjects.Pack_List
 {
@@ -132,7 +133,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Pack_List
         [XafDisplayName("Warehouse")]
         [NoForeignKey]
         [ImmediatePostData]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.15
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.15
         [DataSourceCriteria("Inactive = 'N'")]
         [Index(1), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(false)]
         public vwWarehouse Warehouse
@@ -149,7 +152,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Pack_List
         //[ImmediatePostData]
         [XafDisplayName("Packing Location")]
         [NoForeignKey]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.15
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.15
         // Start ver 1.0.10
         [DataSourceCriteria("Warehouse = '@this.Warehouse.WarehouseCode'")]
         // End ver 1.0.10

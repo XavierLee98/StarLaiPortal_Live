@@ -20,6 +20,7 @@ using System.Text;
 // 2023-12-04 add outstanding qty ver 1.0.13
 // 2024-01-29 change column label ver 1.0.14
 // 2024-04-01 add foreignname field ver 1.0.15
+// 2024-05-16 enhance speed - ver 1.0.15
 
 namespace StarLaiPortal.Module.BusinessObjects.Advanced_Shipment_Notice
 {
@@ -120,7 +121,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Advanced_Shipment_Notice
         [ImmediatePostData]
         [NoForeignKey]
         [XafDisplayName("Item Code")]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.15
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.15
         [Index(3), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         [Appearance("ItemCode", Enabled = false)]
         [RuleRequiredField(DefaultContexts.Save)]

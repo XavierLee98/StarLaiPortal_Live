@@ -50,6 +50,7 @@ using static DevExpress.XtraPrinting.Native.ExportOptionsPropertiesNames;
 // 2023-12-04 add outstanding qty ver 1.0.13
 // 2024-01-17 block save if no series for PRR ver 1.0.13
 // 2024-01-29 SQ and PO update OIDKey ver 1.0.14
+// 2024-04-16 Pick list not allow to change after submitted ver 1.0.15
 
 namespace StarLaiPortal.Module.Web.Controllers
 {
@@ -168,6 +169,20 @@ namespace StarLaiPortal.Module.Web.Controllers
                 PickList CurrObject = (PickList)args.CurrentObject;
                 bool over = false;
                 string overitem = null;
+
+                // Start ver 1.0.15
+                IObjectSpace pl = Application.CreateObjectSpace();
+                PickList pltrx = pl.FindObject<PickList>(new BinaryOperator("Oid", CurrObject.Oid));
+
+                if (pltrx != null)
+                {
+                    if (pltrx.Status == DocStatus.Submitted)
+                    {
+                        showMsg("Failed", "Document already submit, please refresh data.", InformationType.Error);
+                        return;
+                    }
+                }
+                // End ver 1.0.15
 
                 CurrObject.Customer = null;
                 CurrObject.CustomerName = null;

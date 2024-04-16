@@ -16,6 +16,7 @@ using System.Runtime.Remoting.Contexts;
 using System.Text;
 
 // 2023-08-16 Add reason code ver 1.0.8
+// 2024-05-16 enhance speed - ver 1.0.15
 
 namespace StarLaiPortal.Module.BusinessObjects.Credit_Notes_Cancellation
 {
@@ -103,7 +104,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Credit_Notes_Cancellation
         [NoForeignKey]
         [XafDisplayName("Item Code")]
         [DataSourceCriteria("frozenFor = 'N'")]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.15
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.15
         [Index(0), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         [Appearance("ItemCode", Enabled = false, Criteria = "not IsNew")]
         [RuleRequiredField(DefaultContexts.Save)]
@@ -215,7 +218,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Credit_Notes_Cancellation
         private vwWarehouse _Warehouse;
         [NoForeignKey]
         [ImmediatePostData]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.15
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.15
         [RuleRequiredField(DefaultContexts.Save)]
         [XafDisplayName("Warehouse")]
         [DataSourceCriteria("Inactive = 'N'")]
@@ -241,7 +246,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Credit_Notes_Cancellation
 
         private vwBin _Bin;
         [NoForeignKey]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.15
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.15
         [RuleRequiredField(DefaultContexts.Save)]
         [XafDisplayName("Bin")]
         [Appearance("Bin", Enabled = false)]
