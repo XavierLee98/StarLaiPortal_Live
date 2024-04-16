@@ -18,6 +18,7 @@ using System.Text;
 // 2024-01-29 - remove immediate post - ver 1.0.14
 // 2024-01-29 - add import update - ver 1.0.14
 // 2024-04-04 - remove stockbalance view - ver 1.0.15
+// 2024-05-16 - enhance speed - ver 1.0.15
 
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 {
@@ -109,7 +110,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         private vwItemMasters _ItemCode;
         [ImmediatePostData]
         [NoForeignKey]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.15
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.15
         [XafDisplayName("Item Code")]
         [DataSourceCriteria("frozenFor = 'N'")]
         [Index(0), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
@@ -248,7 +251,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         private vwWarehouse _Location;
         [NoForeignKey]
         [ImmediatePostData]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.15
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.15
         [RuleRequiredField(DefaultContexts.Save)]
         [XafDisplayName("Loc")]
         [Index(8), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]

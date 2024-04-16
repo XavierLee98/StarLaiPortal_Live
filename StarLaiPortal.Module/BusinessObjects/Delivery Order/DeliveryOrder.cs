@@ -18,6 +18,7 @@ using System.Text;
 
 // 2023-04-09 fix speed issue ver 1.0.8.1
 // 2023-09-25 add warehouse field ver 1.0.10
+// 2024-05-16 enhance speed - ver 1.0.15
 
 namespace StarLaiPortal.Module.BusinessObjects.Delivery_Order
 {
@@ -141,7 +142,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Delivery_Order
         [XafDisplayName("Customer")]
         [NoForeignKey]
         [ImmediatePostData]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.15
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.15
         [DataSourceCriteria("ValidFor = 'Y' and CardType = 'C'")]
         [Appearance("Customer", Enabled = false, Criteria = "not IsNew")]
         [Index(5), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(false)]
@@ -182,7 +185,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Delivery_Order
         [XafDisplayName("Warehouse")]
         [NoForeignKey]
         [ImmediatePostData]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.15
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.15
         [DataSourceCriteria("Inactive = 'N'")]
         [Index(9), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(false)]
         public vwWarehouse Warehouse

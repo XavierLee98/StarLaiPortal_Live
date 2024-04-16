@@ -19,6 +19,7 @@ using System.Text;
 
 // 2023-04-09 fix speed issue ver 1.0.8.1
 // 2023-09-25 add warehouse field ver 1.0.10
+// 2024-05-16 enhance speed - ver 1.0.15
 
 namespace StarLaiPortal.Module.BusinessObjects.Load
 {
@@ -156,7 +157,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Load
         [XafDisplayName("Warehouse")]
         [NoForeignKey]
         [ImmediatePostData]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.15
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.15
         [DataSourceCriteria("Inactive = 'N'")]
         [Index(6), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(false)]
         public vwWarehouse Warehouse
@@ -172,7 +175,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Load
         private vwDriver _Driver;
         [NoForeignKey]
         [XafDisplayName("Driver")]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.15
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.15
         [RuleRequiredField(DefaultContexts.Save)]
         [Index(8), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(false)]
         public vwDriver Driver
@@ -187,7 +192,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Load
         private vwVehicle _Vehicle;
         [NoForeignKey]
         [XafDisplayName("Vehicle")]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.15
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.15
         [RuleRequiredField(DefaultContexts.Save)]
         [Index(10), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(false)]
         public vwVehicle Vehicle

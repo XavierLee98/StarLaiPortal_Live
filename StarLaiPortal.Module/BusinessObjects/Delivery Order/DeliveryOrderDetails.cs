@@ -14,6 +14,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
+// 2024-05-16 - enhance speed - ver 1.0.15
+
 namespace StarLaiPortal.Module.BusinessObjects.Delivery_Order
 {
     [DefaultClassOptions]
@@ -99,7 +101,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Delivery_Order
         [ImmediatePostData]
         [NoForeignKey]
         [XafDisplayName("Item Code")]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.15
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.15
         [Index(3), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         [Appearance("ItemCode", Enabled = false)]
         [RuleRequiredField(DefaultContexts.Save)]
