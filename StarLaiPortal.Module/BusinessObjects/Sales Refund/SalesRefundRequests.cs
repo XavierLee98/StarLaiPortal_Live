@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 
 // 2023-09-25 change date format ver 1.0.10
+// 2024-04-19 set salesperson field to mandatory ver 1.0.15
 
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
 {
@@ -223,6 +224,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
         [XafDisplayName("Salesperson")]
         [LookupEditorMode(LookupEditorMode.AllItems)]
         [DataSourceCriteria("Active = 'Y'")]
+        // Start ver 1.0.15
+        [RuleRequiredField(DefaultContexts.Save)]
+        // End ver 1.0.15
         [Index(14), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(false)]
         public vwSalesPerson ContactPerson
         {

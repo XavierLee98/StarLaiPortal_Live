@@ -45,6 +45,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Setup
         [ImmediatePostData]
         [XafDisplayName("Priority Name")]
         [Appearance("PriorityName", Enabled = false, Criteria = "not IsNew")]
+        [RuleRequiredField(DefaultContexts.Save)]
         [Index(3)]
         public string PriorityName
         {
