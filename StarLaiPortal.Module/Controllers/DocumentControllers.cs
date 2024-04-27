@@ -174,12 +174,12 @@ namespace StarLaiPortal.Module.Controllers
                     if (DocumentStatus.SelectedItem.Id != "All")
                     {
                         ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
-                        "and DocDate >= ? and DocDate <= ?", DocumentStatus.SelectedItem.Id, Fromdate, Todate);
+                        "and DocDate >= ? and DocDate <= ?", DocumentStatus.SelectedItem.Id, Fromdate, Todate.AddDays(1));
                     }
                     else
                     {
                         ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?",
-                            Fromdate, Todate);
+                            Fromdate, Todate.AddDays(1));
                     }
                 }
             }
@@ -188,7 +188,7 @@ namespace StarLaiPortal.Module.Controllers
             {
                 if (View.Id == "SalesQuotation_ListView")
                 {
-                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?", Fromdate, Todate);
+                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?", Fromdate, Todate.AddDays(1));
                 }
             }
         }
@@ -202,12 +202,12 @@ namespace StarLaiPortal.Module.Controllers
                     if (DocumentStatus.SelectedItem.Id != "All")
                     {
                         ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
-                        "and DocDate >= ? and DocDate <= ?", DocumentStatus.SelectedItem.Id, Fromdate, Todate);
+                        "and DocDate >= ? and DocDate <= ?", DocumentStatus.SelectedItem.Id, Fromdate, Todate.AddDays(1));
                     }
                     else
                     {
                         ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?",
-                            Fromdate, Todate);
+                            Fromdate, Todate.AddDays(1));
                     }
                 }
             }
@@ -216,7 +216,7 @@ namespace StarLaiPortal.Module.Controllers
             {
                 if (View.Id == "SalesQuotation_ListView")
                 {
-                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?", Fromdate, Todate);
+                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?", Fromdate, Todate.AddDays(1));
                 }
             }
         }
@@ -230,12 +230,12 @@ namespace StarLaiPortal.Module.Controllers
                     if (DocumentStatus.SelectedItem.Id != "All")
                     {
                         ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
-                            "and DocDate >= ? and DocDate <= ?", DocumentStatus.SelectedItem.Id, Fromdate, Todate);
+                            "and DocDate >= ? and DocDate <= ?", DocumentStatus.SelectedItem.Id, Fromdate, Todate.AddDays(1));
                     }
                     else
                     {
                         ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?",
-                            Fromdate, Todate);
+                            Fromdate, Todate.AddDays(1));
                     }
                 }
             }
@@ -250,12 +250,12 @@ namespace StarLaiPortal.Module.Controllers
                     if (DocumentStatus.SelectedItem.Id != "All")
                     {
                         ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
-                            "and DocDate >= ? and DocDate <= ?", DocumentStatus.SelectedItem.Id, Fromdate, Todate);
+                            "and DocDate >= ? and DocDate <= ?", DocumentStatus.SelectedItem.Id, Fromdate, Todate.AddDays(1));
                     }
                     else
                     {
                         ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?", 
-                           Fromdate, Todate);
+                           Fromdate, Todate.AddDays(1));
                     }
                 }
             }
@@ -264,7 +264,7 @@ namespace StarLaiPortal.Module.Controllers
             {
                 if (View.Id == "SalesQuotation_ListView")
                 {
-                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?", Fromdate, Todate);
+                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?", Fromdate, Todate.AddDays(1));
                 }
             }
         }
