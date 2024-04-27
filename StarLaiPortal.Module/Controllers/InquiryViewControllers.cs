@@ -527,14 +527,14 @@ namespace StarLaiPortal.Module.Controllers
             {
             // End ver 1.0.11
                 ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
-                    "and DocDate >= ? and DocDate <= ?",
-                    InquiryStatus.SelectedItem.Id, Fromdate, Todate);
+                    "and DocDate >= ? and DocDate < ?",
+                    InquiryStatus.SelectedItem.Id, Fromdate, Todate.AddDays(1));
             // Start ver 1.0.11
             }
             else
             {
-                ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?",
-                    Fromdate, Todate);
+                ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate < ?",
+                    Fromdate, Todate.AddDays(1));
             }
             // End ver 1.0.11
         }
@@ -542,15 +542,15 @@ namespace StarLaiPortal.Module.Controllers
         private void InquiryDateFrom_Execute(object sender, ParametrizedActionExecuteEventArgs e)
         {
             ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
-                "and DocDate >= ? and DocDate <= ?",
-                InquiryStatus.SelectedItem.Id, Fromdate, Todate);
+                "and DocDate >= ? and DocDate < ?",
+                InquiryStatus.SelectedItem.Id, Fromdate, Todate.AddDays(1));
         }
 
         private void InquiryDateTo_Execute(object sender, ParametrizedActionExecuteEventArgs e)
         {
             ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
-                "and DocDate >= ? and DocDate <= ?",
-                InquiryStatus.SelectedItem.Id, Fromdate, Todate);
+                "and DocDate >= ? and DocDate < ?",
+                InquiryStatus.SelectedItem.Id, Fromdate, Todate.AddDays(1));
         }
 
         private void InquiryFilter_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -560,14 +560,14 @@ namespace StarLaiPortal.Module.Controllers
             {
             // End ver 1.0.11
                 ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
-                "and DocDate >= ? and DocDate <= ?",
-                InquiryStatus.SelectedItem.Id, Fromdate, Todate);
+                "and DocDate >= ? and DocDate < ?",
+                InquiryStatus.SelectedItem.Id, Fromdate, Todate.AddDays(1));
             // Start ver 1.0.11
             }
             else
             {
-                ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?",
-                    Fromdate, Todate);
+                ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate < ?",
+                    Fromdate, Todate.AddDays(1));
             }
             // End ver 1.0.11
         }
@@ -673,7 +673,7 @@ namespace StarLaiPortal.Module.Controllers
                 XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
                 SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
                     new OperandValue(currObject.DateFrom.Date),
-                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("SalesQuotationInquiry"),
+                    new OperandValue(currObject.DateTo.AddDays(1).Date), new OperandValue(currObject.Status), new OperandValue("SalesQuotationInquiry"),
                      new OperandValue(""));
 
                 if (sprocData.ResultSet.Count() > 0)
@@ -735,7 +735,7 @@ namespace StarLaiPortal.Module.Controllers
                 XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
                 SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
                     new OperandValue(currObject.DateFrom.Date),
-                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("ARDownpaymentInquiry"),
+                    new OperandValue(currObject.DateTo.AddDays(1).Date), new OperandValue(currObject.Status), new OperandValue("ARDownpaymentInquiry"),
                      new OperandValue(""));
 
                 if (sprocData.ResultSet.Count() > 0)
@@ -791,7 +791,7 @@ namespace StarLaiPortal.Module.Controllers
                 XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
                 SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
                     new OperandValue(currObject.DateFrom.Date),
-                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("PickListDetailsInquiry"),
+                    new OperandValue(currObject.DateTo.AddDays(1).Date), new OperandValue(currObject.Status), new OperandValue("PickListDetailsInquiry"),
                      new OperandValue(itemcode));
 
                 if (sprocData.ResultSet.Count() > 0)
@@ -862,7 +862,7 @@ namespace StarLaiPortal.Module.Controllers
                 XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
                 SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
                     new OperandValue(currObject.DateFrom.Date),
-                    new OperandValue(currObject.DateTo.Date), new OperandValue(""), new OperandValue("BundleIDInquiry"),
+                    new OperandValue(currObject.DateTo.AddDays(1).Date), new OperandValue(""), new OperandValue("BundleIDInquiry"),
                      new OperandValue(itemcode));
 
                 if (sprocData.ResultSet.Count() > 0)
@@ -919,7 +919,7 @@ namespace StarLaiPortal.Module.Controllers
                 XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
                 SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
                     new OperandValue(currObject.DateFrom.Date),
-                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("PackListInquiry"),
+                    new OperandValue(currObject.DateTo.AddDays(1).Date), new OperandValue(currObject.Status), new OperandValue("PackListInquiry"),
                      new OperandValue(itemcode));
 
                 if (sprocData.ResultSet.Count() > 0)
@@ -974,7 +974,7 @@ namespace StarLaiPortal.Module.Controllers
                 XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
                 SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
                     new OperandValue(currObject.DateFrom.Date),
-                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("LoadingInquiry"),
+                    new OperandValue(currObject.DateTo.AddDays(1).Date), new OperandValue(currObject.Status), new OperandValue("LoadingInquiry"),
                      new OperandValue(""));
 
                 if (sprocData.ResultSet.Count() > 0)
@@ -1033,7 +1033,7 @@ namespace StarLaiPortal.Module.Controllers
                 XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
                 SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
                     new OperandValue(currObject.DateFrom.Date),
-                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("DeliveryInquiry"),
+                    new OperandValue(currObject.DateTo.AddDays(1).Date), new OperandValue(currObject.Status), new OperandValue("DeliveryInquiry"),
                      new OperandValue(itemcode));
 
                 if (sprocData.ResultSet.Count() > 0)
@@ -1099,7 +1099,7 @@ namespace StarLaiPortal.Module.Controllers
                 XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
                 SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
                     new OperandValue(currObject.DateFrom.Date),
-                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("InvoiceInquiry"),
+                    new OperandValue(currObject.DateTo.AddDays(1).Date), new OperandValue(currObject.Status), new OperandValue("InvoiceInquiry"),
                      new OperandValue(itemcode));
 
                 if (sprocData.ResultSet.Count() > 0)
@@ -1157,7 +1157,7 @@ namespace StarLaiPortal.Module.Controllers
                 XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
                 SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
                     new OperandValue(currObject.DateFrom.Date),
-                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("PurchaseOrderInquiry"),
+                    new OperandValue(currObject.DateTo.AddDays(1).Date), new OperandValue(currObject.Status), new OperandValue("PurchaseOrderInquiry"),
                      new OperandValue(""));
 
                 if (sprocData.ResultSet.Count() > 0)
@@ -1226,7 +1226,7 @@ namespace StarLaiPortal.Module.Controllers
                 XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
                 SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
                     new OperandValue(currObject.DateFrom.Date),
-                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("GRPOInquiry"),
+                    new OperandValue(currObject.DateTo.AddDays(1).Date), new OperandValue(currObject.Status), new OperandValue("GRPOInquiry"),
                      new OperandValue(itemcode));
 
                 if (sprocData.ResultSet.Count() > 0)
@@ -1294,7 +1294,7 @@ namespace StarLaiPortal.Module.Controllers
                 XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
                 SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
                     new OperandValue(currObject.DateFrom.Date),
-                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("ASNInquiry"),
+                    new OperandValue(currObject.DateTo.AddDays(1).Date), new OperandValue(currObject.Status), new OperandValue("ASNInquiry"),
                      new OperandValue(itemcode));
 
                 if (sprocData.ResultSet.Count() > 0)
@@ -1367,7 +1367,7 @@ namespace StarLaiPortal.Module.Controllers
                 XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
                 SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
                     new OperandValue(currObject.DateFrom.Date),
-                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("PurchaseReturnInquiry"),
+                    new OperandValue(currObject.DateTo.AddDays(1).Date), new OperandValue(currObject.Status), new OperandValue("PurchaseReturnInquiry"),
                      new OperandValue(itemcode));
 
                 if (sprocData.ResultSet.Count() > 0)
@@ -1435,7 +1435,7 @@ namespace StarLaiPortal.Module.Controllers
                 XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
                 SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
                     new OperandValue(currObject.DateFrom.Date),
-                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("SalesReturnRequestInquiry"),
+                    new OperandValue(currObject.DateTo.AddDays(1).Date), new OperandValue(currObject.Status), new OperandValue("SalesReturnRequestInquiry"),
                      new OperandValue(itemcode));
 
                 if (sprocData.ResultSet.Count() > 0)
@@ -1504,7 +1504,7 @@ namespace StarLaiPortal.Module.Controllers
                 XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
                 SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
                     new OperandValue(currObject.DateFrom.Date),
-                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("CreditMemoInquiry"),
+                    new OperandValue(currObject.DateTo.AddDays(1).Date), new OperandValue(currObject.Status), new OperandValue("CreditMemoInquiry"),
                      new OperandValue(itemcode));
 
                 if (sprocData.ResultSet.Count() > 0)
@@ -1577,7 +1577,7 @@ namespace StarLaiPortal.Module.Controllers
                 XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
                 SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
                     new OperandValue(currObject.DateFrom.Date),
-                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("WarehouseTransferDetailsInquiry"),
+                    new OperandValue(currObject.DateTo.AddDays(1).Date), new OperandValue(currObject.Status), new OperandValue("WarehouseTransferDetailsInquiry"),
                      new OperandValue(itemcode));
 
                 if (sprocData.ResultSet.Count() > 0)
@@ -1640,7 +1640,7 @@ namespace StarLaiPortal.Module.Controllers
                 XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
                 SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetInquiryView",
                     new OperandValue(currObject.DateFrom.Date),
-                    new OperandValue(currObject.DateTo.Date), new OperandValue(currObject.Status), new OperandValue("StockAdjustmentDetailsInquiry"),
+                    new OperandValue(currObject.DateTo.AddDays(1).Date), new OperandValue(currObject.Status), new OperandValue("StockAdjustmentDetailsInquiry"),
                      new OperandValue(itemcode));
 
                 if (sprocData.ResultSet.Count() > 0)
