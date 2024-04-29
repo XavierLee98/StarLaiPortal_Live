@@ -215,6 +215,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "No Content.", InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void SubmitWT_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -258,6 +260,8 @@ namespace StarLaiPortal.Module.Controllers
             WarehouseTransfers trx = os.FindObject<WarehouseTransfers>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Cancel Done.", InformationType.Success);
+
+            MemoryManagement.FlushMemory();
         }
 
         private void CancelWT_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -319,6 +323,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
     }
 }

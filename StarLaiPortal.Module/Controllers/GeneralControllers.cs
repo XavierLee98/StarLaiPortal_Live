@@ -36,6 +36,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Runtime.InteropServices;
 using System.Text;
 
 // 2023-04-09 fix speed issue ver 1.0.8.1

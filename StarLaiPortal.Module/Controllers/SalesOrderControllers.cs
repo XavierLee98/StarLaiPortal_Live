@@ -57,17 +57,20 @@ namespace StarLaiPortal.Module.Controllers
             {
                 if (View is DetailView)
                 {
-                    BusinessObjects.Sales_Order.SalesOrder salesorder = View.CurrentObject as BusinessObjects.Sales_Order.SalesOrder;
-
-                    foreach (SalesOrderDetails dtl in salesorder.SalesOrderDetails)
+                    if (View.Id != "SalesOrder_DetailView_Dashboard")
                     {
-                        dtl.Available = genCon.GenerateInstock(ObjectSpace, dtl.ItemCode.ItemCode, dtl.Location.WarehouseCode);
-                    }
+                        BusinessObjects.Sales_Order.SalesOrder salesorder = View.CurrentObject as BusinessObjects.Sales_Order.SalesOrder;
 
-                    if (salesorder.IsNew == false)
-                    {
-                        ObjectSpace.CommitChanges();
-                        ObjectSpace.Refresh();
+                        foreach (SalesOrderDetails dtl in salesorder.SalesOrderDetails)
+                        {
+                            dtl.Available = genCon.GenerateInstock(ObjectSpace, dtl.ItemCode.ItemCode, dtl.Location.WarehouseCode);
+                        }
+
+                        if (salesorder.IsNew == false)
+                        {
+                            ObjectSpace.CommitChanges();
+                            ObjectSpace.Refresh();
+                        }
                     }
                 }
             }
@@ -175,6 +178,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         // Start ver 1.0.9
@@ -250,6 +255,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", error, InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void CancelSO_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -337,6 +344,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", error, InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void CloseSO_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)

@@ -33,6 +33,7 @@
             this.CancelSR = new DevExpress.ExpressApp.Actions.PopupWindowShowAction(this.components);
             this.PreviewSR = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             this.PrintCreditMemo = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
+            this.PrintCreditMemoResult = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             // 
             // SubmitSR
             // 
@@ -76,12 +77,22 @@
             this.PrintCreditMemo.ToolTip = null;
             this.PrintCreditMemo.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.PrintCreditMemo_Execute);
             // 
+            // PrintCreditMemoResult
+            // 
+            this.PrintCreditMemoResult.Caption = "Preview";
+            this.PrintCreditMemoResult.Category = "ObjectsCreation";
+            this.PrintCreditMemoResult.ConfirmationMessage = null;
+            this.PrintCreditMemoResult.Id = "PrintCreditMemoResult";
+            this.PrintCreditMemoResult.ToolTip = null;
+            this.PrintCreditMemoResult.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.PrintCreditMemoResult_Execute);
+            // 
             // SalesReturnControllers
             // 
             this.Actions.Add(this.SubmitSR);
             this.Actions.Add(this.CancelSR);
             this.Actions.Add(this.PreviewSR);
             this.Actions.Add(this.PrintCreditMemo);
+            this.Actions.Add(this.PrintCreditMemoResult);
 
         }
 
@@ -91,5 +102,6 @@
         private DevExpress.ExpressApp.Actions.PopupWindowShowAction CancelSR;
         private DevExpress.ExpressApp.Actions.SimpleAction PreviewSR;
         private DevExpress.ExpressApp.Actions.SimpleAction PrintCreditMemo;
+        private DevExpress.ExpressApp.Actions.SimpleAction PrintCreditMemoResult;
     }
 }

@@ -61,7 +61,8 @@ namespace StarLaiPortal.Module.Controllers
                     //((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[CreateDate] >= ? or ([Status] = ?) " +
                     //    "or ([Status] = ? and [AppStatus] = ?)",
                     //    DateTime.Now.AddMonths(-3), 0, 1, 2);
-                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[CreateDate] >= ?",  DateTime.Now.AddMonths(-3));
+                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[CreateDate] >= ? and ([Status] in (?, ?))",  
+                        DateTime.Now.AddMonths(-3), 0 , 1);
                 }
                 // End ver 1.0.15
             }

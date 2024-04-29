@@ -313,6 +313,8 @@ namespace StarLaiPortal.Module.Controllers
                 os.CommitChanges();
                 // End ver 1.0.8.1
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void PACopyFromPL_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -369,6 +371,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "No Content.", InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void SubmitPA_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -403,6 +407,8 @@ namespace StarLaiPortal.Module.Controllers
             PackList trx = os.FindObject<PackList>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Cancel Done.", InformationType.Success);
+
+            MemoryManagement.FlushMemory();
         }
 
         private void CancelPA_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -473,6 +479,8 @@ namespace StarLaiPortal.Module.Controllers
                     showMsg("Fail", "Copy Fail.", InformationType.Error);
                 }
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void PALBundleID_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
@@ -506,6 +514,8 @@ namespace StarLaiPortal.Module.Controllers
                     showMsg("Fail", "Delete Fail.", InformationType.Error);
                 }
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void PrintBundle_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -554,6 +564,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
     }
 }

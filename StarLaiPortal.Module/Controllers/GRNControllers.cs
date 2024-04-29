@@ -342,6 +342,8 @@ namespace StarLaiPortal.Module.Controllers
                 {
                     showMsg("Fail", "Copy Fail.", InformationType.Error);
                 }
+
+                MemoryManagement.FlushMemory();
             }
         }
 
@@ -630,6 +632,8 @@ namespace StarLaiPortal.Module.Controllers
                     showMsg("Fail", "Copy Fail.", InformationType.Error);
                 }
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void GRNCopyFromASN_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -664,12 +668,14 @@ namespace StarLaiPortal.Module.Controllers
                 if (dtl.Received > dtl.OpenQty)
                 {
                     showMsg("Error", "Received Qty cannot more than Open Qty. Item : " + dtl.ItemCode, InformationType.Error);
+                    MemoryManagement.FlushMemory();
                     return;
                 }
 
                 if (selectedObject.GRNDetails.Where(w => w.BaseType == "PO" && w.BaseDoc == dtl.BaseDoc && w.BaseId == dtl.BaseId).Count() > 1)
                 {
                     showMsg("Error", "Duplicate Base Entry found.", InformationType.Error);
+                    MemoryManagement.FlushMemory();
                     return;
                 }
 
@@ -677,6 +683,7 @@ namespace StarLaiPortal.Module.Controllers
                 && w.ASNPOBaseId == dtl.ASNPOBaseId).Count() > 1)
                 {
                     showMsg("Error", "Duplicate Base Entry found.", InformationType.Error);
+                    MemoryManagement.FlushMemory();
                     return;
                 }
             }
@@ -684,6 +691,7 @@ namespace StarLaiPortal.Module.Controllers
             if (selectedObject.GRNDetails.Where(x => x.Received == 0).Count() == selectedObject.GRNDetails.Count())
             {
                 showMsg("Error", "No receiving qty in this document.", InformationType.Error);
+                MemoryManagement.FlushMemory();
                 return;
             }
             // End ver 1.0.9
@@ -776,6 +784,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "Invoice number cannot blank.", InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void SubmitGRN_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -837,6 +847,8 @@ namespace StarLaiPortal.Module.Controllers
             GRN trx = os.FindObject<GRN>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Cancel Done.", InformationType.Success);
+
+            MemoryManagement.FlushMemory();
         }
 
         private void CancelGRN_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -904,6 +916,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void ExportGRN_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -950,12 +964,16 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void ImportGRN_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
         {
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
+
+            MemoryManagement.FlushMemory();
         }
 
         private void ImportGRN_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)

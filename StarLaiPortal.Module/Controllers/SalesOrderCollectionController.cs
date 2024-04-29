@@ -217,6 +217,8 @@ namespace StarLaiPortal.Module.Controllers
                     showMsg("Fail", "Copy Fail.", InformationType.Error);
                 }
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void SOCCopyFromSO_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -289,6 +291,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "No Content.", InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void SubmitSOC_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -323,6 +327,8 @@ namespace StarLaiPortal.Module.Controllers
             SalesOrderCollection trx = os.FindObject<SalesOrderCollection>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Cancel Done.", InformationType.Success);
+
+            MemoryManagement.FlushMemory();
         }
 
         private void CancelSOC_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -391,6 +397,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         // Start ver 1.0.10
@@ -431,6 +439,8 @@ namespace StarLaiPortal.Module.Controllers
                     showMsg("Fail", "Copy Fail.", InformationType.Error);
                 }
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void SOCCopyFromSR_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)

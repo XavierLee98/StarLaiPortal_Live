@@ -32,6 +32,7 @@ using DevExpress.Utils.Filtering.Internal;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
+using StarLaiPortal.Module.BusinessObjects.Stock_Count_Inquiry;
 
 // 2023-09-14 - add filter into inquiry - ver 1.0.9
 // 2023-10-16 - sales order inquiry add "All" option for filter and view button - ver 1.0.11
@@ -86,22 +87,60 @@ namespace StarLaiPortal.Module.Controllers
             }
 
             // Start ver 1.0.15
-            //if (typeof(vwInquiryPickListDetails).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            if (typeof(vwInquiryPickListDetails).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(vwInquiryPickListDetails))
+                {
+                    this.ViewPickListDetailInquiry.Active.SetItemValue("Enabled", true);
+                    this.ViewPickListDetailInquiry.SelectionDependencyType = DevExpress.ExpressApp.Actions.SelectionDependencyType.RequireSingleObject;
+
+                    if (View.Id == "vwInquiryPickListDetails_ListView")
+                    {
+                        InquiryStatus.Items.Clear();
+
+                        InquiryStatus.Items.Add(new ChoiceActionItem("Open", "Open"));
+                        InquiryStatus.Items.Add(new ChoiceActionItem("Draft", "Draft"));
+                        InquiryStatus.Items.Add(new ChoiceActionItem("Submitted", "Submitted"));
+                        InquiryStatus.Items.Add(new ChoiceActionItem("Cancelled", "Cancelled"));
+                        InquiryStatus.Items.Add(new ChoiceActionItem("Closed", "Closed"));
+                        InquiryStatus.Items.Add(new ChoiceActionItem("Posted", "Posted"));
+                        InquiryStatus.Items.Add(new ChoiceActionItem("Pending Post", "Pending Post"));
+
+                        InquiryStatus.SelectedIndex = 1;
+
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ?",
+                            InquiryStatus.SelectedItem.Id);
+
+                        this.InquiryStatus.Active.SetItemValue("Enabled", true);
+                        InquiryStatus.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        InquiryStatus.CustomizeControl += action_CustomizeControl;
+
+                        this.InquiryDateFrom.Active.SetItemValue("Enabled", true);
+                        this.InquiryDateFrom.Value = DateTime.Today.AddDays(-7);
+                        InquiryDateFrom.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        this.InquiryDateFrom.CustomizeControl += DateActionFrom_CustomizeControl;
+                        this.InquiryDateTo.Active.SetItemValue("Enabled", true);
+                        this.InquiryDateTo.Value = DateTime.Today.AddDays(1);
+                        InquiryDateTo.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        this.InquiryDateTo.CustomizeControl += DateActionTo_CustomizeControl;
+                        this.InquiryFilter.Active.SetItemValue("Enabled", true);
+
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
+                        "and DocDate >= ? and DocDate <= ?",
+                        InquiryStatus.SelectedItem.Id, InquiryDateFrom.Value, InquiryDateTo.Value);
+                    }
+                }
+            }
+
+
+            //if (typeof(PickListDetailsInquiryResult).IsAssignableFrom(View.ObjectTypeInfo.Type))
             //{
-            //    if (View.ObjectTypeInfo.Type == typeof(vwInquiryPickListDetails))
+            //    if (View.ObjectTypeInfo.Type == typeof(PickListDetailsInquiryResult))
             //    {
             //        this.ViewPickListDetailInquiry.Active.SetItemValue("Enabled", true);
             //        this.ViewPickListDetailInquiry.SelectionDependencyType = DevExpress.ExpressApp.Actions.SelectionDependencyType.RequireSingleObject;
             //    }
             //}
-            if (typeof(PickListDetailsInquiryResult).IsAssignableFrom(View.ObjectTypeInfo.Type))
-            {
-                if (View.ObjectTypeInfo.Type == typeof(PickListDetailsInquiryResult))
-                {
-                    this.ViewPickListDetailInquiry.Active.SetItemValue("Enabled", true);
-                    this.ViewPickListDetailInquiry.SelectionDependencyType = DevExpress.ExpressApp.Actions.SelectionDependencyType.RequireSingleObject;
-                }
-            }
             // End ver 1.0.15
 
             if (typeof(vwInquiryPickList).IsAssignableFrom(View.ObjectTypeInfo.Type))
@@ -448,6 +487,8 @@ namespace StarLaiPortal.Module.Controllers
             IObjectSpace os = Application.CreateObjectSpace();
             PickList trx = os.FindObject<PickList>(new BinaryOperator("DocNum", selectedObject.PortalNo));
             openNewView(os, trx, ViewEditMode.View);
+
+            MemoryManagement.FlushMemory();
         }
 
         private void ViewOpenPickList_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -467,22 +508,18 @@ namespace StarLaiPortal.Module.Controllers
 
         private void ViewPickListDetailInquiry_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
         {
-            // Start ver 1.0.15
-            //vwInquiryPickListDetails selectedObject = (vwInquiryPickListDetails)e.CurrentObject;
-            PickListDetailsInquiryResult selectedObject = (PickListDetailsInquiryResult)e.CurrentObject;
-            // End ver 1.0.15
+            vwInquiryPickListDetails selectedObject = (vwInquiryPickListDetails)e.CurrentObject;
 
             IObjectSpace os = Application.CreateObjectSpace();
             PickList trx = os.FindObject<PickList>(new BinaryOperator("DocNum", selectedObject.PortalNo));
             openNewView(os, trx, ViewEditMode.View);
+
+            MemoryManagement.FlushMemory();
         }
 
         private void ViewPickListDetailInquiry_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
         {
-            // Start ver 1.0.15
-            //vwInquiryPickListDetails selectedObject = (vwInquiryPickListDetails)View.CurrentObject;
-            PickListDetailsInquiryResult selectedObject = (PickListDetailsInquiryResult)View.CurrentObject;
-            // End ver 1.0.15
+            vwInquiryPickListDetails selectedObject = (vwInquiryPickListDetails)View.CurrentObject;
 
             IObjectSpace os = Application.CreateObjectSpace();
             PickList trx = os.FindObject<PickList>(new BinaryOperator("DocNum", selectedObject.PortalNo));
@@ -502,6 +539,8 @@ namespace StarLaiPortal.Module.Controllers
             IObjectSpace os = Application.CreateObjectSpace();
             PickList trx = os.FindObject<PickList>(new BinaryOperator("DocNum", selectedObject.PortalNo));
             openNewView(os, trx, ViewEditMode.View);
+
+            MemoryManagement.FlushMemory();
         }
 
         private void ViewPickListInquiry_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -537,6 +576,8 @@ namespace StarLaiPortal.Module.Controllers
                     Fromdate, Todate.AddDays(1));
             }
             // End ver 1.0.11
+
+            MemoryManagement.FlushMemory();
         }
 
         private void InquiryDateFrom_Execute(object sender, ParametrizedActionExecuteEventArgs e)
@@ -544,6 +585,8 @@ namespace StarLaiPortal.Module.Controllers
             ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
                 "and DocDate >= ? and DocDate < ?",
                 InquiryStatus.SelectedItem.Id, Fromdate, Todate.AddDays(1));
+
+            MemoryManagement.FlushMemory();
         }
 
         private void InquiryDateTo_Execute(object sender, ParametrizedActionExecuteEventArgs e)
@@ -551,6 +594,8 @@ namespace StarLaiPortal.Module.Controllers
             ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
                 "and DocDate >= ? and DocDate < ?",
                 InquiryStatus.SelectedItem.Id, Fromdate, Todate.AddDays(1));
+
+            MemoryManagement.FlushMemory();
         }
 
         private void InquiryFilter_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -570,6 +615,8 @@ namespace StarLaiPortal.Module.Controllers
                     Fromdate, Todate.AddDays(1));
             }
             // End ver 1.0.11
+
+            MemoryManagement.FlushMemory();
         }
         // End ver 1.0.9
 
@@ -581,6 +628,8 @@ namespace StarLaiPortal.Module.Controllers
             IObjectSpace os = Application.CreateObjectSpace();
             SalesOrder trx = os.FindObject<SalesOrder>(new BinaryOperator("DocNum", selectedObject.PortalNo));
             openNewView(os, trx, ViewEditMode.View);
+
+            MemoryManagement.FlushMemory();
         }
 
         private void ViewSalesOrderInquiry_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -659,6 +708,8 @@ namespace StarLaiPortal.Module.Controllers
 
             persistentObjectSpace.Session.DropIdentityMap();
             persistentObjectSpace.Dispose();
+
+            MemoryManagement.FlushMemory();
         }
         // End ver 1.0.14
 
@@ -1683,6 +1734,8 @@ namespace StarLaiPortal.Module.Controllers
                 persistentObjectSpace.Session.DropIdentityMap();
                 persistentObjectSpace.Dispose();
             }
+
+            MemoryManagement.FlushMemory();
         }
         // End ver 1.0.15
     }

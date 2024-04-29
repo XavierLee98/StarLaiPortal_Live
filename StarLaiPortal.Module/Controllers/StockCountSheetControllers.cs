@@ -159,6 +159,8 @@ namespace StarLaiPortal.Module.Controllers
             StockCountSheet trx = os.FindObject<StockCountSheet>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Submit Done.", InformationType.Success);
+
+            MemoryManagement.FlushMemory();
         }
 
         private void SubmitSCS_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -193,6 +195,8 @@ namespace StarLaiPortal.Module.Controllers
             StockCountSheet trx = os.FindObject<StockCountSheet>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Cancel Done.", InformationType.Success);
+
+            MemoryManagement.FlushMemory();
         }
 
         private void CancelSCS_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -227,6 +231,8 @@ namespace StarLaiPortal.Module.Controllers
             StockCountSheet trx = os.FindObject<StockCountSheet>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Close Done.", InformationType.Success);
+
+            MemoryManagement.FlushMemory();
         }
 
         private void CloseSCS_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -246,6 +252,8 @@ namespace StarLaiPortal.Module.Controllers
         {
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
+
+            MemoryManagement.FlushMemory();
         }
 
         private void ImportSheetTargetItems_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -280,6 +288,8 @@ namespace StarLaiPortal.Module.Controllers
         {
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
+
+            MemoryManagement.FlushMemory();
         }
 
         private void ImportSheetCountedItems_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -354,6 +364,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void ExportSheetCountedItems_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -400,6 +412,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void PrintStockSheet_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -448,6 +462,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
     }
 }
