@@ -120,6 +120,8 @@ namespace StarLaiPortal.Module.Controllers
 
             persistentObjectSpace.Session.DropIdentityMap();
             persistentObjectSpace.Dispose();
+
+            MemoryManagement.FlushMemory();
         }
 
         private void StockCountItemSearch_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -137,6 +139,8 @@ namespace StarLaiPortal.Module.Controllers
 
             persistentObjectSpace.Session.DropIdentityMap();
             persistentObjectSpace.Dispose();
+
+            MemoryManagement.FlushMemory();
         }
 
         private void StockCountVarianceSearch_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -162,6 +166,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "Please select warehouse.", InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
     }
 }

@@ -47,6 +47,9 @@ namespace StarLaiPortal.Module.Controllers
             // Start ver 1.0.8
             this.PrintCreditMemo.Active.SetItemValue("Enabled", false);
             // End ver 1.0.8
+            // Start ver 1.0.15
+            this.PrintCreditMemoResult.Active.SetItemValue("Enabled", false);
+            // End ver 1.0.15
         }
         protected override void OnViewControlsCreated()
         {
@@ -97,6 +100,16 @@ namespace StarLaiPortal.Module.Controllers
                 this.PrintCreditMemo.Active.SetItemValue("Enabled", false);
             }
             // End ver 1.0.8
+
+            // Start ver 1.0.15
+            if (typeof(CreditMemoInquiryResult).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(CreditMemoInquiryResult))
+                {
+                    this.PrintCreditMemoResult.Active.SetItemValue("Enabled", true);;
+                }
+            }
+            // End ver 1.0.15
         }
 
         protected override void OnDeactivated()
@@ -170,6 +183,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "No Content.", InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void SubmitSR_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -213,6 +228,8 @@ namespace StarLaiPortal.Module.Controllers
             SalesReturns trx = os.FindObject<SalesReturns>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Cancel Done.", InformationType.Success);
+
+            MemoryManagement.FlushMemory();
         }
 
         private void CancelSR_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -274,6 +291,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         // Start ver 1.0.8
@@ -342,7 +361,80 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "Please select data to print.", InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
         // End ver 1.0.8
+
+        // Start ver 1.0.15
+        private void PrintCreditMemoResult_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            if (e.SelectedObjects.Count >= 1)
+            {
+                SqlConnection conn = new SqlConnection(genCon.getConnectionString());
+                ApplicationUser user = (ApplicationUser)SecuritySystem.CurrentUser;
+                int cnt = 1;
+                foreach (CreditMemoInquiryResult dtl in e.SelectedObjects)
+                {
+                    string strServer;
+                    string strDatabase;
+                    string strUserID;
+                    string strPwd;
+                    string filename;
+
+                    //IObjectSpace os = Application.CreateObjectSpace();
+                    //CreditMemoInquiryResult cn = os.FindObject<CreditMemoInquiryResult>(new BinaryOperator("PriKey", dtl.PriKey));
+
+                    try
+                    {
+                        ReportDocument doc = new ReportDocument();
+                        strServer = ConfigurationManager.AppSettings.Get("SQLserver").ToString();
+                        doc.Load(HttpContext.Current.Server.MapPath("~\\Reports\\CreditMemo.rpt"));
+                        strDatabase = conn.Database;
+                        strUserID = ConfigurationManager.AppSettings.Get("SQLID").ToString();
+                        strPwd = ConfigurationManager.AppSettings.Get("SQLPass").ToString();
+                        doc.DataSourceConnections[0].SetConnection(strServer, strDatabase, strUserID, strPwd);
+                        doc.Refresh();
+
+                        doc.SetParameterValue("dockey@", dtl.DocKey);
+                        //doc.SetParameterValue("dbName@", conn.Database);
+
+                        filename = ConfigurationManager.AppSettings.Get("ReportPath").ToString() + conn.Database
+                            + "_" + dtl.DocKey + "_" + user.UserName + "_InquiryCN_"
+                            + ".pdf";
+
+                        doc.ExportToDisk(ExportFormatType.PortableDocFormat, filename);
+                        doc.Close();
+                        doc.Dispose();
+
+                        string url = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority +
+                            ConfigurationManager.AppSettings.Get("PrintPath").ToString() + conn.Database
+                            + "_" + dtl.DocKey + "_" + user.UserName + "_InquiryCN_"
+                            + ".pdf";
+                        var script = "window.open('" + url + "');";
+
+                        WebWindow.CurrentRequestWindow.RegisterStartupScript("DownloadFile" + cnt, script);
+
+                        //pl.PrintStatus = PrintStatus.Printed;
+                        //pl.PrintCount++;
+
+                        //os.CommitChanges();
+                        //os.Refresh();
+                        cnt++;
+                    }
+                    catch (Exception ex)
+                    {
+                        showMsg("Fail", ex.Message, InformationType.Error);
+                    }
+                }
+            }
+            else
+            {
+                showMsg("Fail", "Please select data to print.", InformationType.Error);
+            }
+
+            MemoryManagement.FlushMemory();
+        }
+        // End ver 1.0.15
     }
 }

@@ -257,6 +257,8 @@ namespace StarLaiPortal.Module.Controllers
                     showMsg("Fail", "Copy Fail.", InformationType.Error);
                 }
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void LCopyFromPAL_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -478,6 +480,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "No Content.", InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void SubmitL_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -512,6 +516,8 @@ namespace StarLaiPortal.Module.Controllers
             Load trx = os.FindObject<Load>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Cancel Done.", InformationType.Success);
+
+            MemoryManagement.FlushMemory();
         }
 
         private void CancelL_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)

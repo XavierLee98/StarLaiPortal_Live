@@ -107,6 +107,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "Please select cart to open.", InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
     }
 }

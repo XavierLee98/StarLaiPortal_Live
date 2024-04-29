@@ -151,6 +151,8 @@ namespace StarLaiPortal.Module.Controllers
         {
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
+
+            MemoryManagement.FlushMemory();
         }
 
         private void SFRInquiryItem_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -246,6 +248,7 @@ namespace StarLaiPortal.Module.Controllers
             if (selectedObject.IsValid2 == true)
             {
                 showMsg("Failed", "Salesperson already inactive.", InformationType.Error);
+                MemoryManagement.FlushMemory();
                 return;
             }
 
@@ -322,6 +325,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "No Content.", InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void SubmitSFR_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -356,6 +361,8 @@ namespace StarLaiPortal.Module.Controllers
             SalesRefundRequests trx = os.FindObject<SalesRefundRequests>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Cancel Done.", InformationType.Success);
+
+            MemoryManagement.FlushMemory();
         }
 
         private void CancelSFR_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -402,6 +409,8 @@ namespace StarLaiPortal.Module.Controllers
             ObjectSpace.Refresh();
 
             showMsg("Successful", "Approve Done.", InformationType.Success);
+
+            MemoryManagement.FlushMemory();
         }
 
         private void RejectAppSFR_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -424,6 +433,8 @@ namespace StarLaiPortal.Module.Controllers
             ObjectSpace.Refresh();
 
             showMsg("Successful", "Reject Done.", InformationType.Success);
+
+            MemoryManagement.FlushMemory();
         }
 
         private void SFRCopyToSF_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -477,6 +488,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "Copy Fail.", InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void ApproveAppPRR_Pop_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
@@ -758,6 +771,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "No CN selected.", InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void ApproveAppPRR_Pop_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)

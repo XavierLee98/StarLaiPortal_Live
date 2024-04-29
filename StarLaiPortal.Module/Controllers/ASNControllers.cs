@@ -314,6 +314,8 @@ namespace StarLaiPortal.Module.Controllers
                     showMsg("Fail", "Copy Fail.", InformationType.Error);
                 }
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void ASNCopyFromPO_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -492,6 +494,8 @@ namespace StarLaiPortal.Module.Controllers
                     showMsg("Fail", "Copy Fail.", InformationType.Error);
                 }
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void ASNCopyFromPODetails_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -551,6 +555,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "No Content.", InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void SubmitASN_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -585,6 +591,8 @@ namespace StarLaiPortal.Module.Controllers
             ASN trx = os.FindObject<ASN>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Cancel Done.", InformationType.Success);
+
+            MemoryManagement.FlushMemory();
         }
 
         private void CancelASN_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -655,6 +663,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void PrintLabelASN_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
@@ -749,6 +759,8 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "Copy Fail.", InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void ASNCopyToGRN_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -783,6 +795,8 @@ namespace StarLaiPortal.Module.Controllers
             ASN trx = os.FindObject<ASN>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Close Done.", InformationType.Success);
+
+            MemoryManagement.FlushMemory();
         }
 
         private void CloseASN_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -842,12 +856,16 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
+
+            MemoryManagement.FlushMemory();
         }
 
         private void ImportASN_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
         {
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
+
+            MemoryManagement.FlushMemory();
         }
 
         private void ImportASN_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)

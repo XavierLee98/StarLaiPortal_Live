@@ -447,6 +447,10 @@
     <Compile Include="Controllers\LoadControllers.Designer.cs">
       <DependentUpon>LoadControllers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\MemoryManagement.cs" />
+    <Compile Include="Controllers\MemoryManagement.Designer.cs">
+      <DependentUpon>MemoryManagement.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\NavigationControllers.cs">
       <SubType>Component</SubType>
     </Compile>
