@@ -39,6 +39,8 @@
             this.ViewSalesOrderInquiry = new DevExpress.ExpressApp.Actions.PopupWindowShowAction(this.components);
             this.StockMovementSPSearch = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             this.InquirySearch = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
+            this.PrintDOInquiry = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
+            this.PreviewInvInquiry = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             // 
             // ViewOpenPickList
             // 
@@ -148,6 +150,24 @@
             this.InquirySearch.ToolTip = null;
             this.InquirySearch.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.InquirySearch_Execute);
             // 
+            // PrintDOInquiry
+            // 
+            this.PrintDOInquiry.Caption = "Print DO";
+            this.PrintDOInquiry.Category = "ObjectsCreation";
+            this.PrintDOInquiry.ConfirmationMessage = null;
+            this.PrintDOInquiry.Id = "PrintDOInquiry";
+            this.PrintDOInquiry.ToolTip = null;
+            this.PrintDOInquiry.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.PrintDOInquiry_Execute);
+            // 
+            // PreviewInvInquiry
+            // 
+            this.PreviewInvInquiry.Caption = "Print Invoice";
+            this.PreviewInvInquiry.Category = "ObjectsCreation";
+            this.PreviewInvInquiry.ConfirmationMessage = null;
+            this.PreviewInvInquiry.Id = "PreviewInvInquiry";
+            this.PreviewInvInquiry.ToolTip = null;
+            this.PreviewInvInquiry.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.PreviewInvInquiry_Execute);
+            // 
             // InquiryViewControllers
             // 
             this.Actions.Add(this.ViewOpenPickList);
@@ -160,6 +180,8 @@
             this.Actions.Add(this.ViewSalesOrderInquiry);
             this.Actions.Add(this.StockMovementSPSearch);
             this.Actions.Add(this.InquirySearch);
+            this.Actions.Add(this.PrintDOInquiry);
+            this.Actions.Add(this.PreviewInvInquiry);
 
         }
 
@@ -175,5 +197,7 @@
         private DevExpress.ExpressApp.Actions.PopupWindowShowAction ViewSalesOrderInquiry;
         private DevExpress.ExpressApp.Actions.SimpleAction StockMovementSPSearch;
         private DevExpress.ExpressApp.Actions.SimpleAction InquirySearch;
+        private DevExpress.ExpressApp.Actions.SimpleAction PrintDOInquiry;
+        private DevExpress.ExpressApp.Actions.SimpleAction PreviewInvInquiry;
     }
 }

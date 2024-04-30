@@ -348,6 +348,15 @@ namespace StarLaiPortal.Module.Controllers
                             }
                             // End ver 1.0.8.1
                         }
+
+                        // Start ver 1.0.15
+                        if (dtl.Warehouse != null)
+                        {
+                            //pl.Transporter = newplitem.Session.GetObjectByKey<vwTransporter>(dtl.Transporter.TransporterID);
+                            pl.Warehouse = pl.Session.FindObject<vwWarehouse>(CriteriaOperator.Parse("WarehouseCode = ?", dtl.Warehouse));
+                        }
+                        // End ver 1.0.15
+
                         if (dtl.Transporter != null)
                         {
                             //pl.Transporter = newplitem.Session.GetObjectByKey<vwTransporter>(dtl.Transporter.TransporterID);
@@ -1314,6 +1323,15 @@ namespace StarLaiPortal.Module.Controllers
                                 }
                                 // End ver 1.0.8.1
                             }
+
+                            // Start ver 1.0.15
+                            if (dtl.Warehouse != null)
+                            {
+                                //pl.Transporter = newplitem.Session.GetObjectByKey<vwTransporter>(dtl.Transporter.TransporterID);
+                                pl.Warehouse = pl.Session.FindObject<vwWarehouse>(CriteriaOperator.Parse("WarehouseCode = ?", dtl.Warehouse));
+                            }
+                            // End ver 1.0.15
+
                             if (dtl.Transporter != null)
                             {
                                 //pl.Transporter = newplitem.Session.GetObjectByKey<vwTransporter>(dtl.Transporter.TransporterID);

@@ -33,6 +33,10 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
 using StarLaiPortal.Module.BusinessObjects.Stock_Count_Inquiry;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
+using StarLaiPortal.Module.BusinessObjects.Delivery_Order;
+using System.Web;
 
 // 2023-09-14 - add filter into inquiry - ver 1.0.9
 // 2023-10-16 - sales order inquiry add "All" option for filter and view button - ver 1.0.11
@@ -48,6 +52,8 @@ namespace StarLaiPortal.Module.Controllers
         private DateTime Fromdate;
         private DateTime Todate;
         // End ver 1.0.9
+
+        GeneralControllers genCon;
 
         public InquiryViewControllers()
         {
@@ -75,6 +81,8 @@ namespace StarLaiPortal.Module.Controllers
             // End ver 1.0.14
             // Start ver 1.0.15
             this.InquirySearch.Active.SetItemValue("Enabled", false);
+            this.PrintDOInquiry.Active.SetItemValue("Enabled", false);
+            this.PreviewInvInquiry.Active.SetItemValue("Enabled", false);
             // End ver 1.0.15
 
             if (typeof(vwInquiryOpenPickList).IsAssignableFrom(View.ObjectTypeInfo.Type))
@@ -391,12 +399,29 @@ namespace StarLaiPortal.Module.Controllers
                     this.InquirySearch.Active.SetItemValue("Enabled", true);
                 }
             }
+
+            if (typeof(DeliveryInquiryResult).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(DeliveryInquiryResult))
+                {
+                    this.PrintDOInquiry.Active.SetItemValue("Enabled", true);
+                }
+            }
+
+            if (typeof(InvoiceInquiryResult).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(InvoiceInquiryResult))
+                {
+                    this.PreviewInvInquiry.Active.SetItemValue("Enabled", true);
+                }
+            }
             // End ver 1.0.15
         }
         protected override void OnViewControlsCreated()
         {
             base.OnViewControlsCreated();
             // Access and customize the target View control. 
+            genCon = Frame.GetController<GeneralControllers>();
         }
 
         protected override void OnDeactivated()
@@ -1733,6 +1758,155 @@ namespace StarLaiPortal.Module.Controllers
 
                 persistentObjectSpace.Session.DropIdentityMap();
                 persistentObjectSpace.Dispose();
+            }
+
+            MemoryManagement.FlushMemory();
+        }
+
+        private void PrintDOInquiry_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            if (e.SelectedObjects.Count == 1)
+            {
+                string strServer;
+                string strDatabase;
+                string strUserID;
+                string strPwd;
+                string filename;
+
+                SqlConnection conn = new SqlConnection(genCon.getConnectionString());
+                DeliveryInquiryResult currobject = (DeliveryInquiryResult)View.CurrentObject;
+                ApplicationUser user = (ApplicationUser)SecuritySystem.CurrentUser;
+
+                if (currobject.PortalNo == "")
+                {
+                    showMsg("Fail", "DO number not found.", InformationType.Error);
+                    return;
+                }
+
+                IObjectSpace os = Application.CreateObjectSpace();
+                DeliveryOrder delivery = os.FindObject<DeliveryOrder>(new BinaryOperator("DocNum", currobject.PortalNo));
+
+                try
+                {
+                    ReportDocument doc = new ReportDocument();
+                    strServer = ConfigurationManager.AppSettings.Get("SQLserver").ToString();
+                    doc.Load(HttpContext.Current.Server.MapPath("~\\Reports\\DeliveryOrder.rpt"));
+                    strDatabase = conn.Database;
+                    strUserID = ConfigurationManager.AppSettings.Get("SQLID").ToString();
+                    strPwd = ConfigurationManager.AppSettings.Get("SQLPass").ToString();
+                    doc.DataSourceConnections[0].SetConnection(strServer, strDatabase, strUserID, strPwd);
+                    doc.Refresh();
+
+                    doc.SetParameterValue("dockey@", delivery.Oid);
+                    doc.SetParameterValue("dbName@", conn.Database);
+
+                    filename = ConfigurationManager.AppSettings.Get("ReportPath").ToString() + conn.Database
+                        + "_" + delivery.Oid + "_" + user.UserName + "_DO_"
+                        + DateTime.Parse(delivery.DocDate.ToString()).ToString("yyyyMMdd") + ".pdf";
+
+                    doc.ExportToDisk(ExportFormatType.PortableDocFormat, filename);
+                    doc.Close();
+                    doc.Dispose();
+
+                    string url = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority +
+                        ConfigurationManager.AppSettings.Get("PrintPath").ToString() + conn.Database
+                        + "_" + delivery.Oid + "_" + user.UserName + "_DO_"
+                        + DateTime.Parse(delivery.DocDate.ToString()).ToString("yyyyMMdd") + ".pdf";
+                    var script = "window.open('" + url + "');";
+
+                    WebWindow.CurrentRequestWindow.RegisterStartupScript("DownloadFile", script);
+                }
+                catch (Exception ex)
+                {
+                    showMsg("Fail", ex.Message, InformationType.Error);
+                }
+            }
+            else
+            {
+                showMsg("Fail", "Please select one DO only.", InformationType.Error);
+            }
+
+            MemoryManagement.FlushMemory();
+        }
+
+        private void PreviewInvInquiry_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            if (e.SelectedObjects.Count == 1)
+            {
+                string strServer;
+                string strDatabase;
+                string strUserID;
+                string strPwd;
+                string filename;
+
+                SqlConnection conn = new SqlConnection(genCon.getConnectionString());
+                InvoiceInquiryResult currobject = (InvoiceInquiryResult)View.CurrentObject;
+                ApplicationUser user = (ApplicationUser)SecuritySystem.CurrentUser;
+
+                if (currobject.PortalDONo == "")
+                {
+                    showMsg("Fail", "DO number not found.", InformationType.Error);
+                    return;
+                }
+
+                IObjectSpace os = Application.CreateObjectSpace();
+                DeliveryOrder delivery = os.FindObject<DeliveryOrder>(new BinaryOperator("DocNum", currobject.PortalDONo));
+            
+
+                if (delivery.SAPDocNum != null)
+                {
+                    try
+                    {
+                        ReportDocument doc = new ReportDocument();
+                        strServer = ConfigurationManager.AppSettings.Get("SQLserver").ToString();
+                        doc.Load(HttpContext.Current.Server.MapPath("~\\Reports\\Invoice.rpt"));
+                        strDatabase = conn.Database;
+                        strUserID = ConfigurationManager.AppSettings.Get("SQLID").ToString();
+                        strPwd = ConfigurationManager.AppSettings.Get("SQLPass").ToString();
+                        doc.DataSourceConnections[0].SetConnection(strServer, strDatabase, strUserID, strPwd);
+                        doc.Refresh();
+
+                        doc.SetParameterValue("dockey@", delivery.Oid);
+                        doc.SetParameterValue("dbName@", conn.Database);
+
+                        filename = ConfigurationManager.AppSettings.Get("ReportPath").ToString() + conn.Database
+                            + "_" + delivery.Oid + "_" + user.UserName + "_Inv_"
+                            + DateTime.Parse(delivery.DocDate.ToString()).ToString("yyyyMMdd") + ".pdf";
+
+                        doc.ExportToDisk(ExportFormatType.PortableDocFormat, filename);
+                        doc.Close();
+                        doc.Dispose();
+
+                        string url = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority +
+                            ConfigurationManager.AppSettings.Get("PrintPath").ToString() + conn.Database
+                            + "_" + delivery.Oid + "_" + user.UserName + "_Inv_"
+                            + DateTime.Parse(delivery.DocDate.ToString()).ToString("yyyyMMdd") + ".pdf";
+                        var script = "window.open('" + url + "');";
+
+                        WebWindow.CurrentRequestWindow.RegisterStartupScript("DownloadFile", script);
+
+                        IObjectSpace updos = Application.CreateObjectSpace();
+                        DeliveryOrder trx = updos.FindObject<DeliveryOrder>(new BinaryOperator("Oid", delivery.Oid));
+
+                        trx.INVPrintCount = trx.INVPrintCount + 1;
+                        trx.INVPrintDate = DateTime.Now;
+
+                        updos.CommitChanges();
+                        updos.Refresh();
+                    }
+                    catch (Exception ex)
+                    {
+                        showMsg("Fail", ex.Message, InformationType.Error);
+                    }
+                }
+                else
+                {
+                    showMsg("Fail", "Invoice not found.", InformationType.Error);
+                }
+            }
+            else
+            {
+                showMsg("Fail", "Please select one Invoice only.", InformationType.Error);
             }
 
             MemoryManagement.FlushMemory();

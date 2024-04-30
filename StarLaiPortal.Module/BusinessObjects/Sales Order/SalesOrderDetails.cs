@@ -148,7 +148,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Order
         }
 
         private string _ItemDesc;
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [XafDisplayName("Item Description")]
         [Appearance("ItemDesc", Enabled = false)]
         [Index(3), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
@@ -162,7 +162,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Order
         }
 
         private string _Model;
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [XafDisplayName("Model")]
         [Appearance("Model", Enabled = false)]
         [Index(5), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
@@ -176,7 +176,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Order
         }
 
         private string _CatalogNo;
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [XafDisplayName("Catalog No")]
         [Appearance("CatalogNo", Enabled = false)]
         [Index(6), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]

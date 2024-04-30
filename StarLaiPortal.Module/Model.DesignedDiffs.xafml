@@ -1709,7 +1709,7 @@
         <ColumnInfo Id="PriceList4" Index="-1" />
         <ColumnInfo Id="ItemCode" SortIndex="-1" SortOrder="None" />
         <ColumnInfo Id="Price1" Width="54" />
-        <ColumnInfo Id="Price2" SortIndex="0" SortOrder="Ascending" Width="36" />
+        <ColumnInfo Id="Price2" SortIndex="-1" SortOrder="None" Width="36" />
         <ColumnInfo Id="Price3" Width="40" />
         <ColumnInfo Id="Price4" Width="39" />
         <ColumnInfo Id="Stock1" Index="8" Width="74" />
@@ -1743,7 +1743,7 @@
         <ColumnInfo Id="LegacyItemCode" PropertyName="LegacyItemCode" Index="2" IsNewNode="True" />
         <ColumnInfo Id="Model" PropertyName="Model" Index="3" IsNewNode="True" />
         <ColumnInfo Id="Price1" PropertyName="Price1" Index="4" Width="54" IsNewNode="True" />
-        <ColumnInfo Id="Price2" PropertyName="Price2" Index="5" SortIndex="0" SortOrder="Ascending" Width="36" IsNewNode="True" />
+        <ColumnInfo Id="Price2" PropertyName="Price2" Index="5" SortIndex="-1" SortOrder="None" Width="36" IsNewNode="True" />
         <ColumnInfo Id="Price3" PropertyName="Price3" Index="6" Width="40" IsNewNode="True" />
         <ColumnInfo Id="Price4" PropertyName="Price4" Index="7" Width="39" IsNewNode="True" />
         <ColumnInfo Id="Stock1" PropertyName="Stock1" Index="8" Width="74" IsNewNode="True" />
