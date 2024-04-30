@@ -27,10 +27,10 @@ namespace StarLaiPortal.Module.Controllers
         {
             GC.Collect();
             GC.WaitForPendingFinalizers();
-            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-            {
-                SetProcessWorkingSetSize(System.Diagnostics.Process.GetCurrentProcess().Handle, -1, -1);
-            }
+            //if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            //{
+            //    SetProcessWorkingSetSize(System.Diagnostics.Process.GetCurrentProcess().Handle, -1, -1);
+            //}
         }
     }
 }
