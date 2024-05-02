@@ -183,8 +183,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "No Content.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void SubmitSR_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -228,8 +226,6 @@ namespace StarLaiPortal.Module.Controllers
             SalesReturns trx = os.FindObject<SalesReturns>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Cancel Done.", InformationType.Success);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void CancelSR_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -291,8 +287,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         // Start ver 1.0.8
@@ -361,8 +355,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "Please select data to print.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
         // End ver 1.0.8
 
@@ -432,8 +424,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "Please select data to print.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
         // End ver 1.0.15
     }

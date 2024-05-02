@@ -129,8 +129,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "No Content.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void SubmitSRefund_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -174,8 +172,6 @@ namespace StarLaiPortal.Module.Controllers
             SalesRefunds trx = os.FindObject<SalesRefunds>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Cancel Done.", InformationType.Success);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void CancelSRefund_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)

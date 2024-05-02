@@ -238,8 +238,6 @@ namespace StarLaiPortal.Module.Controllers
         {
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
-
-            MemoryManagement.FlushMemory();
         }
 
         private void WTRInquiryItem_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -439,8 +437,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "No Content.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void SubmitWTR_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -475,8 +471,6 @@ namespace StarLaiPortal.Module.Controllers
             WarehouseTransferReq trx = os.FindObject<WarehouseTransferReq>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Cancel Done.", InformationType.Success);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void CancelWTR_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -538,8 +532,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ReviewAppWTR_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -567,8 +559,6 @@ namespace StarLaiPortal.Module.Controllers
             ObjectSpace.Refresh();
 
             showMsg("Successful", "Approve Done.", InformationType.Success);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void RejectAppWTR_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -591,8 +581,6 @@ namespace StarLaiPortal.Module.Controllers
             ObjectSpace.Refresh();
 
             showMsg("Successful", "Reject Done.", InformationType.Success);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void WTRCopyToWT_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -675,8 +663,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "Copy Fail.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ApproveAppWTR_Pop_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
@@ -941,8 +927,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "No Warehouse Transfer Request selected.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ApproveAppWTR_Pop_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -1017,16 +1001,12 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ImportWHReq_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
         {
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ImportWHReq_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)

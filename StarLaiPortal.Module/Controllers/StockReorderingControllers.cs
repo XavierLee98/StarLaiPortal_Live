@@ -137,8 +137,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
     }
 }

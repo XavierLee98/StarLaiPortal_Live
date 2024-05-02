@@ -142,8 +142,6 @@ namespace StarLaiPortal.Module.Controllers
             StockCountConfirm trx = os.FindObject<StockCountConfirm>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Submit Done.", InformationType.Success);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void SubmitSCC_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -178,8 +176,6 @@ namespace StarLaiPortal.Module.Controllers
             StockCountConfirm trx = os.FindObject<StockCountConfirm>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Cancel Done.", InformationType.Success);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void CancelSCC_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -239,16 +235,12 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ImportConfirmCountItems_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
         {
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ImportConfirmCountItems_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -325,8 +317,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
     }
 }

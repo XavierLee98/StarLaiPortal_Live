@@ -451,6 +451,12 @@
     <Compile Include="Controllers\MemoryManagement.Designer.cs">
       <DependentUpon>MemoryManagement.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\MemoryManagementController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\MemoryManagementController.Designer.cs">
+      <DependentUpon>MemoryManagementController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\NavigationControllers.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -642,6 +648,9 @@
     <EmbeddedResource Include="Controllers\LoadControllers.resx">
       <DependentUpon>LoadControllers.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controllers\MemoryManagementController.resx">
+      <DependentUpon>MemoryManagementController.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controllers\PackListControllers.resx">
       <DependentUpon>PackListControllers.cs</DependentUpon>

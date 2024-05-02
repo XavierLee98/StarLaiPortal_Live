@@ -390,8 +390,6 @@ namespace StarLaiPortal.Module.Controllers
                 WarehouseTransferReq trx = os.FindObject<WarehouseTransferReq>(new BinaryOperator("DocNum", selectedObject.DocNum));
                 openNewView(os, trx, ViewEditMode.View);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ViewDashboardDoc_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
@@ -537,8 +535,6 @@ namespace StarLaiPortal.Module.Controllers
                 WarehouseTransferReq trx = os.FindObject<WarehouseTransferReq>(new BinaryOperator("DocNum", selectedObject.DocNum));
                 openNewView(os, trx, ViewEditMode.View);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ViewDashboardDoc_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -950,8 +946,6 @@ namespace StarLaiPortal.Module.Controllers
                 WarehouseTransferReq trx = os.FindObject<WarehouseTransferReq>(new BinaryOperator("DocNum", selectedObject.DocNum));
                 openNewView(os, trx, ViewEditMode.View);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ViewDocSales_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -1097,8 +1091,6 @@ namespace StarLaiPortal.Module.Controllers
                 WarehouseTransferReq trx = os.FindObject<WarehouseTransferReq>(new BinaryOperator("DocNum", selectedObject.DocNum));
                 openNewView(os, trx, ViewEditMode.View);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ViewDashboardDocSales_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -1509,8 +1501,6 @@ namespace StarLaiPortal.Module.Controllers
                 WarehouseTransferReq trx = os.FindObject<WarehouseTransferReq>(new BinaryOperator("DocNum", selectedObject.DocNum));
                 openNewView(os, trx, ViewEditMode.View);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ViewDashboardDocPurchase_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -1921,8 +1911,6 @@ namespace StarLaiPortal.Module.Controllers
                 WarehouseTransferReq trx = os.FindObject<WarehouseTransferReq>(new BinaryOperator("DocNum", selectedObject.DocNum));
                 openNewView(os, trx, ViewEditMode.View);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ViewDashboardDocWhs_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
@@ -2068,8 +2056,6 @@ namespace StarLaiPortal.Module.Controllers
                 WarehouseTransferReq trx = os.FindObject<WarehouseTransferReq>(new BinaryOperator("DocNum", selectedObject.DocNum));
                 openNewView(os, trx, ViewEditMode.View);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ViewDashboardDocWhs_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -2480,8 +2466,6 @@ namespace StarLaiPortal.Module.Controllers
                 WarehouseTransferReq trx = os.FindObject<WarehouseTransferReq>(new BinaryOperator("DocNum", selectedObject.DocNum));
                 openNewView(os, trx, ViewEditMode.View);
             }
-
-            MemoryManagement.FlushMemory();
         }
         // End ver 1.0.9
     }
