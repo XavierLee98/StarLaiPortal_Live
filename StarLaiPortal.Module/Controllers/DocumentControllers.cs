@@ -191,8 +191,6 @@ namespace StarLaiPortal.Module.Controllers
                     ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?", Fromdate, Todate.AddDays(1));
                 }
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void DocumentDateTo_Execute(object sender, ParametrizedActionExecuteEventArgs e)
@@ -221,8 +219,6 @@ namespace StarLaiPortal.Module.Controllers
                     ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?", Fromdate, Todate.AddDays(1));
                 }
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void DocumentStatus_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
@@ -243,8 +239,6 @@ namespace StarLaiPortal.Module.Controllers
                     }
                 }
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void DocumentFilter_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -273,8 +267,6 @@ namespace StarLaiPortal.Module.Controllers
                     ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?", Fromdate, Todate.AddDays(1));
                 }
             }
-
-            MemoryManagement.FlushMemory();
         }
     }
 }

@@ -140,8 +140,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "No item selected.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void RetriveDocItem_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -354,8 +352,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "No Document Number.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void PrintLabel_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -467,8 +463,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
     }
 }

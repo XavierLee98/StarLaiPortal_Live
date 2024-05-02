@@ -182,8 +182,6 @@ namespace StarLaiPortal.Module.Controllers
         {
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
-
-            MemoryManagement.FlushMemory();
         }
 
         private void PRRInquiryItem_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -360,8 +358,6 @@ namespace StarLaiPortal.Module.Controllers
                     showMsg("Fail", "Copy Fail.", InformationType.Error);
                 }
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void PRRCopyFromPO_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -479,8 +475,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "No Content.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void SubmitPRR_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -515,8 +509,6 @@ namespace StarLaiPortal.Module.Controllers
             PurchaseReturnRequests trx = os.FindObject<PurchaseReturnRequests>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Cancel Done.", InformationType.Success);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void CancelPRR_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -562,8 +554,6 @@ namespace StarLaiPortal.Module.Controllers
             ObjectSpace.Refresh();
 
             showMsg("Successful", "Approve Done.", InformationType.Success);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void RejectAppPRR_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -581,8 +571,6 @@ namespace StarLaiPortal.Module.Controllers
             ObjectSpace.Refresh();
 
             showMsg("Successful", "Reject Done.", InformationType.Success);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void PRRCopyToPReturn_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -675,8 +663,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "Copy Fail.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ApproveAppPRR_Pop_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
@@ -940,8 +926,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "No Purchase Return Request selected.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ApproveAppPRR_Pop_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)

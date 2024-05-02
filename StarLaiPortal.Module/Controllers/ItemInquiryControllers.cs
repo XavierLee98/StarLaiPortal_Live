@@ -274,8 +274,6 @@ namespace StarLaiPortal.Module.Controllers
                 showMsg("Fail", "Not allow enter multiple searching field.", InformationType.Error);
             }
             // End ver 1.0.15
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ViewSales_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
@@ -352,8 +350,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "Cart not found.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void AddToCartPop_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
@@ -696,8 +692,6 @@ namespace StarLaiPortal.Module.Controllers
 
                 ObjectSpace.CommitChanges();
                 ObjectSpace.Refresh();
-
-                MemoryManagement.FlushMemory();
             //}
         }
 
@@ -767,8 +761,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "No picture file.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         // Start ver 1.0.7
@@ -1112,7 +1104,6 @@ namespace StarLaiPortal.Module.Controllers
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
 
-            MemoryManagement.FlushMemory();
             //}
         }
         // End ver 1.0.7

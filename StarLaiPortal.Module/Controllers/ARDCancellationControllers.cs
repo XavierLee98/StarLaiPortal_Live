@@ -204,8 +204,6 @@ namespace StarLaiPortal.Module.Controllers
                     showMsg("Fail", "Copy Fail.", InformationType.Error);
                 }
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void CopyFromDownpayment_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -309,8 +307,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "No Content.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void SubmitDPCancel_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -345,8 +341,6 @@ namespace StarLaiPortal.Module.Controllers
             ARDownpaymentCancel trx = os.FindObject<ARDownpaymentCancel>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Cancel Done.", InformationType.Success);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void CancelDPCancel_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -392,19 +386,16 @@ namespace StarLaiPortal.Module.Controllers
                                 if (appstatus == ApprovalStatusType.Required_Approval && p.AppStatus == ApprovalActions.NA)
                                 {
                                     showMsg("Failed", "Same Approval Status is not allowed.", InformationType.Error);
-                                    MemoryManagement.FlushMemory();
                                     return;
                                 }
                                 else if (appstatus == ApprovalStatusType.Approved && p.AppStatus == ApprovalActions.Yes)
                                 {
                                     showMsg("Failed", "Same Approval Status is not allowed.", InformationType.Error);
-                                    MemoryManagement.FlushMemory();
                                     return;
                                 }
                                 else if (appstatus == ApprovalStatusType.Rejected && p.AppStatus == ApprovalActions.No)
                                 {
                                     showMsg("Failed", "Same Approval Status is not allowed.", InformationType.Error);
-                                    MemoryManagement.FlushMemory();
                                     return;
                                 }
                                 if (p.AppStatus == ApprovalActions.NA)
@@ -519,7 +510,6 @@ namespace StarLaiPortal.Module.Controllers
                         if (ardpc.Status == DocStatus.PendPost)
                         {
                             showMsg("Failed", "Document already approved, please refresh data.", InformationType.Error);
-                            MemoryManagement.FlushMemory();
                             return;
                         }
 
@@ -528,7 +518,6 @@ namespace StarLaiPortal.Module.Controllers
                             if (!ardpc.AppUser.Contains(user.Staff.StaffName))
                             {
                                 showMsg("Failed", "Document already approved, please refresh data.", InformationType.Error);
-                                MemoryManagement.FlushMemory();
                                 return;
                             }
                         }
@@ -543,19 +532,16 @@ namespace StarLaiPortal.Module.Controllers
                         if (appstatus == ApprovalStatusType.Required_Approval && p.AppStatus == ApprovalActions.NA)
                         {
                             showMsg("Failed", "Same Approval Status is not allowed.", InformationType.Error);
-                            MemoryManagement.FlushMemory();
                             return;
                         }
                         else if (appstatus == ApprovalStatusType.Approved && p.AppStatus == ApprovalActions.Yes)
                         {
                             showMsg("Failed", "Same Approval Status is not allowed.", InformationType.Error);
-                            MemoryManagement.FlushMemory();
                             return;
                         }
                         else if (appstatus == ApprovalStatusType.Rejected && p.AppStatus == ApprovalActions.No)
                         {
                             showMsg("Failed", "Same Approval Status is not allowed.", InformationType.Error);
-                            MemoryManagement.FlushMemory();
                             return;
                         }
                         if (p.AppStatus == ApprovalActions.NA)
@@ -648,8 +634,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "No PO selected.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ApproveAppARDPC_Pop_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)

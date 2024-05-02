@@ -512,8 +512,6 @@ namespace StarLaiPortal.Module.Controllers
             IObjectSpace os = Application.CreateObjectSpace();
             PickList trx = os.FindObject<PickList>(new BinaryOperator("DocNum", selectedObject.PortalNo));
             openNewView(os, trx, ViewEditMode.View);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ViewOpenPickList_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -538,8 +536,6 @@ namespace StarLaiPortal.Module.Controllers
             IObjectSpace os = Application.CreateObjectSpace();
             PickList trx = os.FindObject<PickList>(new BinaryOperator("DocNum", selectedObject.PortalNo));
             openNewView(os, trx, ViewEditMode.View);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ViewPickListDetailInquiry_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -564,8 +560,6 @@ namespace StarLaiPortal.Module.Controllers
             IObjectSpace os = Application.CreateObjectSpace();
             PickList trx = os.FindObject<PickList>(new BinaryOperator("DocNum", selectedObject.PortalNo));
             openNewView(os, trx, ViewEditMode.View);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ViewPickListInquiry_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -601,8 +595,6 @@ namespace StarLaiPortal.Module.Controllers
                     Fromdate, Todate.AddDays(1));
             }
             // End ver 1.0.11
-
-            MemoryManagement.FlushMemory();
         }
 
         private void InquiryDateFrom_Execute(object sender, ParametrizedActionExecuteEventArgs e)
@@ -610,8 +602,6 @@ namespace StarLaiPortal.Module.Controllers
             ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
                 "and DocDate >= ? and DocDate < ?",
                 InquiryStatus.SelectedItem.Id, Fromdate, Todate.AddDays(1));
-
-            MemoryManagement.FlushMemory();
         }
 
         private void InquiryDateTo_Execute(object sender, ParametrizedActionExecuteEventArgs e)
@@ -619,8 +609,6 @@ namespace StarLaiPortal.Module.Controllers
             ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
                 "and DocDate >= ? and DocDate < ?",
                 InquiryStatus.SelectedItem.Id, Fromdate, Todate.AddDays(1));
-
-            MemoryManagement.FlushMemory();
         }
 
         private void InquiryFilter_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -640,8 +628,6 @@ namespace StarLaiPortal.Module.Controllers
                     Fromdate, Todate.AddDays(1));
             }
             // End ver 1.0.11
-
-            MemoryManagement.FlushMemory();
         }
         // End ver 1.0.9
 
@@ -653,8 +639,6 @@ namespace StarLaiPortal.Module.Controllers
             IObjectSpace os = Application.CreateObjectSpace();
             SalesOrder trx = os.FindObject<SalesOrder>(new BinaryOperator("DocNum", selectedObject.PortalNo));
             openNewView(os, trx, ViewEditMode.View);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ViewSalesOrderInquiry_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -733,8 +717,6 @@ namespace StarLaiPortal.Module.Controllers
 
             persistentObjectSpace.Session.DropIdentityMap();
             persistentObjectSpace.Dispose();
-
-            MemoryManagement.FlushMemory();
         }
         // End ver 1.0.14
 
@@ -1759,8 +1741,6 @@ namespace StarLaiPortal.Module.Controllers
                 persistentObjectSpace.Session.DropIdentityMap();
                 persistentObjectSpace.Dispose();
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void PrintDOInquiry_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -1825,8 +1805,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "Please select one DO only.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void PreviewInvInquiry_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -1908,8 +1886,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "Please select one Invoice only.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
         // End ver 1.0.15
     }

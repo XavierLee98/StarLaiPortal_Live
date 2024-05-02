@@ -214,8 +214,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "One DO only allow one SO.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void DOCopyFromLoading_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -257,8 +255,6 @@ namespace StarLaiPortal.Module.Controllers
             DeliveryOrder trx = os.FindObject<DeliveryOrder>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Submit Done.", InformationType.Success);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void SubmitDO_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -293,8 +289,6 @@ namespace StarLaiPortal.Module.Controllers
             DeliveryOrder trx = os.FindObject<DeliveryOrder>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Cancel Done.", InformationType.Success);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void CancelDO_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -371,8 +365,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "Please select one DO only.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void PreviewInv_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -444,8 +436,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "Please select one DO only.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void PreviewBundleDO_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -511,8 +501,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "Please select one DO only.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         // Start ver 0.1
@@ -578,8 +566,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "Please select one DO only.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
         // End ver 0.1
 
@@ -646,8 +632,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "Please select one DO only.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         // Start ver 1.0.13
@@ -705,8 +689,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "Please select cardcode.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
         // End ver 1.0.13
     }

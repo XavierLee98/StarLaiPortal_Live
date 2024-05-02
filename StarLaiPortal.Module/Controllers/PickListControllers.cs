@@ -477,8 +477,6 @@ namespace StarLaiPortal.Module.Controllers
                     showMsg("Fail", "Copy Fail.", InformationType.Error);
                 }
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void PLCopyFromSOC_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -615,14 +613,12 @@ namespace StarLaiPortal.Module.Controllers
             if (insuffstock == true)
             {
                 showMsg("Error", "Bin not enough stock. Item : " + insuff, InformationType.Error);
-                MemoryManagement.FlushMemory();
                 return;
             }
 
             if (selectedObject.IsValid4 == true)
             {
                 showMsg("Error", "Duplicate customer in pick list.", InformationType.Error);
-                MemoryManagement.FlushMemory();
                 return;
             }
 
@@ -630,7 +626,6 @@ namespace StarLaiPortal.Module.Controllers
             if (selectedObject.IsValid5 == true)
             {
                 showMsg("Error", "Pick qty more than plan qty.", InformationType.Error);
-                MemoryManagement.FlushMemory();
                 return;
             }
             // End ver 1.0.9
@@ -639,7 +634,6 @@ namespace StarLaiPortal.Module.Controllers
             if (selectedObject.IsValid7 == true)
             {
                 showMsg("Error", "Pick qty cannot 0.", InformationType.Error);
-                MemoryManagement.FlushMemory();
                 return;
             }
 
@@ -647,7 +641,6 @@ namespace StarLaiPortal.Module.Controllers
             if (selectedObject.Warehouse == null)
             {
                 showMsg("Error", "Warehouse no allow blank.", InformationType.Error);
-                MemoryManagement.FlushMemory();
                 return;
             }
             // End ver 1.0.14
@@ -1135,8 +1128,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "No Content.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void SubmitPL_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -1171,8 +1162,6 @@ namespace StarLaiPortal.Module.Controllers
             PickList trx = os.FindObject<PickList>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Cancel Done.", InformationType.Success);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void CancelPL_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -1242,8 +1231,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void PLCopyFromSOCG_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
@@ -1457,8 +1444,6 @@ namespace StarLaiPortal.Module.Controllers
                     showMsg("Fail", "Copy Fail.", InformationType.Error);
                 }
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void PLCopyFromSOCG_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -1623,8 +1608,6 @@ namespace StarLaiPortal.Module.Controllers
                     showMsg("Fail", "Copy Fail.", InformationType.Error);
                 }
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void PLCopyFromPLDetail_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -1723,8 +1706,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "Please select pick list to print.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
         // End ver 1.0.7
 
@@ -1794,8 +1775,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "Please select pick list to print.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
         // End ver 1.0.8
     }

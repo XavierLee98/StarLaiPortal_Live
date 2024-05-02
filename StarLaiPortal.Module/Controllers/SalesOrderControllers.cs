@@ -178,8 +178,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         // Start ver 1.0.9
@@ -255,8 +253,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", error, InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void CancelSO_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -344,8 +340,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", error, InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void CloseSO_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)

@@ -281,8 +281,6 @@ namespace StarLaiPortal.Module.Controllers
             }
 
             openNewView(os, trx, ViewEditMode.Edit);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void CreateSalesOrder_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
@@ -298,21 +296,18 @@ namespace StarLaiPortal.Module.Controllers
             if (sqtrx.Status == DocStatus.Submitted)
             {
                 showMsg("Failed", "Document already submit, please refresh data.", InformationType.Error);
-                MemoryManagement.FlushMemory();
                 return;
             }
 
             if (selectedObject.IsValid5 == true)
             {
                 showMsg("Failed", "Credit customer not allow use cash series.", InformationType.Error);
-                MemoryManagement.FlushMemory();
                 return;
             }
 
             if (selectedObject.IsValid6 == true)
             {
                 showMsg("Failed", "Salesperson already inactive.", InformationType.Error);
-                MemoryManagement.FlushMemory();
                 return;
             }
 
@@ -320,14 +315,12 @@ namespace StarLaiPortal.Module.Controllers
             if (selectedObject.IsValid7 == true)
             {
                 showMsg("Failed", "Cash sales billing and shipping address cannot blank.", InformationType.Error);
-                MemoryManagement.FlushMemory();
                 return;
             }
 
             if (selectedObject.IsValid8 == true)
             {
                 showMsg("Failed", "Priority cannot be blank.", InformationType.Error);
-                MemoryManagement.FlushMemory();
                 return;
             }
             // End ver 1.0.7
@@ -503,8 +496,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "Multiple warehouse in same document.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void CreateSalesOrder_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -544,8 +535,6 @@ namespace StarLaiPortal.Module.Controllers
             SalesQuotation trx = os.FindObject<SalesQuotation>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Cancel Done.", InformationType.Success);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void CancelSalesOrder_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -578,8 +567,6 @@ namespace StarLaiPortal.Module.Controllers
             // End ver 1.0.14
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
-
-            MemoryManagement.FlushMemory();
         }
 
         private void InquiryItem_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -763,8 +750,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "Duplicate Fail, No selected item.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ReviewAppSQ_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -813,8 +798,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ApproveAppSQ_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -912,8 +895,6 @@ namespace StarLaiPortal.Module.Controllers
             ObjectSpace.Refresh();
 
             showMsg("Successful", "Approve Done.", InformationType.Success);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void RejectAppSQ_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -936,8 +917,6 @@ namespace StarLaiPortal.Module.Controllers
             ObjectSpace.Refresh();
 
             showMsg("Successful", "Reject Done.", InformationType.Success);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void PreviewSQ_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -986,8 +965,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ApproveAppSQ_Pop_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
@@ -1044,19 +1021,16 @@ namespace StarLaiPortal.Module.Controllers
                                     if (appstatus == ApprovalStatusType.Required_Approval && p.AppStatus == ApprovalActions.NA)
                                     {
                                         showMsg("Failed", "Same Approval Status is not allowed.", InformationType.Error);
-                                        MemoryManagement.FlushMemory();
                                         return;
                                     }
                                     else if (appstatus == ApprovalStatusType.Approved && p.AppStatus == ApprovalActions.Yes)
                                     {
                                         showMsg("Failed", "Same Approval Status is not allowed.", InformationType.Error);
-                                        MemoryManagement.FlushMemory();
                                         return;
                                     }
                                     else if (appstatus == ApprovalStatusType.Rejected && p.AppStatus == ApprovalActions.No)
                                     {
                                         showMsg("Failed", "Same Approval Status is not allowed.", InformationType.Error);
-                                        MemoryManagement.FlushMemory();
                                         return;
                                     }
                                     if (p.AppStatus == ApprovalActions.NA)
@@ -1237,8 +1211,6 @@ namespace StarLaiPortal.Module.Controllers
                         showMsg("Error", ex.Message, InformationType.Error);
                     }
                 }
-
-                MemoryManagement.FlushMemory();
             }
             else if (e.SelectedObjects.Count == 1)
             {
@@ -1256,7 +1228,6 @@ namespace StarLaiPortal.Module.Controllers
                         if (sq.Status == DocStatus.Submitted && sq.AppStatus == ApprovalStatusType.Approved)
                         {
                             showMsg("Failed", "Document already approved, please refresh data.", InformationType.Error);
-                            MemoryManagement.FlushMemory();
                             return;
                         }
 
@@ -1265,7 +1236,6 @@ namespace StarLaiPortal.Module.Controllers
                             if (!sq.AppUser.Contains(user.Staff.StaffName))
                             {
                                 showMsg("Failed", "Document already approved, please refresh data.", InformationType.Error);
-                                MemoryManagement.FlushMemory();
                                 return;
                             }
                         }
@@ -1274,7 +1244,6 @@ namespace StarLaiPortal.Module.Controllers
                         if (sq.IsValid4 == true && p.AppStatus != ApprovalActions.No)
                         {
                             showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
-                            MemoryManagement.FlushMemory();
                             return;
                         }
                         // End ver 1.0.8.1
@@ -1289,19 +1258,16 @@ namespace StarLaiPortal.Module.Controllers
                         if (appstatus == ApprovalStatusType.Required_Approval && p.AppStatus == ApprovalActions.NA)
                         {
                             showMsg("Failed", "Same Approval Status is not allowed.", InformationType.Error);
-                            MemoryManagement.FlushMemory();
                             return;
                         }
                         else if (appstatus == ApprovalStatusType.Approved && p.AppStatus == ApprovalActions.Yes)
                         {
                             showMsg("Failed", "Same Approval Status is not allowed.", InformationType.Error);
-                            MemoryManagement.FlushMemory();
                             return;
                         }
                         else if (appstatus == ApprovalStatusType.Rejected && p.AppStatus == ApprovalActions.No)
                         {
                             showMsg("Failed", "Same Approval Status is not allowed.", InformationType.Error);
-                            MemoryManagement.FlushMemory();
                             return;
                         }
                         if (p.AppStatus == ApprovalActions.NA)
@@ -1466,8 +1432,6 @@ namespace StarLaiPortal.Module.Controllers
                         showMsg("Successful", "Approve Done.", InformationType.Success);
                     }
                 }
-
-                MemoryManagement.FlushMemory();
             }
             else
             {
@@ -1546,16 +1510,12 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ImportSQ_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
         {
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ImportSQ_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -1598,21 +1558,18 @@ namespace StarLaiPortal.Module.Controllers
             if (sqtrx.Status == DocStatus.Submitted)
             {
                 showMsg("Failed", "Document already submit, please refresh data.", InformationType.Error);
-                MemoryManagement.FlushMemory();
                 return;
             }
 
             if (selectedObject.IsValid5 == true)
             {
                 showMsg("Failed", "Credit customer not allow use cash series.", InformationType.Error);
-                MemoryManagement.FlushMemory();
                 return;
             }
 
             if (selectedObject.IsValid6 == true)
             {
                 showMsg("Failed", "Salesperson already inactive.", InformationType.Error);
-                MemoryManagement.FlushMemory();
                 return;
             }
 
@@ -1620,14 +1577,12 @@ namespace StarLaiPortal.Module.Controllers
             if (selectedObject.IsValid7 == true)
             {
                 showMsg("Failed", "Cash sales billing and shipping address cannot blank.", InformationType.Error);
-                MemoryManagement.FlushMemory();
                 return;
             }
 
             if (selectedObject.IsValid8 == true)
             {
                 showMsg("Failed", "Priority cannot be blank.", InformationType.Error);
-                MemoryManagement.FlushMemory();
                 return;
             }
             // End ver 1.0.7
@@ -1803,8 +1758,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "Multiple warehouse in same document.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
         // End ver 1.0.13
 
@@ -1813,8 +1766,6 @@ namespace StarLaiPortal.Module.Controllers
         {
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ImportUpdateSQ_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)

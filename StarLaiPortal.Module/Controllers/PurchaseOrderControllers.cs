@@ -235,14 +235,12 @@ namespace StarLaiPortal.Module.Controllers
             if (selectedObject.PurchaseOrderDetails.Where(x => x.AdjustedPrice > 0 && x.FOC == true).Count() > 0)
             {
                 showMsg("Error", "Unit price not allow more than 0 for FOC item.", InformationType.Error);
-                MemoryManagement.FlushMemory();
                 return;
             }
 
             if (selectedObject.PurchaseOrderDetails.Where(x => x.AdjustedPrice == 0 && x.FOC == false).Count() > 0)
             {
                 showMsg("Error", "Unit price 0 must tick FOC.", InformationType.Error);
-                MemoryManagement.FlushMemory();
                 return;
             }
             // End ver 1.0.12
@@ -438,8 +436,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Error", "Back to Back Sales - Item: " + sellingitem + " adjusted price higher than selling price.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void SubmitPO_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -474,8 +470,6 @@ namespace StarLaiPortal.Module.Controllers
             PurchaseOrders trx = os.FindObject<PurchaseOrders>(new BinaryOperator("Oid", selectedObject.Oid));
             openNewView(os, trx, ViewEditMode.View);
             showMsg("Successful", "Cancel Done.", InformationType.Success);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void CancelPO_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -542,8 +536,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void POInquiryItem_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
@@ -564,8 +556,6 @@ namespace StarLaiPortal.Module.Controllers
 
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
-
-            MemoryManagement.FlushMemory();
         }
 
         private void POInquiryItem_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -732,8 +722,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "Duplicate Fail, No selected item.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ReviewAppPO_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -782,8 +770,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ApproveAppPO_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -807,8 +793,6 @@ namespace StarLaiPortal.Module.Controllers
             ObjectSpace.Refresh();
 
             showMsg("Successful", "Approve Done.", InformationType.Success);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void RejectAppPO_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -831,8 +815,6 @@ namespace StarLaiPortal.Module.Controllers
             ObjectSpace.Refresh();
 
             showMsg("Successful", "Reject Done.", InformationType.Success);
-
-            MemoryManagement.FlushMemory();
         }
 
         private void POCopyFromSO_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
@@ -904,8 +886,6 @@ namespace StarLaiPortal.Module.Controllers
                     showMsg("Fail", "Copy Fail.", InformationType.Error);
                 }
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void POCopyFromSO_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -1210,8 +1190,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", "No PO selected.", InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ApproveAppPO_Pop_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -1292,8 +1270,6 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ExportPOFormat_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -1340,16 +1316,12 @@ namespace StarLaiPortal.Module.Controllers
             {
                 showMsg("Fail", ex.Message, InformationType.Error);
             }
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ImportPO_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
         {
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ImportPO_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
@@ -1385,8 +1357,6 @@ namespace StarLaiPortal.Module.Controllers
         {
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
-
-            MemoryManagement.FlushMemory();
         }
 
         private void ImportUpdatePO_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
