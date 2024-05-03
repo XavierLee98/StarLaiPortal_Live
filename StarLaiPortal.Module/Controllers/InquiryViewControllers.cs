@@ -451,7 +451,7 @@ namespace StarLaiPortal.Module.Controllers
                 ASPxDateEdit dateEdit = actionItem.Control.Editor as ASPxDateEdit;
                 if (dateEdit != null)
                 {
-                    dateEdit.Width = 110;
+                    dateEdit.Width = 120;
                     dateEdit.Buttons.Clear();
                     if (dateEdit.Text != "")
                     {
@@ -470,7 +470,7 @@ namespace StarLaiPortal.Module.Controllers
                 ASPxDateEdit dateEdit = actionItem.Control.Editor as ASPxDateEdit;
                 if (dateEdit != null)
                 {
-                    dateEdit.Width = 110;
+                    dateEdit.Width = 120;
                     dateEdit.Buttons.Clear();
                     if (dateEdit.Text != "")
                     {

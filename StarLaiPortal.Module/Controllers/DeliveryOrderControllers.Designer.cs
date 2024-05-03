@@ -38,6 +38,7 @@
             this.PrintDO = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             this.PrintDMBundleDO = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             this.PrintDailyDeliveryS = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
+            this.ChoicePrintDelivery = new DevExpress.ExpressApp.Actions.SingleChoiceAction(this.components);
             // 
             // DOCopyFromLoading
             // 
@@ -129,6 +130,15 @@
             this.PrintDailyDeliveryS.ToolTip = null;
             this.PrintDailyDeliveryS.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.PrintDailyDeliveryS_Execute);
             // 
+            // ChoicePrintDelivery
+            // 
+            this.ChoicePrintDelivery.Caption = "Print";
+            this.ChoicePrintDelivery.Category = "ObjectsCreation";
+            this.ChoicePrintDelivery.ConfirmationMessage = null;
+            this.ChoicePrintDelivery.Id = "ChoicePrintDelivery";
+            this.ChoicePrintDelivery.ToolTip = null;
+            this.ChoicePrintDelivery.Execute += new DevExpress.ExpressApp.Actions.SingleChoiceActionExecuteEventHandler(this.ChoicePrintDelivery_Execute);
+            // 
             // DeliveryOrderControllers
             // 
             this.Actions.Add(this.DOCopyFromLoading);
@@ -140,6 +150,7 @@
             this.Actions.Add(this.PrintDO);
             this.Actions.Add(this.PrintDMBundleDO);
             this.Actions.Add(this.PrintDailyDeliveryS);
+            this.Actions.Add(this.ChoicePrintDelivery);
 
         }
 
@@ -154,5 +165,6 @@
         private DevExpress.ExpressApp.Actions.SimpleAction PrintDO;
         private DevExpress.ExpressApp.Actions.SimpleAction PrintDMBundleDO;
         private DevExpress.ExpressApp.Actions.SimpleAction PrintDailyDeliveryS;
+        private DevExpress.ExpressApp.Actions.SingleChoiceAction ChoicePrintDelivery;
     }
 }

@@ -419,37 +419,41 @@
       <Item Id="Pick List" Index="10">
         <Items>
           <Item Id="PickList_ListView" Index="0" />
-          <Item Id="vwInquiryOpenPickList_ListView" Index="1" />
-          <Item Id="vwInquiryPickList_ListView" Index="2" />
-          <Item Id="vwInquiryPickListDetails_ListView" QuickAccessItem="False" Visible="True" Index="3" />
+          <Item Id="Pick List By Date" Caption="Pick List By Date" Index="1" ViewId="PickList_ListView_ByDate" IsNewNode="True" />
+          <Item Id="vwInquiryOpenPickList_ListView" Index="2" />
+          <Item Id="vwInquiryPickList_ListView" Index="3" />
+          <Item Id="vwInquiryPickListDetails_ListView" QuickAccessItem="False" Visible="True" Index="4" />
           <Item Id="PickListDetailsInquiry_ListView" Visible="False" />
         </Items>
       </Item>
       <Item Id="Pack List" Index="11">
         <Items>
           <Item Id="PackList_ListView" Index="0" />
-          <Item Id="vwInquiryBundleID_ListView" QuickAccessItem="False" Index="1" Visible="False" />
-          <Item Id="BundleIDInquiry_ListView" Index="2" QuickAccessItem="False" />
-          <Item Id="vwInquiryPackList_ListView" Index="3" QuickAccessItem="False" Visible="False" />
-          <Item Id="PackListInquiry_ListView" Index="4" />
+          <Item Id="Pack List By Date" Caption="Pack List By Date" Index="1" ViewId="PackList_ListView_ByDate" IsNewNode="True" />
+          <Item Id="vwInquiryBundleID_ListView" QuickAccessItem="False" Index="2" Visible="False" />
+          <Item Id="BundleIDInquiry_ListView" Index="3" QuickAccessItem="False" />
+          <Item Id="vwInquiryPackList_ListView" Index="4" QuickAccessItem="False" Visible="False" />
+          <Item Id="PackListInquiry_ListView" Index="5" />
         </Items>
       </Item>
       <Item Id="Loading Bay" Index="12">
         <Items>
           <Item Id="Load_ListView" Index="0" />
-          <Item Id="vwInquiryLoadingDetails_ListView" QuickAccessItem="False" Visible="False" Index="1" />
-          <Item Id="vwInquiryLoading_ListView" Index="2" Visible="False" />
-          <Item Id="LoadingInquiry_ListView" Index="3" />
+          <Item Id="Loading By Date" Caption="Loading By Date" ViewId="Load_ListView_ByDate" Index="1" IsNewNode="True" />
+          <Item Id="vwInquiryLoadingDetails_ListView" QuickAccessItem="False" Visible="False" Index="2" />
+          <Item Id="vwInquiryLoading_ListView" Index="3" Visible="False" />
+          <Item Id="LoadingInquiry_ListView" Index="4" />
         </Items>
       </Item>
       <Item Id="Delivery Order" Index="13">
         <Items>
           <Item Id="DeliveryOrder_ListView" Index="0" />
-          <Item Id="vwInquiryDelivery_ListView" Index="1" Visible="False" />
-          <Item Id="DeliveryInquiry_ListView" Index="2" />
-          <Item Id="vwInquiryInvoice_ListView" Index="3" Visible="False" />
-          <Item Id="InvoiceInquiry_ListView" Index="4" />
-          <Item Id="DailyDeliveryOrders_ListView" Index="5" />
+          <Item Id="Delivery Order By Date" Caption="Delivery Order By Date" Index="1" ViewId="DeliveryOrder_ListView_ByDate" IsNewNode="True" />
+          <Item Id="vwInquiryDelivery_ListView" Index="2" Visible="False" />
+          <Item Id="DeliveryInquiry_ListView" Index="3" />
+          <Item Id="vwInquiryInvoice_ListView" Index="4" Visible="False" />
+          <Item Id="InvoiceInquiry_ListView" Index="5" />
+          <Item Id="DailyDeliveryOrders_ListView" Index="6" />
         </Items>
       </Item>
       <Item Id="Purchase Order" Index="14">
@@ -1255,6 +1259,39 @@
       </Layout>
     </DetailView>
     <ListView Id="DeliveryOrder_ListView" DataAccessMode="Client" />
+    <ListView Id="DeliveryOrder_ListView_ByDate" ClassName="StarLaiPortal.Module.BusinessObjects.Delivery_Order.DeliveryOrder" DataAccessMode="Client" Caption="Delivery Order" ShowFindPanel="True" IsNewNode="True">
+      <Columns IsNewNode="True">
+        <ColumnInfo Id="BundleDOPrintCount" PropertyName="BundleDOPrintCount" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="BundleDOPrintDate" PropertyName="BundleDOPrintDate" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="CreateDate" PropertyName="CreateDate" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="CreateUser" PropertyName="CreateUser" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="DocType" PropertyName="DocType" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="DOPrintCount" PropertyName="DOPrintCount" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="INVPrintCount" PropertyName="INVPrintCount" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="INVPrintDate" PropertyName="INVPrintDate" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="Oid" PropertyName="Oid" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="Remarks" PropertyName="Remarks" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="Sap" PropertyName="Sap" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="SapDO" PropertyName="SapDO" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="SapINV" PropertyName="SapINV" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="UpdateDate" PropertyName="UpdateDate" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="UpdateUser" PropertyName="UpdateUser" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="DocNum" PropertyName="DocNum" SortIndex="0" SortOrder="Ascending" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="Customer" PropertyName="Customer" Index="1" IsNewNode="True" />
+        <ColumnInfo Id="CustomerName" PropertyName="CustomerName" Index="2" IsNewNode="True" />
+        <ColumnInfo Id="Warehouse" PropertyName="Warehouse" Index="3" IsNewNode="True" />
+        <ColumnInfo Id="DocDate" PropertyName="DocDate" Index="4" IsNewNode="True" />
+        <ColumnInfo Id="PostingDate" PropertyName="PostingDate" Index="5" IsNewNode="True" />
+        <ColumnInfo Id="Status" PropertyName="Status" Index="6" IsNewNode="True" />
+        <ColumnInfo Id="LoadingNo" PropertyName="LoadingNo" Index="7" IsNewNode="True" />
+        <ColumnInfo Id="SONo" PropertyName="SONo" Index="8" IsNewNode="True" />
+        <ColumnInfo Id="Priority" PropertyName="Priority" Index="9" IsNewNode="True" />
+        <ColumnInfo Id="SAPDocNum" PropertyName="SAPDocNum" Index="10" IsNewNode="True" />
+        <ColumnInfo Id="SAPDODocNum" PropertyName="SAPDODocNum" Index="11" IsNewNode="True" />
+        <ColumnInfo Id="CustomerGroup" PropertyName="CustomerGroup" Index="12" IsNewNode="True" />
+        <ColumnInfo Id="DOPrintDate" PropertyName="DOPrintDate" Index="13" IsNewNode="True" />
+      </Columns>
+    </ListView>
     <DetailView Id="DeliveryOrderDetails_DetailView">
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
@@ -1527,31 +1564,39 @@
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
           <LayoutGroup Id="SimpleEditors" RelativeSize="21.80293501048218">
-            <LayoutGroup Id="ItemInquiry_col1" ShowCaption="False" Direction="Horizontal" Index="0" RelativeSize="100" IsNewNode="True">
-              <LayoutGroup Id="Auto6bbb921f-1bc2-4a1e-987c-eaf685248396" ShowCaption="False" Caption="Auto6bbb921f-1bc2-4a1e-987c-eaf685248396(5)" Index="0" RelativeSize="48.78854625550661" Direction="Vertical" IsNewNode="True">
+            <LayoutGroup Id="ItemInquiry_col1" ShowCaption="False" Direction="Vertical" Index="0" RelativeSize="100" IsNewNode="True">
+              <LayoutGroup Id="Auto6bbb921f-1bc2-4a1e-987c-eaf685248396" ShowCaption="False" Caption="Auto6bbb921f-1bc2-4a1e-987c-eaf685248396(5)" Index="0" RelativeSize="100" Direction="Vertical" IsNewNode="True">
                 <LayoutGroup Id="Auto549f0295-7268-4d70-9723-92194def4c37" ShowCaption="False" Caption="Auto549f0295-7268-4d70-9723-92194def4c37(5)" Index="0" RelativeSize="100" IsNewNode="True">
                   <LayoutGroup Id="Auto185be1e8-6ad6-4e15-8883-423b6b21bc8b" ShowCaption="False" Caption="Auto185be1e8-6ad6-4e15-8883-423b6b21bc8b(6)" Direction="Vertical" Index="0" RelativeSize="100" IsNewNode="True">
-                    <LayoutGroup Id="Autoe482e31f-b09e-4a5b-9f60-6995b7cb6b50" ShowCaption="False" Caption="Autoe482e31f-b09e-4a5b-9f60-6995b7cb6b50(7)" Direction="Horizontal" Index="0" RelativeSize="38.46153846153846" IsNewNode="True">
-                      <LayoutItem Id="Cart" ViewItem="Cart" Index="0" RelativeSize="52.370203160270883" IsNewNode="True" />
-                      <LayoutItem Id="Item6" Index="1" RelativeSize="47.629796839729117" IsNewNode="True" />
-                    </LayoutGroup>
-                    <LayoutGroup Id="Auto540d1901-f9d5-47af-891b-9231452ffd39" ShowCaption="False" Caption="Auto540d1901-f9d5-47af-891b-9231452ffd39(10)" Direction="Horizontal" Index="1" RelativeSize="61.53846153846154" IsNewNode="True">
-                      <LayoutGroup Id="Auto5f41b371-762c-42c4-bace-19f4c9e558f7" ShowCaption="False" Caption="" Index="0" RelativeSize="52.370203160270883" IsNewNode="True">
-                        <LayoutItem Id="Search" ViewItem="Search" Index="0" RelativeSize="46.875" IsNewNode="True" />
-                        <LayoutItem Id="OldCode" ViewItem="OldCode" Index="1" RelativeSize="53.125" IsNewNode="True" />
+                    <LayoutGroup Id="Autoe482e31f-b09e-4a5b-9f60-6995b7cb6b50" ShowCaption="False" Caption="Autoe482e31f-b09e-4a5b-9f60-6995b7cb6b50(7)" Direction="Horizontal" Index="0" RelativeSize="100" IsNewNode="True">
+                      <LayoutGroup Id="Auto2a4344bf-6f66-4300-b9ca-6c3991c3f071" ShowCaption="False" Caption="Auto2a4344bf-6f66-4300-b9ca-6c3991c3f071(8)" Index="0" RelativeSize="45.474137931034484" IsNewNode="True">
+                        <LayoutGroup Id="Auto8ae872c9-3da2-4032-a1d5-6996697aedd3" ShowCaption="False" Caption="Auto8ae872c9-3da2-4032-a1d5-6996697aedd3(9)" Direction="Vertical" Index="0" RelativeSize="100" IsNewNode="True">
+                          <LayoutGroup Id="Auto326e8d8f-b67f-4c72-8018-801a8e902118" ShowCaption="False" Caption="Auto326e8d8f-b67f-4c72-8018-801a8e902118(10)" Direction="Horizontal" Index="0" RelativeSize="38.46153846153846" IsNewNode="True">
+                            <LayoutItem Id="Cart" ViewItem="Cart" Index="0" RelativeSize="51.8957345971564" IsNewNode="True" />
+                            <LayoutItem Id="Item4" Index="1" RelativeSize="48.1042654028436" IsNewNode="True" />
+                          </LayoutGroup>
+                          <LayoutGroup Id="Autofebda75b-e75a-49cf-a496-4aff232dd4ab" ShowCaption="False" Caption="Autofebda75b-e75a-49cf-a496-4aff232dd4ab(14)" Direction="Horizontal" Index="1" RelativeSize="61.53846153846154" IsNewNode="True">
+                            <LayoutGroup Id="Autoa95ab7c1-ff1b-4ad4-ad68-f50aa1bbc66c" ShowCaption="False" Caption="" Index="0" RelativeSize="51.8957345971564" IsNewNode="True">
+                              <LayoutItem Id="Search" ViewItem="Search" Index="0" RelativeSize="46.875" IsNewNode="True" />
+                              <LayoutItem Id="OldCode" ViewItem="OldCode" Index="1" RelativeSize="53.125" IsNewNode="True" />
+                            </LayoutGroup>
+                            <LayoutGroup Id="Autoc5a2929c-f5bf-4517-839e-22c7c0c2e201" ShowCaption="False" Caption="" Index="1" RelativeSize="48.1042654028436" IsNewNode="True">
+                              <LayoutItem Id="Exclude" ViewItem="Exclude" Index="0" RelativeSize="46.875" IsNewNode="True" />
+                              <LayoutItem Id="CatalogNumber" ViewItem="CatalogNumber" Index="1" RelativeSize="53.125" IsNewNode="True" />
+                            </LayoutGroup>
+                          </LayoutGroup>
+                        </LayoutGroup>
                       </LayoutGroup>
-                      <LayoutGroup Id="Auto4e8062ce-212f-41c1-87b0-a163617dd9a1" ShowCaption="False" Caption="" Index="1" RelativeSize="47.629796839729117" IsNewNode="True">
-                        <LayoutItem Id="Exclude" ViewItem="Exclude" Index="0" RelativeSize="46.875" IsNewNode="True" />
-                        <LayoutItem Id="CatalogNumber" ViewItem="CatalogNumber" Index="1" RelativeSize="53.125" IsNewNode="True" />
+                      <LayoutGroup Id="Auto296e2d44-9841-4b5d-9bb0-c00c9a2532c3" ShowCaption="False" Caption="Auto296e2d44-9841-4b5d-9bb0-c00c9a2532c3(15)" Index="1" RelativeSize="54.525862068965516" Direction="Horizontal" IsNewNode="True">
+                        <LayoutItem Id="Item2" Index="0" RelativeSize="64.031620553359687" IsNewNode="True" />
+                        <LayoutGroup Id="Autoed0b707a-9768-4481-95f3-56b6ab5c585c" ShowCaption="False" Caption="" Index="1" RelativeSize="35.968379446640313" IsNewNode="True">
+                          <LayoutItem Id="Method" ViewItem="Method" Index="0" RelativeSize="34.615384615384613" IsNewNode="True" />
+                          <LayoutItem Id="Button" ViewItem="Button" Index="1" RelativeSize="65.384615384615387" IsNewNode="True" />
+                        </LayoutGroup>
                       </LayoutGroup>
                     </LayoutGroup>
                   </LayoutGroup>
                 </LayoutGroup>
-              </LayoutGroup>
-              <LayoutItem Id="Item4" Index="1" RelativeSize="31.167400881057269" IsNewNode="True" />
-              <LayoutGroup Id="Auto10832c3c-90b6-4cfe-8edd-e4dfe2025c5e" ShowCaption="False" Caption="Auto10832c3c-90b6-4cfe-8edd-e4dfe2025c5e(8)" Direction="Vertical" Index="2" RelativeSize="20.044052863436125" IsNewNode="True">
-                <LayoutItem Id="Method" ViewItem="Method" Index="0" RelativeSize="34.615384615384613" IsNewNode="True" />
-                <LayoutItem Id="Button" ViewItem="Button" Index="1" RelativeSize="65.384615384615387" IsNewNode="True" />
               </LayoutGroup>
             </LayoutGroup>
             <LayoutGroup Id="ItemInquiry" RelativeSize="100" Direction="Vertical" Removed="True">
@@ -1577,22 +1622,22 @@
           </LayoutGroup>
           <LayoutGroup Id="Auto59c80a11-f2c9-4927-b198-5face99998ec" ShowCaption="False" Caption="Auto59c80a11-f2c9-4927-b198-5face99998ec(12)" Direction="Vertical" Index="1" RelativeSize="14.465408805031446" IsNewNode="True">
             <LayoutGroup Id="Auto10d59338-ea6b-4124-9d9f-eec0b5bbc684" ShowCaption="False" Caption="Auto10d59338-ea6b-4124-9d9f-eec0b5bbc684(13)" Index="0" RelativeSize="100" Direction="Horizontal" IsNewNode="True">
-              <LayoutGroup Id="Auto84854b93-6e35-4551-8153-d1dc2ba2f439" ShowCaption="False" Caption="Auto84854b93-6e35-4551-8153-d1dc2ba2f439(18)" Index="0" RelativeSize="25.550660792951543" IsNewNode="True">
+              <LayoutGroup Id="Auto84854b93-6e35-4551-8153-d1dc2ba2f439" ShowCaption="False" Caption="Auto84854b93-6e35-4551-8153-d1dc2ba2f439(18)" Index="0" RelativeSize="23.706896551724139" IsNewNode="True">
                 <LayoutItem Id="PriceList1" ViewItem="PriceList1" Index="0" RelativeSize="49.275362318840578" IsNewNode="True" />
                 <LayoutItem Id="Stock1" ViewItem="Stock1" Index="1" RelativeSize="50.724637681159422" IsNewNode="True" />
               </LayoutGroup>
-              <LayoutGroup Id="Auto7dbfa886-aa7a-42ce-863d-d3acfac8e4b6" ShowCaption="False" Caption="Auto7dbfa886-aa7a-42ce-863d-d3acfac8e4b6(21)" Index="1" RelativeSize="74.449339207048453" IsNewNode="True">
+              <LayoutGroup Id="Auto7dbfa886-aa7a-42ce-863d-d3acfac8e4b6" ShowCaption="False" Caption="Auto7dbfa886-aa7a-42ce-863d-d3acfac8e4b6(21)" Index="1" RelativeSize="76.293103448275858" IsNewNode="True">
                 <LayoutGroup Id="Auto757c8016-5d36-4bfd-a534-bf04e5ac1443" ShowCaption="False" Caption="Auto757c8016-5d36-4bfd-a534-bf04e5ac1443(22)" Direction="Horizontal" Index="0" RelativeSize="98.550724637681157" IsNewNode="True">
-                  <LayoutGroup Id="Autof01d73ae-c3b0-4f5c-9072-ba03aae6052a" ShowCaption="False" Caption="Autof01d73ae-c3b0-4f5c-9072-ba03aae6052a(20)" Index="0" RelativeSize="31.213017751479288" IsNewNode="True">
+                  <LayoutGroup Id="Autof01d73ae-c3b0-4f5c-9072-ba03aae6052a" ShowCaption="False" Caption="Autof01d73ae-c3b0-4f5c-9072-ba03aae6052a(20)" Index="0" RelativeSize="28.672316384180792" IsNewNode="True">
                     <LayoutItem Id="PriceList2" ViewItem="PriceList2" Index="0" RelativeSize="50" IsNewNode="True" />
                     <LayoutItem Id="Stock2" ViewItem="Stock2" Index="1" RelativeSize="50" IsNewNode="True" />
                   </LayoutGroup>
-                  <LayoutGroup Id="Autof080eb6a-2ddc-41e2-8045-a052406c4a54" ShowCaption="False" Caption="Autof080eb6a-2ddc-41e2-8045-a052406c4a54(24)" Direction="Horizontal" Index="1" RelativeSize="68.786982248520715" IsNewNode="True">
-                    <LayoutGroup Id="Auto0ff0d41e-62a3-4b95-bae5-19c5f34ca9ad" ShowCaption="False" Caption="Auto0ff0d41e-62a3-4b95-bae5-19c5f34ca9ad(25)" Index="0" RelativeSize="46.666666666666664" IsNewNode="True">
+                  <LayoutGroup Id="Autof080eb6a-2ddc-41e2-8045-a052406c4a54" ShowCaption="False" Caption="Autof080eb6a-2ddc-41e2-8045-a052406c4a54(24)" Direction="Horizontal" Index="1" RelativeSize="71.327683615819211" IsNewNode="True">
+                    <LayoutGroup Id="Auto0ff0d41e-62a3-4b95-bae5-19c5f34ca9ad" ShowCaption="False" Caption="Auto0ff0d41e-62a3-4b95-bae5-19c5f34ca9ad(25)" Index="0" RelativeSize="41.188118811881189" IsNewNode="True">
                       <LayoutItem Id="PriceList3" ViewItem="PriceList3" Index="0" RelativeSize="50" IsNewNode="True" />
                       <LayoutItem Id="Stock3" ViewItem="Stock3" Index="1" RelativeSize="50" IsNewNode="True" />
                     </LayoutGroup>
-                    <LayoutGroup Id="Auto0ba482a7-7687-49b1-8920-54bb09ecd8c7" ShowCaption="False" Caption="Auto0ba482a7-7687-49b1-8920-54bb09ecd8c7(29)" Index="1" RelativeSize="53.333333333333336" IsNewNode="True">
+                    <LayoutGroup Id="Auto0ba482a7-7687-49b1-8920-54bb09ecd8c7" ShowCaption="False" Caption="Auto0ba482a7-7687-49b1-8920-54bb09ecd8c7(29)" Index="1" RelativeSize="58.811881188118811" IsNewNode="True">
                       <LayoutItem Id="PriceList4" ViewItem="PriceList4" Index="0" RelativeSize="50" IsNewNode="True" />
                       <LayoutItem Id="Stock4" ViewItem="Stock4" Index="1" RelativeSize="50" IsNewNode="True" />
                     </LayoutGroup>
@@ -1602,14 +1647,14 @@
               </LayoutGroup>
             </LayoutGroup>
           </LayoutGroup>
-          <LayoutItem Id="ItemInquiryDetails" ViewItem="ItemInquiryDetails" Index="2" RelativeSize="44.654088050314463" IsNewNode="True" />
+          <LayoutItem Id="ItemInquiryDetails" ViewItem="ItemInquiryDetails" Index="2" RelativeSize="48.0083857442348" IsNewNode="True" />
           <LayoutGroup Id="ItemInquiryDetails_Group" Direction="Vertical" Index="2" RelativeSize="67.7298311444653" Removed="True">
             <LayoutItem Id="ItemInquiryDetails" RelativeSize="100" />
           </LayoutGroup>
-          <LayoutGroup Id="Autobbf64865-516a-4878-aac6-eee1a0c2219b" ShowCaption="False" Caption="Autobbf64865-516a-4878-aac6-eee1a0c2219b(18)" Direction="Horizontal" Index="3" RelativeSize="19.077568134171909" IsNewNode="True">
-            <LayoutItem Id="Item3" Index="0" RelativeSize="33.370044052863435" IsNewNode="True" />
-            <LayoutItem Id="ViewSales" ViewItem="ViewSales" Index="1" RelativeSize="15.418502202643172" IsNewNode="True" />
-            <LayoutItem Id="Item1" Index="2" RelativeSize="51.21145374449339" IsNewNode="True" />
+          <LayoutGroup Id="Autobbf64865-516a-4878-aac6-eee1a0c2219b" ShowCaption="False" Caption="Autobbf64865-516a-4878-aac6-eee1a0c2219b(18)" Direction="Horizontal" Index="3" RelativeSize="15.723270440251572" IsNewNode="True">
+            <LayoutItem Id="Item3" Index="0" RelativeSize="31.357758620689655" IsNewNode="True" />
+            <LayoutItem Id="ViewSales" ViewItem="ViewSales" Index="1" RelativeSize="14.116379310344827" IsNewNode="True" />
+            <LayoutItem Id="Item1" Index="2" RelativeSize="54.525862068965516" IsNewNode="True" />
           </LayoutGroup>
         </LayoutGroup>
       </Layout>
@@ -1642,63 +1687,60 @@
       </Items>
       <Layout IsNewNode="True">
         <LayoutGroup Id="Main" Index="0" ShowCaption="False" RelativeSize="100" IsNewNode="True">
-          <LayoutGroup Id="SimpleEditors" Index="0" ShowCaption="False" RelativeSize="15.723270440251572" IsNewNode="True">
+          <LayoutGroup Id="SimpleEditors" Index="0" ShowCaption="False" RelativeSize="10.272536687631026" IsNewNode="True">
             <LayoutGroup Id="ItemInquiry_col1" ShowCaption="False" Direction="Horizontal" Index="0" RelativeSize="100" IsNewNode="True">
-              <LayoutGroup Id="Auto6bbb921f-1bc2-4a1e-987c-eaf685248396" ShowCaption="False" Caption="Auto6bbb921f-1bc2-4a1e-987c-eaf685248396(5)" Index="0" RelativeSize="48.6784140969163" IsNewNode="True">
+              <LayoutGroup Id="Auto6bbb921f-1bc2-4a1e-987c-eaf685248396" ShowCaption="False" Caption="Auto6bbb921f-1bc2-4a1e-987c-eaf685248396(5)" Index="0" RelativeSize="86.206896551724142" IsNewNode="True">
                 <LayoutGroup Id="Auto549f0295-7268-4d70-9723-92194def4c37" ShowCaption="False" Caption="Auto549f0295-7268-4d70-9723-92194def4c37(5)" Index="0" RelativeSize="100" IsNewNode="True">
                   <LayoutGroup Id="Auto185be1e8-6ad6-4e15-8883-423b6b21bc8b" ShowCaption="False" Caption="Auto185be1e8-6ad6-4e15-8883-423b6b21bc8b(6)" Direction="Vertical" Index="0" RelativeSize="100" IsNewNode="True">
-                    <LayoutGroup Id="Autoc1a30cc5-dff3-4a63-a506-12daabb5f04d" ShowCaption="False" Caption="Autoc1a30cc5-dff3-4a63-a506-12daabb5f04d(8)" Direction="Horizontal" Index="0" RelativeSize="100" IsNewNode="True">
-                      <LayoutGroup Id="Autoe70b8c6a-b42e-41b0-b802-53b1467300af" ShowCaption="False" Caption="" Index="0" RelativeSize="52.941176470588232" IsNewNode="True">
-                        <LayoutItem Id="Search" ViewItem="Search" Index="0" RelativeSize="48" IsNewNode="True" />
-                        <LayoutItem Id="OldCode" ViewItem="OldCode" Index="1" RelativeSize="52" IsNewNode="True" />
-                      </LayoutGroup>
-                      <LayoutGroup Id="Autof8eee896-cb81-480d-aea2-9a34508bdbc6" ShowCaption="False" Caption="" Index="1" RelativeSize="47.058823529411768" IsNewNode="True">
-                        <LayoutItem Id="Exclude" ViewItem="Exclude" Index="0" RelativeSize="48" IsNewNode="True" />
-                        <LayoutItem Id="CatalogNumber" ViewItem="CatalogNumber" Index="1" RelativeSize="52" IsNewNode="True" />
+                    <LayoutGroup Id="Autoc1a30cc5-dff3-4a63-a506-12daabb5f04d" ShowCaption="False" Caption="Autoc1a30cc5-dff3-4a63-a506-12daabb5f04d(8)" Direction="Vertical" Index="0" RelativeSize="100" IsNewNode="True">
+                      <LayoutGroup Id="Autoe70b8c6a-b42e-41b0-b802-53b1467300af" ShowCaption="False" Caption="Autoe70b8c6a-b42e-41b0-b802-53b1467300af(8)" Index="0" RelativeSize="100" Direction="Horizontal" IsNewNode="True">
+                        <LayoutItem Id="Search" ViewItem="Search" Index="0" RelativeSize="29.375" IsNewNode="True" />
+                        <LayoutItem Id="Item2" Index="1" RelativeSize="70.625" IsNewNode="True" />
                       </LayoutGroup>
                     </LayoutGroup>
                   </LayoutGroup>
                 </LayoutGroup>
               </LayoutGroup>
-              <LayoutItem Id="Item4" Index="1" RelativeSize="31.277533039647576" IsNewNode="True" />
-              <LayoutGroup Id="Auto10832c3c-90b6-4cfe-8edd-e4dfe2025c5e" ShowCaption="False" Caption="Auto10832c3c-90b6-4cfe-8edd-e4dfe2025c5e(8)" Index="2" RelativeSize="20.044052863436125" IsNewNode="True">
-                <LayoutItem Id="Method" ViewItem="Method" Index="0" RelativeSize="48" IsNewNode="True" />
-                <LayoutItem Id="Button" ViewItem="Button" Index="1" RelativeSize="52" IsNewNode="True" />
+              <LayoutGroup Id="Auto10832c3c-90b6-4cfe-8edd-e4dfe2025c5e" ShowCaption="False" Caption="Auto10832c3c-90b6-4cfe-8edd-e4dfe2025c5e(8)" Index="1" RelativeSize="13.793103448275861" IsNewNode="True">
+                <LayoutItem Id="Button" ViewItem="Button" Index="0" RelativeSize="100" IsNewNode="True" />
               </LayoutGroup>
             </LayoutGroup>
           </LayoutGroup>
-          <LayoutGroup Id="Auto59c80a11-f2c9-4927-b198-5face99998ec" ShowCaption="False" Caption="Auto59c80a11-f2c9-4927-b198-5face99998ec(12)" Index="1" RelativeSize="14.465408805031446" IsNewNode="True">
+          <LayoutGroup Id="Auto59c80a11-f2c9-4927-b198-5face99998ec" ShowCaption="False" Caption="Auto59c80a11-f2c9-4927-b198-5face99998ec(12)" Index="1" RelativeSize="19.70649895178197" IsNewNode="True">
             <LayoutGroup Id="Auto10d59338-ea6b-4124-9d9f-eec0b5bbc684" ShowCaption="False" Caption="Auto10d59338-ea6b-4124-9d9f-eec0b5bbc684(13)" Index="0" RelativeSize="100" Direction="Horizontal" IsNewNode="True">
-              <LayoutGroup Id="Auto84854b93-6e35-4551-8153-d1dc2ba2f439" ShowCaption="False" Caption="Auto84854b93-6e35-4551-8153-d1dc2ba2f439(18)" Index="0" RelativeSize="25.550660792951543" IsNewNode="True">
-                <LayoutItem Id="PriceList1" ViewItem="PriceList1" Index="0" RelativeSize="49.275362318840578" IsNewNode="True" />
-                <LayoutItem Id="Stock1" ViewItem="Stock1" Index="1" RelativeSize="50.724637681159422" IsNewNode="True" />
+              <LayoutGroup Id="Auto84854b93-6e35-4551-8153-d1dc2ba2f439" ShowCaption="False" Caption="Auto84854b93-6e35-4551-8153-d1dc2ba2f439(18)" Index="0" RelativeSize="25.431034482758619" IsNewNode="True">
+                <LayoutItem Id="OldCode" ViewItem="OldCode" Index="0" RelativeSize="36.170212765957444" IsNewNode="True" />
+                <LayoutItem Id="PriceList1" ViewItem="PriceList1" Index="1" RelativeSize="27.659574468085108" IsNewNode="True" />
+                <LayoutItem Id="Stock1" ViewItem="Stock1" Index="2" RelativeSize="36.170212765957444" IsNewNode="True" />
               </LayoutGroup>
-              <LayoutGroup Id="Auto7dbfa886-aa7a-42ce-863d-d3acfac8e4b6" ShowCaption="False" Caption="Auto7dbfa886-aa7a-42ce-863d-d3acfac8e4b6(21)" Index="1" RelativeSize="74.449339207048453" IsNewNode="True">
-                <LayoutGroup Id="Auto757c8016-5d36-4bfd-a534-bf04e5ac1443" ShowCaption="False" Caption="Auto757c8016-5d36-4bfd-a534-bf04e5ac1443(22)" Direction="Horizontal" Index="0" RelativeSize="98.550724637681157" IsNewNode="True">
-                  <LayoutGroup Id="Auto8002982b-a266-476f-af88-62b7ba0f1c55" ShowCaption="False" Caption="Auto8002982b-a266-476f-af88-62b7ba0f1c55(20)" Index="0" RelativeSize="31.065088757396449" IsNewNode="True">
-                    <LayoutItem Id="PriceList2" ViewItem="PriceList2" Index="0" RelativeSize="50" IsNewNode="True" />
-                    <LayoutItem Id="Stock2" ViewItem="Stock2" Index="1" RelativeSize="50" IsNewNode="True" />
+              <LayoutGroup Id="Auto7dbfa886-aa7a-42ce-863d-d3acfac8e4b6" ShowCaption="False" Caption="Auto7dbfa886-aa7a-42ce-863d-d3acfac8e4b6(21)" Index="1" RelativeSize="74.568965517241381" IsNewNode="True">
+                <LayoutGroup Id="Auto757c8016-5d36-4bfd-a534-bf04e5ac1443" ShowCaption="False" Caption="Auto757c8016-5d36-4bfd-a534-bf04e5ac1443(22)" Direction="Horizontal" Index="0" RelativeSize="100" IsNewNode="True">
+                  <LayoutGroup Id="Auto8002982b-a266-476f-af88-62b7ba0f1c55" ShowCaption="False" Caption="Auto8002982b-a266-476f-af88-62b7ba0f1c55(20)" Index="0" RelativeSize="30.924855491329481" IsNewNode="True">
+                    <LayoutItem Id="CatalogNumber" ViewItem="CatalogNumber" Index="0" RelativeSize="36.170212765957444" IsNewNode="True" />
+                    <LayoutItem Id="PriceList2" ViewItem="PriceList2" Index="1" RelativeSize="27.659574468085108" IsNewNode="True" />
+                    <LayoutItem Id="Stock2" ViewItem="Stock2" Index="2" RelativeSize="36.170212765957444" IsNewNode="True" />
                   </LayoutGroup>
-                  <LayoutGroup Id="Auto65db9499-f30a-414a-866e-031548d80f5b" ShowCaption="False" Caption="Auto65db9499-f30a-414a-866e-031548d80f5b(24)" Direction="Horizontal" Index="1" RelativeSize="68.934911242603548" IsNewNode="True">
-                    <LayoutGroup Id="Auto8952315c-b365-42e1-a19c-fe4b82e55309" ShowCaption="False" Caption="Auto8952315c-b365-42e1-a19c-fe4b82e55309(25)" Index="0" RelativeSize="46.566523605150216" IsNewNode="True">
-                      <LayoutItem Id="PriceList3" ViewItem="PriceList3" Index="0" RelativeSize="50" IsNewNode="True" />
-                      <LayoutItem Id="Stock3" ViewItem="Stock3" Index="1" RelativeSize="50" IsNewNode="True" />
+                  <LayoutGroup Id="Auto65db9499-f30a-414a-866e-031548d80f5b" ShowCaption="False" Caption="Auto65db9499-f30a-414a-866e-031548d80f5b(24)" Direction="Horizontal" Index="1" RelativeSize="69.075144508670519" IsNewNode="True">
+                    <LayoutGroup Id="Auto8952315c-b365-42e1-a19c-fe4b82e55309" ShowCaption="False" Caption="Auto8952315c-b365-42e1-a19c-fe4b82e55309(25)" Index="0" RelativeSize="46.443514644351467" IsNewNode="True">
+                      <LayoutItem Id="Exclude" ViewItem="Exclude" Index="0" RelativeSize="36.170212765957444" IsNewNode="True" />
+                      <LayoutItem Id="PriceList3" ViewItem="PriceList3" Index="1" RelativeSize="27.659574468085108" IsNewNode="True" />
+                      <LayoutItem Id="Stock3" ViewItem="Stock3" Index="2" RelativeSize="36.170212765957444" IsNewNode="True" />
                     </LayoutGroup>
-                    <LayoutGroup Id="Autoa87c94b5-3bb2-4be4-b82f-3be9bbd0d844" ShowCaption="False" Caption="Autoa87c94b5-3bb2-4be4-b82f-3be9bbd0d844(29)" Index="1" RelativeSize="53.433476394849784" IsNewNode="True">
-                      <LayoutItem Id="PriceList4" ViewItem="PriceList4" Index="0" RelativeSize="50" IsNewNode="True" />
-                      <LayoutItem Id="Stock4" ViewItem="Stock4" Index="1" RelativeSize="50" IsNewNode="True" />
+                    <LayoutGroup Id="Autoa87c94b5-3bb2-4be4-b82f-3be9bbd0d844" ShowCaption="False" Caption="Autoa87c94b5-3bb2-4be4-b82f-3be9bbd0d844(29)" Index="1" RelativeSize="53.556485355648533" IsNewNode="True">
+                      <LayoutItem Id="Method" ViewItem="Method" Index="0" RelativeSize="36.170212765957444" IsNewNode="True" />
+                      <LayoutItem Id="PriceList4" ViewItem="PriceList4" Index="1" RelativeSize="27.659574468085108" IsNewNode="True" />
+                      <LayoutItem Id="Stock4" ViewItem="Stock4" Index="2" RelativeSize="36.170212765957444" IsNewNode="True" />
                     </LayoutGroup>
                   </LayoutGroup>
                 </LayoutGroup>
-                <LayoutGroup Id="Autoa918f4ac-e64e-4c9b-ae7f-20cb3a224bfa" ShowCaption="False" Caption="Autoa918f4ac-e64e-4c9b-ae7f-20cb3a224bfa(26)" Direction="Horizontal" Index="1" RelativeSize="1.4492753623188406" IsNewNode="True" />
               </LayoutGroup>
             </LayoutGroup>
           </LayoutGroup>
           <LayoutItem Id="ItemInquiryDetails" ViewItem="ItemInquiryDetails" Index="2" RelativeSize="43.186582809224319" IsNewNode="True" />
-          <LayoutGroup Id="Autobbf64865-516a-4878-aac6-eee1a0c2219b" ShowCaption="False" Caption="Autobbf64865-516a-4878-aac6-eee1a0c2219b(18)" Direction="Horizontal" Index="3" RelativeSize="26.624737945492662" IsNewNode="True">
-            <LayoutItem Id="Item3" Index="0" RelativeSize="33.14977973568282" IsNewNode="True" />
-            <LayoutItem Id="ViewSales" ViewItem="ViewSales" Index="1" RelativeSize="15.528634361233481" IsNewNode="True" />
-            <LayoutItem Id="Item1" Index="2" RelativeSize="51.3215859030837" IsNewNode="True" />
+          <LayoutGroup Id="Autobbf64865-516a-4878-aac6-eee1a0c2219b" ShowCaption="False" Caption="Autobbf64865-516a-4878-aac6-eee1a0c2219b(18)" Direction="Horizontal" Index="3" RelativeSize="26.834381551362682" IsNewNode="True">
+            <LayoutItem Id="Item3" Index="0" RelativeSize="33.081896551724135" IsNewNode="True" />
+            <LayoutItem Id="ViewSales" ViewItem="ViewSales" Index="1" RelativeSize="15.40948275862069" IsNewNode="True" />
+            <LayoutItem Id="Item1" Index="2" RelativeSize="51.508620689655174" IsNewNode="True" />
           </LayoutGroup>
         </LayoutGroup>
       </Layout>
@@ -2056,6 +2098,27 @@
       </Layout>
     </DetailView>
     <ListView Id="Load_ListView" DataAccessMode="Client" />
+    <ListView Id="Load_ListView_ByDate" ClassName="StarLaiPortal.Module.BusinessObjects.Load.Load" DataAccessMode="Client" Caption="Loading" ShowFindPanel="True" IsNewNode="True">
+      <Columns IsNewNode="True">
+        <ColumnInfo Id="CreateDate" PropertyName="CreateDate" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="CreateUser" PropertyName="CreateUser" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="DocDate" PropertyName="DocDate" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="Oid" PropertyName="Oid" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="Remarks" PropertyName="Remarks" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="Total" PropertyName="Total" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="UpdateDate" PropertyName="UpdateDate" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="UpdateUser" PropertyName="UpdateUser" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="DocNum" PropertyName="DocNum" SortIndex="0" SortOrder="Ascending" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="LoadingDate" PropertyName="LoadingDate" Index="1" IsNewNode="True" />
+        <ColumnInfo Id="Warehouse" PropertyName="Warehouse" Index="2" IsNewNode="True" />
+        <ColumnInfo Id="Driver" PropertyName="Driver" Index="3" IsNewNode="True" />
+        <ColumnInfo Id="Vehicle" PropertyName="Vehicle" Index="4" IsNewNode="True" />
+        <ColumnInfo Id="PackListNo" PropertyName="PackListNo" Index="5" IsNewNode="True" />
+        <ColumnInfo Id="SONumber" PropertyName="SONumber" Index="6" IsNewNode="True" />
+        <ColumnInfo Id="Priority" PropertyName="Priority" Index="7" IsNewNode="True" />
+        <ColumnInfo Id="Status" PropertyName="Status" Index="8" IsNewNode="True" />
+      </Columns>
+    </ListView>
     <DetailView Id="LoadDetails_DetailView" AllowEdit="False" />
     <DetailView Id="LoadDocTrail_DetailView" AllowEdit="False" />
     <DetailView Id="LoadingInquiry_DetailView">
@@ -2181,6 +2244,27 @@
       </Layout>
     </DetailView>
     <ListView Id="PackList_ListView" DataAccessMode="Client" />
+    <ListView Id="PackList_ListView_ByDate" ClassName="StarLaiPortal.Module.BusinessObjects.Pack_List.PackList" DataAccessMode="Client" Caption="Pack List" ShowFindPanel="True" IsNewNode="True">
+      <Columns IsNewNode="True">
+        <ColumnInfo Id="CreateDate" PropertyName="CreateDate" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="CreateUser" PropertyName="CreateUser" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="Oid" PropertyName="Oid" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="UpdateDate" PropertyName="UpdateDate" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="UpdateUser" PropertyName="UpdateUser" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="DocNum" PropertyName="DocNum" SortIndex="0" SortOrder="Ascending" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="Warehouse" PropertyName="Warehouse" Index="1" IsNewNode="True" />
+        <ColumnInfo Id="PackingLocation" PropertyName="PackingLocation" Index="2" IsNewNode="True" />
+        <ColumnInfo Id="DocDate" PropertyName="DocDate" Index="3" IsNewNode="True" />
+        <ColumnInfo Id="ExpectedDeliveryDate" PropertyName="ExpectedDeliveryDate" Index="4" IsNewNode="True" />
+        <ColumnInfo Id="CustomerGroup" PropertyName="CustomerGroup" Index="5" IsNewNode="True" />
+        <ColumnInfo Id="SONumber" PropertyName="SONumber" Index="6" IsNewNode="True" />
+        <ColumnInfo Id="SAPSONo" PropertyName="SAPSONo" Index="7" IsNewNode="True" />
+        <ColumnInfo Id="PickListNo" PropertyName="PickListNo" Index="8" IsNewNode="True" />
+        <ColumnInfo Id="Priority" PropertyName="Priority" Index="9" IsNewNode="True" />
+        <ColumnInfo Id="Customer" PropertyName="Customer" Index="10" IsNewNode="True" />
+        <ColumnInfo Id="Status" PropertyName="Status" Index="11" IsNewNode="True" />
+      </Columns>
+    </ListView>
     <DetailView Id="PackListDocTrail_DetailView" AllowEdit="False" />
     <DetailView Id="PackListInquiry_DetailView">
       <Layout>
@@ -2382,6 +2466,34 @@
       <Columns>
         <ColumnInfo Id="PrintStatus" Index="13" />
         <ColumnInfo Id="PrintCount" Index="14" />
+      </Columns>
+    </ListView>
+    <ListView Id="PickList_ListView_ByDate" ClassName="StarLaiPortal.Module.BusinessObjects.Pick_List.PickList" DataAccessMode="Client" Caption="Pick List" ShowFindPanel="True" IsNewNode="True">
+      <Columns IsNewNode="True">
+        <ColumnInfo Id="CreateUser" PropertyName="CreateUser" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="Oid" PropertyName="Oid" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="Sap" PropertyName="Sap" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="UpdateDate" PropertyName="UpdateDate" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="UpdateUser" PropertyName="UpdateUser" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="DocNum" PropertyName="DocNum" SortIndex="0" SortOrder="Ascending" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="Picker" PropertyName="Picker" Index="1" IsNewNode="True" />
+        <ColumnInfo Id="DeliveryDate" PropertyName="DeliveryDate" Index="2" IsNewNode="True" />
+        <ColumnInfo Id="DocDate" PropertyName="DocDate" Index="3" IsNewNode="True" />
+        <ColumnInfo Id="Warehouse" PropertyName="Warehouse" Index="4" IsNewNode="True" />
+        <ColumnInfo Id="Transporter" PropertyName="Transporter" Index="5" IsNewNode="True" />
+        <ColumnInfo Id="Remarks" PropertyName="Remarks" Index="6" IsNewNode="True" />
+        <ColumnInfo Id="Driver" PropertyName="Driver" Index="7" IsNewNode="True" />
+        <ColumnInfo Id="Vehicle" PropertyName="Vehicle" Index="8" IsNewNode="True" />
+        <ColumnInfo Id="CustomerGroup" PropertyName="CustomerGroup" Index="9" IsNewNode="True" />
+        <ColumnInfo Id="Customer" PropertyName="Customer" Index="10" IsNewNode="True" />
+        <ColumnInfo Id="CustomerName" PropertyName="CustomerName" Index="11" IsNewNode="True" />
+        <ColumnInfo Id="SONumber" PropertyName="SONumber" Index="12" IsNewNode="True" />
+        <ColumnInfo Id="PrintStatus" PropertyName="PrintStatus" Index="13" IsNewNode="True" />
+        <ColumnInfo Id="SODeliveryDate" PropertyName="SODeliveryDate" Index="13" IsNewNode="True" />
+        <ColumnInfo Id="PrintCount" PropertyName="PrintCount" Index="14" IsNewNode="True" />
+        <ColumnInfo Id="Priority" PropertyName="Priority" Index="14" IsNewNode="True" />
+        <ColumnInfo Id="Status" PropertyName="Status" Index="15" IsNewNode="True" />
+        <ColumnInfo Id="CreateDate" PropertyName="CreateDate" Index="16" IsNewNode="True" />
       </Columns>
     </ListView>
     <ListView Id="PickList_PickListDetails_ListView" AllowEdit="True" />
@@ -3626,7 +3738,7 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
-    <ListView Id="SalesOrder_ListView" DataAccessMode="Client" />
+    <ListView Id="SalesOrder_ListView" DataAccessMode="Client" ShowFindPanel="True" />
     <ListView Id="SalesOrderCollection_AuditTrail_ListView" AllowDelete="False" AllowLink="False" AllowNew="False">
       <Columns>
         <ColumnInfo Id="PropertyName" Index="-1" />
