@@ -131,6 +131,13 @@ namespace StarLaiPortal.Module.Controllers
                 // End ver 1.0.8
             }
             // End ver 1.0.7
+            // Start ver 1.0.15
+            else if (View.Id == "PickList_ListView_ByDate")
+            {
+                this.PrintPL.Active.SetItemValue("Enabled", true);
+                this.PrintPLByZone.Active.SetItemValue("Enabled", true);
+            }
+            // End ver 1.0.15
             else
             {
                 this.PLCopyFromSOCG.Active.SetItemValue("Enabled", false);

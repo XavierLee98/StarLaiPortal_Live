@@ -66,14 +66,6 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (https://documentation.devexpress.com/eXpressAppFramework/CustomDocument113146.aspx).
       // Use CodeRush to create XPO classes and properties with a few keystrokes.
       // https://docs.devexpress.com/CodeRushForRoslyn/118557
-        //IObjectSpace ObjectSpace
-        //{
-        //    get
-        //    {
-        //        return ((IObjectSpaceLink)this).ObjectSpace;
-        //    }
-        //}
-
         public SalesQuotation(Session session)
             : base(session)
         {

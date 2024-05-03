@@ -152,7 +152,7 @@
             // 
             // PrintDOInquiry
             // 
-            this.PrintDOInquiry.Caption = "Print DO";
+            this.PrintDOInquiry.Caption = "View DO";
             this.PrintDOInquiry.Category = "ObjectsCreation";
             this.PrintDOInquiry.ConfirmationMessage = null;
             this.PrintDOInquiry.Id = "PrintDOInquiry";

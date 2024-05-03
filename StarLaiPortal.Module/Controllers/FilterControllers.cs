@@ -11,7 +11,10 @@ using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Validation;
 using StarLaiPortal.Module.BusinessObjects;
 using StarLaiPortal.Module.BusinessObjects.Credit_Notes_Cancellation;
+using StarLaiPortal.Module.BusinessObjects.Delivery_Order;
+using StarLaiPortal.Module.BusinessObjects.Load;
 using StarLaiPortal.Module.BusinessObjects.Pack_List;
+using StarLaiPortal.Module.BusinessObjects.Pick_List;
 using StarLaiPortal.Module.BusinessObjects.Purchase_Order;
 using StarLaiPortal.Module.BusinessObjects.Purchase_Return;
 using StarLaiPortal.Module.BusinessObjects.Sales_Order;
@@ -62,7 +65,7 @@ namespace StarLaiPortal.Module.Controllers
                     //    "or ([Status] = ? and [AppStatus] = ?)",
                     //    DateTime.Now.AddMonths(-3), 0, 1, 2);
                     ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[CreateDate] >= ? and ([Status] in (?, ?))",  
-                        DateTime.Now.AddMonths(-3), 0 , 1);
+                        DateTime.Now.AddMonths(-1), 0 , 1);
                 }
                 // End ver 1.0.15
             }
@@ -73,7 +76,45 @@ namespace StarLaiPortal.Module.Controllers
                 if (View.Id == "SalesOrder_ListView")
                 {
                     ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[CreateDate] >= ? and ([Status] = ?)",
-                        DateTime.Now.AddMonths(-3), 6);
+                        DateTime.Now.AddMonths(-1), 6);
+                }
+            }
+            // End ver 1.0.15
+
+            // Start ver 1.0.15
+            if (View.ObjectTypeInfo.Type == typeof(PickList))
+            {
+                if (View.Id == "PickList_ListView_ByDate")
+                {
+                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[CreateDate] >= ?",
+                        DateTime.Now.AddDays(-14));
+                }
+            }
+
+            if (View.ObjectTypeInfo.Type == typeof(PackList))
+            {
+                if (View.Id == "PackList_ListView_ByDate")
+                {
+                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[CreateDate] >= ?",
+                        DateTime.Now.AddDays(-14));
+                }
+            }
+
+            if (View.ObjectTypeInfo.Type == typeof(Load))
+            {
+                if (View.Id == "Load_ListView_ByDate")
+                {
+                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[CreateDate] >= ?",
+                        DateTime.Now.AddDays(-14));
+                }
+            }
+
+            if (View.ObjectTypeInfo.Type == typeof(DeliveryOrder))
+            {
+                if (View.Id == "DeliveryOrder_ListView_ByDate")
+                {
+                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[CreateDate] >= ?",
+                        DateTime.Now.AddDays(-14));
                 }
             }
             // End ver 1.0.15

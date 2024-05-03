@@ -21,6 +21,10 @@ using DevExpress.Web;
 using DevExpress.ExpressApp.Web.Templates.ActionContainers;
 using StarLaiPortal.Module.BusinessObjects.Sales_Quotation;
 using DevExpress.Xpo.DB;
+using StarLaiPortal.Module.BusinessObjects.Pick_List;
+using StarLaiPortal.Module.BusinessObjects.Pack_List;
+using StarLaiPortal.Module.BusinessObjects.Delivery_Order;
+using StarLaiPortal.Module.BusinessObjects.Load;
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -51,14 +55,14 @@ namespace StarLaiPortal.Module.Controllers
                     {
                         DocumentStatus.Items.Clear();
 
-                        DocumentStatus.Items.Add(new ChoiceActionItem("All", "All"));
-                        DocumentStatus.Items.Add(new ChoiceActionItem("Open", "Open"));
-                        DocumentStatus.Items.Add(new ChoiceActionItem("Draft", "Draft"));
-                        DocumentStatus.Items.Add(new ChoiceActionItem("Submitted", "Submitted"));
-                        DocumentStatus.Items.Add(new ChoiceActionItem("Cancelled", "Cancelled"));
-                        DocumentStatus.Items.Add(new ChoiceActionItem("Closed", "Closed"));
-                        DocumentStatus.Items.Add(new ChoiceActionItem("Posted", "Posted"));
-                        DocumentStatus.Items.Add(new ChoiceActionItem("Pending Post", "Pending Post"));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("All", "All", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Open", "Open", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Draft", "Draft", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Submitted", "Submitted", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Cancelled", "Cancelled", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Closed", "Closed", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Post", "Posted", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("PendPost", "Pending Post", null));
 
                         DocumentStatus.SelectedIndex = 1;
 
@@ -67,7 +71,7 @@ namespace StarLaiPortal.Module.Controllers
                         DocumentStatus.CustomizeControl += action_CustomizeControl;
 
                         this.DocumentDateFrom.Active.SetItemValue("Enabled", true);
-                        this.DocumentDateFrom.Value = DateTime.Today.AddMonths(-3);
+                        this.DocumentDateFrom.Value = DateTime.Today.AddMonths(-1);
                         DocumentDateFrom.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
                         this.DocumentDateFrom.CustomizeControl += DateActionFrom_CustomizeControl;
 
@@ -88,7 +92,7 @@ namespace StarLaiPortal.Module.Controllers
                     if (View.Id == "SalesQuotation_ListView")
                     {
                         this.DocumentDateFrom.Active.SetItemValue("Enabled", true);
-                        this.DocumentDateFrom.Value = DateTime.Today.AddMonths(-3);
+                        this.DocumentDateFrom.Value = DateTime.Today.AddMonths(-1);
                         DocumentDateFrom.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
                         this.DocumentDateFrom.CustomizeControl += DateActionFrom_CustomizeControl;
                         this.DocumentDateFrom.Execute += DocumentDateFrom_Execute;
@@ -103,6 +107,168 @@ namespace StarLaiPortal.Module.Controllers
                     }
                 }
             }
+
+            // Start ver 1.0.15
+            if (typeof(PickList).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(PickList))
+                {
+                    if (View.Id == "PickList_ListView_ByDate")
+                    {
+                        DocumentStatus.Items.Clear();
+
+                        DocumentStatus.Items.Add(new ChoiceActionItem("All", "All", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Open", "Open", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Draft", "Draft", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Submitted", "Submitted", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Cancelled", "Cancelled", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Closed", "Closed", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Post", "Posted", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("PendPost", "Pending Post", null));
+
+                        DocumentStatus.SelectedIndex = 0;
+
+                        this.DocumentStatus.Active.SetItemValue("Enabled", true);
+                        DocumentStatus.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        DocumentStatus.CustomizeControl += action_CustomizeControl;
+
+                        this.DocumentDateFrom.Active.SetItemValue("Enabled", true);
+                        this.DocumentDateFrom.Value = DateTime.Today.AddDays(-14);
+                        DocumentDateFrom.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        this.DocumentDateFrom.CustomizeControl += DateActionFrom_CustomizeControl;
+                        this.DocumentDateFrom.Execute += DocumentDateFrom_Execute;
+
+                        this.DocumentDateTo.Active.SetItemValue("Enabled", true);
+                        this.DocumentDateTo.Value = DateTime.Today;
+                        DocumentDateTo.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        this.DocumentDateTo.CustomizeControl += DateActionTo_CustomizeControl;
+                        this.DocumentDateTo.Execute += DocumentDateTo_Execute;
+
+                        this.DocumentFilter.Active.SetItemValue("Enabled", true);
+                    }
+                }
+            }
+
+            if (typeof(PackList).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(PackList))
+                {
+                    if (View.Id == "PackList_ListView_ByDate")
+                    {
+                        DocumentStatus.Items.Clear();
+
+                        DocumentStatus.Items.Add(new ChoiceActionItem("All", "All", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Open", "Open", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Draft", "Draft", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Submitted", "Submitted", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Cancelled", "Cancelled", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Closed", "Closed", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Post", "Posted", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("PendPost", "Pending Post", null));
+
+                        DocumentStatus.SelectedIndex = 0;
+
+                        this.DocumentStatus.Active.SetItemValue("Enabled", true);
+                        DocumentStatus.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        DocumentStatus.CustomizeControl += action_CustomizeControl;
+
+                        this.DocumentDateFrom.Active.SetItemValue("Enabled", true);
+                        this.DocumentDateFrom.Value = DateTime.Today.AddDays(-14);
+                        DocumentDateFrom.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        this.DocumentDateFrom.CustomizeControl += DateActionFrom_CustomizeControl;
+                        this.DocumentDateFrom.Execute += DocumentDateFrom_Execute;
+
+                        this.DocumentDateTo.Active.SetItemValue("Enabled", true);
+                        this.DocumentDateTo.Value = DateTime.Today;
+                        DocumentDateTo.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        this.DocumentDateTo.CustomizeControl += DateActionTo_CustomizeControl;
+                        this.DocumentDateTo.Execute += DocumentDateTo_Execute;
+
+                        this.DocumentFilter.Active.SetItemValue("Enabled", true);
+                    }
+                }
+            }
+
+            if (typeof(Load).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(Load))
+                {
+                    if (View.Id == "Load_ListView_ByDate")
+                    {
+                        DocumentStatus.Items.Clear();
+
+                        DocumentStatus.Items.Add(new ChoiceActionItem("All", "All", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Open", "Open", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Draft", "Draft", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Submitted", "Submitted", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Cancelled", "Cancelled", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Closed", "Closed", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Post", "Posted", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("PendPost", "Pending Post", null));
+
+                        DocumentStatus.SelectedIndex = 0;
+
+                        this.DocumentStatus.Active.SetItemValue("Enabled", true);
+                        DocumentStatus.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        DocumentStatus.CustomizeControl += action_CustomizeControl;
+
+                        this.DocumentDateFrom.Active.SetItemValue("Enabled", true);
+                        this.DocumentDateFrom.Value = DateTime.Today.AddDays(-14);
+                        DocumentDateFrom.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        this.DocumentDateFrom.CustomizeControl += DateActionFrom_CustomizeControl;
+                        this.DocumentDateFrom.Execute += DocumentDateFrom_Execute;
+
+                        this.DocumentDateTo.Active.SetItemValue("Enabled", true);
+                        this.DocumentDateTo.Value = DateTime.Today;
+                        DocumentDateTo.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        this.DocumentDateTo.CustomizeControl += DateActionTo_CustomizeControl;
+                        this.DocumentDateTo.Execute += DocumentDateTo_Execute;
+
+                        this.DocumentFilter.Active.SetItemValue("Enabled", true);
+                    }
+                }
+            }
+
+            if (typeof(DeliveryOrder).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(DeliveryOrder))
+                {
+                    if (View.Id == "DeliveryOrder_ListView_ByDate")
+                    {
+                        DocumentStatus.Items.Clear();
+
+                        DocumentStatus.Items.Add(new ChoiceActionItem("All", "All", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Open", "Open", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Draft", "Draft", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Submitted", "Submitted", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Cancelled", "Cancelled", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Closed", "Closed", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("Post", "Posted", null));
+                        DocumentStatus.Items.Add(new ChoiceActionItem("PendPost", "Pending Post", null));
+
+                        DocumentStatus.SelectedIndex = 0;
+
+                        this.DocumentStatus.Active.SetItemValue("Enabled", true);
+                        DocumentStatus.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        DocumentStatus.CustomizeControl += action_CustomizeControl;
+
+                        this.DocumentDateFrom.Active.SetItemValue("Enabled", true);
+                        this.DocumentDateFrom.Value = DateTime.Today.AddDays(-14);
+                        DocumentDateFrom.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        this.DocumentDateFrom.CustomizeControl += DateActionFrom_CustomizeControl;
+                        this.DocumentDateFrom.Execute += DocumentDateFrom_Execute;
+
+                        this.DocumentDateTo.Active.SetItemValue("Enabled", true);
+                        this.DocumentDateTo.Value = DateTime.Today;
+                        DocumentDateTo.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        this.DocumentDateTo.CustomizeControl += DateActionTo_CustomizeControl;
+                        this.DocumentDateTo.Execute += DocumentDateTo_Execute;
+
+                        this.DocumentFilter.Active.SetItemValue("Enabled", true);
+                    }
+                }
+            }
+            // End ver 1.0.15
         }
         protected override void OnViewControlsCreated()
         {
@@ -124,7 +290,7 @@ namespace StarLaiPortal.Module.Controllers
                 ASPxDateEdit dateEdit = actionItem.Control.Editor as ASPxDateEdit;
                 if (dateEdit != null)
                 {
-                    dateEdit.Width = 110;
+                    dateEdit.Width = 120;
                     dateEdit.Buttons.Clear();
                     if (dateEdit.Text != "")
                     {
@@ -143,7 +309,7 @@ namespace StarLaiPortal.Module.Controllers
                 ASPxDateEdit dateEdit = actionItem.Control.Editor as ASPxDateEdit;
                 if (dateEdit != null)
                 {
-                    dateEdit.Width = 110;
+                    dateEdit.Width = 120;
                     dateEdit.Buttons.Clear();
                     if (dateEdit.Text != "")
                     {
@@ -239,6 +405,76 @@ namespace StarLaiPortal.Module.Controllers
                     }
                 }
             }
+
+            // Start ver 1.0.15
+            if (View.ObjectTypeInfo.Type == typeof(PickList))
+            {
+                if (View.Id == "PickList_ListView_ByDate")
+                {
+                    if (DocumentStatus.SelectedItem.Id != "All")
+                    {
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
+                            "and DocDate >= ? and DocDate <= ?", DocumentStatus.SelectedItem.Id, Fromdate, Todate.AddDays(1));
+                    }
+                    else
+                    {
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?",
+                            Fromdate, Todate.AddDays(1));
+                    }
+                }
+            }
+
+            if (View.ObjectTypeInfo.Type == typeof(PackList))
+            {
+                if (View.Id == "PackList_ListView_ByDate")
+                {
+                    if (DocumentStatus.SelectedItem.Id != "All")
+                    {
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
+                            "and DocDate >= ? and DocDate <= ?", DocumentStatus.SelectedItem.Id, Fromdate, Todate.AddDays(1));
+                    }
+                    else
+                    {
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?",
+                            Fromdate, Todate.AddDays(1));
+                    }
+                }
+            }
+
+            if (View.ObjectTypeInfo.Type == typeof(Load))
+            {
+                if (View.Id == "Load_ListView_ByDate")
+                {
+                    if (DocumentStatus.SelectedItem.Id != "All")
+                    {
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
+                            "and DocDate >= ? and DocDate <= ?", DocumentStatus.SelectedItem.Id, Fromdate, Todate.AddDays(1));
+                    }
+                    else
+                    {
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?",
+                            Fromdate, Todate.AddDays(1));
+                    }
+                }
+            }
+
+            if (View.ObjectTypeInfo.Type == typeof(DeliveryOrder))
+            {
+                if (View.Id == "DeliveryOrder_ListView_ByDate")
+                {
+                    if (DocumentStatus.SelectedItem.Id != "All")
+                    {
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
+                            "and DocDate >= ? and DocDate <= ?", DocumentStatus.SelectedItem.Id, Fromdate, Todate.AddDays(1));
+                    }
+                    else
+                    {
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?",
+                            Fromdate, Todate.AddDays(1));
+                    }
+                }
+            }
+            // End ver 1.0.15
         }
 
         private void DocumentFilter_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -267,6 +503,76 @@ namespace StarLaiPortal.Module.Controllers
                     ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?", Fromdate, Todate.AddDays(1));
                 }
             }
+
+            // Start ver 1.0.15
+            if (View.ObjectTypeInfo.Type == typeof(PickList))
+            {
+                if (View.Id == "PickList_ListView_ByDate")
+                {
+                    if (DocumentStatus.SelectedItem.Id != "All")
+                    {
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
+                            "and DocDate >= ? and DocDate <= ?", DocumentStatus.SelectedItem.Id, Fromdate, Todate.AddDays(1));
+                    }
+                    else
+                    {
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?",
+                           Fromdate, Todate.AddDays(1));
+                    }
+                }
+            }
+
+            if (View.ObjectTypeInfo.Type == typeof(PackList))
+            {
+                if (View.Id == "PackList_ListView_ByDate")
+                {
+                    if (DocumentStatus.SelectedItem.Id != "All")
+                    {
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
+                            "and DocDate >= ? and DocDate <= ?", DocumentStatus.SelectedItem.Id, Fromdate, Todate.AddDays(1));
+                    }
+                    else
+                    {
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?",
+                           Fromdate, Todate.AddDays(1));
+                    }
+                }
+            }
+
+            if (View.ObjectTypeInfo.Type == typeof(Load))
+            {
+                if (View.Id == "Load_ListView_ByDate")
+                {
+                    if (DocumentStatus.SelectedItem.Id != "All")
+                    {
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
+                            "and DocDate >= ? and DocDate <= ?", DocumentStatus.SelectedItem.Id, Fromdate, Todate.AddDays(1));
+                    }
+                    else
+                    {
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?",
+                           Fromdate, Todate.AddDays(1));
+                    }
+                }
+            }
+
+            if (View.ObjectTypeInfo.Type == typeof(DeliveryOrder))
+            {
+                if (View.Id == "DeliveryOrder_ListView_ByDate")
+                {
+                    if (DocumentStatus.SelectedItem.Id != "All")
+                    {
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
+                            "and DocDate >= ? and DocDate <= ?", DocumentStatus.SelectedItem.Id, Fromdate, Todate.AddDays(1));
+                    }
+                    else
+                    {
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?",
+                           Fromdate, Todate.AddDays(1));
+                    }
+                }
+            }
+            // End ver 1.0.15
         }
     }
 }

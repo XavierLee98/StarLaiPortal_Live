@@ -35,7 +35,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Pack_List
     //[Appearance("HideCopy", AppearanceItemType.Action, "True", TargetItems = "PACopyFromPL", Criteria = "PackingLocation = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("HideCopy", AppearanceItemType.Action, "True", TargetItems = "PACopyFromPL", Criteria = "PackingLocation = null or Warehouse = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     // End ver 1.0.10
-
+    // Start ver 1.0.15
+    [Appearance("HideFullTextSearch", AppearanceItemType.Action, "True", TargetItems = "FullTextSearch", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "PackList_ListView_ByDate")]
+    // End ver 1.0.15
     public class PackList : XPObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (https://documentation.devexpress.com/eXpressAppFramework/CustomDocument113146.aspx).
         // Use CodeRush to create XPO classes and properties with a few keystrokes.
