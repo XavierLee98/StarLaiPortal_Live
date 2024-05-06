@@ -51,7 +51,7 @@ namespace StarLaiPortal.Module.Controllers
 
                         BusinessObjects.ApplicationUser curruser = View.CurrentObject as BusinessObjects.ApplicationUser;
 
-                        if (curruser.UserName == user.UserName)
+                        if (curruser.UserName == "Admin")
                         {
                             this.ForceReleaseMemory.Active.SetItemValue("Enabled", true);
                         }

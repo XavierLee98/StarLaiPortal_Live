@@ -68,8 +68,13 @@ namespace StarLaiPortal.Module.Controllers
 
                         if (salesorder.IsNew == false)
                         {
-                            ObjectSpace.CommitChanges();
-                            ObjectSpace.Refresh();
+                            try 
+                            {
+                                ObjectSpace.CommitChanges();
+                                ObjectSpace.Refresh();
+                            }
+                            catch { }
+
                         }
                     }
                 }
