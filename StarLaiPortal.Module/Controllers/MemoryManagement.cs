@@ -32,5 +32,11 @@ namespace StarLaiPortal.Module.Controllers
                 SetProcessWorkingSetSize(System.Diagnostics.Process.GetCurrentProcess().Handle, -1, -1);
             }
         }
+
+        public static void FlushGCMemory()
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+        }
     }
 }
