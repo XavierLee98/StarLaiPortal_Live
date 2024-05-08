@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.ForceReleaseMemory = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
+            this.ForceFlushGC = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             // 
             // ForceReleaseMemory
             // 
@@ -40,14 +41,25 @@
             this.ForceReleaseMemory.ToolTip = null;
             this.ForceReleaseMemory.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.ForceReleaseMemory_Execute);
             // 
+            // ForceFlushGC
+            // 
+            this.ForceFlushGC.Caption = "Flush GC";
+            this.ForceFlushGC.Category = "ObjectsCreation";
+            this.ForceFlushGC.ConfirmationMessage = null;
+            this.ForceFlushGC.Id = "ForceFlushGC";
+            this.ForceFlushGC.ToolTip = null;
+            this.ForceFlushGC.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.ForceFlushGC_Execute);
+            // 
             // MemoryManagementController
             // 
             this.Actions.Add(this.ForceReleaseMemory);
+            this.Actions.Add(this.ForceFlushGC);
 
         }
 
         #endregion
 
         private DevExpress.ExpressApp.Actions.SimpleAction ForceReleaseMemory;
+        private DevExpress.ExpressApp.Actions.SimpleAction ForceFlushGC;
     }
 }

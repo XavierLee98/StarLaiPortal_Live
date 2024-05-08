@@ -32,6 +32,7 @@ namespace StarLaiPortal.Module.Controllers
             base.OnActivated();
             // Perform various tasks depending on the target View.
             this.ForceReleaseMemory.Active.SetItemValue("Enabled", false);
+            this.ForceFlushGC.Active.SetItemValue("Enabled", false);
         }
         protected override void OnViewControlsCreated()
         {
@@ -54,6 +55,7 @@ namespace StarLaiPortal.Module.Controllers
                         if (curruser.UserName == "Admin")
                         {
                             this.ForceReleaseMemory.Active.SetItemValue("Enabled", true);
+                            this.ForceFlushGC.Active.SetItemValue("Enabled", true);
                         }
                     }
                 }
@@ -84,7 +86,21 @@ namespace StarLaiPortal.Module.Controllers
                 genCon.showMsg("Fail", ex.Message, InformationType.Error);
             }
 
-            genCon.showMsg("Successful", "Memory Flush Successful..", InformationType.Success);
+            genCon.showMsg("Successful", "Memory Flush Successful.", InformationType.Success);
+        }
+
+        private void ForceFlushGC_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            try
+            {
+                MemoryManagement.FlushGCMemory();
+            }
+            catch (Exception ex)
+            {
+                genCon.showMsg("Fail", ex.Message, InformationType.Error);
+            }
+
+            genCon.showMsg("Successful", "Flush GC Successful.", InformationType.Success);
         }
     }
 }
