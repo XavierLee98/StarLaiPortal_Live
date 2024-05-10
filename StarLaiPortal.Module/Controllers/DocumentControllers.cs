@@ -71,7 +71,7 @@ namespace StarLaiPortal.Module.Controllers
                         DocumentStatus.CustomizeControl += action_CustomizeControl;
 
                         this.DocumentDateFrom.Active.SetItemValue("Enabled", true);
-                        this.DocumentDateFrom.Value = DateTime.Today.AddMonths(-1);
+                        this.DocumentDateFrom.Value = DateTime.Today.AddDays(-14);
                         DocumentDateFrom.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
                         this.DocumentDateFrom.CustomizeControl += DateActionFrom_CustomizeControl;
 
@@ -92,7 +92,7 @@ namespace StarLaiPortal.Module.Controllers
                     if (View.Id == "SalesQuotation_ListView")
                     {
                         this.DocumentDateFrom.Active.SetItemValue("Enabled", true);
-                        this.DocumentDateFrom.Value = DateTime.Today.AddMonths(-1);
+                        this.DocumentDateFrom.Value = DateTime.Today.AddDays(-14);
                         DocumentDateFrom.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
                         this.DocumentDateFrom.CustomizeControl += DateActionFrom_CustomizeControl;
                         this.DocumentDateFrom.Execute += DocumentDateFrom_Execute;
