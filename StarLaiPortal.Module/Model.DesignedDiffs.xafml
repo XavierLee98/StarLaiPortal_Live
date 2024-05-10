@@ -418,7 +418,7 @@
       </Item>
       <Item Id="Pick List" Index="10">
         <Items>
-          <Item Id="PickList_ListView" Index="0" />
+          <Item Id="PickList_ListView" Index="0" Visible="False" />
           <Item Id="Pick List By Date" Caption="Pick List By Date" Index="1" ViewId="PickList_ListView_ByDate" IsNewNode="True" />
           <Item Id="vwInquiryOpenPickList_ListView" Index="2" />
           <Item Id="vwInquiryPickList_ListView" Index="3" />
@@ -428,7 +428,7 @@
       </Item>
       <Item Id="Pack List" Index="11">
         <Items>
-          <Item Id="PackList_ListView" Index="0" />
+          <Item Id="PackList_ListView" Index="0" Visible="False" />
           <Item Id="Pack List By Date" Caption="Pack List By Date" Index="1" ViewId="PackList_ListView_ByDate" IsNewNode="True" />
           <Item Id="vwInquiryBundleID_ListView" QuickAccessItem="False" Index="2" Visible="False" />
           <Item Id="BundleIDInquiry_ListView" Index="3" QuickAccessItem="False" />
@@ -438,7 +438,7 @@
       </Item>
       <Item Id="Loading Bay" Index="12">
         <Items>
-          <Item Id="Load_ListView" Index="0" />
+          <Item Id="Load_ListView" Index="0" Visible="False" />
           <Item Id="Loading By Date" Caption="Loading By Date" ViewId="Load_ListView_ByDate" Index="1" IsNewNode="True" />
           <Item Id="vwInquiryLoadingDetails_ListView" QuickAccessItem="False" Visible="False" Index="2" />
           <Item Id="vwInquiryLoading_ListView" Index="3" Visible="False" />
@@ -447,7 +447,7 @@
       </Item>
       <Item Id="Delivery Order" Index="13">
         <Items>
-          <Item Id="DeliveryOrder_ListView" Index="0" />
+          <Item Id="DeliveryOrder_ListView" Index="0" Visible="False" />
           <Item Id="Delivery Order By Date" Caption="Delivery Order By Date" Index="1" ViewId="DeliveryOrder_ListView_ByDate" IsNewNode="True" />
           <Item Id="vwInquiryDelivery_ListView" Index="2" Visible="False" />
           <Item Id="DeliveryInquiry_ListView" Index="3" />

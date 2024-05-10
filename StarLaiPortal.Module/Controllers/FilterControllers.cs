@@ -65,7 +65,7 @@ namespace StarLaiPortal.Module.Controllers
                     //    "or ([Status] = ? and [AppStatus] = ?)",
                     //    DateTime.Now.AddMonths(-3), 0, 1, 2);
                     ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[CreateDate] >= ? and ([Status] in (?, ?))",  
-                        DateTime.Now.AddMonths(-1), 0 , 1);
+                        DateTime.Now.AddDays(-14), 0 , 1);
                 }
                 // End ver 1.0.15
             }
@@ -76,7 +76,7 @@ namespace StarLaiPortal.Module.Controllers
                 if (View.Id == "SalesOrder_ListView")
                 {
                     ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[CreateDate] >= ? and ([Status] = ?)",
-                        DateTime.Now.AddMonths(-1), 6);
+                        DateTime.Now.AddDays(-14), 6);
                 }
             }
             // End ver 1.0.15
