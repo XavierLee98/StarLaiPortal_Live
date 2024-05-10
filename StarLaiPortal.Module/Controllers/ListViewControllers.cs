@@ -168,6 +168,15 @@ namespace StarLaiPortal.Module.Controllers
                     listViewController.EditAction.Active["123"] = false;
                 }
             }
+
+            // Start ver 1.0.15
+            if (DateTime.Now.Minute.ToString("00").Substring(1, 1) == "0" || 
+                DateTime.Now.Minute.ToString("00").Substring(1, 1) == "3" ||
+                DateTime.Now.Minute.ToString("00").Substring(1, 1) == "6")
+            {
+                MemoryManagement.FlushGCMemory();
+            }
+            // End ver 1.0.15
         }
         protected override void OnViewControlsCreated()
         {
