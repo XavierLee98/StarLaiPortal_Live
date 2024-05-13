@@ -33,6 +33,7 @@ namespace StarLaiPortal.Web {
             WebApplication.Instance.Settings.DefaultVerticalTemplateContentPath = "DefaultVerticalTemplateContent1.ascx";
             DefaultVerticalTemplateContent1.ClearSizeLimit();
             WebApplication.Instance.SwitchToNewStyle();
+            //WebApplication.EnableMultipleBrowserTabsSupport = false;
 
             #region GeneralSettings
             string temp = "";
