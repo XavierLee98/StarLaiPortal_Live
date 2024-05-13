@@ -490,12 +490,15 @@ namespace StarLaiPortal.Module.Controllers
             }
             // End ver 1.0.15
 
-            //// Start ver 1.0.15
-            //if (DateTime.Now.Minute.ToString("00").Substring(1, 1) == "5" || DateTime.Now.Minute.ToString("00").Substring(1, 1) == "0")
-            //{
-            //    MemoryManagement.FlushGCMemory();
-            //}
-            //// End ver 1.0.15
+            // Start ver 1.0.15
+            if (DateTime.Now.Minute.ToString("00").Substring(1, 1) == "0" ||
+                DateTime.Now.Minute.ToString("00").Substring(1, 1) == "3" ||
+                DateTime.Now.Minute.ToString("00").Substring(1, 1) == "6" || 
+                DateTime.Now.Minute.ToString("00").Substring(1, 1) == "8")
+            {
+                MemoryManagement.FlushGCMemory();
+            }
+            // End ver 1.0.15
         }
     }
 }
