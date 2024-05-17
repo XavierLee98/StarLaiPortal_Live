@@ -127,9 +127,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Print_Module
         }
 
         private vwItemMasters _ItemCode;
-        [ImmediatePostData]
+        //[ImmediatePostData]
         [NoForeignKey]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
         [DataSourceCriteria("LabelType = '@this.LabelName'")]
         [XafDisplayName("Item Code")]
         [Index(10), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]

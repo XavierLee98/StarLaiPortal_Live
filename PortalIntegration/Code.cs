@@ -139,6 +139,18 @@ namespace PortalIntegration
                         }
                         catch (Exception ex)
                         {
+                            IObjectSpace osupdate = ObjectSpaceProvider.CreateObjectSpace();
+                            SalesOrder obj = osupdate.GetObjectByKey<SalesOrder>(dtlso.Oid);
+
+                            SalesOrderDocStatus ds = osupdate.CreateObject<SalesOrderDocStatus>();
+                            ds.CreateUser = osupdate.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
+                            ds.CreateDate = DateTime.Now;
+                            ds.DocStatus = DocStatus.PendPost;
+                            ds.DocRemarks = "SAP Error:" + ex.Message;
+                            obj.SalesOrderDocStatus.Add(ds);
+
+                            osupdate.CommitChanges();
+
                             WriteLog("[Error]", "Message: POST SO Failed - OID : " + dtlso.Oid + " (" + ex.Message + ")");
                         }
                     }
@@ -199,6 +211,18 @@ namespace PortalIntegration
                         }
                         catch (Exception ex)
                         {
+                            IObjectSpace osupdate = ObjectSpaceProvider.CreateObjectSpace();
+                            PurchaseOrders obj = osupdate.GetObjectByKey<PurchaseOrders>(dtlpo.Oid);
+
+                            PurchaseOrderDocTrail ds = osupdate.CreateObject<PurchaseOrderDocTrail>();
+                            ds.CreateUser = osupdate.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
+                            ds.CreateDate = DateTime.Now;
+                            ds.DocStatus = DocStatus.PendPost;
+                            ds.DocRemarks = "SAP Error:" + ex.Message;
+                            obj.PurchaseOrderDocTrail.Add(ds);
+
+                            osupdate.CommitChanges();
+
                             WriteLog("[Error]", "Message: POST PO Failed - OID : " + dtlpo.Oid + " (" + ex.Message + ")");
                         }
                     }
@@ -259,6 +283,18 @@ namespace PortalIntegration
                         }
                         catch (Exception ex)
                         {
+                            IObjectSpace osupdate = ObjectSpaceProvider.CreateObjectSpace();
+                            GRN obj = osupdate.GetObjectByKey<GRN>(dtlgrn.Oid);
+
+                            GRNDocTrail ds = osupdate.CreateObject<GRNDocTrail>();
+                            ds.CreateUser = osupdate.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
+                            ds.CreateDate = DateTime.Now;
+                            ds.DocStatus = DocStatus.PendPost;
+                            ds.DocRemarks = "SAP Error:" + ex.Message;
+                            obj.GRNDocTrail.Add(ds);
+
+                            osupdate.CommitChanges();
+
                             WriteLog("[Error]", "Message: GRN Post Failed - OID : " + dtlgrn.Oid + " (" + ex.Message + ")");
                         }
                     }
@@ -319,6 +355,18 @@ namespace PortalIntegration
                         }
                         catch (Exception ex)
                         {
+                            IObjectSpace osupdate = ObjectSpaceProvider.CreateObjectSpace();
+                            PurchaseReturns obj = osupdate.GetObjectByKey<PurchaseReturns>(dtlpreturn.Oid);
+
+                            PurchaseReturnDocTrail ds = osupdate.CreateObject<PurchaseReturnDocTrail>();
+                            ds.CreateUser = osupdate.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
+                            ds.CreateDate = DateTime.Now;
+                            ds.DocStatus = DocStatus.PendPost;
+                            ds.DocRemarks = "SAP Error:" + ex.Message;
+                            obj.PurchaseReturnDocTrail.Add(ds);
+
+                            osupdate.CommitChanges();
+
                             WriteLog("[Error]", "Message: Purchase Return Post Failed - OID : " + dtlpreturn.Oid + " (" + ex.Message + ")");
                         }
                     }
@@ -379,6 +427,18 @@ namespace PortalIntegration
                         }
                         catch (Exception ex)
                         {
+                            IObjectSpace osupdate = ObjectSpaceProvider.CreateObjectSpace();
+                            SalesReturns obj = osupdate.GetObjectByKey<SalesReturns>(dtlsreturn.Oid);
+
+                            SalesReturnDocTrail ds = osupdate.CreateObject<SalesReturnDocTrail>();
+                            ds.CreateUser = osupdate.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
+                            ds.CreateDate = DateTime.Now;
+                            ds.DocStatus = DocStatus.PendPost;
+                            ds.DocRemarks = "SAP Error:" + ex.Message;
+                            obj.SalesReturnDocTrail.Add(ds);
+
+                            osupdate.CommitChanges();
+
                             WriteLog("[Error]", "Message: Sales Return Post Failed - OID : " + dtlsreturn.Oid + " (" + ex.Message + ")");
                         }
                     }
@@ -512,6 +572,18 @@ namespace PortalIntegration
                         }
                         catch (Exception ex)
                         {
+                            IObjectSpace osupdate = ObjectSpaceProvider.CreateObjectSpace();
+                            StockAdjustments obj = osupdate.GetObjectByKey<StockAdjustments>(dtlsa.Oid);
+
+                            StockAdjustmentDocTrail ds = osupdate.CreateObject<StockAdjustmentDocTrail>();
+                            ds.CreateUser = osupdate.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
+                            ds.CreateDate = DateTime.Now;
+                            ds.DocStatus = DocStatus.PendPost;
+                            ds.DocRemarks = "SAP Error:" + ex.Message;
+                            obj.StockAdjustmentDocTrail.Add(ds);
+
+                            osupdate.CommitChanges();
+
                             WriteLog("[Error]", "Message: Stock Adjustment Post Failed - OID : " + dtlsa.Oid + " (" + ex.Message + ")");
                         }
                     }
@@ -572,6 +644,18 @@ namespace PortalIntegration
                         }
                         catch (Exception ex)
                         {
+                            IObjectSpace osupdate = ObjectSpaceProvider.CreateObjectSpace();
+                            SalesRefundRequests obj = osupdate.GetObjectByKey<SalesRefundRequests>(dtlcn.Oid);
+
+                            SalesRefundReqDocTrail ds = osupdate.CreateObject<SalesRefundReqDocTrail>();
+                            ds.CreateUser = osupdate.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
+                            ds.CreateDate = DateTime.Now;
+                            ds.DocStatus = DocStatus.PendPost;
+                            ds.DocRemarks = "SAP Error:" + ex.Message;
+                            obj.SalesRefundReqDocTrail.Add(ds);
+
+                            osupdate.CommitChanges();
+
                             WriteLog("[Error]", "Message: Sales Refund Post Failed - OID : " + dtlcn.Oid + " (" + ex.Message + ")");
                         }
                     }
@@ -750,6 +834,18 @@ namespace PortalIntegration
                         }
                         catch (Exception ex)
                         {
+                            IObjectSpace osupdate = ObjectSpaceProvider.CreateObjectSpace();
+                            SalesOrderCollection obj = osupdate.GetObjectByKey<SalesOrderCollection>(dtldp.Oid);
+
+                            SalesOrderCollectionDocStatus ds = osupdate.CreateObject<SalesOrderCollectionDocStatus>();
+                            ds.CreateUser = osupdate.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
+                            ds.CreateDate = DateTime.Now;
+                            ds.DocStatus = DocStatus.PendPost;
+                            ds.DocRemarks = "SAP Error:" + ex.Message;
+                            obj.SalesOrderCollectionDocStatus.Add(ds);
+
+                            osupdate.CommitChanges();
+
                             WriteLog("[Error]", "Message: AR Downpayment Post Failed - OID : " + dtldp.Oid + " (" + ex.Message + ")");
                         }
                     }
@@ -862,6 +958,18 @@ namespace PortalIntegration
                         }
                         catch (Exception ex)
                         {
+                            IObjectSpace osupdate = ObjectSpaceProvider.CreateObjectSpace();
+                            PickList obj = osupdate.GetObjectByKey<PickList>(dtlpl.Oid);
+
+                            PickListDocTrail ds = osupdate.CreateObject<PickListDocTrail>();
+                            ds.CreateUser = osupdate.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
+                            ds.CreateDate = DateTime.Now;
+                            ds.DocStatus = DocStatus.PendPost;
+                            ds.DocRemarks = "SAP Error:" + ex.Message;
+                            obj.PickListDocTrail.Add(ds);
+
+                            osupdate.CommitChanges();
+
                             WriteLog("[Error]", "Message: POST Pick List Failed - OID : " + dtlpl.Oid + " (" + ex.Message + ")");
                         }
                     }
@@ -922,6 +1030,18 @@ namespace PortalIntegration
                         }
                         catch (Exception ex)
                         {
+                            IObjectSpace osupdate = ObjectSpaceProvider.CreateObjectSpace();
+                            WarehouseTransfers obj = osupdate.GetObjectByKey<WarehouseTransfers>(dtlwt.Oid);
+
+                            WarehouseTransfersDocTrail ds = osupdate.CreateObject<WarehouseTransfersDocTrail>();
+                            ds.CreateUser = osupdate.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
+                            ds.CreateDate = DateTime.Now;
+                            ds.DocStatus = DocStatus.PendPost;
+                            ds.DocRemarks = "SAP Error:" + ex.Message;
+                            obj.WarehouseTransfersDocTrail.Add(ds);
+
+                            osupdate.CommitChanges();
+
                             WriteLog("[Error]", "Message: Warehouse Transfer Post Failed - OID : " + dtlwt.Oid + " (" + ex.Message + ")");
                         }
                     }
@@ -1019,6 +1139,18 @@ namespace PortalIntegration
                         }
                         catch (Exception ex)
                         {
+                            IObjectSpace osupdate = ObjectSpaceProvider.CreateObjectSpace();
+                            DeliveryOrder obj = osupdate.GetObjectByKey<DeliveryOrder>(dtldo.Oid);
+
+                            DeliveryOrderDocTrail ds = osupdate.CreateObject<DeliveryOrderDocTrail>();
+                            ds.CreateUser = osupdate.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
+                            ds.CreateDate = DateTime.Now;
+                            ds.DocStatus = DocStatus.PendPost;
+                            ds.DocRemarks = "SAP Error:" + ex.Message;
+                            obj.DeliveryOrderDocTrail.Add(ds);
+
+                            osupdate.CommitChanges();
+
                             WriteLog("[Error]", "Message: Delivery Order Post Failed - OID : " + dtldo.Oid + " (" + ex.Message + ")");
                         }
                     }
@@ -1145,6 +1277,18 @@ namespace PortalIntegration
                         }
                         catch (Exception ex)
                         {
+                            IObjectSpace osupdate = ObjectSpaceProvider.CreateObjectSpace();
+                            ARDownpaymentCancel obj = osupdate.GetObjectByKey<ARDownpaymentCancel>(dtlcn.Oid);
+
+                            ARDownpaymentCancellationDocTrail ds = osupdate.CreateObject<ARDownpaymentCancellationDocTrail>();
+                            ds.CreateUser = osupdate.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
+                            ds.CreateDate = DateTime.Now;
+                            ds.DocStatus = DocStatus.PendPost;
+                            ds.DocRemarks = "SAP Error:" + ex.Message;
+                            obj.ARDownpaymentCancellationDocTrail.Add(ds);
+
+                            osupdate.CommitChanges();
+
                             WriteLog("[Error]", "Message: Sales Refund Post Failed - OID : " + dtlcn.Oid + " (" + ex.Message + ")");
                         }
                     }
@@ -1225,6 +1369,18 @@ namespace PortalIntegration
                         }
                         catch (Exception ex)
                         {
+                            IObjectSpace osupdate = ObjectSpaceProvider.CreateObjectSpace();
+                            SalesOrder obj = osupdate.GetObjectByKey<SalesOrder>(dtlsoc.Oid);
+
+                            SalesOrderDocStatus ds = osupdate.CreateObject<SalesOrderDocStatus>();
+                            ds.CreateUser = osupdate.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
+                            ds.CreateDate = DateTime.Now;
+                            ds.DocStatus = DocStatus.PendPost;
+                            ds.DocRemarks = "SAP Error:" + ex.Message;
+                            obj.SalesOrderDocStatus.Add(ds);
+
+                            osupdate.CommitChanges();
+
                             WriteLog("[Error]", "Message: Cancel SO Failed - OID : " + dtlsoc.Oid + " (" + ex.Message + ")");
                         }
                     }
@@ -1303,6 +1459,18 @@ namespace PortalIntegration
                         }
                         catch (Exception ex)
                         {
+                            IObjectSpace osupdate = ObjectSpaceProvider.CreateObjectSpace();
+                            SalesOrder obj = osupdate.GetObjectByKey<SalesOrder>(dtlsoc.Oid);
+
+                            SalesOrderDocStatus ds = osupdate.CreateObject<SalesOrderDocStatus>();
+                            ds.CreateUser = osupdate.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
+                            ds.CreateDate = DateTime.Now;
+                            ds.DocStatus = DocStatus.PendPost;
+                            ds.DocRemarks = "SAP Error:" + ex.Message;
+                            obj.SalesOrderDocStatus.Add(ds);
+
+                            osupdate.CommitChanges();
+
                             WriteLog("[Error]", "Message: Closed SO Failed - OID : " + dtlsoc.Oid + " (" + ex.Message + ")");
                         }
                     }
@@ -1441,6 +1609,18 @@ namespace PortalIntegration
                         }
                         catch (Exception ex)
                         {
+                            IObjectSpace osupdate = ObjectSpaceProvider.CreateObjectSpace();
+                            StockCountConfirm obj = osupdate.GetObjectByKey<StockCountConfirm>(dtlsc.Oid);
+
+                            StockCountConfirmDocTrail ds = osupdate.CreateObject<StockCountConfirmDocTrail>();
+                            ds.CreateUser = osupdate.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
+                            ds.CreateDate = DateTime.Now;
+                            ds.DocStatus = DocStatus.PendPost;
+                            ds.DocRemarks = "SAP Error:" + ex.Message;
+                            obj.StockCountConfirmDocTrail.Add(ds);
+
+                            osupdate.CommitChanges();
+
                             WriteLog("[Error]", "Message: Stock Count Post Failed - OID : " + dtlsc.Oid + " (" + ex.Message + ")");
                         }
                     }
