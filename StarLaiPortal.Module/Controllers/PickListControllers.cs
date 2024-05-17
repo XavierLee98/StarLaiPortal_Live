@@ -664,11 +664,13 @@ namespace StarLaiPortal.Module.Controllers
             // End ver 1.0.14
 
             // Start ver 1.0.14
-            string getdupso = "SELECT OID From PickListDetails D1  " +
-                "INNER JOIN ( SELECT T1.SOBaseId, T1.PickList From PickList T0 " +
+            string getdupso = "SELECT D1.OID From PickListDetails D1 " +
+                "INNER JOIN(SELECT T1.SOBaseId, T1.PickList From PickList T0 " +
                 "INNER JOIN PickListDetails T1 on T0.OID = T1.PickList and T1.GCRecord is null " +
-                "WHERE T0.Status = 1 and T1.PickQty > 0 and T0.GCRecord is null and T0.DocNum = '" + selectedObject .DocNum + "') " +
-                "D2 on D1.SOBaseId = D2.SOBaseId and D1.PickList<> D2.PickList";
+                "WHERE T1.PickQty > 0 and T0.GCRecord is null and T0.DocNum = '" + selectedObject.DocNum + "') " +
+                "D2 on D1.SOBaseId = D2.SOBaseId and D1.PickList<> D2.PickList " +
+                "INNER JOIN PickList D3 on D1.PickList = D3.OID " +
+                "WHERE D3.Status = 1";
             if (conn.State == ConnectionState.Open)
             {
                 conn.Close();
@@ -678,7 +680,7 @@ namespace StarLaiPortal.Module.Controllers
             SqlDataReader readerso = cmdso.ExecuteReader();
             while (readerso.Read())
             {
-                showMsg("Error", "Duplicate pick list found.", InformationType.Error);
+                showMsg("Error", "Duplicate pick list with same SO found.", InformationType.Error);
                 cmdso.Dispose();
                 conn.Close();
                 return;
