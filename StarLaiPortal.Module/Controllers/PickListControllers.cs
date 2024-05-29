@@ -47,6 +47,7 @@ using System.Web;
 // 2023-12-06 replace vwPaymentSOSimplified to store pro ver 1.0.13
 // 2024-01-29 no allow to submit if warehouse is blank ver 1.0.14
 // 2024-02-21 no edit after status submitted ver 1.0.14
+// 2024-05-29 get SO remarks ver 1.0.16
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -369,6 +370,10 @@ namespace StarLaiPortal.Module.Controllers
                             //pl.Transporter = newplitem.Session.GetObjectByKey<vwTransporter>(dtl.Transporter.TransporterID);
                             pl.Transporter = newplitem.Session.FindObject<vwTransporter>(CriteriaOperator.Parse("TransporterName = ?", dtl.Transporter));
                         }
+
+                        // Start ver 1.0.16
+                        pl.Remarks = dtl.Remarks;
+                        // End ver 1.0.16
 
                         newplitem.ItemCode = newplitem.Session.GetObjectByKey<vwItemMasters>(dtl.ItemCode);
                         newplitem.ItemDesc = dtl.ItemDesc;
@@ -1333,6 +1338,10 @@ namespace StarLaiPortal.Module.Controllers
                                 //pl.Transporter = newplitem.Session.GetObjectByKey<vwTransporter>(dtl.Transporter.TransporterID);
                                 pl.Transporter = newplitem.Session.FindObject<vwTransporter>(CriteriaOperator.Parse("TransporterName = ?", dtl.Transporter)); ;
                             }
+
+                            // Start ver 1.0.16
+                            pl.Remarks = dtl.Remarks;
+                            // End ver 1.0.16
 
                             newplitem.ItemCode = newplitem.Session.GetObjectByKey<vwItemMasters>(dtl.ItemCode);
                             newplitem.ItemDesc = dtl.ItemDesc;
