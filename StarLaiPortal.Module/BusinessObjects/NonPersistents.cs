@@ -340,7 +340,7 @@ namespace StarLaiPortal.Module.BusinessObjects
             _Results = new BindingList<StockMovementResult>();
 
             DateTo = DateTime.Today;
-            DateFrom = DateTo.AddDays(-7);
+            DateFrom = DateTo.AddMonths(-3);
         }
 
         private BindingList<StockMovementResult> _Results;

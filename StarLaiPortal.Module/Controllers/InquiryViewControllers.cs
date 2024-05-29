@@ -37,11 +37,13 @@ using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
 using StarLaiPortal.Module.BusinessObjects.Delivery_Order;
 using System.Web;
+using DevExpress.XtraPrinting.Native;
 
 // 2023-09-14 - add filter into inquiry - ver 1.0.9
 // 2023-10-16 - sales order inquiry add "All" option for filter and view button - ver 1.0.11
 // 2024-01-30 - add inventory movement search button - ver 1.0.14
 // 2024-04-05 - add inquiry search button - ver 1.0.15
+// 2024-05-29 - amend pist list inquiry - ver 1.0.16
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -106,6 +108,9 @@ namespace StarLaiPortal.Module.Controllers
                     {
                         InquiryStatus.Items.Clear();
 
+                        // Start ver 1.0.16
+                        InquiryStatus.Items.Add(new ChoiceActionItem("All", "All"));
+                        // End ver 1.0.16
                         InquiryStatus.Items.Add(new ChoiceActionItem("Open", "Open"));
                         InquiryStatus.Items.Add(new ChoiceActionItem("Draft", "Draft"));
                         InquiryStatus.Items.Add(new ChoiceActionItem("Submitted", "Submitted"));
@@ -114,10 +119,14 @@ namespace StarLaiPortal.Module.Controllers
                         InquiryStatus.Items.Add(new ChoiceActionItem("Posted", "Posted"));
                         InquiryStatus.Items.Add(new ChoiceActionItem("Pending Post", "Pending Post"));
 
-                        InquiryStatus.SelectedIndex = 1;
+                        // Start ver 1.0.16
+                        InquiryStatus.SelectedIndex = 0;
+                        // End ver 1.0.16
 
-                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ?",
-                            InquiryStatus.SelectedItem.Id);
+                        // Start ver 1.0.16
+                        //((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ?",
+                        //    InquiryStatus.SelectedItem.Id);
+                        // End ver 1.0.16
 
                         this.InquiryStatus.Active.SetItemValue("Enabled", true);
                         InquiryStatus.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
@@ -128,14 +137,26 @@ namespace StarLaiPortal.Module.Controllers
                         InquiryDateFrom.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
                         this.InquiryDateFrom.CustomizeControl += DateActionFrom_CustomizeControl;
                         this.InquiryDateTo.Active.SetItemValue("Enabled", true);
-                        this.InquiryDateTo.Value = DateTime.Today.AddDays(1);
+                        // Start ver 1.0.16
+                        //this.InquiryDateTo.Value = DateTime.Today.AddDays(1);
+                        this.InquiryDateTo.Value = DateTime.Today;
+                        // End ver 1.0.16
                         InquiryDateTo.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
                         this.InquiryDateTo.CustomizeControl += DateActionTo_CustomizeControl;
                         this.InquiryFilter.Active.SetItemValue("Enabled", true);
 
-                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
-                        "and DocDate >= ? and DocDate <= ?",
-                        InquiryStatus.SelectedItem.Id, InquiryDateFrom.Value, InquiryDateTo.Value);
+                        // Start ver 1.0.16
+                        if (InquiryStatus.SelectedItem.Id != "All")
+                        {
+                            ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
+                                "and DocDate >= ? and DocDate <= ?", InquiryStatus.SelectedItem.Id, InquiryDateFrom.Value, InquiryDateTo.Value);
+                        }
+                        else
+                        {
+                            ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("DocDate >= ? and DocDate <= ?", 
+                                InquiryDateFrom.Value, InquiryDateTo.Value);
+                        }
+                        // End ver 1.0.16
                     }
                 }
             }
@@ -663,6 +684,14 @@ namespace StarLaiPortal.Module.Controllers
             string itemcode = "";
             string portalnum = "";
             StockMovement selectedObject = (StockMovement)e.CurrentObject;
+
+            // Start ver 1.0.16
+            if (selectedObject.ItemCode == null)
+            {
+                showMsg("Fail", "Please select item code.", InformationType.Error);
+                return;
+            }
+            // End ver 1.0.16
 
             if (selectedObject.ItemCode != null)
             {

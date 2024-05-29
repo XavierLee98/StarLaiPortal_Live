@@ -1445,7 +1445,7 @@ namespace StarLaiPortal.Module.BusinessObjects
             _Results = new BindingList<DeliveryInquiryResult>();
 
             DateTo = DateTime.Today;
-            DateFrom = DateTo.AddDays(-7);
+            DateFrom = DateTo.AddMonths(-1);
         }
 
         private BindingList<DeliveryInquiryResult> _Results;
