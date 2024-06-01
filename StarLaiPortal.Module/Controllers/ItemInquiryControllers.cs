@@ -38,6 +38,7 @@ using System.Web;
 // 2023-12-04 - add order status - ver 1.0.13
 // 2024-01-30 - orderstatus add new  field - ver 1.0.14
 // 2024-04-01 - add catalog number and old code search - ver 1.0.15
+// 2024-06-01 - add salesperson - ver 1.0.17
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -312,6 +313,9 @@ namespace StarLaiPortal.Module.Controllers
                             item.Quantity = (decimal)row.Values[3];
                             item.UnitPrice = (decimal)row.Values[4];
                             item.SAPInvoiceNo = row.Values[5].ToString();
+                            // Start ver 1.0.17
+                            item.Salesperson = row.Values[6].ToString();
+                            // End ver 1.0.17
                             saleslist.Sales.Add(item);
 
                             i++;
