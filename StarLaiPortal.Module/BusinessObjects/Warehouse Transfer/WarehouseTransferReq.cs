@@ -321,9 +321,12 @@ namespace StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer
         {
             get
             {
-                foreach (WarehouseTransferReqDetails dtl in this.WarehouseTransferReqDetails)
+                if (IsNew == false)
                 {
-                    return true;
+                    foreach (WarehouseTransferReqDetails dtl in this.WarehouseTransferReqDetails)
+                    {
+                        return true;
+                    }
                 }
 
                 return false;

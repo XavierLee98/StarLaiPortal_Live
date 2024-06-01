@@ -5963,6 +5963,13 @@
     <ListView Id="vwInvoice_ListView" DataAccessMode="Client" />
     <DetailView Id="vwItemMasters_DetailView" AllowEdit="False" />
     <ListView Id="vwItemMasters_ListView" DataAccessMode="Client" />
+    <ListView Id="vwItemMasters_LookupListView">
+      <Columns>
+        <ColumnInfo Id="ItemCode" Width="93" />
+        <ColumnInfo Id="ItemName" Width="98" />
+        <ColumnInfo Id="LegacyItemCode" Width="143" />
+      </Columns>
+    </ListView>
     <DetailView Id="vwLastPurchasePrice_DetailView" AllowEdit="False" />
     <ListView Id="vwLastPurchasePrice_ListView" DataAccessMode="Client" />
     <DetailView Id="vwLoadingSO_DetailView" AllowEdit="False" />
@@ -6066,6 +6073,13 @@
     <ListView Id="vwVehicle_ListView" DataAccessMode="Client" />
     <DetailView Id="vwWarehouse_DetailView" AllowEdit="False" />
     <ListView Id="vwWarehouse_ListView" DataAccessMode="Client" />
+    <ListView Id="vwWarehouse_LookupListView">
+      <Columns>
+        <ColumnInfo Id="BoFullName" Index="-1" />
+        <ColumnInfo Id="WarehouseCode" Index="0" />
+        <ColumnInfo Id="WarehouseName" PropertyName="WarehouseName" Index="1" IsNewNode="True" />
+      </Columns>
+    </ListView>
     <DetailView Id="WarehouseTransferDetails_DetailView">
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">

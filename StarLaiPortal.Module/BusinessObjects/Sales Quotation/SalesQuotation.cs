@@ -29,6 +29,7 @@ using DevExpress.Xpo.DB.Helpers;
 // 2024-04-01 Enhance performance ver 1.0.15
 // 2024-04-01 filter customer by U_blockSales ver 1.0.15
 // 2024-04-04 - remove stockbalance view - ver 1.0.15
+// 2024-06-01 - hide the priority if inactive - ver 1.0.17
 
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 {
@@ -391,6 +392,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 
         private PriorityType _Priority;
         [XafDisplayName("Priority")]
+        // Start ver 1.0.17
+        [ImmediatePostData]
+        [DataSourceCriteria("IsActive = 'True'")]
+        // End ver 1.0.17
         [Index(23), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public PriorityType Priority
         {

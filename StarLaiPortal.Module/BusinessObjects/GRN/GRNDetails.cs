@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 
 // 2023-08-25 remove validation for qty ver 1.0.9
+// 2024-06-01 allow to change warehouse ver 1.0.17
 
 namespace StarLaiPortal.Module.BusinessObjects.GRN
 {
@@ -182,7 +183,10 @@ namespace StarLaiPortal.Module.BusinessObjects.GRN
         [NoForeignKey]
         [RuleRequiredField(DefaultContexts.Save)]
         [XafDisplayName("Loc")]
-        [Appearance("Location", Enabled = false)]
+        // Start ver 1.0.17
+        //[Appearance("Location", Enabled = false)]
+        [ImmediatePostData]
+        // End ver 1.0.17
         [Index(13), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         public vwWarehouse Location
         {
@@ -190,13 +194,22 @@ namespace StarLaiPortal.Module.BusinessObjects.GRN
             set
             {
                 SetPropertyValue("Location", ref _Location, value);
+                // Start ver 1.0.17
+                if (!IsLoading && value != null)
+                {
+                    DefBin = Session.FindObject<vwBin>(CriteriaOperator.Parse("AbsEntry = ?", Location.DftBinAbs));
+                }
+                // End ver 1.0.17
             }
         }
 
         private vwBin _DefBin;
         [NoForeignKey]
         [XafDisplayName("Def Bin")]
-        [Appearance("DefBin", Enabled = false)]
+        // Start ver 1.0.17
+        //[Appearance("DefBin", Enabled = false)]
+        [DataSourceCriteria("Location = '@this.Location.WarehouseCode'")]
+        // End ver 1.0.17
         [Index(15), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         public vwBin DefBin
         {

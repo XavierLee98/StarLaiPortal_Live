@@ -7,6 +7,7 @@ using DevExpress.ExpressApp.Model.NodeGenerators;
 using DevExpress.ExpressApp.SystemModule;
 using DevExpress.ExpressApp.Templates;
 using DevExpress.ExpressApp.Utils;
+using DevExpress.ExpressApp.Web;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Validation;
@@ -23,11 +24,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.UI.WebControls;
 
 // 2023-10-23 add stock count ver 1.0.12
 // 2023-12-04 add daily delivery summary ver 1.0.13
 // 2024-01-30 - add inventory movement table - ver 1.0.14
 // 2024-04-05 - add inquiry view sp - ver 1.0.15
+// 2024-06-01 - enlarge popout screen - ver 1.0.17
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -49,6 +52,10 @@ namespace StarLaiPortal.Module.Controllers
             // Perform various tasks depending on the target View.
             showNavigationItemController = Frame.GetController<ShowNavigationItemController>();
             showNavigationItemController.CustomShowNavigationItem += showNavigationItemController_CustomShowNavigationItem;
+
+            // Start ver 1.0.17
+            ((WebApplication)Application).PopupWindowManager.PopupShowing += PopupWindowManager_PopupShowing;
+            // End ver 1.0.17
         }
         //protected override void OnViewControlsCreated()
         //{
@@ -500,5 +507,23 @@ namespace StarLaiPortal.Module.Controllers
             }
             // End ver 1.0.15
         }
+
+        // Start ver 1.0.17
+        private void PopupWindowManager_PopupShowing(object sender, PopupShowingEventArgs e)
+        {
+            e.PopupControl.CustomizePopupWindowSize += XafPopupWindowControl_CustomizePopupWindowSize;
+        }
+
+        private void XafPopupWindowControl_CustomizePopupWindowSize(object sender, DevExpress.ExpressApp.Web.Controls.CustomizePopupWindowSizeEventArgs e)
+        {
+            // only loopup listview
+            if (e.ShowViewSource.SourceView == null)
+            {
+                e.Width = Unit.Percentage(70);
+                e.Height = Unit.Percentage(80);
+                e.Handled = true;
+            }
+        }
+        // End ver 1.0.17
     }
 }

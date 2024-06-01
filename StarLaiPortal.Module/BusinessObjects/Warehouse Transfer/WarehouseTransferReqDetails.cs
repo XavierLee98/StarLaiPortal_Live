@@ -18,6 +18,7 @@ using System.Text;
 // 2023-10-16 - add legacyitemcode - ver 1.0.11
 // 2024-01-29 - add available qty and variance - ver 1.0.14
 // 2024-04-04 - remove stockbalance view - ver 1.0.15
+// 2024-06-01 remove AllItems 1.0.17
 
 namespace StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer
 {
@@ -103,7 +104,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer
         private vwItemMasters _ItemCode;
         [ImmediatePostData]
         [NoForeignKey]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.17
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.17
         [XafDisplayName("ItemCode")]
         [DataSourceCriteria("frozenFor = 'N'")]
         [Index(0), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
@@ -226,7 +229,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer
 
         private vwBinStockBalance _FromBin;
         [NoForeignKey]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.17
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.17
         [XafDisplayName("From Bin")]
         [DataSourceCriteria("Warehouse = '@this.FromWarehouse.WarehouseCode' and ItemCode = '@this.ItemCode.ItemCode'")]
         [Index(10), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
@@ -242,7 +247,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer
         private vwBin _ToBin;
         [NoForeignKey]
         [ImmediatePostData]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.17
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.17
         [XafDisplayName("To Bin")]
         [DataSourceCriteria("Warehouse = '@this.ToWarehouse.WarehouseCode'")]
         [Index(13), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
@@ -336,7 +343,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer
         private vwWarehouse _FromWarehouse;
         [NoForeignKey]
         [ImmediatePostData]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.17
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.17
         // Start ver 1.0.9
         //[RuleRequiredField(DefaultContexts.Save)]
         // End ver 1.0.9
@@ -362,7 +371,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer
         private vwWarehouse _ToWarehouse;
         [NoForeignKey]
         [ImmediatePostData]
-        [LookupEditorMode(LookupEditorMode.AllItems)]
+        // Start ver 1.0.17
+        //[LookupEditorMode(LookupEditorMode.AllItems)]
+        // End ver 1.0.17
         // Start ver 1.0.9
         //[RuleRequiredField(DefaultContexts.Save)]
         // End ver 1.0.9

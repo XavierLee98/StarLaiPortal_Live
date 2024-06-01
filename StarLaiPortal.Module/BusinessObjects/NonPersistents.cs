@@ -20,6 +20,7 @@ using System.Text;
 // 2024-01-30 - add inventory movement table - ver 1.0.14
 // 2024-01-30 - add PODate and PODelivery - ver 1.0.14
 // 2024-04-01 - add paymentso and paymentgroup - ver 1.0.15
+// 2024-06-01 - add Salesperson - ver 1.0.17
 
 namespace StarLaiPortal.Module.BusinessObjects
 {
@@ -46,28 +47,34 @@ namespace StarLaiPortal.Module.BusinessObjects
         [Appearance("Customer1", Enabled = false)]
         public string Customer { get; set; }
 
-        [XafDisplayName("Sales Date")]
+        [XafDisplayName("Salesperson")]
         [Index(2), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
+        [Appearance("Salesperson", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Criteria = "IsErr")]
+        [Appearance("Salesperson1", Enabled = false)]
+        public string Salesperson { get; set; }
+
+        [XafDisplayName("Sales Date")]
+        [Index(3), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         [Appearance("SalesDate", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Criteria = "IsErr")]
         [Appearance("SalesDate1", Enabled = false)]
         public DateTime SalesDate { get; set; }
 
         [XafDisplayName("Quantity")]
-        [Index(3), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
+        [Index(4), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         [Appearance("Quantity", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Criteria = "IsErr")]
         [Appearance("Quantity1", Enabled = false)]
         [ModelDefault("DisplayFormat", "n2")]
         public decimal Quantity { get; set; }
 
         [XafDisplayName("Unit Price")]
-        [Index(4), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
+        [Index(5), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         [Appearance("UnitPrice", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Criteria = "IsErr")]
         [Appearance("UnitPrice1", Enabled = false)]
         [ModelDefault("DisplayFormat", "n2")]
         public decimal UnitPrice { get; set; }
 
         [XafDisplayName("SAP Invoice No")]
-        [Index(5), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
+        [Index(6), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         [Appearance("SAPInvoiceNo", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Criteria = "IsErr")]
         [Appearance("SAPInvoiceNo1", Enabled = false)]
         public string SAPInvoiceNo { get; set; }

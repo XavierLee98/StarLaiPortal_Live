@@ -204,7 +204,7 @@ namespace StarLaiPortal.Module.Controllers
                         InquiryStatus.Items.Add(new ChoiceActionItem("Posted", "Posted"));
                         InquiryStatus.Items.Add(new ChoiceActionItem("Pending Post", "Pending Post"));
 
-                        InquiryStatus.SelectedIndex = 1;
+                        InquiryStatus.SelectedIndex = 0;
 
                         this.InquiryStatus.Active.SetItemValue("Enabled", true);
                         InquiryStatus.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
