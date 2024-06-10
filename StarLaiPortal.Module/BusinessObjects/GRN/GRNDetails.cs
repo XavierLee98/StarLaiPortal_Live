@@ -208,7 +208,7 @@ namespace StarLaiPortal.Module.BusinessObjects.GRN
         [XafDisplayName("Def Bin")]
         // Start ver 1.0.17
         //[Appearance("DefBin", Enabled = false)]
-        [DataSourceCriteria("Location = '@this.Location.WarehouseCode'")]
+        [DataSourceCriteria("Warehouse = '@this.Location.WarehouseCode'")]
         // End ver 1.0.17
         [Index(15), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         public vwBin DefBin
