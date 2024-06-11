@@ -44,6 +44,7 @@ using DevExpress.XtraPrinting.Native;
 // 2024-01-30 - add inventory movement search button - ver 1.0.14
 // 2024-04-05 - add inquiry search button - ver 1.0.15
 // 2024-05-29 - amend pist list inquiry - ver 1.0.16
+// 2024-06-11 - add preview in sales order inquiry - ver 1.0.17
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -86,6 +87,9 @@ namespace StarLaiPortal.Module.Controllers
             this.PrintDOInquiry.Active.SetItemValue("Enabled", false);
             this.PreviewInvInquiry.Active.SetItemValue("Enabled", false);
             // End ver 1.0.15
+            // Start ver 1.0.17
+            this.PreviewSOInquiry.Active.SetItemValue("Enabled", false);
+            // End ver 1.0.17
 
             if (typeof(vwInquiryOpenPickList).IsAssignableFrom(View.ObjectTypeInfo.Type))
             {
@@ -235,6 +239,10 @@ namespace StarLaiPortal.Module.Controllers
                                 InquiryDateFrom.Value, InquiryDateTo.Value);
                         }
                         // End ver 1.0.11
+
+                        // Start ver 1.0.17
+                        this.PreviewSOInquiry.Active.SetItemValue("Enabled", true);
+                        // End ver 1.0.17
                     }
                 }
             }
@@ -1917,5 +1925,71 @@ namespace StarLaiPortal.Module.Controllers
             }
         }
         // End ver 1.0.15
+
+        // Start ver 1.0.17
+        private void PreviewSOInquiry_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            if (e.SelectedObjects.Count == 1)
+            {
+                string strServer;
+                string strDatabase;
+                string strUserID;
+                string strPwd;
+                string filename;
+
+                SqlConnection conn = new SqlConnection(genCon.getConnectionString());
+                vwInquirySalesOrder currobject = (vwInquirySalesOrder)View.CurrentObject;
+                ApplicationUser user = (ApplicationUser)SecuritySystem.CurrentUser;
+
+                if (currobject.PortalNo == "")
+                {
+                    showMsg("Fail", "SO number not found.", InformationType.Error);
+                    return;
+                }
+
+                IObjectSpace os = Application.CreateObjectSpace();
+                SalesOrder so = os.FindObject<SalesOrder>(new BinaryOperator("DocNum", currobject.PortalNo));
+
+                try
+                {
+                    ReportDocument doc = new ReportDocument();
+                    strServer = ConfigurationManager.AppSettings.Get("SQLserver").ToString();
+                    doc.Load(HttpContext.Current.Server.MapPath("~\\Reports\\SalesOrder.rpt"));
+                    strDatabase = conn.Database;
+                    strUserID = ConfigurationManager.AppSettings.Get("SQLID").ToString();
+                    strPwd = ConfigurationManager.AppSettings.Get("SQLPass").ToString();
+                    doc.DataSourceConnections[0].SetConnection(strServer, strDatabase, strUserID, strPwd);
+                    doc.Refresh();
+
+                    doc.SetParameterValue("dockey@", so.Oid);
+                    doc.SetParameterValue("dbName@", conn.Database);
+
+                    filename = ConfigurationManager.AppSettings.Get("ReportPath").ToString() + conn.Database
+                        + "_" + so.Oid + "_" + user.UserName + "_SO_"
+                        + DateTime.Parse(so.DocDate.ToString()).ToString("yyyyMMdd") + ".pdf";
+
+                    doc.ExportToDisk(ExportFormatType.PortableDocFormat, filename);
+                    doc.Close();
+                    doc.Dispose();
+
+                    string url = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority +
+                        ConfigurationManager.AppSettings.Get("PrintPath").ToString() + conn.Database
+                        + "_" + so.Oid + "_" + user.UserName + "_SO_"
+                        + DateTime.Parse(so.DocDate.ToString()).ToString("yyyyMMdd") + ".pdf";
+                    var script = "window.open('" + url + "');";
+
+                    WebWindow.CurrentRequestWindow.RegisterStartupScript("DownloadFile", script);
+                }
+                catch (Exception ex)
+                {
+                    showMsg("Fail", ex.Message, InformationType.Error);
+                }
+            }
+            else
+            {
+                showMsg("Fail", "Please select one SO only.", InformationType.Error);
+            }
+        }
+        // End ver 1.0.17
     }
 }

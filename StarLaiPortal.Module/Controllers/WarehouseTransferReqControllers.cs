@@ -34,10 +34,11 @@ using System.Web;
 
 // 2023-08-16 - add stock 3 and stock 4 - ver 1.0.8
 // 2023-08-25 - export and import function - ver 1.0.9
-// 2023-09-12 add warehouse transfer req no ver 1.0.9
+// 2023-09-12 - add warehouse transfer req no ver 1.0.9
 // 2023-09-25 - add stock balance checking - ver 1.0.10
 // 2024-03-15 - do not check stock balance if same warehouse - ver 1.0.14
 // 2024-04-04 - Update available qty ver 1.0.15
+// 2024-06-11 - fixed disable edit and delete button ver 1.0.17
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -67,6 +68,38 @@ namespace StarLaiPortal.Module.Controllers
             this.ExportWHReq.Active.SetItemValue("Enabled", false);
             this.ImportWHReq.Active.SetItemValue("Enabled", false);
             // End ver 1.0.9
+
+            // Start ver 1.0.17
+            if (View.ObjectTypeInfo.Type == typeof(WarehouseTransferReq))
+            {
+                if (View is DetailView)
+                {
+                    BusinessObjects.Warehouse_Transfer.WarehouseTransferReq warehousereq = View.CurrentObject as BusinessObjects.Warehouse_Transfer.WarehouseTransferReq;
+
+                    foreach (WarehouseTransferReqDetails dtl in warehousereq.WarehouseTransferReqDetails)
+                    {
+                        if (dtl.FromWarehouse != null)
+                        {
+                            dtl.Available = genCon.GenerateInstock(ObjectSpace, dtl.ItemCode.ItemCode, dtl.FromWarehouse.WarehouseCode);
+                        }
+                        else
+                        {
+                            dtl.Available = 0;
+                        }
+                    }
+
+                    if (warehousereq.IsNew == false)
+                    {
+                        try
+                        {
+                            ObjectSpace.CommitChanges();
+                            ObjectSpace.Refresh();
+                        }
+                        catch { }
+                    }
+                }
+            }
+            // End ver 1.0.17
         }
         protected override void OnViewControlsCreated()
         {
@@ -111,28 +144,30 @@ namespace StarLaiPortal.Module.Controllers
                 // Start ver 1.0.15
                 if (View.ObjectTypeInfo.Type == typeof(WarehouseTransferReq))
                 {
-                    if (View is DetailView)
-                    {
-                        BusinessObjects.Warehouse_Transfer.WarehouseTransferReq warehousereq = View.CurrentObject as BusinessObjects.Warehouse_Transfer.WarehouseTransferReq;
+                    // Start ver 1.0.17
+                    //    if (View is DetailView)
+                    //    {
+                    //        BusinessObjects.Warehouse_Transfer.WarehouseTransferReq warehousereq = View.CurrentObject as BusinessObjects.Warehouse_Transfer.WarehouseTransferReq;
 
-                        foreach (WarehouseTransferReqDetails dtl in warehousereq.WarehouseTransferReqDetails)
-                        {
-                            if (dtl.FromWarehouse != null)
-                            {
-                                dtl.Available = genCon.GenerateInstock(ObjectSpace, dtl.ItemCode.ItemCode, dtl.FromWarehouse.WarehouseCode);
-                            }
-                            else
-                            {
-                                dtl.Available = 0;
-                            }
-                        }
+                    //        foreach (WarehouseTransferReqDetails dtl in warehousereq.WarehouseTransferReqDetails)
+                    //        {
+                    //            if (dtl.FromWarehouse != null)
+                    //            {
+                    //                dtl.Available = genCon.GenerateInstock(ObjectSpace, dtl.ItemCode.ItemCode, dtl.FromWarehouse.WarehouseCode);
+                    //            }
+                    //            else
+                    //            {
+                    //                dtl.Available = 0;
+                    //            }
+                    //        }
 
-                        if (warehousereq.IsNew == false)
-                        {
-                            ObjectSpace.CommitChanges();
-                            ObjectSpace.Refresh();
-                        }
-                    }
+                    //        if (warehousereq.IsNew == false)
+                    //        {
+                    //            ObjectSpace.CommitChanges();
+                    //            ObjectSpace.Refresh();
+                    //        }
+                    //    }
+                    // End ver 1.0.17
                 }
                 // End ver 1.0.15
             }
