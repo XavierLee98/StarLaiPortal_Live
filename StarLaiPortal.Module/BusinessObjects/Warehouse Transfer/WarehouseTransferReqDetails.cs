@@ -18,7 +18,7 @@ using System.Text;
 // 2023-10-16 - add legacyitemcode - ver 1.0.11
 // 2024-01-29 - add available qty and variance - ver 1.0.14
 // 2024-04-04 - remove stockbalance view - ver 1.0.15
-// 2024-06-01 remove AllItems 1.0.17
+// 2024-06-01 - remove AllItems 1.0.17
 
 namespace StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer
 {
