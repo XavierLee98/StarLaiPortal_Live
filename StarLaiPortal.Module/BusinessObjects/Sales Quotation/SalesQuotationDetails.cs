@@ -19,6 +19,7 @@ using System.Text;
 // 2024-01-29 - add import update - ver 1.0.14
 // 2024-04-04 - remove stockbalance view - ver 1.0.15
 // 2024-05-16 - enhance speed - ver 1.0.15
+// 2024-06-12 - e-invoice - ver 1.0.18
 
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 {
@@ -450,6 +451,22 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                 SetPropertyValue("Postingdate", ref _Postingdate, value);
             }
         }
+
+        // Start ver 1.0.18
+        private vwEIVClass _EIVClassification;
+        [NoForeignKey]
+        [XafDisplayName("Classification")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(28), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwEIVClass EIVClassification
+        {
+            get { return _EIVClassification; }
+            set
+            {
+                SetPropertyValue("EIVClassification", ref _EIVClassification, value);
+            }
+        }
+        // End ver 1.0.18
 
         // Start ver 1.0.14
         private int _OIDKey;
