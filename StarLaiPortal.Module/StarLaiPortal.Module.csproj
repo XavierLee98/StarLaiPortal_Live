@@ -327,6 +327,9 @@
     <Compile Include="BusinessObjects\View\vwDownpaymentINV.cs" />
     <Compile Include="BusinessObjects\View\vwDownpaymentINVGroup.cs" />
     <Compile Include="BusinessObjects\View\vwDriver.cs" />
+    <Compile Include="BusinessObjects\View\vwEIVClass.cs" />
+    <Compile Include="BusinessObjects\View\vwEIVFreqSync.cs" />
+    <Compile Include="BusinessObjects\View\vwEIVType.cs" />
     <Compile Include="BusinessObjects\View\vwExchangeRate.cs" />
     <Compile Include="BusinessObjects\View\vwInvoice.cs" />
     <Compile Include="BusinessObjects\View\vwItemMasters.cs" />
@@ -360,6 +363,7 @@
     <Compile Include="BusinessObjects\View\vwTransporter.cs" />
     <Compile Include="BusinessObjects\View\vwVehicle.cs" />
     <Compile Include="BusinessObjects\View\vwWarehouse.cs" />
+    <Compile Include="BusinessObjects\View\vwYesNo.cs" />
     <Compile Include="BusinessObjects\Warehouse Transfer\WarehouseTransferAttachment.cs" />
     <Compile Include="BusinessObjects\Warehouse Transfer\WarehouseTransferDetails.cs" />
     <Compile Include="BusinessObjects\Warehouse Transfer\WarehouseTransferReq.cs" />

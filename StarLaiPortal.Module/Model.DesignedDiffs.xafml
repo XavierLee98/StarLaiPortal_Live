@@ -6080,6 +6080,7 @@
         <ColumnInfo Id="WarehouseName" PropertyName="WarehouseName" Index="1" IsNewNode="True" />
       </Columns>
     </ListView>
+    <DetailView Id="vwYesNo_DetailView" AllowEdit="False" />
     <DetailView Id="WarehouseTransferDetails_DetailView">
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
