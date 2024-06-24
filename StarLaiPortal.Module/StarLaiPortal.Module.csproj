@@ -323,12 +323,14 @@
     <Compile Include="BusinessObjects\View\vwBin.cs" />
     <Compile Include="BusinessObjects\View\vwBinStockBalance.cs" />
     <Compile Include="BusinessObjects\View\vwBusniessPartner.cs" />
+    <Compile Include="BusinessObjects\View\vwCountry.cs" />
     <Compile Include="BusinessObjects\View\vwDepartment.cs" />
     <Compile Include="BusinessObjects\View\vwDownpaymentINV.cs" />
     <Compile Include="BusinessObjects\View\vwDownpaymentINVGroup.cs" />
     <Compile Include="BusinessObjects\View\vwDriver.cs" />
     <Compile Include="BusinessObjects\View\vwEIVClass.cs" />
     <Compile Include="BusinessObjects\View\vwEIVFreqSync.cs" />
+    <Compile Include="BusinessObjects\View\vwEIVRegType.cs" />
     <Compile Include="BusinessObjects\View\vwEIVType.cs" />
     <Compile Include="BusinessObjects\View\vwExchangeRate.cs" />
     <Compile Include="BusinessObjects\View\vwInvoice.cs" />
@@ -358,6 +360,7 @@
     <Compile Include="BusinessObjects\View\vwSalesPerson.cs" />
     <Compile Include="BusinessObjects\View\vwSeries.cs" />
     <Compile Include="BusinessObjects\View\vwShippingAddress.cs" />
+    <Compile Include="BusinessObjects\View\vwState.cs" />
     <Compile Include="BusinessObjects\View\vwStockBalance.cs" />
     <Compile Include="BusinessObjects\View\vwStockCountGL.cs" />
     <Compile Include="BusinessObjects\View\vwTransporter.cs" />
@@ -1074,6 +1077,36 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="UnusableNodes54.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UnusableNodes55.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UnusableNodes56.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UnusableNodes57.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UnusableNodes58.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UnusableNodes59.xml">
       <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
       <SubType>Designer</SubType>
     </None>

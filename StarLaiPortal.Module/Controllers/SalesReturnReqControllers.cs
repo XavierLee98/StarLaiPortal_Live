@@ -11,7 +11,9 @@ using DevExpress.ExpressApp.Web.Editors.ASPx;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Validation;
 using StarLaiPortal.Module.BusinessObjects;
+using StarLaiPortal.Module.BusinessObjects.Delivery_Order;
 using StarLaiPortal.Module.BusinessObjects.Item_Inquiry;
+using StarLaiPortal.Module.BusinessObjects.Sales_Order;
 using StarLaiPortal.Module.BusinessObjects.Sales_Return;
 using StarLaiPortal.Module.BusinessObjects.Setup;
 using StarLaiPortal.Module.BusinessObjects.View;
@@ -24,6 +26,7 @@ using System.Text;
 
 // 2023-08-16 - add stock 3 and stock 4 - ver 1.0.8
 // 2023-10-05 add payment method for sales return ver 1.0.10
+// 2024-06-12 - e-invoice - ver 1.0.18
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -234,6 +237,9 @@ namespace StarLaiPortal.Module.Controllers
                     //{
                         string invoiceno = null;
                         string dupinv = null;
+                        // Start ver 1.0.18
+                        int count = 0;
+                        // End ver 1.0.18
                         foreach (vwInvoice dtl in e.PopupWindowViewSelectedObjects)
                         {
                             if (dupinv != dtl.SAPDocNum)
@@ -255,6 +261,33 @@ namespace StarLaiPortal.Module.Controllers
                                 srr.Salesperson = ObjectSpace.FindObject<vwSalesPerson>(CriteriaOperator.Parse("SlpName = ?", dtl.Salesperson));
                             }
 
+                            // Start ver 1.0.18
+                            if (dtl.PortalNum != null)
+                            {
+                                DeliveryOrder delivery = ObjectSpace.FindObject<DeliveryOrder>(CriteriaOperator.Parse("DocNum = ?", dtl.PortalNum));
+
+                                if (delivery != null)
+                                {
+                                    // Buyer
+                                    srr.EIVConsolidate = srr.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", delivery.EIVConsolidate.Code));
+                                    srr.EIVType = srr.Session.FindObject<vwEIVType>(CriteriaOperator.Parse("Code = ?", delivery.EIVType.Code));
+                                    srr.EIVFreqSync = srr.Session.FindObject<vwEIVFreqSync>(CriteriaOperator.Parse("Code = ?", delivery.EIVFreqSync.Code));
+                                    srr.EIVBuyerName = delivery.EIVBuyerName;
+                                    srr.EIVBuyerTIN = delivery.EIVBuyerTIN;
+                                    srr.EIVBuyerRegNum = delivery.EIVBuyerRegNum;
+                                    srr.EIVBuyerRegTyp = srr.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", delivery.EIVBuyerRegTyp.Code));
+                                    srr.EIVBuyerSSTRegNum = delivery.EIVBuyerSSTRegNum;
+                                    srr.EIVBuyerEmail = delivery.EIVBuyerEmail;
+                                    srr.EIVBuyerContact = delivery.EIVBuyerContact;
+                                    //Recipient
+                                    srr.EIVShippingName = delivery.EIVShippingName;
+                                    srr.EIVShippingTin = delivery.EIVShippingTin;
+                                    srr.EIVShippingRegNum = delivery.EIVShippingRegNum;
+                                    srr.EIVShippingRegTyp = srr.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", delivery.EIVShippingRegTyp.Code));
+                                }
+                            }
+                            // End ver 1.0.18
+
                             srr.CustomerName = dtl.CardName;
                             SalesReturnRequestDetails newsrritem = ObjectSpace.CreateObject<SalesReturnRequestDetails>();
 
@@ -270,7 +303,10 @@ namespace StarLaiPortal.Module.Controllers
                             newsrritem.UnitCost = dtl.UnitCost;
                             newsrritem.BaseDoc = dtl.BaseEntry.ToString();
                             newsrritem.BaseId = dtl.BaseLine.ToString();
-
+                            // Start ver 1.0.18
+                            newsrritem.EIVClassification = newsrritem.Session.FindObject<vwEIVClass>
+                            (CriteriaOperator.Parse("Code = ?", dtl.U_EIV_Classification));
+                            // End ver 1.0.18
                             srr.SalesReturnRequestDetails.Add(newsrritem);
 
                             showMsg("Success", "Copy Success.", InformationType.Success);
@@ -649,6 +685,24 @@ namespace StarLaiPortal.Module.Controllers
                 // Start ver 1.0.10
                 newsr.PaymentMethod = srr.PaymentMethod;
                 // End ver 1.0.10
+                // Start ver 1.0.18
+                // Buyer
+                newsr.EIVConsolidate = newsr.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", srr.EIVConsolidate.Code));
+                newsr.EIVType = newsr.Session.FindObject<vwEIVType>(CriteriaOperator.Parse("Code = ?", srr.EIVType.Code));
+                newsr.EIVFreqSync = newsr.Session.FindObject<vwEIVFreqSync>(CriteriaOperator.Parse("Code = ?", srr.EIVFreqSync.Code));
+                newsr.EIVBuyerName = srr.EIVBuyerName;
+                newsr.EIVBuyerTIN = srr.EIVBuyerTIN;
+                newsr.EIVBuyerRegNum = srr.EIVBuyerRegNum;
+                newsr.EIVBuyerRegTyp = newsr.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", srr.EIVBuyerRegTyp.Code));
+                newsr.EIVBuyerSSTRegNum = srr.EIVBuyerSSTRegNum;
+                newsr.EIVBuyerEmail = srr.EIVBuyerEmail;
+                newsr.EIVBuyerContact = srr.EIVBuyerContact;
+                //Recipient
+                newsr.EIVShippingName = srr.EIVShippingName;
+                newsr.EIVShippingTin = srr.EIVShippingTin;
+                newsr.EIVShippingRegNum = srr.EIVShippingRegNum;
+                newsr.EIVShippingRegTyp = newsr.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", srr.EIVShippingRegTyp.Code));
+                // End ver 1.0.18
 
                 foreach (SalesReturnRequestDetails dtl in srr.SalesReturnRequestDetails)
                 {
@@ -678,6 +732,10 @@ namespace StarLaiPortal.Module.Controllers
                     newsrdetails.BaseDoc = srr.DocNum;
                     newsrdetails.BaseId = dtl.Oid.ToString();
                     newsrdetails.InvoiceDoc = dtl.BaseDoc;
+                    // Start ver 1.0.18
+                    newsrdetails.EIVClassification = newsrdetails.Session.FindObject<vwEIVClass>
+                        (CriteriaOperator.Parse("Code = ?", dtl.EIVClassification.Code));
+                    // End ver 1.0.18
                     newsr.SalesReturnDetails.Add(newsrdetails);
                 }
 

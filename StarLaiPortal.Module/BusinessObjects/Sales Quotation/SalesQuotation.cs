@@ -64,6 +64,19 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
     [Appearance("HideImportUpdateSQ", AppearanceItemType.Action, "True", TargetItems = "ImportUpdateSQ", Criteria = "DocNum = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     // End ver 1.0.14
 
+    // Start ver 1.0.18
+    [RuleCriteria("EIVSQBilling", DefaultContexts.Save, "IsValid9 = 0", "Buyer TIN and Buyer Reg. Num. must fill one of them.")]
+    [RuleCriteria("EIVSQShipping", DefaultContexts.Save, "IsValid10 = 0", "Shipping TIN and Shipping Reg. Num. must fill one of them.")]
+
+    [RuleCriteria("EIVSQBillingType", DefaultContexts.Save, "IsValid11 = 0", "Please fill in Buyer Reg. Type.")]
+    [RuleCriteria("EIVSQShippingType", DefaultContexts.Save, "IsValid12 = 0", "Please fill in Shipping Reg. Type.")]
+
+    [RuleCriteria("EIVSQBillingState", DefaultContexts.Save, "IsValid13 = 0", "Please fill in Buyer State.")]
+    [RuleCriteria("EIVSQShippingState", DefaultContexts.Save, "IsValid14 = 0", "Please fill in Shipping State.")]
+
+    [RuleCriteria("EIVSQEmail", DefaultContexts.Save, "IsValid15 = 0", "Please fill in email address.")]
+    // End ver 1.0.18
+
     public class SalesQuotation : XPObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (https://documentation.devexpress.com/eXpressAppFramework/CustomDocument113146.aspx).
       // Use CodeRush to create XPO classes and properties with a few keystrokes.
@@ -227,7 +240,45 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                         Series = Session.FindObject<vwSeries>(CriteriaOperator.Parse("Series = ?", Customer.SalesOrderSeries));
                     }
 
-                    foreach(SalesQuotationDetails dtl in this.SalesQuotationDetails)
+                    // Start ver 1.0.18
+                    // Buyer
+                    EIVConsolidate = Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", Customer.U_EIV_Consolidate));
+                    EIVType = Session.FindObject<vwEIVType>(CriteriaOperator.Parse("Code = ?", Customer.U_EIV_TypeARIV));
+                    EIVFreqSync = Session.FindObject<vwEIVFreqSync>(CriteriaOperator.Parse("Code = ?", Customer.U_EIV_FreqARIV));
+                    EIVBuyerName = Customer.U_EIV_BuyerName;
+                    EIVBuyerTIN = Customer.U_EIV_BuyerTin;
+                    EIVBuyerRegNum = Customer.U_EIV_BuyerRegNum;
+                    EIVBuyerRegTyp = Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", Customer.U_EIV_BuyerRegTyp));
+                    EIVBuyerSSTRegNum = Customer.U_EIV_BuyerSSTRegNum;
+                    EIVBuyerEmail = Customer.U_EIV_BuyerEmail;
+                    EIVBuyerContact = Customer.U_EIV_BuyerContact;
+                    //Recipient
+                    EIVShippingName = Customer.U_EIV_BuyerName;
+                    EIVShippingTin = Customer.U_EIV_BuyerTin;
+                    EIVShippingRegNum = Customer.U_EIV_BuyerRegNum;
+                    EIVShippingRegTyp = Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", Customer.U_EIV_BuyerRegTyp));
+
+                    if (BillingAddress != null)
+                    {
+                        EIVAddressLine1B = BillingAddress.Street;
+                        EIVAddressLine2B = BillingAddress.Block;
+                        EIVPostalZoneB = BillingAddress.ZipCode;
+                        EIVCityNameB = BillingAddress.City;
+                        EIVStateB = Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", BillingAddress.State));
+                        EIVCountryB = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", BillingAddress.Country));
+                    }
+                    if (ShippingAddress != null)
+                    {
+                        EIVAddressLine1S = ShippingAddress.Street;
+                        EIVAddressLine2S = ShippingAddress.Block;
+                        EIVPostalZoneS = ShippingAddress.ZipCode;
+                        EIVCityNameS = ShippingAddress.City;
+                        EIVStateS = Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", ShippingAddress.State));
+                        EIVCountryS = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", ShippingAddress.Country));
+                    }
+                    // End ver 1.0.18
+
+                    foreach (SalesQuotationDetails dtl in this.SalesQuotationDetails)
                     {
                         vwPriceWithVolumeDiscount tempprice = Session.FindObject<vwPriceWithVolumeDiscount>(CriteriaOperator.Parse(
                         "ItemCode = ? and ListNum = ? and ? >= FromDate and ? <= ToDate and ? >= FromQty and ? <= ToQty",
@@ -275,6 +326,38 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                     Transporter = null;
                     ContactPerson = null;
                     Series = null;
+
+                    // Start ver 1.0.18
+                    // Buyer
+                    EIVConsolidate = null;
+                    EIVType = null;
+                    EIVFreqSync = null;
+                    EIVBuyerName = null;
+                    EIVBuyerTIN = null;
+                    EIVBuyerRegNum = null;
+                    EIVBuyerRegTyp = null;
+                    EIVBuyerSSTRegNum = null;
+                    EIVBuyerEmail = null;
+                    EIVBuyerContact = null;
+                    //Recipient
+                    EIVShippingName = null;
+                    EIVShippingTin = null;
+                    EIVShippingRegNum = null;
+                    EIVShippingRegTyp = null;
+
+                    EIVAddressLine1B = null;
+                    EIVAddressLine2B = null;
+                    EIVPostalZoneB = null;
+                    EIVCityNameB = null;
+                    EIVStateB = null;
+                    EIVCountryB = null;
+                    EIVAddressLine1S = null;
+                    EIVAddressLine2S = null;
+                    EIVPostalZoneS = null;
+                    EIVCityNameS = null;
+                    EIVStateS = null;
+                    EIVCountryS = null;
+                    // End ver 1.0.18
                 }
             }
         }
@@ -757,8 +840,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         // Start ver 1.0.18
         private vwYesNo _EIVConsolidate;
         [NoForeignKey]
-        [XafDisplayName("Consolidate")]
+        [XafDisplayName("Require E-Invoice")]
         [RuleRequiredField(DefaultContexts.Save)]
+        [Appearance("EIVConsolidate", Enabled = false, Criteria = "Customer.GroupName != 'Trade Debtor - Cash'")]
         [Index(70), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwYesNo EIVConsolidate
         {
@@ -773,6 +857,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         [NoForeignKey]
         [XafDisplayName("E-Invoice Type")]
         [RuleRequiredField(DefaultContexts.Save)]
+        [Appearance("EIVType", Enabled = false, Criteria = "Customer.GroupName != 'Trade Debtor - Cash'")]
         [Index(71), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwEIVType EIVType
         {
@@ -787,6 +872,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         [NoForeignKey]
         [XafDisplayName("Sync. Freq.")]
         [RuleRequiredField(DefaultContexts.Save)]
+        [Appearance("EIVFreqSync", Enabled = false, Criteria = "Customer.GroupName != 'Trade Debtor - Cash'")]
         [Index(72), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwEIVFreqSync EIVFreqSync
         {
@@ -835,11 +921,11 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
             }
         }
 
-        private string _EIVBuyerRegTyp;
+        private vwEIVRegType _EIVBuyerRegTyp;
+        [NoForeignKey]
         [XafDisplayName("Registration Type")]
-        [RuleRequiredField(DefaultContexts.Save)]
         [Index(76), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
-        public string EIVBuyerRegTyp
+        public vwEIVRegType EIVBuyerRegTyp
         {
             get { return _EIVBuyerRegTyp; }
             set
@@ -874,7 +960,6 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 
         private string _EIVBuyerContact;
         [XafDisplayName("Contact No.")]
-        [RuleRequiredField(DefaultContexts.Save)]
         [Index(79), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVBuyerContact
         {
@@ -947,11 +1032,11 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
             }
         }
 
-        private string _EIVStateB;
+        private vwState _EIVStateB;
+        [NoForeignKey]
         [XafDisplayName("Buyer's State")]
-        [RuleRequiredField(DefaultContexts.Save)]
         [Index(85), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
-        public string EIVStateB
+        public vwState EIVStateB
         {
             get { return _EIVStateB; }
             set
@@ -960,11 +1045,12 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
             }
         }
 
-        private string _EIVCountryB;
+        private vwCountry _EIVCountryB;
+        [NoForeignKey]
         [XafDisplayName("Buyer's Country")]
         [RuleRequiredField(DefaultContexts.Save)]
         [Index(86), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
-        public string EIVCountryB
+        public vwCountry EIVCountryB
         {
             get { return _EIVCountryB; }
             set
@@ -976,7 +1062,6 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         //Recipient
         private string _EIVShippingName;
         [XafDisplayName("Recipient's Name")]
-        [RuleRequiredField(DefaultContexts.Save)]
         [Index(87), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVShippingName
         {
@@ -1011,11 +1096,11 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
             }
         }
 
-        private string _EIVShippingRegTyp;
+        private vwEIVRegType _EIVShippingRegTyp;
+        [NoForeignKey]
         [XafDisplayName("Recipient’s Reg. No. Type")]
-        [RuleRequiredField(DefaultContexts.Save)]
         [Index(90), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
-        public string EIVShippingRegTyp
+        public vwEIVRegType EIVShippingRegTyp
         {
             get { return _EIVShippingRegTyp; }
             set
@@ -1086,11 +1171,11 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
             }
         }
 
-        private string _EIVStateS;
+        private vwState _EIVStateS;
+        [NoForeignKey]
         [XafDisplayName("Recipient's State")]
-        [RuleRequiredField(DefaultContexts.Save)]
         [Index(96), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
-        public string EIVStateS
+        public vwState EIVStateS
         {
             get { return _EIVStateS; }
             set
@@ -1099,11 +1184,12 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
             }
         }
 
-        private string _EIVCountryS;
+        private vwCountry _EIVCountryS;
+        [NoForeignKey]
         [XafDisplayName("Recipient's Country")]
         [RuleRequiredField(DefaultContexts.Save)]
-        [Index(86), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
-        public string EIVCountryS
+        [Index(97), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwCountry EIVCountryS
         {
             get { return _EIVCountryS; }
             set
@@ -1115,7 +1201,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 
         private string _AppUser;
         [XafDisplayName("AppUser")]
-        [Index(80), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
+        [Index(110), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public string AppUser
         {
             get { return _AppUser; }
@@ -1285,6 +1371,106 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
             }
         }
         // End ver 1.0.7
+
+        // Start ver 1.0.18
+        [Browsable(false)]
+        public bool IsValid9
+        {
+            get
+            {
+                if (this.EIVBuyerTIN == null && this.EIVBuyerRegNum == null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        [Browsable(false)]
+        public bool IsValid10
+        {
+            get
+            {
+                if (this.EIVShippingTin == null && this.EIVShippingRegNum == null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        [Browsable(false)]
+        public bool IsValid11
+        {
+            get
+            {
+                if (this.EIVBuyerRegNum != null && this.EIVBuyerRegTyp == null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        [Browsable(false)]
+        public bool IsValid12
+        {
+            get
+            {
+                if (this.EIVShippingRegNum != null && this.EIVShippingRegTyp == null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        [Browsable(false)]
+        public bool IsValid13
+        {
+            get
+            {
+                if (this.EIVCountryB.Code == "MY" && this.EIVStateB == null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        [Browsable(false)]
+        public bool IsValid14
+        {
+            get
+            {
+                if (this.EIVCountryS.Code == "MY" && this.EIVStateS == null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        [Browsable(false)]
+        public bool IsValid15
+        {
+            get
+            {
+                if (this.EIVConsolidate.Code == "Y" && this.EIVBuyerEmail == null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+        // End ver 1.0.18
 
         [Association("SalesQuotation-SalesQuotationDetails")]
         [XafDisplayName("Items")]

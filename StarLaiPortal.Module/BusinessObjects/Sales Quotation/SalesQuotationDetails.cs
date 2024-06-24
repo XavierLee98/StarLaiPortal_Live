@@ -149,6 +149,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                         // End ver 1.0.15
                     }
                     LegacyItemCode = ItemCode.LegacyItemCode;
+                    // Start ver 1.0.18
+                    EIVClassification = Session.FindObject<vwEIVClass>(CriteriaOperator.Parse("Code = ?", ItemCode.U_EIV_ClassificationS));
+                    // End ver 1.0.18
 
                     if (Customer != null)
                     {
@@ -191,6 +194,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                     LegacyItemCode = null;
                     Price = 0;
                     AdjustedPrice = 0;
+                    // Start ver 1.0.18
+                    EIVClassification = null;
+                    // End ver 1.0.18
                 }
             }
         }

@@ -34,6 +34,7 @@ using System.Windows.Forms;
 
 // 2023-07-28 add Downpayment cancellation ver 1.0.7
 // 2023-11-02 Add stock count ver 1.0.12
+// 2024-06-12 e-invoice - ver 1.0.18
 
 namespace PortalIntegration
 {
@@ -272,6 +273,12 @@ namespace PortalIntegration
             // Start ver 1.0.13
             XafTypesInfo.Instance.RegisterEntity(typeof(vwExchangeRate));
             // Start ver 1.0.13
+            // Start ver 1.0.18
+            XafTypesInfo.Instance.RegisterEntity(typeof(vwEIVClass));
+            XafTypesInfo.Instance.RegisterEntity(typeof(vwEIVFreqSync));
+            XafTypesInfo.Instance.RegisterEntity(typeof(vwEIVRegType));
+            XafTypesInfo.Instance.RegisterEntity(typeof(vwEIVType));
+            // End ver 1.0.18
 
             XafTypesInfo.Instance.RegisterEntity(typeof(ApplicationUser));
             XafTypesInfo.Instance.RegisterEntity(typeof(GeneralSettings));

@@ -18,6 +18,7 @@ using System.Text;
 // 2023-09-25 change date format ver 1.0.10
 // 2023-10-05 add payment method for sales return ver 1.0.10
 // 2024-01-29 default payment method credit note ver 1.0.14
+// 2024-06-12 - e-invoice - ver 1.0.18
 
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
 {
@@ -43,6 +44,19 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
     [Appearance("HideCopyTo2", AppearanceItemType.Action, "True", TargetItems = "SRRCopyToSR", Criteria = "CopyTo = 1", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
 
     [Appearance("HideItemInq", AppearanceItemType.Action, "True", TargetItems = "SRRInquiryItem", Criteria = "Customer = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+
+    // Start ver 1.0.18
+    [RuleCriteria("EIVSRRBilling", DefaultContexts.Save, "IsValid4 = 0", "Buyer TIN and Buyer Reg. Num. must fill one of them.")]
+    [RuleCriteria("EIVSRRShipping", DefaultContexts.Save, "IsValid5 = 0", "Shipping TIN and Shipping Reg. Num. must fill one of them.")]
+
+    [RuleCriteria("EIVSRRBillingType", DefaultContexts.Save, "IsValid6 = 0", "Please fill in Buyer Reg. Type.")]
+    [RuleCriteria("EIVSRRShippingType", DefaultContexts.Save, "IsValid7 = 0", "Please fill in Shipping Reg. Type.")]
+
+    [RuleCriteria("EIVSRRBillingState", DefaultContexts.Save, "IsValid8 = 0", "Please fill in Buyer State.")]
+    [RuleCriteria("EIVSRRShippingState", DefaultContexts.Save, "IsValid9 = 0", "Please fill in Shipping State.")]
+
+    [RuleCriteria("EIVSRREmail", DefaultContexts.Save, "IsValid10 = 0", "Please fill in email address.")]
+    // End ver 1.0.18
 
     public class SalesReturnRequests : XPObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (https://documentation.devexpress.com/eXpressAppFramework/CustomDocument113146.aspx).
@@ -183,6 +197,44 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                       , Customer.BillToDef, Customer.BPCode));
                     ShippingAddress = Session.FindObject<vwShippingAddress>(CriteriaOperator.Parse("AddressKey = ? and CardCode = ?"
                         , Customer.ShipToDef, Customer.BPCode));
+
+                    // Start ver 1.0.18
+                    // Buyer
+                    EIVConsolidate = Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", Customer.U_EIV_Consolidate));
+                    EIVType = Session.FindObject<vwEIVType>(CriteriaOperator.Parse("Code = ?", Customer.U_EIV_TypeARIV));
+                    EIVFreqSync = Session.FindObject<vwEIVFreqSync>(CriteriaOperator.Parse("Code = ?", Customer.U_EIV_FreqARIV));
+                    EIVBuyerName = Customer.U_EIV_BuyerName;
+                    EIVBuyerTIN = Customer.U_EIV_BuyerTin;
+                    EIVBuyerRegNum = Customer.U_EIV_BuyerRegNum;
+                    EIVBuyerRegTyp = Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", Customer.U_EIV_BuyerRegTyp));
+                    EIVBuyerSSTRegNum = Customer.U_EIV_BuyerSSTRegNum;
+                    EIVBuyerEmail = Customer.U_EIV_BuyerEmail;
+                    EIVBuyerContact = Customer.U_EIV_BuyerContact;
+                    //Recipient
+                    EIVShippingName = Customer.U_EIV_BuyerName;
+                    EIVShippingTin = Customer.U_EIV_BuyerTin;
+                    EIVShippingRegNum = Customer.U_EIV_BuyerRegNum;
+                    EIVShippingRegTyp = Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", Customer.U_EIV_BuyerRegTyp));
+
+                    if (BillingAddress != null)
+                    {
+                        EIVAddressLine1B = BillingAddress.Street;
+                        EIVAddressLine2B = BillingAddress.Block;
+                        EIVPostalZoneB = BillingAddress.ZipCode;
+                        EIVCityNameB = BillingAddress.City;
+                        EIVStateB = Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", BillingAddress.State));
+                        EIVCountryB = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", BillingAddress.Country));
+                    }
+                    if (ShippingAddress != null)
+                    {
+                        EIVAddressLine1S = ShippingAddress.Street;
+                        EIVAddressLine2S = ShippingAddress.Block;
+                        EIVPostalZoneS = ShippingAddress.ZipCode;
+                        EIVCityNameS = ShippingAddress.City;
+                        EIVStateS = Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", ShippingAddress.State));
+                        EIVCountryS = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", ShippingAddress.Country));
+                    }
+                    // End ver 1.0.18
                 }
                 else if (!IsLoading && value == null)
                 {
@@ -190,6 +242,37 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                     ShippingAddress = null;
                     CustomerName = null;
                     Currency = null;
+                    // Start ver 1.0.18
+                    // Buyer
+                    EIVConsolidate = null;
+                    EIVType = null;
+                    EIVFreqSync = null;
+                    EIVBuyerName = null;
+                    EIVBuyerTIN = null;
+                    EIVBuyerRegNum = null;
+                    EIVBuyerRegTyp = null;
+                    EIVBuyerSSTRegNum = null;
+                    EIVBuyerEmail = null;
+                    EIVBuyerContact = null;
+                    //Recipient
+                    EIVShippingName = null;
+                    EIVShippingTin = null;
+                    EIVShippingRegNum = null;
+                    EIVShippingRegTyp = null;
+
+                    EIVAddressLine1B = null;
+                    EIVAddressLine2B = null;
+                    EIVPostalZoneB = null;
+                    EIVCityNameB = null;
+                    EIVStateB = null;
+                    EIVCountryB = null;
+                    EIVAddressLine1S = null;
+                    EIVAddressLine2S = null;
+                    EIVPostalZoneS = null;
+                    EIVCityNameS = null;
+                    EIVStateS = null;
+                    EIVCountryS = null;
+                    // End ver 1.0.18
                 }
             }
         }
@@ -433,6 +516,369 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         }
         // End ver 1.0.10
 
+        // Start ver 1.0.18
+        private vwYesNo _EIVConsolidate;
+        [NoForeignKey]
+        [XafDisplayName("Consolidate")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Appearance("EIVConsolidate", Enabled = false, Criteria = "Customer.GroupName != 'Trade Debtor - Cash'")]
+        [Index(50), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwYesNo EIVConsolidate
+        {
+            get { return _EIVConsolidate; }
+            set
+            {
+                SetPropertyValue("EIVConsolidate", ref _EIVConsolidate, value);
+            }
+        }
+
+        private vwEIVType _EIVType;
+        [NoForeignKey]
+        [XafDisplayName("E-Invoice Type")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Appearance("EIVType", Enabled = false, Criteria = "Customer.GroupName != 'Trade Debtor - Cash'")]
+        [Index(51), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwEIVType EIVType
+        {
+            get { return _EIVType; }
+            set
+            {
+                SetPropertyValue("EIVType", ref _EIVType, value);
+            }
+        }
+
+        private vwEIVFreqSync _EIVFreqSync;
+        [NoForeignKey]
+        [XafDisplayName("Sync. Freq.")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Appearance("EIVFreqSync", Enabled = false, Criteria = "Customer.GroupName != 'Trade Debtor - Cash'")]
+        [Index(52), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwEIVFreqSync EIVFreqSync
+        {
+            get { return _EIVFreqSync; }
+            set
+            {
+                SetPropertyValue("EIVFreqSync", ref _EIVFreqSync, value);
+            }
+        }
+
+        //Buyer
+        private string _EIVBuyerName;
+        [XafDisplayName("Buyer's Name")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(53), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVBuyerName
+        {
+            get { return _EIVBuyerName; }
+            set
+            {
+                SetPropertyValue("EIVBuyerName", ref _EIVBuyerName, value);
+            }
+        }
+
+        private string _EIVBuyerTIN;
+        [XafDisplayName("Buyer's TIN No")]
+        [Index(54), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVBuyerTIN
+        {
+            get { return _EIVBuyerTIN; }
+            set
+            {
+                SetPropertyValue("EIVBuyerTIN", ref _EIVBuyerTIN, value);
+            }
+        }
+
+        private string _EIVBuyerRegNum;
+        [XafDisplayName("Registration No.")]
+        [Index(55), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVBuyerRegNum
+        {
+            get { return _EIVBuyerRegNum; }
+            set
+            {
+                SetPropertyValue("EIVBuyerRegNum", ref _EIVBuyerRegNum, value);
+            }
+        }
+
+        private vwEIVRegType _EIVBuyerRegTyp;
+        [NoForeignKey]
+        [XafDisplayName("Registration Type")]
+        [Index(56), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwEIVRegType EIVBuyerRegTyp
+        {
+            get { return _EIVBuyerRegTyp; }
+            set
+            {
+                SetPropertyValue("EIVBuyerRegTyp", ref _EIVBuyerRegTyp, value);
+            }
+        }
+
+        private string _EIVBuyerSSTRegNum;
+        [XafDisplayName("SST Registration No.")]
+        [Index(57), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVBuyerSSTRegNum
+        {
+            get { return _EIVBuyerSSTRegNum; }
+            set
+            {
+                SetPropertyValue("EIVBuyerSSTRegNum", ref _EIVBuyerSSTRegNum, value);
+            }
+        }
+
+        private string _EIVBuyerEmail;
+        [XafDisplayName("E-mail ")]
+        [Index(58), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVBuyerEmail
+        {
+            get { return _EIVBuyerEmail; }
+            set
+            {
+                SetPropertyValue("EIVBuyerEmail", ref _EIVBuyerEmail, value);
+            }
+        }
+
+        private string _EIVBuyerContact;
+        [XafDisplayName("Contact No.")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(59), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVBuyerContact
+        {
+            get { return _EIVBuyerContact; }
+            set
+            {
+                SetPropertyValue("EIVBuyerContact", ref _EIVBuyerContact, value);
+            }
+        }
+
+        private string _EIVAddressLine1B;
+        [XafDisplayName("Buyer's Address Line 1")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(60), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVAddressLine1B
+        {
+            get { return _EIVAddressLine1B; }
+            set
+            {
+                SetPropertyValue("EIVAddressLine1B", ref _EIVAddressLine1B, value);
+            }
+        }
+
+        private string _EIVAddressLine2B;
+        [XafDisplayName("Buyer's Address Line 2")]
+        [Index(61), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVAddressLine2B
+        {
+            get { return _EIVAddressLine2B; }
+            set
+            {
+                SetPropertyValue("EIVAddressLine2B", ref _EIVAddressLine2B, value);
+            }
+        }
+
+        private string _EIVAddressLine3B;
+        [XafDisplayName("Buyer's Address Line 3")]
+        [Index(62), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVAddressLine3B
+        {
+            get { return _EIVAddressLine3B; }
+            set
+            {
+                SetPropertyValue("EIVAddressLine3B", ref _EIVAddressLine3B, value);
+            }
+        }
+
+        private string _EIVPostalZoneB;
+        [XafDisplayName("Buyer's Postcode")]
+        [Index(63), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVPostalZoneB
+        {
+            get { return _EIVPostalZoneB; }
+            set
+            {
+                SetPropertyValue("EIVPostalZoneB", ref _EIVPostalZoneB, value);
+            }
+        }
+
+        private string _EIVCityNameB;
+        [XafDisplayName("Buyer's City")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(64), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVCityNameB
+        {
+            get { return _EIVCityNameB; }
+            set
+            {
+                SetPropertyValue("EIVCityNameB", ref _EIVCityNameB, value);
+            }
+        }
+
+        private vwState _EIVStateB;
+        [NoForeignKey]
+        [XafDisplayName("Buyer's State")]
+        [Index(65), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwState EIVStateB
+        {
+            get { return _EIVStateB; }
+            set
+            {
+                SetPropertyValue("EIVStateB", ref _EIVStateB, value);
+            }
+        }
+
+        private vwCountry _EIVCountryB;
+        [NoForeignKey]
+        [XafDisplayName("Buyer's Country")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(66), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwCountry EIVCountryB
+        {
+            get { return _EIVCountryB; }
+            set
+            {
+                SetPropertyValue("EIVCountryB", ref _EIVCountryB, value);
+            }
+        }
+
+        //Recipient
+        private string _EIVShippingName;
+        [XafDisplayName("Recipient's Name")]
+        [Index(67), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVShippingName
+        {
+            get { return _EIVShippingName; }
+            set
+            {
+                SetPropertyValue("EIVShippingName", ref _EIVShippingName, value);
+            }
+        }
+
+        private string _EIVShippingTin;
+        [XafDisplayName("Recipient's TIN")]
+        [Index(68), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVShippingTin
+        {
+            get { return _EIVShippingTin; }
+            set
+            {
+                SetPropertyValue("EIVShippingTin", ref _EIVShippingTin, value);
+            }
+        }
+
+        private string _EIVShippingRegNum;
+        [XafDisplayName("Recipient’s Registration No.")]
+        [Index(69), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVShippingRegNum
+        {
+            get { return _EIVShippingRegNum; }
+            set
+            {
+                SetPropertyValue("EIVShippingRegNum", ref _EIVShippingRegNum, value);
+            }
+        }
+
+        private vwEIVRegType _EIVShippingRegTyp;
+        [NoForeignKey]
+        [XafDisplayName("Recipient’s Reg. No. Type")]
+        [Index(70), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwEIVRegType EIVShippingRegTyp
+        {
+            get { return _EIVShippingRegTyp; }
+            set
+            {
+                SetPropertyValue("EIVShippingRegTyp", ref _EIVShippingRegTyp, value);
+            }
+        }
+
+        private string _EIVAddressLine1S;
+        [XafDisplayName("Recipient's Address Line 1")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(71), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVAddressLine1S
+        {
+            get { return _EIVAddressLine1S; }
+            set
+            {
+                SetPropertyValue("EIVAddressLine1S", ref _EIVAddressLine1S, value);
+            }
+        }
+
+        private string _EIVAddressLine2S;
+        [XafDisplayName("Recipient's Address Line 2")]
+        [Index(72), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVAddressLine2S
+        {
+            get { return _EIVAddressLine2S; }
+            set
+            {
+                SetPropertyValue("EIVAddressLine2S", ref _EIVAddressLine2S, value);
+            }
+        }
+
+        private string _EIVAddressLine3S;
+        [XafDisplayName("Recipient's Address Line 3")]
+        [Index(73), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVAddressLine3S
+        {
+            get { return _EIVAddressLine3S; }
+            set
+            {
+                SetPropertyValue("EIVAddressLine3S", ref _EIVAddressLine3S, value);
+            }
+        }
+
+        private string _EIVPostalZoneS;
+        [XafDisplayName("Recipient's Postcode")]
+        [Index(74), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVPostalZoneS
+        {
+            get { return _EIVPostalZoneS; }
+            set
+            {
+                SetPropertyValue("EIVPostalZoneS", ref _EIVPostalZoneS, value);
+            }
+        }
+
+        private string _EIVCityNameS;
+        [XafDisplayName("Recipient's City")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(75), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVCityNameS
+        {
+            get { return _EIVCityNameS; }
+            set
+            {
+                SetPropertyValue("EIVCityNameS", ref _EIVCityNameS, value);
+            }
+        }
+
+        private vwState _EIVStateS;
+        [NoForeignKey]
+        [XafDisplayName("Recipient's State")]
+        [Index(76), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwState EIVStateS
+        {
+            get { return _EIVStateS; }
+            set
+            {
+                SetPropertyValue("EIVStateS", ref _EIVStateS, value);
+            }
+        }
+
+        private vwCountry _EIVCountryS;
+        [NoForeignKey]
+        [XafDisplayName("Recipient's Country")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(77), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwCountry EIVCountryS
+        {
+            get { return _EIVCountryS; }
+            set
+            {
+                SetPropertyValue("EIVCountryS", ref _EIVCountryS, value);
+            }
+        }
+        // End ver 1.0.18
+
         private string _AppUser;
         [XafDisplayName("AppUser")]
         [Index(78), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
@@ -553,6 +999,106 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                 return false;
             }
         }
+
+        // Start ver 1.0.18
+        [Browsable(false)]
+        public bool IsValid4
+        {
+            get
+            {
+                if (this.EIVBuyerTIN == null && this.EIVBuyerRegNum == null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        [Browsable(false)]
+        public bool IsValid5
+        {
+            get
+            {
+                if (this.EIVShippingTin == null && this.EIVShippingRegNum == null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        [Browsable(false)]
+        public bool IsValid6
+        {
+            get
+            {
+                if (this.EIVBuyerRegNum != null && this.EIVBuyerRegTyp == null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        [Browsable(false)]
+        public bool IsValid7
+        {
+            get
+            {
+                if (this.EIVShippingRegNum != null && this.EIVShippingRegTyp == null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        [Browsable(false)]
+        public bool IsValid8
+        {
+            get
+            {
+                if (this.EIVCountryB.Code == "MY" && this.EIVStateB == null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        [Browsable(false)]
+        public bool IsValid9
+        {
+            get
+            {
+                if (this.EIVCountryS.Code == "MY" && this.EIVStateS == null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        [Browsable(false)]
+        public bool IsValid10
+        {
+            get
+            {
+                if (this.EIVConsolidate.Code == "Y" && this.EIVBuyerEmail == null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+        // End ver 1.0.18
 
         [Association("SalesReturnRequests-SalesReturnRequestDetails")]
         [XafDisplayName("Content")]

@@ -16,6 +16,7 @@ using System.Text;
 // 2023-07-28 add createdate ver 1.0.7
 // 2023-09-25 add Territory/Price List ver 1.0.10
 // 2024-04-01 add U_blockSales ver 1.0.15
+// 2024-06-12 e-invoice - ver 1.0.18
 
 namespace StarLaiPortal.Module.BusinessObjects.View
 {
@@ -238,6 +239,88 @@ namespace StarLaiPortal.Module.BusinessObjects.View
             get; set;
         }
         // End ver 1.0.15
+
+        // Start ver 1.0.18
+        [XafDisplayName("U_EIV_Consolidate")]
+        [Appearance("U_EIV_Consolidate", Enabled = false)]
+        [Index(46)]
+        public string U_EIV_Consolidate
+        {
+            get; set;
+        }
+
+        [XafDisplayName("U_EIV_TypeARIV")]
+        [Appearance("U_EIV_TypeARIV", Enabled = false)]
+        [Index(47)]
+        public string U_EIV_TypeARIV
+        {
+            get; set;
+        }
+
+        [XafDisplayName("U_EIV_FreqARIV")]
+        [Appearance("U_EIV_FreqARIV", Enabled = false)]
+        [Index(48)]
+        public string U_EIV_FreqARIV
+        {
+            get; set;
+        }
+
+        [XafDisplayName("U_EIV_BuyerName")]
+        [Appearance("U_EIV_BuyerName", Enabled = false)]
+        [Index(49)]
+        public string U_EIV_BuyerName
+        {
+            get; set;
+        }
+
+        [XafDisplayName("U_EIV_BuyerTin")]
+        [Appearance("U_EIV_BuyerTin", Enabled = false)]
+        [Index(50)]
+        public string U_EIV_BuyerTin
+        {
+            get; set;
+        }
+
+        [XafDisplayName("U_EIV_BuyerRegNum")]
+        [Appearance("U_EIV_BuyerRegNum", Enabled = false)]
+        [Index(51)]
+        public string U_EIV_BuyerRegNum
+        {
+            get; set;
+        }
+
+        [XafDisplayName("U_EIV_BuyerRegTyp")]
+        [Appearance("U_EIV_BuyerRegTyp", Enabled = false)]
+        [Index(52)]
+        public string U_EIV_BuyerRegTyp
+        {
+            get; set;
+        }
+
+        [XafDisplayName("U_EIV_BuyerSSTRegNum")]
+        [Appearance("U_EIV_BuyerSSTRegNum", Enabled = false)]
+        [Index(53)]
+        public string U_EIV_BuyerSSTRegNum
+        {
+            get; set;
+        }
+
+        [XafDisplayName("U_EIV_BuyerEmail")]
+        [Appearance("U_EIV_BuyerEmail", Enabled = false)]
+        [Index(54)]
+        public string U_EIV_BuyerEmail
+        {
+            get; set;
+        }
+
+        [XafDisplayName("U_EIV_BuyerContact")]
+        [Appearance("U_EIV_BuyerContact", Enabled = false)]
+        [Index(55)]
+        public string U_EIV_BuyerContact
+        {
+            get; set;
+        }
+        // End ver 1.0.18
 
         [Index(88), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(true)]
         public string BoFullName

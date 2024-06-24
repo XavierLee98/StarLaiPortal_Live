@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 
 // 2023-09-25 add printing uom ver 1.0.10
+// 2024-06-12 e-invoice - ver 1.0.18
 
 namespace StarLaiPortal.Module.BusinessObjects.View
 {
@@ -190,6 +191,16 @@ namespace StarLaiPortal.Module.BusinessObjects.View
             get; set;
         }
         // End ver 1.0.10
+
+        // Start ver 1.0.18
+        [XafDisplayName("U_EIV_ClassificationS")]
+        [Appearance("U_EIV_ClassificationS", Enabled = false)]
+        [Index(43), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string U_EIV_ClassificationS
+        {
+            get; set;
+        }
+        // End ver 1.0.18
 
         [Index(30), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public string BoFullName

@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 
 // 2024-05-16 - enhance speed - ver 1.0.15
+// 2024-06-12 - e-invoice - ver 1.0.18
 
 namespace StarLaiPortal.Module.BusinessObjects.Delivery_Order
 {
@@ -328,6 +329,22 @@ namespace StarLaiPortal.Module.BusinessObjects.Delivery_Order
                 SetPropertyValue("PackListLine", ref _PackListLine, value);
             }
         }
+
+        // Start ver 1.0.18
+        private vwEIVClass _EIVClassification;
+        [NoForeignKey]
+        [XafDisplayName("Classification")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(40), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwEIVClass EIVClassification
+        {
+            get { return _EIVClassification; }
+            set
+            {
+                SetPropertyValue("EIVClassification", ref _EIVClassification, value);
+            }
+        }
+        // End ver 1.0.18
 
         [Browsable(false)]
         public bool IsNew
