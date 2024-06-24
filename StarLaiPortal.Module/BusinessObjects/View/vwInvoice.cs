@@ -13,6 +13,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
+// 2024-06-12 - e-invoice - ver 1.0.18
+
 namespace StarLaiPortal.Module.BusinessObjects.View
 {
     [DefaultClassOptions]
@@ -220,5 +222,15 @@ namespace StarLaiPortal.Module.BusinessObjects.View
         {
             get; set;
         }
+
+        // Start ver 1.0.18
+        [XafDisplayName("U_EIV_Classification")]
+        [Appearance("U_EIV_Classification", Enabled = false)]
+        [Index(43), VisibleInListView(false), VisibleInDetailView(false), VisibleInLookupListView(false)]
+        public string U_EIV_Classification
+        {
+            get; set;
+        }
+        // End ver 1.0.18
     }
 }

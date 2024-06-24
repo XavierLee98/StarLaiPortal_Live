@@ -75,5 +75,55 @@ namespace StarLaiPortal.Module.BusinessObjects.View
         {
             get; set;
         }
+
+        // Start ver 1.0.18
+        [XafDisplayName("Street")]
+        [Appearance("Street", Enabled = false)]
+        [Index(10)]
+        public string Street
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Block")]
+        [Appearance("Block", Enabled = false)]
+        [Index(13)]
+        public string Block
+        {
+            get; set;
+        }
+
+        [XafDisplayName("City")]
+        [Appearance("City", Enabled = false)]
+        [Index(15)]
+        public string City
+        {
+            get; set;
+        }
+
+        [XafDisplayName("State")]
+        [Appearance("State", Enabled = false)]
+        [Index(18)]
+        public string State
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Country")]
+        [Appearance("Country", Enabled = false)]
+        [Index(20)]
+        public string Country
+        {
+            get; set;
+        }
+
+        [XafDisplayName("ZipCode")]
+        [Appearance("ZipCode", Enabled = false)]
+        [Index(23)]
+        public string ZipCode
+        {
+            get; set;
+        }
+        // End ver 1.0.18
     }
 }

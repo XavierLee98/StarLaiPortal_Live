@@ -14,6 +14,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
+// 2024-06-12 - e-invoice - ver 1.0.18
+
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
 {
     [DefaultClassOptions]
@@ -389,6 +391,23 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                 SetPropertyValue("InvoiceDoc", ref _InvoiceDoc, value);
             }
         }
+
+        // Start ver 1.0.18
+        private vwEIVClass _EIVClassification;
+        [NoForeignKey]
+        [XafDisplayName("Classification")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(30), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwEIVClass EIVClassification
+        {
+            get { return _EIVClassification; }
+            set
+            {
+                SetPropertyValue("EIVClassification", ref _EIVClassification, value);
+            }
+        }
+        // End ver 1.0.18
+
 
         [Browsable(false)]
         public bool IsNew

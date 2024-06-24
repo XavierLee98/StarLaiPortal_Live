@@ -20,6 +20,7 @@ using System.Text;
 // 2023-04-09 fix speed issue ver 1.0.8.1
 // 2023-09-25 change date format ver 1.0.10
 // 2023-10-16 hide seach function ver 1.0.11
+// 2024-06-12 e-invoice - ver 1.0.18
 
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Order
 {
@@ -559,12 +560,377 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Order
             }
         }
 
+        // Start ver 1.0.18
+        private vwYesNo _EIVConsolidate;
+        [NoForeignKey]
+        [XafDisplayName("Consolidate")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(60), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwYesNo EIVConsolidate
+        {
+            get { return _EIVConsolidate; }
+            set
+            {
+                SetPropertyValue("EIVConsolidate", ref _EIVConsolidate, value);
+            }
+        }
+
+        private vwEIVType _EIVType;
+        [NoForeignKey]
+        [XafDisplayName("E-Invoice Type")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(61), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwEIVType EIVType
+        {
+            get { return _EIVType; }
+            set
+            {
+                SetPropertyValue("EIVType", ref _EIVType, value);
+            }
+        }
+
+        private vwEIVFreqSync _EIVFreqSync;
+        [NoForeignKey]
+        [XafDisplayName("Sync. Freq.")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(62), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwEIVFreqSync EIVFreqSync
+        {
+            get { return _EIVFreqSync; }
+            set
+            {
+                SetPropertyValue("EIVFreqSync", ref _EIVFreqSync, value);
+            }
+        }
+
+        //Buyer
+        private string _EIVBuyerName;
+        [XafDisplayName("Buyer's Name")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(63), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVBuyerName
+        {
+            get { return _EIVBuyerName; }
+            set
+            {
+                SetPropertyValue("EIVBuyerName", ref _EIVBuyerName, value);
+            }
+        }
+
+        private string _EIVBuyerTIN;
+        [XafDisplayName("Buyer's TIN No")]
+        [Index(64), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVBuyerTIN
+        {
+            get { return _EIVBuyerTIN; }
+            set
+            {
+                SetPropertyValue("EIVBuyerTIN", ref _EIVBuyerTIN, value);
+            }
+        }
+
+        private string _EIVBuyerRegNum;
+        [XafDisplayName("Registration No.")]
+        [Index(65), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVBuyerRegNum
+        {
+            get { return _EIVBuyerRegNum; }
+            set
+            {
+                SetPropertyValue("EIVBuyerRegNum", ref _EIVBuyerRegNum, value);
+            }
+        }
+
+        private vwEIVRegType _EIVBuyerRegTyp;
+        [NoForeignKey]
+        [XafDisplayName("Registration Type")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(66), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwEIVRegType EIVBuyerRegTyp
+        {
+            get { return _EIVBuyerRegTyp; }
+            set
+            {
+                SetPropertyValue("EIVBuyerRegTyp", ref _EIVBuyerRegTyp, value);
+            }
+        }
+
+        private string _EIVBuyerSSTRegNum;
+        [XafDisplayName("SST Registration No.")]
+        [Index(67), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVBuyerSSTRegNum
+        {
+            get { return _EIVBuyerSSTRegNum; }
+            set
+            {
+                SetPropertyValue("EIVBuyerSSTRegNum", ref _EIVBuyerSSTRegNum, value);
+            }
+        }
+
+        private string _EIVBuyerEmail;
+        [XafDisplayName("E-mail ")]
+        [Index(68), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVBuyerEmail
+        {
+            get { return _EIVBuyerEmail; }
+            set
+            {
+                SetPropertyValue("EIVBuyerEmail", ref _EIVBuyerEmail, value);
+            }
+        }
+
+        private string _EIVBuyerContact;
+        [XafDisplayName("Contact No.")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(69), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVBuyerContact
+        {
+            get { return _EIVBuyerContact; }
+            set
+            {
+                SetPropertyValue("EIVBuyerContact", ref _EIVBuyerContact, value);
+            }
+        }
+
+        private string _EIVAddressLine1B;
+        [XafDisplayName("Buyer's Address Line 1")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(70), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVAddressLine1B
+        {
+            get { return _EIVAddressLine1B; }
+            set
+            {
+                SetPropertyValue("EIVAddressLine1B", ref _EIVAddressLine1B, value);
+            }
+        }
+
+        private string _EIVAddressLine2B;
+        [XafDisplayName("Buyer's Address Line 2")]
+        [Index(71), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVAddressLine2B
+        {
+            get { return _EIVAddressLine2B; }
+            set
+            {
+                SetPropertyValue("EIVAddressLine2B", ref _EIVAddressLine2B, value);
+            }
+        }
+
+        private string _EIVAddressLine3B;
+        [XafDisplayName("Buyer's Address Line 3")]
+        [Index(72), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVAddressLine3B
+        {
+            get { return _EIVAddressLine3B; }
+            set
+            {
+                SetPropertyValue("EIVAddressLine3B", ref _EIVAddressLine3B, value);
+            }
+        }
+
+        private string _EIVPostalZoneB;
+        [XafDisplayName("Buyer's Postcode")]
+        [Index(73), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVPostalZoneB
+        {
+            get { return _EIVPostalZoneB; }
+            set
+            {
+                SetPropertyValue("EIVPostalZoneB", ref _EIVPostalZoneB, value);
+            }
+        }
+
+        private string _EIVCityNameB;
+        [XafDisplayName("Buyer's City")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(74), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVCityNameB
+        {
+            get { return _EIVCityNameB; }
+            set
+            {
+                SetPropertyValue("EIVCityNameB", ref _EIVCityNameB, value);
+            }
+        }
+
+        private vwState _EIVStateB;
+        [NoForeignKey]
+        [XafDisplayName("Buyer's State")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(75), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwState EIVStateB
+        {
+            get { return _EIVStateB; }
+            set
+            {
+                SetPropertyValue("EIVStateB", ref _EIVStateB, value);
+            }
+        }
+
+        private vwCountry _EIVCountryB;
+        [NoForeignKey]
+        [XafDisplayName("Buyer's Country")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(76), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwCountry EIVCountryB
+        {
+            get { return _EIVCountryB; }
+            set
+            {
+                SetPropertyValue("EIVCountryB", ref _EIVCountryB, value);
+            }
+        }
+
+        //Recipient
+        private string _EIVShippingName;
+        [XafDisplayName("Recipient's Name")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(77), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVShippingName
+        {
+            get { return _EIVShippingName; }
+            set
+            {
+                SetPropertyValue("EIVShippingName", ref _EIVShippingName, value);
+            }
+        }
+
+        private string _EIVShippingTin;
+        [XafDisplayName("Recipient's TIN")]
+        [Index(78), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVShippingTin
+        {
+            get { return _EIVShippingTin; }
+            set
+            {
+                SetPropertyValue("EIVShippingTin", ref _EIVShippingTin, value);
+            }
+        }
+
+        private string _EIVShippingRegNum;
+        [XafDisplayName("Recipient’s Registration No.")]
+        [Index(79), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVShippingRegNum
+        {
+            get { return _EIVShippingRegNum; }
+            set
+            {
+                SetPropertyValue("EIVShippingRegNum", ref _EIVShippingRegNum, value);
+            }
+        }
+
+        private vwEIVRegType _EIVShippingRegTyp;
+        [NoForeignKey]
+        [XafDisplayName("Recipient’s Reg. No. Type")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(80), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwEIVRegType EIVShippingRegTyp
+        {
+            get { return _EIVShippingRegTyp; }
+            set
+            {
+                SetPropertyValue("EIVShippingRegTyp", ref _EIVShippingRegTyp, value);
+            }
+        }
+
+        private string _EIVAddressLine1S;
+        [XafDisplayName("Recipient's Address Line 1")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(81), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVAddressLine1S
+        {
+            get { return _EIVAddressLine1S; }
+            set
+            {
+                SetPropertyValue("EIVAddressLine1S", ref _EIVAddressLine1S, value);
+            }
+        }
+
+        private string _EIVAddressLine2S;
+        [XafDisplayName("Recipient's Address Line 2")]
+        [Index(82), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVAddressLine2S
+        {
+            get { return _EIVAddressLine2S; }
+            set
+            {
+                SetPropertyValue("EIVAddressLine2S", ref _EIVAddressLine2S, value);
+            }
+        }
+
+        private string _EIVAddressLine3S;
+        [XafDisplayName("Recipient's Address Line 3")]
+        [Index(83), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVAddressLine3S
+        {
+            get { return _EIVAddressLine3S; }
+            set
+            {
+                SetPropertyValue("EIVAddressLine3S", ref _EIVAddressLine3S, value);
+            }
+        }
+
+        private string _EIVPostalZoneS;
+        [XafDisplayName("Recipient's Postcode")]
+        [Index(84), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVPostalZoneS
+        {
+            get { return _EIVPostalZoneS; }
+            set
+            {
+                SetPropertyValue("EIVPostalZoneS", ref _EIVPostalZoneS, value);
+            }
+        }
+
+        private string _EIVCityNameS;
+        [XafDisplayName("Recipient's City")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(85), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string EIVCityNameS
+        {
+            get { return _EIVCityNameS; }
+            set
+            {
+                SetPropertyValue("EIVCityNameS", ref _EIVCityNameS, value);
+            }
+        }
+
+        private vwState _EIVStateS;
+        [NoForeignKey]
+        [XafDisplayName("Recipient's State")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(86), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwState EIVStateS
+        {
+            get { return _EIVStateS; }
+            set
+            {
+                SetPropertyValue("EIVStateS", ref _EIVStateS, value);
+            }
+        }
+
+        private vwCountry _EIVCountryS;
+        [NoForeignKey]
+        [XafDisplayName("Recipient's Country")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Index(87), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public vwCountry EIVCountryS
+        {
+            get { return _EIVCountryS; }
+            set
+            {
+                SetPropertyValue("EIVCountryS", ref _EIVCountryS, value);
+            }
+        }
+        // End ver 1.0.18
+
         // Start ver 1.0.8.1
         //[NonPersistent]
         private string _SQNumber;
         // End ver 1.0.8.1
         [XafDisplayName("SQ No.")]
-        [Index(15), VisibleInListView(true), VisibleInDetailView(false), VisibleInLookupListView(false)]
+        [Index(110), VisibleInListView(true), VisibleInDetailView(false), VisibleInLookupListView(false)]
         [Appearance("SQNumber", Enabled = false)]
         public string SQNumber
         {
@@ -593,7 +959,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Order
 
         private bool _Sap;
         [XafDisplayName("Sap")]
-        [Index(80), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
+        [Index(120), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public bool Sap
         {
             get { return _Sap; }
@@ -606,7 +972,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Order
         // Start ver 1.0.9
         private bool _PendingCancel;
         [XafDisplayName("PendingCancel")]
-        [Index(81), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
+        [Index(121), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public bool PendingCancel
         {
             get { return _PendingCancel; }
@@ -618,7 +984,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Order
 
         private bool _SapCancel;
         [XafDisplayName("SapCancel")]
-        [Index(82), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
+        [Index(122), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public bool SapCancel
         {
             get { return _SapCancel; }
@@ -630,7 +996,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Order
 
         private bool _PendingClose;
         [XafDisplayName("PendingClose")]
-        [Index(83), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
+        [Index(123), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public bool PendingClose
         {
             get { return _PendingClose; }
@@ -642,7 +1008,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Order
 
         private bool _SapClose;
         [XafDisplayName("SapClose")]
-        [Index(84), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
+        [Index(124), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public bool SapClose
         {
             get { return _SapClose; }

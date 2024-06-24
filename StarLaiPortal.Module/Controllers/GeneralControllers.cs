@@ -46,6 +46,7 @@ using System.Text;
 // 2023-10-19 write txt log ver 1.0.11
 // 2023-12-04 add outstanding qty ver 1.0.13
 // 2024-04-04 add generateinstock ver 1.0.15
+// 2024-06-12 e-invoice - ver 1.0.18
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -583,6 +584,24 @@ namespace StarLaiPortal.Module.Controllers
                         // Start ver 1.0.10
                         newdelivery.Remarks = so.Remarks;
                         // End ver 1.0.10
+                        // Start ver 1.0.18
+                        // Buyer
+                        newdelivery.EIVConsolidate = newdelivery.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", so.EIVConsolidate.Code));
+                        newdelivery.EIVType = newdelivery.Session.FindObject<vwEIVType>(CriteriaOperator.Parse("Code = ?", so.EIVType.Code));
+                        newdelivery.EIVFreqSync = newdelivery.Session.FindObject<vwEIVFreqSync>(CriteriaOperator.Parse("Code = ?", so.EIVFreqSync.Code));
+                        newdelivery.EIVBuyerName = so.CustomerName;
+                        newdelivery.EIVBuyerTIN = so.EIVBuyerTIN;
+                        newdelivery.EIVBuyerRegNum = so.EIVBuyerRegNum;
+                        newdelivery.EIVBuyerRegTyp = newdelivery.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", so.EIVBuyerRegTyp.Code));
+                        newdelivery.EIVBuyerSSTRegNum = so.EIVBuyerSSTRegNum;
+                        newdelivery.EIVBuyerEmail = so.EIVBuyerEmail;
+                        newdelivery.EIVBuyerContact = so.ContactNo;
+                        //Recipient
+                        newdelivery.EIVShippingName = so.EIVShippingName;
+                        newdelivery.EIVShippingTin = so.EIVShippingTin;
+                        newdelivery.EIVShippingRegNum = so.EIVShippingRegNum;
+                        newdelivery.EIVShippingRegTyp = newdelivery.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", so.EIVShippingRegTyp.Code));
+                        // End ver 1.0.18
 
                         ////string picklistdone = null;
                         //foreach (LoadDetails dtlload in load.LoadDetails)
@@ -773,6 +792,10 @@ namespace StarLaiPortal.Module.Controllers
                                                                         dtlsales.Oid.ToString() == dtlpick.SOBaseId)
                                                                     {
                                                                         newdeliveryitem.Price = dtlsales.AdjustedPrice;
+                                                                        // Start ver 1.0.18
+                                                                        newdeliveryitem.EIVClassification = newdeliveryitem.Session.FindObject<vwEIVClass>
+                                                                            (CriteriaOperator.Parse("Code = ?", dtlsales.EIVClassification.Code));
+                                                                        // End ver 1.0.18
                                                                     }
                                                                 }
 
@@ -1169,6 +1192,24 @@ namespace StarLaiPortal.Module.Controllers
                                 // Start ver 1.0.10
                                 newdelivery.Remarks = so.Remarks;
                                 // End ver 1.0.10
+                                // Start ver 1.0.18
+                                // Buyer
+                                newdelivery.EIVConsolidate = newdelivery.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", so.EIVConsolidate.Code));
+                                newdelivery.EIVType = newdelivery.Session.FindObject<vwEIVType>(CriteriaOperator.Parse("Code = ?", so.EIVType.Code));
+                                newdelivery.EIVFreqSync = newdelivery.Session.FindObject<vwEIVFreqSync>(CriteriaOperator.Parse("Code = ?", so.EIVFreqSync.Code));
+                                newdelivery.EIVBuyerName = so.CustomerName;
+                                newdelivery.EIVBuyerTIN = so.EIVBuyerTIN;
+                                newdelivery.EIVBuyerRegNum = so.EIVBuyerRegNum;
+                                newdelivery.EIVBuyerRegTyp = newdelivery.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", so.EIVBuyerRegTyp.Code));
+                                newdelivery.EIVBuyerSSTRegNum = so.EIVBuyerSSTRegNum;
+                                newdelivery.EIVBuyerEmail = so.EIVBuyerEmail;
+                                newdelivery.EIVBuyerContact = so.ContactNo;
+                                //Recipient
+                                newdelivery.EIVShippingName = so.EIVShippingName;
+                                newdelivery.EIVShippingTin = so.EIVShippingTin;
+                                newdelivery.EIVShippingRegNum = so.EIVShippingRegNum;
+                                newdelivery.EIVShippingRegTyp = newdelivery.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", so.EIVShippingRegTyp.Code));
+                                // End ver 1.0.18
 
                                 foreach (LoadDetails dtlload in newload.LoadDetails)
                                 {
@@ -1248,6 +1289,10 @@ namespace StarLaiPortal.Module.Controllers
                                                                     newdeliveryitem.Price = dtlsales.AdjustedPrice;
                                                                     //    }
                                                                     //}
+                                                                    // Start ver 1.0.18
+                                                                    newdeliveryitem.EIVClassification = newdeliveryitem.Session.FindObject<vwEIVClass>
+                                                                        (CriteriaOperator.Parse("Code = ?", dtlsales.EIVClassification.Code));
+                                                                    // End ver 1.0.18
                                                                     newdeliveryitem.BaseDoc = newload.DocNum.ToString();
                                                                     newdeliveryitem.BaseId = dtlload.Oid.ToString();
                                                                     newdeliveryitem.SODocNum = reader1.GetString(0);
