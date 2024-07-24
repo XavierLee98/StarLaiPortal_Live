@@ -17,6 +17,7 @@ using System.Text;
 
 // 2023-10-05 add payment method for sales return ver 1.0.10
 // 2024-06-12 - e-invoice - ver 1.0.18
+// 2024-07-18 - add basedoc - ver 1.0.19
 
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
 {
@@ -410,6 +411,21 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
             }
         }
         // End ver 1.0.10
+
+        // Start ver 1.0.19
+        private string _BaseDoc;
+        [XafDisplayName("Base Doc")]
+        [Appearance("BaseDoc", Enabled = false)]
+        [Index(36), VisibleInListView(true), VisibleInDetailView(false), VisibleInLookupListView(false)]
+        public string BaseDoc
+        {
+            get { return _BaseDoc; }
+            set
+            {
+                SetPropertyValue("BaseDoc", ref _BaseDoc, value);
+            }
+        }
+        // End ver 1.0.19
 
         // Start ver 1.0.18
         private vwYesNo _EIVConsolidate;

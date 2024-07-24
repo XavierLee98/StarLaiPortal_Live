@@ -27,6 +27,7 @@ using System.Text;
 // 2023-08-16 - add stock 3 and stock 4 - ver 1.0.8
 // 2023-10-05 add payment method for sales return ver 1.0.10
 // 2024-06-12 - e-invoice - ver 1.0.18
+// 2024-07-18 - add basedoc - ver 1.0.19
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -279,11 +280,25 @@ namespace StarLaiPortal.Module.Controllers
                                     srr.EIVBuyerSSTRegNum = delivery.EIVBuyerSSTRegNum;
                                     srr.EIVBuyerEmail = delivery.EIVBuyerEmail;
                                     srr.EIVBuyerContact = delivery.EIVBuyerContact;
+                                    srr.EIVAddressLine1B = delivery.EIVAddressLine1B;
+                                    srr.EIVAddressLine2B = delivery.EIVAddressLine2B;
+                                    srr.EIVAddressLine3B = delivery.EIVAddressLine3B;
+                                    srr.EIVPostalZoneB = delivery.EIVPostalZoneB;
+                                    srr.EIVCityNameB = delivery.EIVCityNameB;
+                                    srr.EIVStateB = srr.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", delivery.EIVStateB.Code));
+                                    srr.EIVCountryB = srr.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", delivery.EIVCountryB.Code));
                                     //Recipient
                                     srr.EIVShippingName = delivery.EIVShippingName;
                                     srr.EIVShippingTin = delivery.EIVShippingTin;
                                     srr.EIVShippingRegNum = delivery.EIVShippingRegNum;
                                     srr.EIVShippingRegTyp = srr.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", delivery.EIVShippingRegTyp.Code));
+                                    srr.EIVAddressLine1S = delivery.EIVAddressLine1S;
+                                    srr.EIVAddressLine2S = delivery.EIVAddressLine2S;
+                                    srr.EIVAddressLine3S = delivery.EIVAddressLine3S;
+                                    srr.EIVPostalZoneS = delivery.EIVPostalZoneS;
+                                    srr.EIVCityNameS = delivery.EIVCityNameS;
+                                    srr.EIVStateS = srr.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", delivery.EIVStateS.Code));
+                                    srr.EIVCountryS = srr.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", delivery.EIVCountryS.Code));
                                 }
                             }
                             // End ver 1.0.18
@@ -685,6 +700,9 @@ namespace StarLaiPortal.Module.Controllers
                 // Start ver 1.0.10
                 newsr.PaymentMethod = srr.PaymentMethod;
                 // End ver 1.0.10
+                // Start ver 1.0.19
+                newsr.BaseDoc = srr.DocNum;
+                // End ver 1.0.19
                 // Start ver 1.0.18
                 // Buyer
                 newsr.EIVConsolidate = newsr.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", srr.EIVConsolidate.Code));
@@ -697,11 +715,25 @@ namespace StarLaiPortal.Module.Controllers
                 newsr.EIVBuyerSSTRegNum = srr.EIVBuyerSSTRegNum;
                 newsr.EIVBuyerEmail = srr.EIVBuyerEmail;
                 newsr.EIVBuyerContact = srr.EIVBuyerContact;
+                newsr.EIVAddressLine1B = srr.EIVAddressLine1B;
+                newsr.EIVAddressLine2B = srr.EIVAddressLine2B;
+                newsr.EIVAddressLine3B = srr.EIVAddressLine3B;
+                newsr.EIVPostalZoneB = srr.EIVPostalZoneB;
+                newsr.EIVCityNameB = srr.EIVCityNameB;
+                newsr.EIVStateB = newsr.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", srr.EIVStateB.Code));
+                newsr.EIVCountryB = newsr.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", srr.EIVCountryB.Code));
                 //Recipient
                 newsr.EIVShippingName = srr.EIVShippingName;
                 newsr.EIVShippingTin = srr.EIVShippingTin;
                 newsr.EIVShippingRegNum = srr.EIVShippingRegNum;
                 newsr.EIVShippingRegTyp = newsr.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", srr.EIVShippingRegTyp.Code));
+                newsr.EIVAddressLine1S = srr.EIVAddressLine1S;
+                newsr.EIVAddressLine2S = srr.EIVAddressLine2S;
+                newsr.EIVAddressLine3S = srr.EIVAddressLine3S;
+                newsr.EIVPostalZoneS = srr.EIVPostalZoneS;
+                newsr.EIVCityNameS = srr.EIVCityNameS;
+                newsr.EIVStateS = newsr.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", srr.EIVStateS.Code));
+                newsr.EIVCountryS = newsr.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", srr.EIVCountryS.Code));
                 // End ver 1.0.18
 
                 foreach (SalesReturnRequestDetails dtl in srr.SalesReturnRequestDetails)

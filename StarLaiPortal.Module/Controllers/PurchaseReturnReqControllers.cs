@@ -25,6 +25,7 @@ using System.Text;
 
 // 2023-07-28 add GRPO Correction ver 0.1
 // 2023-08-16 - add stock 3 and stock 4 - ver 1.0.8
+// 2024-07-18 - add basedoc - ver 1.0.19
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -616,6 +617,9 @@ namespace StarLaiPortal.Module.Controllers
                 // Start ver 0.1
                 newpr.GRPOCorrection = prr.GRPOCorrection;
                 // End ver 0.1
+                // Start ver 1.0.19
+                newpr.BaseDoc = prr.DocNum;
+                // End ver 1.0.19
 
                 foreach (PurchaseReturnRequestDetails dtl in prr.PurchaseReturnRequestDetails)
                 {

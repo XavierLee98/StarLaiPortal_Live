@@ -41,6 +41,7 @@ using static System.Net.Mime.MediaTypeNames;
 // 2024-01-30 Add import update button ver 1.0.14
 // 2024-04-04 Update available qty ver 1.0.15
 // 2024-06-12 - e-invoice - ver 1.0.18
+// 2024-07-22 - check current on hand - ver 1.0.19
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -1004,10 +1005,37 @@ namespace StarLaiPortal.Module.Controllers
                                 }
                             }
 
-                            if (sq.IsValid4 == true && p.AppStatus != ApprovalActions.No)
+                            // Start ver 1.0.19
+                            //if (sq.IsValid4 == true && p.AppStatus != ApprovalActions.No)
+                            if (p.AppStatus != ApprovalActions.No)
+                            // End ver 1.0.19
                             {
-                                showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
-                                process = false;
+                                // Start ver 1.0.19
+                                foreach (SalesQuotationDetails stock in dtl.SalesQuotationDetails)
+                                {
+                                    vwStockBalance avai = sos.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
+                                        stock.ItemCode.ItemCode, stock.Location.WarehouseCode));
+
+                                    if (avai != null)
+                                    {
+                                        if (stock.Quantity > (decimal)avai.InStock)
+                                        {
+                                            showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
+                                            return;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (stock.Quantity > 0)
+                                        {
+                                            showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
+                                            return;
+                                        }
+                                    }
+                                }
+                                //showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
+                                //return;
+                                // End ver 1.0.19
                             }
                             // End ver 1.0.8.1
 
@@ -1189,11 +1217,25 @@ namespace StarLaiPortal.Module.Controllers
                                         newSO.EIVBuyerSSTRegNum = trx.EIVBuyerSSTRegNum;
                                         newSO.EIVBuyerEmail = trx.EIVBuyerEmail;
                                         newSO.EIVBuyerContact = trx.EIVBuyerContact;
+                                        newSO.EIVAddressLine1B = trx.EIVAddressLine1B;
+                                        newSO.EIVAddressLine2B = trx.EIVAddressLine2B;
+                                        newSO.EIVAddressLine3B = trx.EIVAddressLine3B;
+                                        newSO.EIVPostalZoneB = trx.EIVPostalZoneB;
+                                        newSO.EIVCityNameB = trx.EIVCityNameB;
+                                        newSO.EIVStateB = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", trx.EIVStateB.Code));
+                                        newSO.EIVCountryB = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", trx.EIVCountryB.Code));
                                         //Recipient
                                         newSO.EIVShippingName = trx.EIVShippingName;
                                         newSO.EIVShippingTin = trx.EIVShippingTin;
                                         newSO.EIVShippingRegNum = trx.EIVShippingRegNum;
                                         newSO.EIVShippingRegTyp = newSO.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", trx.EIVShippingRegTyp.Code));
+                                        newSO.EIVAddressLine1S = trx.EIVAddressLine1S;
+                                        newSO.EIVAddressLine2S = trx.EIVAddressLine2S;
+                                        newSO.EIVAddressLine3S = trx.EIVAddressLine3S;
+                                        newSO.EIVPostalZoneS = trx.EIVPostalZoneS;
+                                        newSO.EIVCityNameS = trx.EIVCityNameS;
+                                        newSO.EIVStateS = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", trx.EIVStateS.Code));
+                                        newSO.EIVCountryS = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", trx.EIVCountryS.Code));
                                         // End ver 1.0.18
 
                                         foreach (SalesQuotationDetails detail in trx.SalesQuotationDetails)
@@ -1270,10 +1312,37 @@ namespace StarLaiPortal.Module.Controllers
                         }
 
                         // Start ver 1.0.8.1
-                        if (sq.IsValid4 == true && p.AppStatus != ApprovalActions.No)
+                        // Start ver 1.0.19
+                        //if (sq.IsValid4 == true && p.AppStatus != ApprovalActions.No)
+                        if (p.AppStatus != ApprovalActions.No)
+                        // End ver 1.0.19
                         {
-                            showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
-                            return;
+                            // Start ver 1.0.19
+                            foreach (SalesQuotationDetails stock in dtl.SalesQuotationDetails)
+                            {
+                                vwStockBalance avai = sos.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
+                                    stock.ItemCode.ItemCode, stock.Location.WarehouseCode));
+
+                                if (avai != null)
+                                {
+                                    if (stock.Quantity > (decimal)avai.InStock)
+                                    {
+                                        showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
+                                        return;
+                                    }
+                                }
+                                else
+                                {
+                                    if (stock.Quantity > 0)
+                                    {
+                                        showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
+                                        return;
+                                    }
+                                }
+                            }
+                            //showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
+                            //return;
+                            // End ver 1.0.19
                         }
                         // End ver 1.0.8.1
 

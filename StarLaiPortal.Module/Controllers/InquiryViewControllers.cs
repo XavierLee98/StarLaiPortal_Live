@@ -38,6 +38,7 @@ using CrystalDecisions.Shared;
 using StarLaiPortal.Module.BusinessObjects.Delivery_Order;
 using System.Web;
 using DevExpress.XtraPrinting.Native;
+using StarLaiPortal.Module.BusinessObjects.Pack_List;
 
 // 2023-09-14 - add filter into inquiry - ver 1.0.9
 // 2023-10-16 - sales order inquiry add "All" option for filter and view button - ver 1.0.11
@@ -45,6 +46,7 @@ using DevExpress.XtraPrinting.Native;
 // 2024-04-05 - add inquiry search button - ver 1.0.15
 // 2024-05-29 - amend pist list inquiry - ver 1.0.16
 // 2024-06-11 - add preview in sales order inquiry - ver 1.0.17
+// 2024-07-18 - add view in pack list inquiry sp - ver 1.0.19
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -90,6 +92,9 @@ namespace StarLaiPortal.Module.Controllers
             // Start ver 1.0.17
             this.PreviewSOInquiry.Active.SetItemValue("Enabled", false);
             // End ver 1.0.17
+            // Start ver 1.0.19
+            this.PrintBundleInquiry.Active.SetItemValue("Enabled", false);
+            // End ver 1.0.19
 
             if (typeof(vwInquiryOpenPickList).IsAssignableFrom(View.ObjectTypeInfo.Type))
             {
@@ -143,7 +148,10 @@ namespace StarLaiPortal.Module.Controllers
                         this.InquiryDateTo.Active.SetItemValue("Enabled", true);
                         // Start ver 1.0.16
                         //this.InquiryDateTo.Value = DateTime.Today.AddDays(1);
-                        this.InquiryDateTo.Value = DateTime.Today;
+                        // Start ver 1.0.19
+                        //this.InquiryDateTo.Value = DateTime.Today;
+                        this.InquiryDateTo.Value = DateTime.Today.AddDays(1);
+                        // End ver 1.0.19
                         // End ver 1.0.16
                         InquiryDateTo.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
                         this.InquiryDateTo.CustomizeControl += DateActionTo_CustomizeControl;
@@ -161,6 +169,9 @@ namespace StarLaiPortal.Module.Controllers
                                 InquiryDateFrom.Value, InquiryDateTo.Value);
                         }
                         // End ver 1.0.16
+                        // Start ver 1.0.19
+                        this.InquiryDateTo.Value = DateTime.Today;
+                        // End ver 1.0.19
                     }
                 }
             }
@@ -243,6 +254,10 @@ namespace StarLaiPortal.Module.Controllers
                         // Start ver 1.0.17
                         this.PreviewSOInquiry.Active.SetItemValue("Enabled", true);
                         // End ver 1.0.17
+
+                        // Start ver 1.0.19
+                        this.InquiryDateTo.Value = DateTime.Today;
+                        // End ver 1.0.19
                     }
                 }
             }
@@ -285,6 +300,10 @@ namespace StarLaiPortal.Module.Controllers
                         ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("[Status] = ? " +
                         "and DocDate >= ? and DocDate <= ?",
                         InquiryStatus.SelectedItem.Id, InquiryDateFrom.Value, InquiryDateTo.Value);
+
+                        // Start ver 1.0.19
+                        this.InquiryDateTo.Value = DateTime.Today;
+                        // End ver 1.0.19
                     }
                 }
             }
@@ -445,6 +464,16 @@ namespace StarLaiPortal.Module.Controllers
                 }
             }
             // End ver 1.0.15
+
+            // Start ver 1.0.19
+            if (typeof(PackListInquiryResult).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(PackListInquiryResult))
+                {
+                    this.PrintBundleInquiry.Active.SetItemValue("Enabled", true);
+                }
+            }
+            // End ver 1.0.19
         }
         protected override void OnViewControlsCreated()
         {
@@ -1991,5 +2020,71 @@ namespace StarLaiPortal.Module.Controllers
             }
         }
         // End ver 1.0.17
+
+        // Start ver 1.0.19
+        private void PrintBundleInquiry_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            if (e.SelectedObjects.Count == 1)
+            {
+                string strServer;
+                string strDatabase;
+                string strUserID;
+                string strPwd;
+                string filename;
+
+                SqlConnection conn = new SqlConnection(genCon.getConnectionString());
+                PackListInquiryResult currobject = (PackListInquiryResult)View.CurrentObject;
+                ApplicationUser user = (ApplicationUser)SecuritySystem.CurrentUser;
+
+                if (currobject.PortalNo == "")
+                {
+                    showMsg("Fail", "Pack list number not found.", InformationType.Error);
+                    return;
+                }
+
+                IObjectSpace os = Application.CreateObjectSpace();
+                PackList pal = os.FindObject<PackList>(new BinaryOperator("DocNum", currobject.PortalNo));
+
+                try
+                {
+                    ReportDocument doc = new ReportDocument();
+                    strServer = ConfigurationManager.AppSettings.Get("SQLserver").ToString();
+                    doc.Load(HttpContext.Current.Server.MapPath("~\\Reports\\Bundle.rpt"));
+                    strDatabase = conn.Database;
+                    strUserID = ConfigurationManager.AppSettings.Get("SQLID").ToString();
+                    strPwd = ConfigurationManager.AppSettings.Get("SQLPass").ToString();
+                    doc.DataSourceConnections[0].SetConnection(strServer, strDatabase, strUserID, strPwd);
+                    doc.Refresh();
+
+                    doc.SetParameterValue("dockey@", pal.Oid);
+                    doc.SetParameterValue("dbName@", conn.Database);
+
+                    filename = ConfigurationManager.AppSettings.Get("ReportPath").ToString() + conn.Database
+                        + "_" + pal.Oid + "_" + user.UserName + "_PAL_"
+                        + DateTime.Parse(pal.DocDate.ToString()).ToString("yyyyMMdd") + ".pdf";
+
+                    doc.ExportToDisk(ExportFormatType.PortableDocFormat, filename);
+                    doc.Close();
+                    doc.Dispose();
+
+                    string url = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority +
+                        ConfigurationManager.AppSettings.Get("PrintPath").ToString() + conn.Database
+                        + "_" + pal.Oid + "_" + user.UserName + "_PAL_"
+                        + DateTime.Parse(pal.DocDate.ToString()).ToString("yyyyMMdd") + ".pdf";
+                    var script = "window.open('" + url + "');";
+
+                    WebWindow.CurrentRequestWindow.RegisterStartupScript("DownloadFile", script);
+                }
+                catch (Exception ex)
+                {
+                    showMsg("Fail", ex.Message, InformationType.Error);
+                }
+            }
+            else
+            {
+                showMsg("Fail", "Please select one pack list to print.", InformationType.Error);
+            }
+        }
+        // End ver 1.0.19
     }
 }
