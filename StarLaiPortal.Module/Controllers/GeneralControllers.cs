@@ -596,11 +596,25 @@ namespace StarLaiPortal.Module.Controllers
                         newdelivery.EIVBuyerSSTRegNum = so.EIVBuyerSSTRegNum;
                         newdelivery.EIVBuyerEmail = so.EIVBuyerEmail;
                         newdelivery.EIVBuyerContact = so.ContactNo;
+                        newdelivery.EIVAddressLine1B = so.EIVAddressLine1B;
+                        newdelivery.EIVAddressLine2B = so.EIVAddressLine2B;
+                        newdelivery.EIVAddressLine3B = so.EIVAddressLine3B;
+                        newdelivery.EIVPostalZoneB = so.EIVPostalZoneB;
+                        newdelivery.EIVCityNameB = so.EIVCityNameB;
+                        newdelivery.EIVStateB = newdelivery.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", so.EIVStateB.Code));
+                        newdelivery.EIVCountryB = newdelivery.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", so.EIVCountryB.Code));
                         //Recipient
                         newdelivery.EIVShippingName = so.EIVShippingName;
                         newdelivery.EIVShippingTin = so.EIVShippingTin;
                         newdelivery.EIVShippingRegNum = so.EIVShippingRegNum;
                         newdelivery.EIVShippingRegTyp = newdelivery.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", so.EIVShippingRegTyp.Code));
+                        newdelivery.EIVAddressLine1S = so.EIVAddressLine1S;
+                        newdelivery.EIVAddressLine2S = so.EIVAddressLine2S;
+                        newdelivery.EIVAddressLine3S = so.EIVAddressLine3S;
+                        newdelivery.EIVPostalZoneS = so.EIVPostalZoneS;
+                        newdelivery.EIVCityNameS = so.EIVCityNameS;
+                        newdelivery.EIVStateS = newdelivery.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", so.EIVStateS.Code));
+                        newdelivery.EIVCountryS = newdelivery.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", so.EIVCountryS.Code));
                         // End ver 1.0.18
 
                         ////string picklistdone = null;
@@ -1204,11 +1218,25 @@ namespace StarLaiPortal.Module.Controllers
                                 newdelivery.EIVBuyerSSTRegNum = so.EIVBuyerSSTRegNum;
                                 newdelivery.EIVBuyerEmail = so.EIVBuyerEmail;
                                 newdelivery.EIVBuyerContact = so.ContactNo;
+                                newdelivery.EIVAddressLine1B = so.EIVAddressLine1B;
+                                newdelivery.EIVAddressLine2B = so.EIVAddressLine2B;
+                                newdelivery.EIVAddressLine3B = so.EIVAddressLine3B;
+                                newdelivery.EIVPostalZoneB = so.EIVPostalZoneB;
+                                newdelivery.EIVCityNameB = so.EIVCityNameB;
+                                newdelivery.EIVStateB = newdelivery.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", so.EIVStateB.Code));
+                                newdelivery.EIVCountryB = newdelivery.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", so.EIVCountryB.Code));
                                 //Recipient
                                 newdelivery.EIVShippingName = so.EIVShippingName;
                                 newdelivery.EIVShippingTin = so.EIVShippingTin;
                                 newdelivery.EIVShippingRegNum = so.EIVShippingRegNum;
                                 newdelivery.EIVShippingRegTyp = newdelivery.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", so.EIVShippingRegTyp.Code));
+                                newdelivery.EIVAddressLine1S = so.EIVAddressLine1S;
+                                newdelivery.EIVAddressLine2S = so.EIVAddressLine2S;
+                                newdelivery.EIVAddressLine3S = so.EIVAddressLine3S;
+                                newdelivery.EIVPostalZoneS = so.EIVPostalZoneS;
+                                newdelivery.EIVCityNameS = so.EIVCityNameS;
+                                newdelivery.EIVStateS = newdelivery.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", so.EIVStateS.Code));
+                                newdelivery.EIVCountryS = newdelivery.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", so.EIVCountryS.Code));
                                 // End ver 1.0.18
 
                                 foreach (LoadDetails dtlload in newload.LoadDetails)

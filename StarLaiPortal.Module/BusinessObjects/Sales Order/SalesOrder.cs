@@ -213,7 +213,6 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Order
         private vwTransporter _Transporter;
         [NoForeignKey]
         [XafDisplayName("Transporter")]
-        [DataSourceCriteria("IsActive = 'True'")]
         [Index(10), VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(false)]
         public vwTransporter Transporter
         {

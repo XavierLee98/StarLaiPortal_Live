@@ -886,9 +886,12 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
         {
             get
             {
-                if (this.EIVCountryB.Code == "MY" && this.EIVStateB == null)
+                if (this.EIVCountryB != null)
                 {
-                    return true;
+                    if (this.EIVCountryB.Code == "MY" && this.EIVStateB == null)
+                    {
+                        return true;
+                    }
                 }
 
                 return false;
@@ -900,9 +903,12 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
         {
             get
             {
-                if (this.EIVCountryS.Code == "MY" && this.EIVStateS == null)
+                if (this.EIVCountryS != null)
                 {
-                    return true;
+                    if (this.EIVCountryS.Code == "MY" && this.EIVStateS == null)
+                    {
+                        return true;
+                    }
                 }
 
                 return false;
@@ -914,9 +920,12 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
         {
             get
             {
-                if (this.EIVConsolidate.Code == "Y" && this.EIVBuyerEmail == null)
+                if (this.EIVConsolidate != null)
                 {
-                    return true;
+                    if (this.EIVConsolidate.Code == "Y" && this.EIVBuyerEmail == null)
+                    {
+                        return true;
+                    }
                 }
 
                 return false;

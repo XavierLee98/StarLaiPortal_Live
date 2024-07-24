@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 
 // 2023-07-28 add GRPO Correction ver 1.0.7
+// 2024-07-18 - add basedoc - ver 1.0.19
 
 namespace StarLaiPortal.Module.BusinessObjects.Purchase_Return
 {
@@ -423,6 +424,21 @@ namespace StarLaiPortal.Module.BusinessObjects.Purchase_Return
             }
         }
         // End ver 1.0.7
+
+        // Start ver 1.0.19
+        private string _BaseDoc;
+        [XafDisplayName("Base Doc")]
+        [Appearance("BaseDoc", Enabled = false)]
+        [Index(40), VisibleInListView(true), VisibleInDetailView(false), VisibleInLookupListView(false)]
+        public string BaseDoc
+        {
+            get { return _BaseDoc; }
+            set
+            {
+                SetPropertyValue("BaseDoc", ref _BaseDoc, value);
+            }
+        }
+        // End ver 1.0.19
 
         private string _Reference;
         [XafDisplayName("Reference")]
