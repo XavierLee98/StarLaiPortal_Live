@@ -26,6 +26,8 @@ using StarLaiPortal.Module.BusinessObjects.Pack_List;
 using StarLaiPortal.Module.BusinessObjects.Delivery_Order;
 using StarLaiPortal.Module.BusinessObjects.Load;
 
+// 2024-07-26 - sales history add date filter - ver 1.0.19
+
 namespace StarLaiPortal.Module.Controllers
 {
     // For more typical usage scenarios, be sure to check out https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppViewControllertopic.aspx.
@@ -269,6 +271,32 @@ namespace StarLaiPortal.Module.Controllers
                 }
             }
             // End ver 1.0.15
+
+            // Start ver 1.0.19
+            if (typeof(SalesHistory).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(SalesHistory))
+                {
+                    this.DocumentStatus.Active.SetItemValue("Enabled", true);
+                    DocumentStatus.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                    DocumentStatus.CustomizeControl += action_CustomizeControl;
+
+                    this.DocumentDateFrom.Active.SetItemValue("Enabled", true);
+                    this.DocumentDateFrom.Value = DateTime.Today.AddMonths(-3);
+                    DocumentDateFrom.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                    this.DocumentDateFrom.CustomizeControl += DateActionFrom_CustomizeControl;
+
+                    this.DocumentDateTo.Active.SetItemValue("Enabled", true);
+                    this.DocumentDateTo.Value = DateTime.Today;
+                    DocumentDateTo.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                    this.DocumentDateTo.CustomizeControl += DateActionTo_CustomizeControl;
+
+                    this.DocumentFilter.Active.SetItemValue("Enabled", true);
+
+                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("SalesDate >= ? and SalesDate <= ?", Fromdate, Todate.AddDays(1));
+                }
+            }
+            // End ver 1.0.19
         }
         protected override void OnViewControlsCreated()
         {
@@ -573,6 +601,13 @@ namespace StarLaiPortal.Module.Controllers
                 }
             }
             // End ver 1.0.15
+
+            // Start ver 1.0.19
+            if (View.ObjectTypeInfo.Type == typeof(SalesHistory))
+            {
+                ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("SalesDate >= ? and SalesDate <= ?", Fromdate, Todate.AddDays(1));
+            }
+            // End ver 1.0.19
         }
     }
 }
