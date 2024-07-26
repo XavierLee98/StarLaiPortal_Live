@@ -6777,6 +6777,7 @@
     <DetailView Id="vwInquiryBundleID_DetailView" AllowEdit="False" />
     <ListView Id="vwInquiryBundleID_ListView" DataAccessMode="Client" />
     <DetailView Id="vwInquiryBundleTransferDetails_DetailView" AllowEdit="False" />
+    <DetailView Id="vwInquiryBusinessPartner_DetailView" AllowEdit="False" />
     <DetailView Id="vwInquiryCreditMemo_DetailView" AllowEdit="False" />
     <ListView Id="vwInquiryCreditMemo_ListView" DataAccessMode="Client" />
     <DetailView Id="vwInquiryCurrentARAging_DetailView" AllowEdit="False" />
@@ -6836,6 +6837,7 @@
     <ListView Id="vwInquiryStockBalanceTransfer_ListView" DataAccessMode="Client" />
     <DetailView Id="vwInquiryStockMovement_DetailView" AllowEdit="False" />
     <ListView Id="vwInquiryStockMovement_ListView" DataAccessMode="Client" />
+    <DetailView Id="vwInquiryStockPendingPost_DetailView" AllowEdit="False" />
     <DetailView Id="vwInquiryStockReordering_DetailView" AllowEdit="False" />
     <ListView Id="vwInquiryStockReordering_ListView" DataAccessMode="Client" />
     <DetailView Id="vwInquiryWarehouseTransferDetails_DetailView" AllowEdit="False" />

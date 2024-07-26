@@ -158,6 +158,7 @@
     <Compile Include="BusinessObjects\Inquiry View\vwInquiryASN.cs" />
     <Compile Include="BusinessObjects\Inquiry View\vwInquiryBundleID.cs" />
     <Compile Include="BusinessObjects\Inquiry View\vwInquiryBundleTransferDetails.cs" />
+    <Compile Include="BusinessObjects\Inquiry View\vwInquiryBusinessPartner.cs" />
     <Compile Include="BusinessObjects\Inquiry View\vwInquiryCreditMemo.cs" />
     <Compile Include="BusinessObjects\Inquiry View\vwInquiryCurrentARAging.cs" />
     <Compile Include="BusinessObjects\Inquiry View\vwInquiryCustomer.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="BusinessObjects\Inquiry View\vwInquiryStockBalancebyWhs.cs" />
     <Compile Include="BusinessObjects\Inquiry View\vwInquiryStockBalanceTransfer.cs" />
     <Compile Include="BusinessObjects\Inquiry View\vwInquiryStockMovement.cs" />
+    <Compile Include="BusinessObjects\Inquiry View\vwInquiryStockPendingPost.cs" />
     <Compile Include="BusinessObjects\Inquiry View\vwInquiryStockReordering.cs" />
     <Compile Include="BusinessObjects\Inquiry View\vwInquiryWarehouseTransferDetails.cs" />
     <Compile Include="BusinessObjects\Item Inquiry\ItemInquiry.cs" />

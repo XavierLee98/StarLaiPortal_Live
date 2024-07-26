@@ -1513,11 +1513,25 @@ namespace StarLaiPortal.Module.Controllers
                             newSO.EIVBuyerSSTRegNum = trx.EIVBuyerSSTRegNum;
                             newSO.EIVBuyerEmail = trx.EIVBuyerEmail;
                             newSO.EIVBuyerContact = trx.EIVBuyerContact;
+                            newSO.EIVAddressLine1B = trx.EIVAddressLine1B;
+                            newSO.EIVAddressLine2B = trx.EIVAddressLine2B;
+                            newSO.EIVAddressLine3B = trx.EIVAddressLine3B;
+                            newSO.EIVPostalZoneB = trx.EIVPostalZoneB;
+                            newSO.EIVCityNameB = trx.EIVCityNameB;
+                            newSO.EIVStateB = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", trx.EIVStateB.Code));
+                            newSO.EIVCountryB = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", trx.EIVCountryB.Code));
                             //Recipient
                             newSO.EIVShippingName = trx.EIVShippingName;
                             newSO.EIVShippingTin = trx.EIVShippingTin;
                             newSO.EIVShippingRegNum = trx.EIVShippingRegNum;
                             newSO.EIVShippingRegTyp = newSO.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", trx.EIVShippingRegTyp.Code));
+                            newSO.EIVAddressLine1S = trx.EIVAddressLine1S;
+                            newSO.EIVAddressLine2S = trx.EIVAddressLine2S;
+                            newSO.EIVAddressLine3S = trx.EIVAddressLine3S;
+                            newSO.EIVPostalZoneS = trx.EIVPostalZoneS;
+                            newSO.EIVCityNameS = trx.EIVCityNameS;
+                            newSO.EIVStateS = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", trx.EIVStateS.Code));
+                            newSO.EIVCountryS = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", trx.EIVCountryS.Code));
                             // End ver 1.0.18
 
                             foreach (SalesQuotationDetails detail in trx.SalesQuotationDetails)
@@ -1838,11 +1852,25 @@ namespace StarLaiPortal.Module.Controllers
                                 newSO.EIVBuyerSSTRegNum = selectedObject.EIVBuyerSSTRegNum;
                                 newSO.EIVBuyerEmail = selectedObject.EIVBuyerEmail;
                                 newSO.EIVBuyerContact = selectedObject.EIVBuyerContact;
+                                newSO.EIVAddressLine1B = selectedObject.EIVAddressLine1B;
+                                newSO.EIVAddressLine2B = selectedObject.EIVAddressLine2B;
+                                newSO.EIVAddressLine3B = selectedObject.EIVAddressLine3B;
+                                newSO.EIVPostalZoneB = selectedObject.EIVPostalZoneB;
+                                newSO.EIVCityNameB = selectedObject.EIVCityNameB;
+                                newSO.EIVStateB = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVStateB.Code));
+                                newSO.EIVCountryB = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVCountryB.Code));
                                 //Recipient
                                 newSO.EIVShippingName = selectedObject.EIVShippingName;
                                 newSO.EIVShippingTin = selectedObject.EIVShippingTin;
                                 newSO.EIVShippingRegNum = selectedObject.EIVShippingRegNum;
                                 newSO.EIVShippingRegTyp = newSO.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVShippingRegTyp.Code));
+                                newSO.EIVAddressLine1S = selectedObject.EIVAddressLine1S;
+                                newSO.EIVAddressLine2S = selectedObject.EIVAddressLine2S;
+                                newSO.EIVAddressLine3S = selectedObject.EIVAddressLine3S;
+                                newSO.EIVPostalZoneS = selectedObject.EIVPostalZoneS;
+                                newSO.EIVCityNameS = selectedObject.EIVCityNameS;
+                                newSO.EIVStateS = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVStateS.Code));
+                                newSO.EIVCountryS = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVCountryS.Code));
                                 // End ver 1.0.18
 
                                 foreach (SalesQuotationDetails dtl in selectedObject.SalesQuotationDetails)
