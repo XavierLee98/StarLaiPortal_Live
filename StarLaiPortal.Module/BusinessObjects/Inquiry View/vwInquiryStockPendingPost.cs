@@ -62,17 +62,17 @@ namespace StarLaiPortal.Module.BusinessObjects.Inquiry_View
         }
 
         [XafDisplayName("Doc. No")]
-        [Appearance("DocNo", Enabled = false)]
+        [Appearance("DocNum", Enabled = false)]
         [Index(5)]
-        public string DocNo
+        public string DocNum
         {
             get; set;
         }
 
-        [XafDisplayName("Posting Date")]
-        [Appearance("PostingDate", Enabled = false)]
+        [XafDisplayName("Doc Date")]
+        [Appearance("DocDate", Enabled = false)]
         [Index(8)]
-        public DateTime PostingDate
+        public DateTime DocDate
         {
             get; set;
         }
@@ -86,18 +86,18 @@ namespace StarLaiPortal.Module.BusinessObjects.Inquiry_View
         }
 
         [XafDisplayName("Item Description")]
-        [Appearance("ItemName", Enabled = false)]
+        [Appearance("ItemDesc", Enabled = false)]
         [Index(13)]
         [Size(200)]
-        public string ItemName
+        public string ItemDesc
         {
             get; set;
         }
 
-        [XafDisplayName("Whse")]
-        [Appearance("Whse", Enabled = false)]
+        [XafDisplayName("Whs Code")]
+        [Appearance("WhsCode", Enabled = false)]
         [Index(15)]
-        public string Whse
+        public string WhsCode
         {
             get; set;
         }
