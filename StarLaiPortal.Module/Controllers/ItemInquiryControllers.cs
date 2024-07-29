@@ -39,6 +39,7 @@ using System.Web;
 // 2024-01-30 - orderstatus add new  field - ver 1.0.14
 // 2024-04-01 - add catalog number and old code search - ver 1.0.15
 // 2024-06-01 - add salesperson - ver 1.0.17
+// 2024-07-29 add DfltWhs - ver 1.0.19
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -794,7 +795,17 @@ namespace StarLaiPortal.Module.Controllers
                             SalesQuotationDetails newSQdetail = os.CreateObject<SalesQuotationDetails>();
                             newSQdetail.Postingdate = trx.PostingDate;
                             newSQdetail.Customer = newSQdetail.Session.GetObjectByKey<vwBusniessPartner>(trx.Customer.BPCode);
-                            newSQdetail.Location = newSQdetail.Session.GetObjectByKey<vwWarehouse>(dtl.ItemInquiry.Stock1.WarehouseCode);
+                            // Start ver 1.0.19
+                            //newSQdetail.Location = newSQdetail.Session.GetObjectByKey<vwWarehouse>(dtl.ItemInquiry.Stock1.WarehouseCode);
+                            if (newSQdetail.Customer.DfltWhs != null)
+                            {
+                                newSQdetail.Location = newSQdetail.Session.GetObjectByKey<vwWarehouse>(newSQdetail.Customer.DfltWhs);
+                            }
+                            else
+                            {
+                                newSQdetail.Location = newSQdetail.Session.GetObjectByKey<vwWarehouse>(dtl.ItemInquiry.Stock1.WarehouseCode);
+                            }
+                            // End ver 1.0.19
                             newSQdetail.ItemCode = newSQdetail.Session.GetObjectByKey<vwItemMasters>(dtl.ItemCode);
                             newSQdetail.ItemDesc = dtl.ItemDesc;
                             newSQdetail.Model = dtl.Model;

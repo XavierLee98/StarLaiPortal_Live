@@ -17,6 +17,7 @@ using System.Text;
 // 2023-09-25 add Territory/Price List ver 1.0.10
 // 2024-04-01 add U_blockSales ver 1.0.15
 // 2024-06-12 e-invoice - ver 1.0.18
+// 2024-07-29 add DfltWhs - ver 1.0.19
 
 namespace StarLaiPortal.Module.BusinessObjects.View
 {
@@ -321,6 +322,16 @@ namespace StarLaiPortal.Module.BusinessObjects.View
             get; set;
         }
         // End ver 1.0.18
+
+        // Start ver 1.0.19
+        [XafDisplayName("DfltWhs")]
+        [Appearance("DfltWhs", Enabled = false)]
+        [Index(58), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(true)]
+        public string DfltWhs
+        {
+            get; set;
+        }
+        // End ver 1.0.19
 
         [Index(88), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(true)]
         public string BoFullName

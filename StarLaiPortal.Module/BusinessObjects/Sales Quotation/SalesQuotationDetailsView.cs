@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+// 2024-07-29 - default SQ location - ver 1.0.19
+
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 {
     // For more typical usage scenarios, be sure to check out https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppViewControllertopic.aspx.
@@ -61,6 +63,16 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                             {
                                 currentObject.Customer = currentObject.Session.GetObjectByKey<vwBusniessPartner>(masterobject.Customer.BPCode);
                             }
+
+                            // Start ver 1.0.19
+                            if (masterobject.Customer != null)
+                            {
+                                if (masterobject.Customer.DfltWhs != null)
+                                {
+                                    currentObject.Location = currentObject.Session.GetObjectByKey<vwWarehouse>(masterobject.Customer.DfltWhs);
+                                }
+                            }
+                            // End ver 1.0.19
 
                             currentObject.Postingdate = masterobject.PostingDate;
                         }
