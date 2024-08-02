@@ -48,6 +48,7 @@ using System.Web;
 // 2024-01-29 no allow to submit if warehouse is blank ver 1.0.14
 // 2024-02-21 no edit after status submitted ver 1.0.14
 // 2024-05-29 get SO remarks ver 1.0.16
+// 2024-06-12 e-invoice - ver 1.0.18
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -964,6 +965,38 @@ namespace StarLaiPortal.Module.Controllers
                                         // Start ver 1.0.10
                                         newdelivery.Remarks = so.Remarks;
                                         // End ver 1.0.10
+                                        // Start ver 1.0.18
+                                        // Buyer
+                                        newdelivery.EIVConsolidate = newdelivery.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", so.EIVConsolidate.Code));
+                                        newdelivery.EIVType = newdelivery.Session.FindObject<vwEIVType>(CriteriaOperator.Parse("Code = ?", so.EIVType.Code));
+                                        newdelivery.EIVFreqSync = newdelivery.Session.FindObject<vwEIVFreqSync>(CriteriaOperator.Parse("Code = ?", so.EIVFreqSync.Code));
+                                        newdelivery.EIVBuyerName = so.CustomerName;
+                                        newdelivery.EIVBuyerTIN = so.EIVBuyerTIN;
+                                        newdelivery.EIVBuyerRegNum = so.EIVBuyerRegNum;
+                                        newdelivery.EIVBuyerRegTyp = newdelivery.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", so.EIVBuyerRegTyp.Code));
+                                        newdelivery.EIVBuyerSSTRegNum = so.EIVBuyerSSTRegNum;
+                                        newdelivery.EIVBuyerEmail = so.EIVBuyerEmail;
+                                        newdelivery.EIVBuyerContact = so.ContactNo;
+                                        newdelivery.EIVAddressLine1B = so.EIVAddressLine1B;
+                                        newdelivery.EIVAddressLine2B = so.EIVAddressLine2B;
+                                        newdelivery.EIVAddressLine3B = so.EIVAddressLine3B;
+                                        newdelivery.EIVPostalZoneB = so.EIVPostalZoneB;
+                                        newdelivery.EIVCityNameB = so.EIVCityNameB;
+                                        newdelivery.EIVStateB = newdelivery.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", so.EIVStateB.Code));
+                                        newdelivery.EIVCountryB = newdelivery.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", so.EIVCountryB.Code));
+                                        //Recipient
+                                        newdelivery.EIVShippingName = so.EIVShippingName;
+                                        newdelivery.EIVShippingTin = so.EIVShippingTin;
+                                        newdelivery.EIVShippingRegNum = so.EIVShippingRegNum;
+                                        newdelivery.EIVShippingRegTyp = newdelivery.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", so.EIVShippingRegTyp.Code));
+                                        newdelivery.EIVAddressLine1S = so.EIVAddressLine1S;
+                                        newdelivery.EIVAddressLine2S = so.EIVAddressLine2S;
+                                        newdelivery.EIVAddressLine3S = so.EIVAddressLine3S;
+                                        newdelivery.EIVPostalZoneS = so.EIVPostalZoneS;
+                                        newdelivery.EIVCityNameS = so.EIVCityNameS;
+                                        newdelivery.EIVStateS = newdelivery.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", so.EIVStateS.Code));
+                                        newdelivery.EIVCountryS = newdelivery.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", so.EIVCountryS.Code));
+                                        // End ver 1.0.18
 
                                         foreach (LoadDetails dtlload in newload.LoadDetails)
                                         {
@@ -1040,6 +1073,10 @@ namespace StarLaiPortal.Module.Controllers
                                                                             //    if (dtlsales.ItemCode.ItemCode == dtlpack.ItemCode.ItemCode)
                                                                             //    {
                                                                             newdeliveryitem.Price = dtlsales.AdjustedPrice;
+                                                                            // Start ver 1.0.18
+                                                                            newdeliveryitem.EIVClassification = newdeliveryitem.Session.FindObject<vwEIVClass>
+                                                                                (CriteriaOperator.Parse("Code = ?", dtlsales.EIVClassification.Code));
+                                                                            // End ver 1.0.18
                                                                             //    }
                                                                             //}
                                                                             newdeliveryitem.BaseDoc = newload.DocNum.ToString();

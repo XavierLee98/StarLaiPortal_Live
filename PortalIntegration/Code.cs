@@ -2164,11 +2164,11 @@ namespace PortalIntegration
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneB").Value = oTargetDoc.EIVPostalZoneB == null ? "" : oTargetDoc.EIVPostalZoneB;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameB").Value = oTargetDoc.EIVCityNameB == null ? "" : oTargetDoc.EIVCityNameB;
-                    if (oTargetDoc.EIVStateB == null)
+                    if (oTargetDoc.EIVStateB != null)
                     {
                         oDoc.AddressExtension.BillToState = oTargetDoc.EIVStateB.Code;
                     }
-                    if (oTargetDoc.EIVCountryB == null)
+                    if (oTargetDoc.EIVCountryB != null)
                     {
                         oDoc.AddressExtension.BillToCountry = oTargetDoc.EIVCountryB.Code;
                     }
@@ -2186,11 +2186,11 @@ namespace PortalIntegration
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3S").Value = oTargetDoc.EIVAddressLine3S == null ? "" : oTargetDoc.EIVAddressLine3S;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneS").Value = oTargetDoc.EIVPostalZoneS == null ? "" : oTargetDoc.EIVPostalZoneS;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameS").Value = oTargetDoc.EIVCityNameS == null ? "" : oTargetDoc.EIVCityNameS;
-                    if (oTargetDoc.EIVStateS == null)
+                    if (oTargetDoc.EIVStateS != null)
                     {
                         oDoc.AddressExtension.ShipToState = oTargetDoc.EIVStateS.Code;
                     }
-                    if (oTargetDoc.EIVCountryS == null)
+                    if (oTargetDoc.EIVCountryS != null)
                     {
                         oDoc.AddressExtension.ShipToCountry = oTargetDoc.EIVCountryS.Code;
                     }
@@ -2857,48 +2857,48 @@ namespace PortalIntegration
                     {
                         oDoc.UserFields.Fields.Item("U_EIV_FreqSync").Value = oTargetDoc.EIVFreqSync.Code;
                     }
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerName").Value = oTargetDoc.EIVBuyerName;
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerTin").Value = oTargetDoc.EIVBuyerTIN;
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerRegNum").Value = oTargetDoc.EIVBuyerRegNum;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerName").Value = oTargetDoc.CustomerName == null ? "" : oTargetDoc.CustomerName;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerTin").Value = oTargetDoc.EIVBuyerTIN == null ? "" : oTargetDoc.EIVBuyerTIN;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerRegNum").Value = oTargetDoc.EIVBuyerRegNum == null ? "" : oTargetDoc.EIVBuyerRegNum;
                     if (oTargetDoc.EIVBuyerRegTyp != null)
                     {
                         oDoc.UserFields.Fields.Item("U_EIV_BuyerRegTyp").Value = oTargetDoc.EIVBuyerRegTyp.Code;
                     }
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = oTargetDoc.EIVBuyerSSTRegNum;
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = oTargetDoc.EIVBuyerEmail;
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneB").Value = oTargetDoc.EIVPostalZoneB;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameB").Value = oTargetDoc.EIVCityNameB;
-                    if (oTargetDoc.EIVStateB == null)
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = oTargetDoc.EIVBuyerSSTRegNum == null ? "" : oTargetDoc.EIVBuyerSSTRegNum;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = oTargetDoc.EIVBuyerEmail == null ? "" : oTargetDoc.EIVBuyerEmail;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact == null ? "" : oTargetDoc.EIVBuyerContact;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneB").Value = oTargetDoc.EIVPostalZoneB == null ? "" : oTargetDoc.EIVPostalZoneB;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameB").Value = oTargetDoc.EIVCityNameB == null ? "" : oTargetDoc.EIVCityNameB;
+                    if (oTargetDoc.EIVStateB != null)
                     {
                         oDoc.AddressExtension.BillToState = oTargetDoc.EIVStateB.Code;
                     }
-                    if (oTargetDoc.EIVCountryB == null)
+                    if (oTargetDoc.EIVCountryB != null)
                     {
                         oDoc.AddressExtension.BillToCountry = oTargetDoc.EIVCountryB.Code;
                     }
 
                     // Recipient
-                    oDoc.UserFields.Fields.Item("U_EIV_ShippingName").Value = oTargetDoc.EIVShippingName;
-                    oDoc.UserFields.Fields.Item("U_EIV_ShippingTin").Value = oTargetDoc.EIVShippingTin;
-                    oDoc.UserFields.Fields.Item("U_EIV_ShippingRegNum").Value = oTargetDoc.EIVShippingRegNum;
+                    oDoc.UserFields.Fields.Item("U_EIV_ShippingName").Value = oTargetDoc.EIVShippingName == null ? "" : oTargetDoc.EIVShippingName;
+                    oDoc.UserFields.Fields.Item("U_EIV_ShippingTin").Value = oTargetDoc.EIVShippingTin == null ? "" : oTargetDoc.EIVShippingTin;
+                    oDoc.UserFields.Fields.Item("U_EIV_ShippingRegNum").Value = oTargetDoc.EIVShippingRegNum == null ? "" : oTargetDoc.EIVShippingRegNum;
                     if (oTargetDoc.EIVShippingRegTyp != null)
                     {
                         oDoc.UserFields.Fields.Item("U_EIV_ShippingRegTyp").Value = oTargetDoc.EIVShippingRegTyp.Code;
                     }
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1S").Value = oTargetDoc.EIVAddressLine1S;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2S").Value = oTargetDoc.EIVAddressLine2S;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3S").Value = oTargetDoc.EIVAddressLine3S;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneS").Value = oTargetDoc.EIVPostalZoneS;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameS").Value = oTargetDoc.EIVCityNameS;
-                    if (oTargetDoc.EIVStateS == null)
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1S").Value = oTargetDoc.EIVAddressLine1S == null ? "" : oTargetDoc.EIVAddressLine1S;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2S").Value = oTargetDoc.EIVAddressLine2S == null ? "" : oTargetDoc.EIVAddressLine2S;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3S").Value = oTargetDoc.EIVAddressLine3S == null ? "" : oTargetDoc.EIVAddressLine3S;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneS").Value = oTargetDoc.EIVPostalZoneS == null ? "" : oTargetDoc.EIVPostalZoneS;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameS").Value = oTargetDoc.EIVCityNameS == null ? "" : oTargetDoc.EIVCityNameS;
+                    if (oTargetDoc.EIVStateS != null)
                     {
                         oDoc.AddressExtension.ShipToState = oTargetDoc.EIVStateS.Code;
                     }
-                    if (oTargetDoc.EIVCountryS == null)
+                    if (oTargetDoc.EIVCountryS != null)
                     {
                         oDoc.AddressExtension.ShipToCountry = oTargetDoc.EIVCountryS.Code;
                     }
@@ -3686,48 +3686,48 @@ namespace PortalIntegration
                     {
                         oDoc.UserFields.Fields.Item("U_EIV_FreqSync").Value = oTargetDoc.EIVFreqSync.Code;
                     }
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerName").Value = oTargetDoc.EIVBuyerName;
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerTin").Value = oTargetDoc.EIVBuyerTIN;
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerRegNum").Value = oTargetDoc.EIVBuyerRegNum;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerName").Value = oTargetDoc.CustomerName == null ? "" : oTargetDoc.CustomerName;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerTin").Value = oTargetDoc.EIVBuyerTIN == null ? "" : oTargetDoc.EIVBuyerTIN;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerRegNum").Value = oTargetDoc.EIVBuyerRegNum == null ? "" : oTargetDoc.EIVBuyerRegNum;
                     if (oTargetDoc.EIVBuyerRegTyp != null)
                     {
                         oDoc.UserFields.Fields.Item("U_EIV_BuyerRegTyp").Value = oTargetDoc.EIVBuyerRegTyp.Code;
                     }
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = oTargetDoc.EIVBuyerSSTRegNum;
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = oTargetDoc.EIVBuyerEmail;
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneB").Value = oTargetDoc.EIVPostalZoneB;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameB").Value = oTargetDoc.EIVCityNameB;
-                    if (oTargetDoc.EIVStateB == null)
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = oTargetDoc.EIVBuyerSSTRegNum == null ? "" : oTargetDoc.EIVBuyerSSTRegNum;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = oTargetDoc.EIVBuyerEmail == null ? "" : oTargetDoc.EIVBuyerEmail;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact == null ? "" : oTargetDoc.EIVBuyerContact;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneB").Value = oTargetDoc.EIVPostalZoneB == null ? "" : oTargetDoc.EIVPostalZoneB;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameB").Value = oTargetDoc.EIVCityNameB == null ? "" : oTargetDoc.EIVCityNameB;
+                    if (oTargetDoc.EIVStateB != null)
                     {
                         oDoc.AddressExtension.BillToState = oTargetDoc.EIVStateB.Code;
                     }
-                    if (oTargetDoc.EIVCountryB == null)
+                    if (oTargetDoc.EIVCountryB != null)
                     {
                         oDoc.AddressExtension.BillToCountry = oTargetDoc.EIVCountryB.Code;
                     }
 
                     // Recipient
-                    oDoc.UserFields.Fields.Item("U_EIV_ShippingName").Value = oTargetDoc.EIVShippingName;
-                    oDoc.UserFields.Fields.Item("U_EIV_ShippingTin").Value = oTargetDoc.EIVShippingTin;
-                    oDoc.UserFields.Fields.Item("U_EIV_ShippingRegNum").Value = oTargetDoc.EIVShippingRegNum;
+                    oDoc.UserFields.Fields.Item("U_EIV_ShippingName").Value = oTargetDoc.EIVShippingName == null ? "" : oTargetDoc.EIVShippingName;
+                    oDoc.UserFields.Fields.Item("U_EIV_ShippingTin").Value = oTargetDoc.EIVShippingTin == null ? "" : oTargetDoc.EIVShippingTin;
+                    oDoc.UserFields.Fields.Item("U_EIV_ShippingRegNum").Value = oTargetDoc.EIVShippingRegNum == null ? "" : oTargetDoc.EIVShippingRegNum;
                     if (oTargetDoc.EIVShippingRegTyp != null)
                     {
                         oDoc.UserFields.Fields.Item("U_EIV_ShippingRegTyp").Value = oTargetDoc.EIVShippingRegTyp.Code;
                     }
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1S").Value = oTargetDoc.EIVAddressLine1S;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2S").Value = oTargetDoc.EIVAddressLine2S;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3S").Value = oTargetDoc.EIVAddressLine3S;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneS").Value = oTargetDoc.EIVPostalZoneS;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameS").Value = oTargetDoc.EIVCityNameS;
-                    if (oTargetDoc.EIVStateS == null)
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1S").Value = oTargetDoc.EIVAddressLine1S == null ? "" : oTargetDoc.EIVAddressLine1S;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2S").Value = oTargetDoc.EIVAddressLine2S == null ? "" : oTargetDoc.EIVAddressLine2S;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3S").Value = oTargetDoc.EIVAddressLine3S == null ? "" : oTargetDoc.EIVAddressLine3S;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneS").Value = oTargetDoc.EIVPostalZoneS == null ? "" : oTargetDoc.EIVPostalZoneS;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameS").Value = oTargetDoc.EIVCityNameS == null ? "" : oTargetDoc.EIVCityNameS;
+                    if (oTargetDoc.EIVStateS != null)
                     {
                         oDoc.AddressExtension.ShipToState = oTargetDoc.EIVStateS.Code;
                     }
-                    if (oTargetDoc.EIVCountryS == null)
+                    if (oTargetDoc.EIVCountryS != null)
                     {
                         oDoc.AddressExtension.ShipToCountry = oTargetDoc.EIVCountryS.Code;
                     }
@@ -3874,48 +3874,48 @@ namespace PortalIntegration
                         {
                             oDoc.UserFields.Fields.Item("U_EIV_FreqSync").Value = so.EIVFreqSync.Code;
                         }
-                        oDoc.UserFields.Fields.Item("U_EIV_BuyerName").Value = so.EIVBuyerName;
-                        oDoc.UserFields.Fields.Item("U_EIV_BuyerTin").Value = so.EIVBuyerTIN;
-                        oDoc.UserFields.Fields.Item("U_EIV_BuyerRegNum").Value = so.EIVBuyerRegNum;
+                        oDoc.UserFields.Fields.Item("U_EIV_BuyerName").Value = so.CustomerName == null ? "" : so.CustomerName;
+                        oDoc.UserFields.Fields.Item("U_EIV_BuyerTin").Value = so.EIVBuyerTIN == null ? "" : so.EIVBuyerTIN;
+                        oDoc.UserFields.Fields.Item("U_EIV_BuyerRegNum").Value = so.EIVBuyerRegNum == null ? "" : so.EIVBuyerRegNum;
                         if (so.EIVBuyerRegTyp != null)
                         {
                             oDoc.UserFields.Fields.Item("U_EIV_BuyerRegTyp").Value = so.EIVBuyerRegTyp.Code;
                         }
-                        oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = so.EIVBuyerSSTRegNum;
-                        oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = so.EIVBuyerEmail;
-                        oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = so.EIVBuyerContact;
-                        oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = so.EIVAddressLine1B;
-                        oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = so.EIVAddressLine2B;
-                        oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = so.EIVAddressLine3B;
-                        oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneB").Value = so.EIVPostalZoneB;
-                        oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameB").Value = so.EIVCityNameB;
-                        if (so.EIVStateB == null)
+                        oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = so.EIVBuyerSSTRegNum == null ? "" : so.EIVBuyerSSTRegNum;
+                        oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = so.EIVBuyerEmail == null ? "" : so.EIVBuyerEmail;
+                        oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = so.ContactNo == null ? "" : so.ContactNo;
+                        oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = so.EIVAddressLine1B == null ? "" : so.EIVAddressLine1B;
+                        oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = so.EIVAddressLine2B == null ? "" : so.EIVAddressLine2B;
+                        oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = so.EIVAddressLine3B == null ? "" : so.EIVAddressLine3B;
+                        oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneB").Value = so.EIVPostalZoneB == null ? "" : so.EIVPostalZoneB;
+                        oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameB").Value = so.EIVCityNameB == null ? "" : so.EIVCityNameB;
+                        if (so.EIVStateB != null)
                         {
                             oDoc.AddressExtension.BillToState = so.EIVStateB.Code;
                         }
-                        if (so.EIVCountryB == null)
+                        if (so.EIVCountryB != null)
                         {
                             oDoc.AddressExtension.BillToCountry = so.EIVCountryB.Code;
                         }
 
                         // Recipient
-                        oDoc.UserFields.Fields.Item("U_EIV_ShippingName").Value = so.EIVShippingName;
-                        oDoc.UserFields.Fields.Item("U_EIV_ShippingTin").Value = so.EIVShippingTin;
-                        oDoc.UserFields.Fields.Item("U_EIV_ShippingRegNum").Value = so.EIVShippingRegNum;
+                        oDoc.UserFields.Fields.Item("U_EIV_ShippingName").Value = so.EIVShippingName == null ? "" : so.EIVShippingName;
+                        oDoc.UserFields.Fields.Item("U_EIV_ShippingTin").Value = so.EIVShippingTin == null ? "" : so.EIVShippingTin;
+                        oDoc.UserFields.Fields.Item("U_EIV_ShippingRegNum").Value = so.EIVShippingRegNum == null ? "" : so.EIVShippingRegNum;
                         if (so.EIVShippingRegTyp != null)
                         {
                             oDoc.UserFields.Fields.Item("U_EIV_ShippingRegTyp").Value = so.EIVShippingRegTyp.Code;
                         }
-                        oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1S").Value = so.EIVAddressLine1S;
-                        oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2S").Value = so.EIVAddressLine2S;
-                        oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3S").Value = so.EIVAddressLine3S;
-                        oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneS").Value = so.EIVPostalZoneS;
-                        oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameS").Value = so.EIVCityNameS;
-                        if (so.EIVStateS == null)
+                        oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1S").Value = so.EIVAddressLine1S == null ? "" : so.EIVAddressLine1S;
+                        oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2S").Value = so.EIVAddressLine2S == null ? "" : so.EIVAddressLine2S;
+                        oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3S").Value = so.EIVAddressLine3S == null ? "" : so.EIVAddressLine3S;
+                        oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneS").Value = so.EIVPostalZoneS == null ? "" : so.EIVPostalZoneS;
+                        oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameS").Value = so.EIVCityNameS == null ? "" : so.EIVCityNameS;
+                        if (so.EIVStateS != null)
                         {
                             oDoc.AddressExtension.ShipToState = so.EIVStateS.Code;
                         }
-                        if (so.EIVCountryS == null)
+                        if (so.EIVCountryS != null)
                         {
                             oDoc.AddressExtension.ShipToCountry = so.EIVCountryS.Code;
                         }
@@ -4254,48 +4254,48 @@ namespace PortalIntegration
                     {
                         oDoc.UserFields.Fields.Item("U_EIV_FreqSync").Value = oTargetDoc.EIVFreqSync.Code;
                     }
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerName").Value = oTargetDoc.EIVBuyerName;
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerTin").Value = oTargetDoc.EIVBuyerTIN;
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerRegNum").Value = oTargetDoc.EIVBuyerRegNum;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerName").Value = oTargetDoc.CustomerName == null ? "" : oTargetDoc.CustomerName;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerTin").Value = oTargetDoc.EIVBuyerTIN == null ? "" : oTargetDoc.EIVBuyerTIN;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerRegNum").Value = oTargetDoc.EIVBuyerRegNum == null ? "" : oTargetDoc.EIVBuyerRegNum;
                     if (oTargetDoc.EIVBuyerRegTyp != null)
                     {
                         oDoc.UserFields.Fields.Item("U_EIV_BuyerRegTyp").Value = oTargetDoc.EIVBuyerRegTyp.Code;
                     }
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = oTargetDoc.EIVBuyerSSTRegNum;
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = oTargetDoc.EIVBuyerEmail;
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneB").Value = oTargetDoc.EIVPostalZoneB;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameB").Value = oTargetDoc.EIVCityNameB;
-                    if (oTargetDoc.EIVStateB == null)
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = oTargetDoc.EIVBuyerSSTRegNum == null ? "" : oTargetDoc.EIVBuyerSSTRegNum;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = oTargetDoc.EIVBuyerEmail == null ? "" : oTargetDoc.EIVBuyerEmail;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact == null ? "" : oTargetDoc.EIVBuyerContact;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneB").Value = oTargetDoc.EIVPostalZoneB == null ? "" : oTargetDoc.EIVPostalZoneB;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameB").Value = oTargetDoc.EIVCityNameB == null ? "" : oTargetDoc.EIVCityNameB;
+                    if (oTargetDoc.EIVStateB != null)
                     {
                         oDoc.AddressExtension.BillToState = oTargetDoc.EIVStateB.Code;
                     }
-                    if (oTargetDoc.EIVCountryB == null)
+                    if (oTargetDoc.EIVCountryB != null)
                     {
                         oDoc.AddressExtension.BillToCountry = oTargetDoc.EIVCountryB.Code;
                     }
 
                     // Recipient
-                    oDoc.UserFields.Fields.Item("U_EIV_ShippingName").Value = oTargetDoc.EIVShippingName;
-                    oDoc.UserFields.Fields.Item("U_EIV_ShippingTin").Value = oTargetDoc.EIVShippingTin;
-                    oDoc.UserFields.Fields.Item("U_EIV_ShippingRegNum").Value = oTargetDoc.EIVShippingRegNum;
+                    oDoc.UserFields.Fields.Item("U_EIV_ShippingName").Value = oTargetDoc.EIVShippingName == null ? "" : oTargetDoc.EIVShippingName;
+                    oDoc.UserFields.Fields.Item("U_EIV_ShippingTin").Value = oTargetDoc.EIVShippingTin == null ? "" : oTargetDoc.EIVShippingTin;
+                    oDoc.UserFields.Fields.Item("U_EIV_ShippingRegNum").Value = oTargetDoc.EIVShippingRegNum == null ? "" : oTargetDoc.EIVShippingRegNum;
                     if (oTargetDoc.EIVShippingRegTyp != null)
                     {
                         oDoc.UserFields.Fields.Item("U_EIV_ShippingRegTyp").Value = oTargetDoc.EIVShippingRegTyp.Code;
                     }
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1S").Value = oTargetDoc.EIVAddressLine1S;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2S").Value = oTargetDoc.EIVAddressLine2S;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3S").Value = oTargetDoc.EIVAddressLine3S;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneS").Value = oTargetDoc.EIVPostalZoneS;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameS").Value = oTargetDoc.EIVCityNameS;
-                    if (oTargetDoc.EIVStateS == null)
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1S").Value = oTargetDoc.EIVAddressLine1S == null ? "" : oTargetDoc.EIVAddressLine1S;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2S").Value = oTargetDoc.EIVAddressLine2S == null ? "" : oTargetDoc.EIVAddressLine2S;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3S").Value = oTargetDoc.EIVAddressLine3S == null ? "" : oTargetDoc.EIVAddressLine3S;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneS").Value = oTargetDoc.EIVPostalZoneS == null ? "" : oTargetDoc.EIVPostalZoneS;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameS").Value = oTargetDoc.EIVCityNameS == null ? "" : oTargetDoc.EIVCityNameS;
+                    if (oTargetDoc.EIVStateS != null)
                     {
                         oDoc.AddressExtension.ShipToState = oTargetDoc.EIVStateS.Code;
                     }
-                    if (oTargetDoc.EIVCountryS == null)
+                    if (oTargetDoc.EIVCountryS != null)
                     {
                         oDoc.AddressExtension.ShipToCountry = oTargetDoc.EIVCountryS.Code;
                     }
@@ -4523,48 +4523,48 @@ namespace PortalIntegration
                     {
                         oDoc.UserFields.Fields.Item("U_EIV_FreqSync").Value = oTargetDoc.EIVFreqSync.Code;
                     }
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerName").Value = oTargetDoc.EIVBuyerName;
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerTin").Value = oTargetDoc.EIVBuyerTIN;
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerRegNum").Value = oTargetDoc.EIVBuyerRegNum;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerName").Value = oTargetDoc.CustomerName == null ? "" : oTargetDoc.CustomerName;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerTin").Value = oTargetDoc.EIVBuyerTIN == null ? "" : oTargetDoc.EIVBuyerTIN;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerRegNum").Value = oTargetDoc.EIVBuyerRegNum == null ? "" : oTargetDoc.EIVBuyerRegNum;
                     if (oTargetDoc.EIVBuyerRegTyp != null)
                     {
                         oDoc.UserFields.Fields.Item("U_EIV_BuyerRegTyp").Value = oTargetDoc.EIVBuyerRegTyp.Code;
                     }
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = oTargetDoc.EIVBuyerSSTRegNum;
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = oTargetDoc.EIVBuyerEmail;
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneB").Value = oTargetDoc.EIVPostalZoneB;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameB").Value = oTargetDoc.EIVCityNameB;
-                    if (oTargetDoc.EIVStateB == null)
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = oTargetDoc.EIVBuyerSSTRegNum == null ? "" : oTargetDoc.EIVBuyerSSTRegNum;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = oTargetDoc.EIVBuyerEmail == null ? "" : oTargetDoc.EIVBuyerEmail;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact == null ? "" : oTargetDoc.EIVBuyerContact;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneB").Value = oTargetDoc.EIVPostalZoneB == null ? "" : oTargetDoc.EIVPostalZoneB;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameB").Value = oTargetDoc.EIVCityNameB == null ? "" : oTargetDoc.EIVCityNameB;
+                    if (oTargetDoc.EIVStateB != null)
                     {
                         oDoc.AddressExtension.BillToState = oTargetDoc.EIVStateB.Code;
                     }
-                    if (oTargetDoc.EIVCountryB == null)
+                    if (oTargetDoc.EIVCountryB != null)
                     {
                         oDoc.AddressExtension.BillToCountry = oTargetDoc.EIVCountryB.Code;
                     }
 
                     // Recipient
-                    oDoc.UserFields.Fields.Item("U_EIV_ShippingName").Value = oTargetDoc.EIVShippingName;
-                    oDoc.UserFields.Fields.Item("U_EIV_ShippingTin").Value = oTargetDoc.EIVShippingTin;
-                    oDoc.UserFields.Fields.Item("U_EIV_ShippingRegNum").Value = oTargetDoc.EIVShippingRegNum;
+                    oDoc.UserFields.Fields.Item("U_EIV_ShippingName").Value = oTargetDoc.EIVShippingName == null ? "" : oTargetDoc.EIVShippingName;
+                    oDoc.UserFields.Fields.Item("U_EIV_ShippingTin").Value = oTargetDoc.EIVShippingTin == null ? "" : oTargetDoc.EIVShippingTin;
+                    oDoc.UserFields.Fields.Item("U_EIV_ShippingRegNum").Value = oTargetDoc.EIVShippingRegNum == null ? "" : oTargetDoc.EIVShippingRegNum;
                     if (oTargetDoc.EIVShippingRegTyp != null)
                     {
                         oDoc.UserFields.Fields.Item("U_EIV_ShippingRegTyp").Value = oTargetDoc.EIVShippingRegTyp.Code;
                     }
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1S").Value = oTargetDoc.EIVAddressLine1S;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2S").Value = oTargetDoc.EIVAddressLine2S;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3S").Value = oTargetDoc.EIVAddressLine3S;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneS").Value = oTargetDoc.EIVPostalZoneS;
-                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameS").Value = oTargetDoc.EIVCityNameS;
-                    if (oTargetDoc.EIVStateS == null)
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1S").Value = oTargetDoc.EIVAddressLine1S == null ? "" : oTargetDoc.EIVAddressLine1S;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2S").Value = oTargetDoc.EIVAddressLine2S == null ? "" : oTargetDoc.EIVAddressLine2S;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3S").Value = oTargetDoc.EIVAddressLine3S == null ? "" : oTargetDoc.EIVAddressLine3S;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_PostalZoneS").Value = oTargetDoc.EIVPostalZoneS == null ? "" : oTargetDoc.EIVPostalZoneS;
+                    oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_CityNameS").Value = oTargetDoc.EIVCityNameS == null ? "" : oTargetDoc.EIVCityNameS;
+                    if (oTargetDoc.EIVStateS != null)
                     {
                         oDoc.AddressExtension.ShipToState = oTargetDoc.EIVStateS.Code;
                     }
-                    if (oTargetDoc.EIVCountryS == null)
+                    if (oTargetDoc.EIVCountryS != null)
                     {
                         oDoc.AddressExtension.ShipToCountry = oTargetDoc.EIVCountryS.Code;
                     }
