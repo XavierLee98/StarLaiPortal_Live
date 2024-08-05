@@ -180,8 +180,8 @@ namespace StarLaiPortal.WebApi.API.Controller
 
                     var distinctIds = detailsObject?.Select(x => x.BaseDoc.ToString()).Distinct();
 
-                    bool isFoundDuplicate = false;
-                    string duplicateId = string.Empty;
+                    //bool isFoundDuplicate = false;
+                    //string duplicateId = string.Empty;
                     //foreach (var baseId in distinctIds)
                     //{
                     //    using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
