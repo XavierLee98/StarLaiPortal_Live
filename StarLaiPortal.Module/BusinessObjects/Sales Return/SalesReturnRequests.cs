@@ -56,6 +56,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
     [RuleCriteria("EIVSRRShippingState", DefaultContexts.Save, "IsValid9 = 0", "Please fill in Shipping State.")]
 
     [RuleCriteria("EIVSRREmail", DefaultContexts.Save, "IsValid10 = 0", "Please fill in email address.")]
+
+    [RuleCriteria("EIVSRREIVMandatory", DefaultContexts.Save, "IsValid11 = 0", "Please fill in EIV mandatory field. (EIV Type / Sync. Freq. / Buyer's Name/ " +
+        "Buyer's Address Line 1 / Buyer's Country / Recipient's Address Line 1 / Recipient's City / Recipient's Country")]
     // End ver 1.0.18
 
     public class SalesReturnRequests : XPObject
@@ -200,7 +203,14 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
 
                     // Start ver 1.0.18
                     // Buyer
-                    EIVConsolidate = Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", Customer.U_EIV_Consolidate));
+                    if (Customer.U_EIV_Consolidate == "Y")
+                    {
+                        EIVConsolidate = Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", "N"));
+                    }
+                    else
+                    {
+                        EIVConsolidate = Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", "Y"));
+                    }
                     EIVType = Session.FindObject<vwEIVType>(CriteriaOperator.Parse("Code = ?", Customer.U_EIV_TypeARIV));
                     EIVFreqSync = Session.FindObject<vwEIVFreqSync>(CriteriaOperator.Parse("Code = ?", Customer.U_EIV_FreqARIV));
                     EIVBuyerName = Customer.U_EIV_BuyerName;
@@ -215,25 +225,6 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                     EIVShippingTin = Customer.U_EIV_BuyerTin;
                     EIVShippingRegNum = Customer.U_EIV_BuyerRegNum;
                     EIVShippingRegTyp = Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", Customer.U_EIV_BuyerRegTyp));
-
-                    if (BillingAddress != null)
-                    {
-                        EIVAddressLine1B = BillingAddress.Street;
-                        EIVAddressLine2B = BillingAddress.Block;
-                        EIVPostalZoneB = BillingAddress.ZipCode;
-                        EIVCityNameB = BillingAddress.City;
-                        EIVStateB = Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", BillingAddress.State));
-                        EIVCountryB = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", BillingAddress.Country));
-                    }
-                    if (ShippingAddress != null)
-                    {
-                        EIVAddressLine1S = ShippingAddress.Street;
-                        EIVAddressLine2S = ShippingAddress.Block;
-                        EIVPostalZoneS = ShippingAddress.ZipCode;
-                        EIVCityNameS = ShippingAddress.City;
-                        EIVStateS = Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", ShippingAddress.State));
-                        EIVCountryS = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", ShippingAddress.Country));
-                    }
                     // End ver 1.0.18
                 }
                 else if (!IsLoading && value == null)
@@ -259,19 +250,6 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                     EIVShippingTin = null;
                     EIVShippingRegNum = null;
                     EIVShippingRegTyp = null;
-
-                    EIVAddressLine1B = null;
-                    EIVAddressLine2B = null;
-                    EIVPostalZoneB = null;
-                    EIVCityNameB = null;
-                    EIVStateB = null;
-                    EIVCountryB = null;
-                    EIVAddressLine1S = null;
-                    EIVAddressLine2S = null;
-                    EIVPostalZoneS = null;
-                    EIVCityNameS = null;
-                    EIVStateS = null;
-                    EIVCountryS = null;
                     // End ver 1.0.18
                 }
             }
@@ -401,6 +379,26 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                 if (!IsLoading && value != null)
                 {
                     BillingAddressfield = BillingAddress.Address;
+                    // Start ver 1.0.18
+                    EIVAddressLine1B = BillingAddress.Street;
+                    EIVAddressLine2B = BillingAddress.Block;
+                    EIVPostalZoneB = BillingAddress.ZipCode;
+                    EIVCityNameB = BillingAddress.City;
+                    EIVStateB = Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", BillingAddress.State));
+                    EIVCountryB = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", BillingAddress.Country));
+                    // End ver 1.0.18
+                }
+                else if (!IsLoading && value == null)
+                {
+                    BillingAddressfield = null;
+                    // Start ver 1.0.18
+                    EIVAddressLine1B = null;
+                    EIVAddressLine2B = null;
+                    EIVPostalZoneB = null;
+                    EIVCityNameB = null;
+                    EIVStateB = null;
+                    EIVCountryB = null;
+                    // End ver 1.0.18
                 }
             }
         }
@@ -434,6 +432,26 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                 if (!IsLoading && value != null)
                 {
                     ShippingAddressfield = ShippingAddress.Address;
+                    // Start ver 1.0.18
+                    EIVAddressLine1S = ShippingAddress.Street;
+                    EIVAddressLine2S = ShippingAddress.Block;
+                    EIVPostalZoneS = ShippingAddress.ZipCode;
+                    EIVCityNameS = ShippingAddress.City;
+                    EIVStateS = Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", ShippingAddress.State));
+                    EIVCountryS = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", ShippingAddress.Country));
+                    // End ver 1.0.18
+                }
+                else if (!IsLoading && value == null)
+                {
+                    ShippingAddressfield = null;
+                    // Start ver 1.0.18
+                    EIVAddressLine1S = null;
+                    EIVAddressLine2S = null;
+                    EIVPostalZoneS = null;
+                    EIVCityNameS = null;
+                    EIVStateS = null;
+                    EIVCountryS = null;
+                    // End ver 1.0.18
                 }
             }
         }
@@ -535,7 +553,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         private vwEIVType _EIVType;
         [NoForeignKey]
         [XafDisplayName("E-Invoice Type")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Appearance("EIVType", Enabled = false, Criteria = "Customer.GroupName != 'Trade Debtor - Cash'")]
         [Index(51), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwEIVType EIVType
@@ -550,7 +568,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         private vwEIVFreqSync _EIVFreqSync;
         [NoForeignKey]
         [XafDisplayName("Sync. Freq.")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Appearance("EIVFreqSync", Enabled = false, Criteria = "Customer.GroupName != 'Trade Debtor - Cash'")]
         [Index(52), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwEIVFreqSync EIVFreqSync
@@ -565,7 +583,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         //Buyer
         private string _EIVBuyerName;
         [XafDisplayName("Buyer's Name")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(53), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVBuyerName
         {
@@ -639,7 +657,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
 
         private string _EIVBuyerContact;
         [XafDisplayName("Contact No.")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(59), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVBuyerContact
         {
@@ -652,7 +670,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
 
         private string _EIVAddressLine1B;
         [XafDisplayName("Buyer's Address Line 1")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(60), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVAddressLine1B
         {
@@ -664,7 +682,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         }
 
         private string _EIVAddressLine2B;
-        [XafDisplayName("Buyer's Address Line 2")]
+        //[XafDisplayName("Buyer's Address Line 2")]
         [Index(61), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVAddressLine2B
         {
@@ -701,7 +719,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
 
         private string _EIVCityNameB;
         [XafDisplayName("Buyer's City")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(64), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVCityNameB
         {
@@ -728,7 +746,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         private vwCountry _EIVCountryB;
         [NoForeignKey]
         [XafDisplayName("Buyer's Country")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(66), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwCountry EIVCountryB
         {
@@ -791,7 +809,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
 
         private string _EIVAddressLine1S;
         [XafDisplayName("Recipient's Address Line 1")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(71), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVAddressLine1S
         {
@@ -840,7 +858,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
 
         private string _EIVCityNameS;
         [XafDisplayName("Recipient's City")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(75), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVCityNameS
         {
@@ -867,7 +885,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         private vwCountry _EIVCountryS;
         [NoForeignKey]
         [XafDisplayName("Recipient's Country")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(77), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwCountry EIVCountryS
         {
@@ -1006,9 +1024,15 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         {
             get
             {
-                if (this.EIVBuyerTIN == null && this.EIVBuyerRegNum == null)
+                if (this.EIVConsolidate != null)
                 {
-                    return true;
+                    if (this.EIVConsolidate.Code == "Y")
+                    {
+                        if (this.EIVBuyerTIN == null && this.EIVBuyerRegNum == null)
+                        {
+                            return true;
+                        }
+                    }
                 }
 
                 return false;
@@ -1020,9 +1044,15 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         {
             get
             {
-                if (this.EIVShippingTin == null && this.EIVShippingRegNum == null)
+                if (this.EIVConsolidate != null)
                 {
-                    return true;
+                    if (this.EIVConsolidate.Code == "Y")
+                    {
+                        if (this.EIVShippingTin == null && this.EIVShippingRegNum == null)
+                        {
+                            return true;
+                        }
+                    }
                 }
 
                 return false;
@@ -1034,9 +1064,15 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         {
             get
             {
-                if (this.EIVBuyerRegNum != null && this.EIVBuyerRegTyp == null)
+                if (this.EIVConsolidate != null)
                 {
-                    return true;
+                    if (this.EIVConsolidate.Code == "Y")
+                    {
+                        if (this.EIVBuyerRegNum != null && this.EIVBuyerRegTyp == null)
+                        {
+                            return true;
+                        }
+                    }
                 }
 
                 return false;
@@ -1048,9 +1084,15 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         {
             get
             {
-                if (this.EIVShippingRegNum != null && this.EIVShippingRegTyp == null)
+                if (this.EIVConsolidate != null)
                 {
-                    return true;
+                    if (this.EIVConsolidate.Code == "Y")
+                    {
+                        if (this.EIVShippingRegNum != null && this.EIVShippingRegTyp == null)
+                        {
+                            return true;
+                        }
+                    }
                 }
 
                 return false;
@@ -1062,11 +1104,17 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         {
             get
             {
-                if (this.EIVCountryB != null)
+                if (this.EIVConsolidate != null)
                 {
-                    if (this.EIVCountryB.Code == "MY" && this.EIVStateB == null)
+                    if (this.EIVConsolidate.Code == "Y")
                     {
-                        return true;
+                        if (this.EIVCountryB != null)
+                        {
+                            if (this.EIVCountryB.Code == "MY" && this.EIVStateB == null)
+                            {
+                                return true;
+                            }
+                        }
                     }
                 }
 
@@ -1079,11 +1127,17 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         {
             get
             {
-                if (this.EIVCountryS != null)
+                if (this.EIVConsolidate != null)
                 {
-                    if (this.EIVCountryS.Code == "MY" && this.EIVStateS == null)
+                    if (this.EIVConsolidate.Code == "Y")
                     {
-                        return true;
+                        if (this.EIVCountryS != null)
+                        {
+                            if (this.EIVCountryS.Code == "MY" && this.EIVStateS == null)
+                            {
+                                return true;
+                            }
+                        }
                     }
                 }
 
@@ -1101,6 +1155,27 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                     if (this.EIVConsolidate.Code == "Y" && this.EIVBuyerEmail == null)
                     {
                         return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        [Browsable(false)]
+        public bool IsValid11
+        {
+            get
+            {
+                if (this.EIVConsolidate != null)
+                {
+                    if (this.EIVConsolidate.Code == "Y")
+                    {
+                        if (this.EIVType == null || this.EIVFreqSync == null || this.EIVBuyerName == null || this.EIVAddressLine1B == null ||
+                            this.EIVCityNameB == null || this.EIVCountryB == null || this.EIVAddressLine1S == null || this.EIVCityNameS == null || this.EIVCountryS == null)
+                        {
+                            return true;
+                        }
                     }
                 }
 

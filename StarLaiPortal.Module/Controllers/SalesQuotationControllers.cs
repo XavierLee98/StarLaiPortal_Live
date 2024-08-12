@@ -1011,30 +1011,33 @@ namespace StarLaiPortal.Module.Controllers
                             // End ver 1.0.19
                             {
                                 // Start ver 1.0.19
-                                foreach (SalesQuotationDetails stock in dtl.SalesQuotationDetails)
+                                if (sq.Series.SeriesName != "BackOrdP" && sq.Series.SeriesName != "BackOrdS")
                                 {
-                                    vwStockBalance avai = sos.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
-                                        stock.ItemCode.ItemCode, stock.Location.WarehouseCode));
+                                    foreach (SalesQuotationDetails stock in dtl.SalesQuotationDetails)
+                                    {
+                                        vwStockBalance avai = sos.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
+                                            stock.ItemCode.ItemCode, stock.Location.WarehouseCode));
 
-                                    if (avai != null)
-                                    {
-                                        if (stock.Quantity > (decimal)avai.InStock)
+                                        if (avai != null)
                                         {
-                                            showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
-                                            return;
+                                            if (stock.Quantity > (decimal)avai.InStock)
+                                            {
+                                                showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
+                                                return;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (stock.Quantity > 0)
+                                            {
+                                                showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
+                                                return;
+                                            }
                                         }
                                     }
-                                    else
-                                    {
-                                        if (stock.Quantity > 0)
-                                        {
-                                            showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
-                                            return;
-                                        }
-                                    }
+                                    //showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
+                                    //return;
                                 }
-                                //showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
-                                //return;
                                 // End ver 1.0.19
                             }
                             // End ver 1.0.8.1
@@ -1207,13 +1210,25 @@ namespace StarLaiPortal.Module.Controllers
                                         // End ver 1.0.8.1
                                         // Start ver 1.0.18
                                         // Buyer
-                                        newSO.EIVConsolidate = newSO.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", trx.EIVConsolidate.Code));
-                                        newSO.EIVType = newSO.Session.FindObject<vwEIVType>(CriteriaOperator.Parse("Code = ?", trx.EIVType.Code));
-                                        newSO.EIVFreqSync = newSO.Session.FindObject<vwEIVFreqSync>(CriteriaOperator.Parse("Code = ?", trx.EIVFreqSync.Code));
+                                        if (trx.EIVConsolidate != null)
+                                        {
+                                            newSO.EIVConsolidate = newSO.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", trx.EIVConsolidate.Code));
+                                        }
+                                        if (trx.EIVType != null)
+                                        {
+                                            newSO.EIVType = newSO.Session.FindObject<vwEIVType>(CriteriaOperator.Parse("Code = ?", trx.EIVType.Code));
+                                        }
+                                        if (trx.EIVFreqSync != null)
+                                        {
+                                            newSO.EIVFreqSync = newSO.Session.FindObject<vwEIVFreqSync>(CriteriaOperator.Parse("Code = ?", trx.EIVFreqSync.Code));
+                                        }
                                         newSO.EIVBuyerName = trx.EIVBuyerName;
-                                        newSO.EIVBuyerTIN = trx.EIVBuyerName;
+                                        newSO.EIVBuyerTIN = trx.EIVBuyerTIN;
                                         newSO.EIVBuyerRegNum = trx.EIVBuyerRegNum;
-                                        newSO.EIVBuyerRegTyp = newSO.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", trx.EIVBuyerRegTyp.Code));
+                                        if (trx.EIVBuyerRegTyp != null)
+                                        {
+                                            newSO.EIVBuyerRegTyp = newSO.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", trx.EIVBuyerRegTyp.Code));
+                                        }
                                         newSO.EIVBuyerSSTRegNum = trx.EIVBuyerSSTRegNum;
                                         newSO.EIVBuyerEmail = trx.EIVBuyerEmail;
                                         newSO.EIVBuyerContact = trx.EIVBuyerContact;
@@ -1222,20 +1237,35 @@ namespace StarLaiPortal.Module.Controllers
                                         newSO.EIVAddressLine3B = trx.EIVAddressLine3B;
                                         newSO.EIVPostalZoneB = trx.EIVPostalZoneB;
                                         newSO.EIVCityNameB = trx.EIVCityNameB;
-                                        newSO.EIVStateB = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", trx.EIVStateB.Code));
-                                        newSO.EIVCountryB = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", trx.EIVCountryB.Code));
+                                        if (trx.EIVStateB != null)
+                                        {
+                                            newSO.EIVStateB = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", trx.EIVStateB.Code));
+                                        }
+                                        if (trx.EIVCountryB != null)
+                                        {
+                                            newSO.EIVCountryB = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", trx.EIVCountryB.Code));
+                                        }
                                         //Recipient
                                         newSO.EIVShippingName = trx.EIVShippingName;
                                         newSO.EIVShippingTin = trx.EIVShippingTin;
                                         newSO.EIVShippingRegNum = trx.EIVShippingRegNum;
-                                        newSO.EIVShippingRegTyp = newSO.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", trx.EIVShippingRegTyp.Code));
+                                        if (trx.EIVShippingRegTyp != null)
+                                        {
+                                            newSO.EIVShippingRegTyp = newSO.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", trx.EIVShippingRegTyp.Code));
+                                        }
                                         newSO.EIVAddressLine1S = trx.EIVAddressLine1S;
                                         newSO.EIVAddressLine2S = trx.EIVAddressLine2S;
                                         newSO.EIVAddressLine3S = trx.EIVAddressLine3S;
                                         newSO.EIVPostalZoneS = trx.EIVPostalZoneS;
                                         newSO.EIVCityNameS = trx.EIVCityNameS;
-                                        newSO.EIVStateS = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", trx.EIVStateS.Code));
-                                        newSO.EIVCountryS = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", trx.EIVCountryS.Code));
+                                        if (trx.EIVStateS != null)
+                                        {
+                                            newSO.EIVStateS = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", trx.EIVStateS.Code));
+                                        }
+                                        if (trx.EIVCountryS != null)
+                                        {
+                                            newSO.EIVCountryS = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", trx.EIVCountryS.Code));
+                                        }
                                         // End ver 1.0.18
 
                                         foreach (SalesQuotationDetails detail in trx.SalesQuotationDetails)
@@ -1250,7 +1280,10 @@ namespace StarLaiPortal.Module.Controllers
                                             newsodetails.LegacyItemCode = detail.LegacyItemCode;
                                             // End ver 1.0.15
                                             // Start ver 1.0.18
-                                            newsodetails.EIVClassification = newsodetails.Session.FindObject<vwEIVClass>(CriteriaOperator.Parse("Code = ?", detail.EIVClassification.Code));
+                                            if (detail.EIVClassification != null)
+                                            {
+                                                newsodetails.EIVClassification = newsodetails.Session.FindObject<vwEIVClass>(CriteriaOperator.Parse("Code = ?", detail.EIVClassification.Code));
+                                            }
                                             // End ver 1.0.18
                                             if (detail.Location != null)
                                             {
@@ -1318,25 +1351,28 @@ namespace StarLaiPortal.Module.Controllers
                         // End ver 1.0.19
                         {
                             // Start ver 1.0.19
-                            foreach (SalesQuotationDetails stock in dtl.SalesQuotationDetails)
+                            if (sq.Series.SeriesName != "BackOrdP" && sq.Series.SeriesName != "BackOrdS")
                             {
-                                vwStockBalance avai = sos.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
-                                    stock.ItemCode.ItemCode, stock.Location.WarehouseCode));
+                                foreach (SalesQuotationDetails stock in dtl.SalesQuotationDetails)
+                                {
+                                    vwStockBalance avai = sos.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
+                                        stock.ItemCode.ItemCode, stock.Location.WarehouseCode));
 
-                                if (avai != null)
-                                {
-                                    if (stock.Quantity > (decimal)avai.InStock)
+                                    if (avai != null)
                                     {
-                                        showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
-                                        return;
+                                        if (stock.Quantity > (decimal)avai.InStock)
+                                        {
+                                            showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
+                                            return;
+                                        }
                                     }
-                                }
-                                else
-                                {
-                                    if (stock.Quantity > 0)
+                                    else
                                     {
-                                        showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
-                                        return;
+                                        if (stock.Quantity > 0)
+                                        {
+                                            showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
+                                            return;
+                                        }
                                     }
                                 }
                             }
@@ -1503,13 +1539,25 @@ namespace StarLaiPortal.Module.Controllers
                             // End ver 1.0.8.1
                             // Start ver 1.0.18
                             // Buyer
-                            newSO.EIVConsolidate = newSO.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", trx.EIVConsolidate.Code));
-                            newSO.EIVType = newSO.Session.FindObject<vwEIVType>(CriteriaOperator.Parse("Code = ?", trx.EIVType.Code));
-                            newSO.EIVFreqSync = newSO.Session.FindObject<vwEIVFreqSync>(CriteriaOperator.Parse("Code = ?", trx.EIVFreqSync.Code));
+                            if (trx.EIVConsolidate != null)
+                            {
+                                newSO.EIVConsolidate = newSO.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", trx.EIVConsolidate.Code));
+                            }
+                            if (trx.EIVType != null)
+                            {
+                                newSO.EIVType = newSO.Session.FindObject<vwEIVType>(CriteriaOperator.Parse("Code = ?", trx.EIVType.Code));
+                            }
+                            if (trx.EIVFreqSync != null)
+                            {
+                                newSO.EIVFreqSync = newSO.Session.FindObject<vwEIVFreqSync>(CriteriaOperator.Parse("Code = ?", trx.EIVFreqSync.Code));
+                            }
                             newSO.EIVBuyerName = trx.EIVBuyerName;
                             newSO.EIVBuyerTIN = trx.EIVBuyerTIN;
                             newSO.EIVBuyerRegNum = trx.EIVBuyerRegNum;
-                            newSO.EIVBuyerRegTyp = newSO.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", trx.EIVBuyerRegTyp.Code));
+                            if (trx.EIVBuyerRegTyp != null)
+                            {
+                                newSO.EIVBuyerRegTyp = newSO.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", trx.EIVBuyerRegTyp.Code));
+                            }
                             newSO.EIVBuyerSSTRegNum = trx.EIVBuyerSSTRegNum;
                             newSO.EIVBuyerEmail = trx.EIVBuyerEmail;
                             newSO.EIVBuyerContact = trx.EIVBuyerContact;
@@ -1518,20 +1566,35 @@ namespace StarLaiPortal.Module.Controllers
                             newSO.EIVAddressLine3B = trx.EIVAddressLine3B;
                             newSO.EIVPostalZoneB = trx.EIVPostalZoneB;
                             newSO.EIVCityNameB = trx.EIVCityNameB;
-                            newSO.EIVStateB = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", trx.EIVStateB.Code));
-                            newSO.EIVCountryB = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", trx.EIVCountryB.Code));
+                            if (trx.EIVStateB != null)
+                            {
+                                newSO.EIVStateB = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", trx.EIVStateB.Code));
+                            }
+                            if (trx.EIVCountryB != null)
+                            {
+                                newSO.EIVCountryB = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", trx.EIVCountryB.Code));
+                            }
                             //Recipient
                             newSO.EIVShippingName = trx.EIVShippingName;
                             newSO.EIVShippingTin = trx.EIVShippingTin;
                             newSO.EIVShippingRegNum = trx.EIVShippingRegNum;
-                            newSO.EIVShippingRegTyp = newSO.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", trx.EIVShippingRegTyp.Code));
+                            if (trx.EIVShippingRegTyp != null)
+                            {
+                                newSO.EIVShippingRegTyp = newSO.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", trx.EIVShippingRegTyp.Code));
+                            }
                             newSO.EIVAddressLine1S = trx.EIVAddressLine1S;
                             newSO.EIVAddressLine2S = trx.EIVAddressLine2S;
                             newSO.EIVAddressLine3S = trx.EIVAddressLine3S;
                             newSO.EIVPostalZoneS = trx.EIVPostalZoneS;
                             newSO.EIVCityNameS = trx.EIVCityNameS;
-                            newSO.EIVStateS = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", trx.EIVStateS.Code));
-                            newSO.EIVCountryS = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", trx.EIVCountryS.Code));
+                            if (trx.EIVStateS != null)
+                            {
+                                newSO.EIVStateS = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", trx.EIVStateS.Code));
+                            }
+                            if (trx.EIVCountryS != null)
+                            {
+                                newSO.EIVCountryS = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", trx.EIVCountryS.Code));
+                            }
                             // End ver 1.0.18
 
                             foreach (SalesQuotationDetails detail in trx.SalesQuotationDetails)
@@ -1546,7 +1609,10 @@ namespace StarLaiPortal.Module.Controllers
                                 newsodetails.LegacyItemCode = detail.LegacyItemCode;
                                 // End ver 1.0.15
                                 // Start ver 1.0.18
-                                newsodetails.EIVClassification = newsodetails.Session.FindObject<vwEIVClass>(CriteriaOperator.Parse("Code = ?", detail.EIVClassification.Code));
+                                if (detail.EIVClassification != null)
+                                {
+                                    newsodetails.EIVClassification = newsodetails.Session.FindObject<vwEIVClass>(CriteriaOperator.Parse("Code = ?", detail.EIVClassification.Code));
+                                }
                                 // End ver 1.0.18
                                 if (detail.Location != null)
                                 {
@@ -1842,13 +1908,25 @@ namespace StarLaiPortal.Module.Controllers
                                 // End ver 1.0.8.1
                                 // Start ver 1.0.18
                                 // Buyer
-                                newSO.EIVConsolidate = newSO.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVConsolidate.Code));
-                                newSO.EIVType = newSO.Session.FindObject<vwEIVType>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVType.Code));
-                                newSO.EIVFreqSync = newSO.Session.FindObject<vwEIVFreqSync>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVFreqSync.Code));
+                                if (selectedObject.EIVConsolidate != null)
+                                {
+                                    newSO.EIVConsolidate = newSO.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVConsolidate.Code));
+                                }   
+                                if (selectedObject.EIVType != null)
+                                {
+                                    newSO.EIVType = newSO.Session.FindObject<vwEIVType>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVType.Code));
+                                }
+                                if (selectedObject.EIVFreqSync != null)
+                                {
+                                    newSO.EIVFreqSync = newSO.Session.FindObject<vwEIVFreqSync>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVFreqSync.Code));
+                                }
                                 newSO.EIVBuyerName = selectedObject.EIVBuyerName;
                                 newSO.EIVBuyerTIN = selectedObject.EIVBuyerTIN;
                                 newSO.EIVBuyerRegNum = selectedObject.EIVBuyerRegNum;
-                                newSO.EIVBuyerRegTyp = newSO.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVBuyerRegTyp.Code));
+                                if (selectedObject.EIVBuyerRegTyp != null)
+                                {
+                                    newSO.EIVBuyerRegTyp = newSO.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVBuyerRegTyp.Code));
+                                }
                                 newSO.EIVBuyerSSTRegNum = selectedObject.EIVBuyerSSTRegNum;
                                 newSO.EIVBuyerEmail = selectedObject.EIVBuyerEmail;
                                 newSO.EIVBuyerContact = selectedObject.EIVBuyerContact;
@@ -1857,20 +1935,35 @@ namespace StarLaiPortal.Module.Controllers
                                 newSO.EIVAddressLine3B = selectedObject.EIVAddressLine3B;
                                 newSO.EIVPostalZoneB = selectedObject.EIVPostalZoneB;
                                 newSO.EIVCityNameB = selectedObject.EIVCityNameB;
-                                newSO.EIVStateB = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVStateB.Code));
-                                newSO.EIVCountryB = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVCountryB.Code));
+                                if (selectedObject.EIVStateB != null)
+                                {
+                                    newSO.EIVStateB = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVStateB.Code));
+                                }
+                                if (selectedObject.EIVCountryB != null)
+                                {
+                                    newSO.EIVCountryB = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVCountryB.Code));
+                                }
                                 //Recipient
                                 newSO.EIVShippingName = selectedObject.EIVShippingName;
                                 newSO.EIVShippingTin = selectedObject.EIVShippingTin;
                                 newSO.EIVShippingRegNum = selectedObject.EIVShippingRegNum;
-                                newSO.EIVShippingRegTyp = newSO.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVShippingRegTyp.Code));
+                                if (selectedObject.EIVShippingRegTyp != null)
+                                {
+                                    newSO.EIVShippingRegTyp = newSO.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVShippingRegTyp.Code));
+                                }
                                 newSO.EIVAddressLine1S = selectedObject.EIVAddressLine1S;
                                 newSO.EIVAddressLine2S = selectedObject.EIVAddressLine2S;
                                 newSO.EIVAddressLine3S = selectedObject.EIVAddressLine3S;
                                 newSO.EIVPostalZoneS = selectedObject.EIVPostalZoneS;
                                 newSO.EIVCityNameS = selectedObject.EIVCityNameS;
-                                newSO.EIVStateS = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVStateS.Code));
-                                newSO.EIVCountryS = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVCountryS.Code));
+                                if (selectedObject.EIVStateS != null)
+                                {
+                                    newSO.EIVStateS = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVStateS.Code));
+                                }
+                                if (selectedObject.EIVCountryS != null)
+                                {
+                                    newSO.EIVCountryS = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVCountryS.Code));
+                                }
                                 // End ver 1.0.18
 
                                 foreach (SalesQuotationDetails dtl in selectedObject.SalesQuotationDetails)
@@ -1885,7 +1978,10 @@ namespace StarLaiPortal.Module.Controllers
                                     newsodetails.LegacyItemCode = dtl.LegacyItemCode;
                                     // End ver 1.0.15
                                     // Start ver 1.0.18
-                                    newsodetails.EIVClassification = newsodetails.Session.FindObject<vwEIVClass>(CriteriaOperator.Parse("Code = ?", dtl.EIVClassification.Code));
+                                    if (dtl.EIVClassification != null)
+                                    {
+                                        newsodetails.EIVClassification = newsodetails.Session.FindObject<vwEIVClass>(CriteriaOperator.Parse("Code = ?", dtl.EIVClassification.Code));
+                                    }
                                     // End ver 1.0.18
                                     if (dtl.Location != null)
                                     {
