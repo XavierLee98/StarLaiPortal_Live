@@ -2117,18 +2117,22 @@ namespace PortalIntegration
                     {
                         oDoc.PayToCode = oTargetDoc.BillingAddress.AddressKey;
                     }
-                    if (oTargetDoc.BillingAddressfield != null)
-                    {
-                        oDoc.Address = oTargetDoc.BillingAddressfield;
-                    }
+                    // Start ver 1.0.18
+                    //if (oTargetDoc.BillingAddressfield != null)
+                    //{
+                    //    oDoc.Address = oTargetDoc.BillingAddressfield;
+                    //}
+                    // End ver 1.0.18
                     if (oTargetDoc.ShippingAddress != null)
                     {
                         oDoc.ShipToCode = oTargetDoc.ShippingAddress.AddressKey;
                     }
-                    if (oTargetDoc.ShippingAddressfield != null)
-                    {
-                        oDoc.Address2 = oTargetDoc.ShippingAddressfield;
-                    }
+                    // Start ver 1.0.18
+                    //if (oTargetDoc.ShippingAddressfield != null)
+                    //{
+                    //    oDoc.Address2 = oTargetDoc.ShippingAddressfield;
+                    //}
+                    // End ver 1.0.18
 
                     if (oTargetDoc.Series != null)
                     {
@@ -2158,7 +2162,27 @@ namespace PortalIntegration
                     }
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = oTargetDoc.EIVBuyerSSTRegNum == null ? "" : oTargetDoc.EIVBuyerSSTRegNum;
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = oTargetDoc.EIVBuyerEmail == null ? "" : oTargetDoc.EIVBuyerEmail;
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.ContactNo == null ? "" : oTargetDoc.ContactNo;
+                    
+                    if (oTargetDoc.ContactNo != null)
+                    {
+                        int i = 0;
+                        foreach (char c in oTargetDoc.ContactNo)
+                        {
+                            i++;
+                        }
+                        if (i <= 20)
+                        {
+                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.ContactNo;
+                        }
+                        else
+                        {
+                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.ContactNo.Substring(0, 20);
+                        }
+                    }
+                    else
+                    {
+                        oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = "";
+                    }
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
@@ -2842,6 +2866,16 @@ namespace PortalIntegration
                     oDoc.Comments = oTargetDoc.Remarks;
                     oDoc.NumAtCard = oTargetDoc.Reference;
                     oDoc.UserFields.Fields.Item("U_PortalDocNum").Value = oTargetDoc.DocNum;
+                    // Start ver 1.0.18
+                    if (oTargetDoc.BillingAddress != null)
+                    {
+                        oDoc.PayToCode = oTargetDoc.BillingAddress.AddressKey;
+                    }
+                    if (oTargetDoc.ShippingAddress != null)
+                    {
+                        oDoc.ShipToCode = oTargetDoc.ShippingAddress.AddressKey;
+                    }
+                    // End ver 1.0.18
 
                     // Start ver 1.0.18
                     // Buyer
@@ -2866,7 +2900,27 @@ namespace PortalIntegration
                     }
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = oTargetDoc.EIVBuyerSSTRegNum == null ? "" : oTargetDoc.EIVBuyerSSTRegNum;
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = oTargetDoc.EIVBuyerEmail == null ? "" : oTargetDoc.EIVBuyerEmail;
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact == null ? "" : oTargetDoc.EIVBuyerContact;
+
+                    if (oTargetDoc.EIVBuyerContact != null)
+                    {
+                        int i = 0;
+                        foreach (char c in oTargetDoc.EIVBuyerContact)
+                        {
+                            i++;
+                        }
+                        if (i <= 20)
+                        {
+                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact;
+                        }
+                        else
+                        {
+                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact.Substring(0, 20);
+                        }
+                    }
+                    else
+                    {
+                        oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = "";
+                    }
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
@@ -3671,6 +3725,21 @@ namespace PortalIntegration
                     {
                         oDoc.SalesPersonCode = oTargetDoc.ContactPerson.SlpCode;
                     }
+                    // Start ver 1.0.18
+                    vwBillingAddress BillingAddress = fos.FindObject<vwBillingAddress>(CriteriaOperator.Parse("AddressKey = ? and CardCode = ?"
+                        , oTargetDoc.Customer.BillToDef, oTargetDoc.Customer.BPCode));
+                    vwShippingAddress ShippingAddress = fos.FindObject<vwShippingAddress>(CriteriaOperator.Parse("AddressKey = ? and CardCode = ?"
+                        , oTargetDoc.Customer.ShipToDef, oTargetDoc.Customer.BPCode));
+
+                    if (BillingAddress != null)
+                    {
+                        oDoc.PayToCode = BillingAddress.AddressKey;
+                    }
+                    if (ShippingAddress != null)
+                    {
+                        oDoc.ShipToCode = ShippingAddress.AddressKey;
+                    }
+                    // End ver 1.0.18
 
                     // Start ver 1.0.18
                     // Buyer
@@ -3694,7 +3763,26 @@ namespace PortalIntegration
                         oDoc.UserFields.Fields.Item("U_EIV_BuyerRegTyp").Value = oTargetDoc.EIVBuyerRegTyp.Code;
                     }
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = oTargetDoc.EIVBuyerSSTRegNum == null ? "" : oTargetDoc.EIVBuyerSSTRegNum;
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = oTargetDoc.EIVBuyerEmail == null ? "" : oTargetDoc.EIVBuyerEmail;
+                    if (oTargetDoc.EIVBuyerContact != null)
+                    {
+                        int i = 0;
+                        foreach (char c in oTargetDoc.EIVBuyerContact)
+                        {
+                            i++;
+                        }
+                        if (i <= 20)
+                        {
+                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact;
+                        }
+                        else
+                        {
+                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact.Substring(0, 20);
+                        }
+                    }
+                    else
+                    {
+                        oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = "";
+                    }
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact == null ? "" : oTargetDoc.EIVBuyerContact;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
@@ -3851,14 +3939,26 @@ namespace PortalIntegration
                         oDoc.UserFields.Fields.Item("U_PortalDocNum").Value = oTargetDoc.DocNum;
                         oDoc.UserFields.Fields.Item("U_SoDocNumber").Value = so.DocNum;
                         oDoc.DownPaymentType = DownPaymentTypeEnum.dptInvoice;
-                        if (so.BillingAddressfield != null)
-                        {
-                            oDoc.Address = so.BillingAddressfield;
-                        }
+                        // Start ver 1.0.18
+                        //if (so.BillingAddressfield != null)
+                        //{
+                        //    oDoc.Address = so.BillingAddressfield;
+                        //}
+                        // End ver 1.0.18
                         if (oTargetDoc.Remarks != null)
                         {
                             oDoc.Comments = oTargetDoc.Remarks;
                         }
+                        // Start ver 1.0.18
+                        if (so.BillingAddress != null)
+                        {
+                            oDoc.PayToCode = so.BillingAddress.AddressKey;
+                        }
+                        if (so.ShippingAddress != null)
+                        {
+                            oDoc.ShipToCode = so.ShippingAddress.AddressKey;
+                        }
+                        // End ver 1.0.18
 
                         // Start ver 1.0.18
                         // Buyer
@@ -3883,7 +3983,27 @@ namespace PortalIntegration
                         }
                         oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = so.EIVBuyerSSTRegNum == null ? "" : so.EIVBuyerSSTRegNum;
                         oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = so.EIVBuyerEmail == null ? "" : so.EIVBuyerEmail;
-                        oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = so.ContactNo == null ? "" : so.ContactNo;
+
+                        if (so.ContactNo != null)
+                        {
+                            int i = 0;
+                            foreach (char c in so.ContactNo)
+                            {
+                                i++;
+                            }
+                            if (i <= 20)
+                            {
+                                oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = so.ContactNo;
+                            }
+                            else
+                            {
+                                oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = so.ContactNo.Substring(0, 20);
+                            }
+                        }
+                        else
+                        {
+                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = "";
+                        }
                         oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = so.EIVAddressLine1B == null ? "" : so.EIVAddressLine1B;
                         oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = so.EIVAddressLine2B == null ? "" : so.EIVAddressLine2B;
                         oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = so.EIVAddressLine3B == null ? "" : so.EIVAddressLine3B;
@@ -4223,6 +4343,7 @@ namespace PortalIntegration
             {
                 if (!oTargetDoc.Sap)
                 {
+                    IObjectSpace bos = ObjectSpaceProvider.CreateObjectSpace();
                     // Start ver 1.0.10
                     string sodocnum = null;
                     // End ver 1.0.10
@@ -4239,6 +4360,21 @@ namespace PortalIntegration
                     oDoc.DocDate = DateTime.Now;
                     oDoc.Comments = oTargetDoc.Remarks;
                     oDoc.UserFields.Fields.Item("U_PortalDocNum").Value = oTargetDoc.DocNum;
+                    // Start ver 1.0.18
+                    vwBillingAddress BillingAddress = bos.FindObject<vwBillingAddress>(CriteriaOperator.Parse("AddressKey = ? and CardCode = ?"
+                        , oTargetDoc.Customer.BillToDef, oTargetDoc.Customer.BPCode));
+                    vwShippingAddress ShippingAddress = bos.FindObject<vwShippingAddress>(CriteriaOperator.Parse("AddressKey = ? and CardCode = ?"
+                        , oTargetDoc.Customer.ShipToDef, oTargetDoc.Customer.BPCode));
+
+                    if (BillingAddress != null)
+                    {
+                        oDoc.PayToCode = BillingAddress.AddressKey;
+                    }
+                    if (ShippingAddress != null)
+                    {
+                        oDoc.ShipToCode = ShippingAddress.AddressKey;
+                    }
+                    // End ver 1.0.18
 
                     // Start ver 1.0.18
                     // Buyer
@@ -4263,7 +4399,27 @@ namespace PortalIntegration
                     }
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = oTargetDoc.EIVBuyerSSTRegNum == null ? "" : oTargetDoc.EIVBuyerSSTRegNum;
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = oTargetDoc.EIVBuyerEmail == null ? "" : oTargetDoc.EIVBuyerEmail;
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact == null ? "" : oTargetDoc.EIVBuyerContact;
+
+                    if (oTargetDoc.EIVBuyerContact != null)
+                    {
+                        int i = 0;
+                        foreach (char c in oTargetDoc.EIVBuyerContact)
+                        {
+                            i++;
+                        }
+                        if (i <= 20)
+                        {
+                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact;
+                        }
+                        else
+                        {
+                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact.Substring(0, 20);
+                        }
+                    }
+                    else
+                    {
+                        oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = "";
+                    }
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
@@ -4495,6 +4651,7 @@ namespace PortalIntegration
             {
                 if (!oTargetDoc.Sap)
                 {
+                    IObjectSpace fos = ObjectSpaceProvider.CreateObjectSpace();
                     Guid g;
                     // Create and display the value of two GUIDs.
                     g = Guid.NewGuid();
@@ -4508,6 +4665,21 @@ namespace PortalIntegration
                     oDoc.DocDate = DateTime.Now;
                     oDoc.Comments = oTargetDoc.Remarks;
                     oDoc.UserFields.Fields.Item("U_PortalDocNum").Value = oTargetDoc.DocNum;
+                    // Start ver 1.0.18
+                    vwBillingAddress BillingAddress = fos.FindObject<vwBillingAddress>(CriteriaOperator.Parse("AddressKey = ? and CardCode = ?"
+                        , oTargetDoc.Customer.BillToDef, oTargetDoc.Customer.BPCode));
+                    vwShippingAddress ShippingAddress = fos.FindObject<vwShippingAddress>(CriteriaOperator.Parse("AddressKey = ? and CardCode = ?"
+                        , oTargetDoc.Customer.ShipToDef, oTargetDoc.Customer.BPCode));
+
+                    if (BillingAddress != null)
+                    {
+                        oDoc.PayToCode = BillingAddress.AddressKey;
+                    }
+                    if (ShippingAddress != null)
+                    {
+                        oDoc.ShipToCode = ShippingAddress.AddressKey;
+                    }
+                    // End ver 1.0.18
 
                     // Start ver 1.0.18
                     // Buyer
@@ -4532,7 +4704,27 @@ namespace PortalIntegration
                     }
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = oTargetDoc.EIVBuyerSSTRegNum == null ? "" : oTargetDoc.EIVBuyerSSTRegNum;
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = oTargetDoc.EIVBuyerEmail == null ? "" : oTargetDoc.EIVBuyerEmail;
-                    oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact == null ? "" : oTargetDoc.EIVBuyerContact;
+
+                    if (oTargetDoc.EIVBuyerContact != null)
+                    {
+                        int i = 0;
+                        foreach (char c in oTargetDoc.EIVBuyerContact)
+                        {
+                            i++;
+                        }
+                        if (i <= 20)
+                        {
+                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact;
+                        }
+                        else
+                        {
+                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact.Substring(0, 20);
+                        }
+                    }
+                    else
+                    {
+                        oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = "";
+                    }
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
