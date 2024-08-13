@@ -2143,7 +2143,14 @@ namespace PortalIntegration
                     // Buyer
                     if (oTargetDoc.EIVConsolidate != null)
                     {
-                        oDoc.UserFields.Fields.Item("U_EIV_Consolidate").Value = oTargetDoc.EIVConsolidate.Code;
+                        if (oTargetDoc.EIVConsolidate.Code == "Y")
+                        {
+                            oDoc.UserFields.Fields.Item("U_EIV_Consolidate").Value = "N";
+                        }
+                        else
+                        {
+                            oDoc.UserFields.Fields.Item("U_EIV_Consolidate").Value = "Y";
+                        }
                     }
                     if (oTargetDoc.EIVType != null)
                     {
@@ -2881,7 +2888,14 @@ namespace PortalIntegration
                     // Buyer
                     if (oTargetDoc.EIVConsolidate != null)
                     {
-                        oDoc.UserFields.Fields.Item("U_EIV_Consolidate").Value = oTargetDoc.EIVConsolidate.Code;
+                        if (oTargetDoc.EIVConsolidate.Code == "Y")
+                        {
+                            oDoc.UserFields.Fields.Item("U_EIV_Consolidate").Value = "N";
+                        }
+                        else
+                        {
+                            oDoc.UserFields.Fields.Item("U_EIV_Consolidate").Value = "Y";
+                        }
                     }
                     if (oTargetDoc.EIVType != null)
                     {
@@ -3745,7 +3759,14 @@ namespace PortalIntegration
                     // Buyer
                     if (oTargetDoc.EIVConsolidate != null)
                     {
-                        oDoc.UserFields.Fields.Item("U_EIV_Consolidate").Value = oTargetDoc.EIVConsolidate.Code;
+                        if (oTargetDoc.EIVConsolidate.Code == "Y")
+                        {
+                            oDoc.UserFields.Fields.Item("U_EIV_Consolidate").Value = "N";
+                        }
+                        else
+                        {
+                            oDoc.UserFields.Fields.Item("U_EIV_Consolidate").Value = "Y";
+                        }
                     }
                     if (oTargetDoc.EIVType != null)
                     {
@@ -3964,7 +3985,14 @@ namespace PortalIntegration
                         // Buyer
                         if (so.EIVConsolidate != null)
                         {
-                            oDoc.UserFields.Fields.Item("U_EIV_Consolidate").Value = so.EIVConsolidate.Code;
+                            if (so.EIVConsolidate.Code == "Y")
+                            {
+                                oDoc.UserFields.Fields.Item("U_EIV_Consolidate").Value = "N";
+                            }
+                            else
+                            {
+                                oDoc.UserFields.Fields.Item("U_EIV_Consolidate").Value = "Y";
+                            }
                         }
                         if (so.EIVType != null)
                         {
@@ -4380,7 +4408,14 @@ namespace PortalIntegration
                     // Buyer
                     if (oTargetDoc.EIVConsolidate != null)
                     {
-                        oDoc.UserFields.Fields.Item("U_EIV_Consolidate").Value = oTargetDoc.EIVConsolidate.Code;
+                        if (oTargetDoc.EIVConsolidate.Code == "Y")
+                        {
+                            oDoc.UserFields.Fields.Item("U_EIV_Consolidate").Value = "N";
+                        }
+                        else
+                        {
+                            oDoc.UserFields.Fields.Item("U_EIV_Consolidate").Value = "Y";
+                        }
                     }
                     if (oTargetDoc.EIVType != null)
                     {
@@ -4685,7 +4720,14 @@ namespace PortalIntegration
                     // Buyer
                     if (oTargetDoc.EIVConsolidate != null)
                     {
-                        oDoc.UserFields.Fields.Item("U_EIV_Consolidate").Value = oTargetDoc.EIVConsolidate.Code;
+                        if (oTargetDoc.EIVConsolidate.Code == "Y")
+                        {
+                            oDoc.UserFields.Fields.Item("U_EIV_Consolidate").Value = "N";
+                        }
+                        else
+                        {
+                            oDoc.UserFields.Fields.Item("U_EIV_Consolidate").Value = "Y";
+                        }
                     }
                     if (oTargetDoc.EIVType != null)
                     {
