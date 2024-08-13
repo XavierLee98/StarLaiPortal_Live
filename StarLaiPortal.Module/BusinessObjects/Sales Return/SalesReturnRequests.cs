@@ -58,7 +58,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
     [RuleCriteria("EIVSRREmail", DefaultContexts.Save, "IsValid10 = 0", "Please fill in email address.")]
 
     [RuleCriteria("EIVSRREIVMandatory", DefaultContexts.Save, "IsValid11 = 0", "Please fill in EIV mandatory field. (EIV Type / Sync. Freq. / Buyer's Name/ " +
-        "Buyer's Address Line 1 / Buyer's Country / Recipient's Address Line 1 / Recipient's City / Recipient's Country")]
+        "Buyer's Address Line 1 / Buyer's Country / Buyer's City / Recipient's Address Line 1 / Recipient's City / Recipient's Country")]
     // End ver 1.0.18
 
     public class SalesReturnRequests : XPObject
@@ -537,7 +537,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         // Start ver 1.0.18
         private vwYesNo _EIVConsolidate;
         [NoForeignKey]
-        [XafDisplayName("Consolidate")]
+        [XafDisplayName("Require E-Invoice")]
         [RuleRequiredField(DefaultContexts.Save)]
         [Appearance("EIVConsolidate", Enabled = false, Criteria = "Customer.GroupName != 'Trade Debtor - Cash'")]
         [Index(50), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]

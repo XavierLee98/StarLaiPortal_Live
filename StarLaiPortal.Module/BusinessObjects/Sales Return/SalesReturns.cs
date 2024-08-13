@@ -431,7 +431,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         private vwYesNo _EIVConsolidate;
         [NoForeignKey]
         [Appearance("EIVConsolidate", Enabled = false)]
-        [XafDisplayName("Consolidate")]
+        [XafDisplayName("Require E-Invoice")]
         [RuleRequiredField(DefaultContexts.Save)]
         [Index(50), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwYesNo EIVConsolidate
@@ -447,7 +447,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         [NoForeignKey]
         [Appearance("EIVType", Enabled = false)]
         [XafDisplayName("E-Invoice Type")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(51), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwEIVType EIVType
         {
@@ -462,7 +462,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         [NoForeignKey]
         [Appearance("EIVFreqSync", Enabled = false)]
         [XafDisplayName("Sync. Freq.")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(52), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwEIVFreqSync EIVFreqSync
         {
@@ -477,7 +477,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         private string _EIVBuyerName;
         [Appearance("EIVBuyerName", Enabled = false)]
         [XafDisplayName("Buyer's Name")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(53), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVBuyerName
         {
@@ -518,7 +518,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         [NoForeignKey]
         [Appearance("EIVBuyerRegTyp", Enabled = false)]
         [XafDisplayName("Registration Type")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(56), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwEIVRegType EIVBuyerRegTyp
         {
@@ -558,7 +558,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         private string _EIVBuyerContact;
         [Appearance("EIVBuyerContact", Enabled = false)]
         [XafDisplayName("Contact No.")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(59), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVBuyerContact
         {
@@ -572,7 +572,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         private string _EIVAddressLine1B;
         [Appearance("EIVAddressLine1B", Enabled = false)]
         [XafDisplayName("Buyer's Address Line 1")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(60), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVAddressLine1B
         {
@@ -625,7 +625,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         private string _EIVCityNameB;
         [Appearance("EIVCityNameB", Enabled = false)]
         [XafDisplayName("Buyer's City")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(64), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVCityNameB
         {
@@ -640,7 +640,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         [NoForeignKey]
         [Appearance("EIVStateB", Enabled = false)]
         [XafDisplayName("Buyer's State")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(65), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwState EIVStateB
         {
@@ -655,7 +655,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         [NoForeignKey]
         [Appearance("EIVCountryB", Enabled = false)]
         [XafDisplayName("Buyer's Country")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(66), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwCountry EIVCountryB
         {
@@ -670,7 +670,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         private string _EIVShippingName;
         [Appearance("EIVShippingName", Enabled = false)]
         [XafDisplayName("Recipient's Name")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(67), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVShippingName
         {
@@ -711,7 +711,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         [NoForeignKey]
         [Appearance("EIVShippingRegTyp", Enabled = false)]
         [XafDisplayName("Recipient’s Reg. No. Type")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(70), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwEIVRegType EIVShippingRegTyp
         {
@@ -725,7 +725,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         private string _EIVAddressLine1S;
         [Appearance("EIVAddressLine1S", Enabled = false)]
         [XafDisplayName("Recipient's Address Line 1")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(71), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVAddressLine1S
         {
@@ -778,7 +778,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         private string _EIVCityNameS;
         [Appearance("EIVCityNameS", Enabled = false)]
         [XafDisplayName("Recipient's City")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(75), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVCityNameS
         {
@@ -793,7 +793,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         [NoForeignKey]
         [Appearance("EIVStateS", Enabled = false)]
         [XafDisplayName("Recipient's State")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(76), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwState EIVStateS
         {
@@ -808,7 +808,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         [NoForeignKey]
         [Appearance("EIVCountryS", Enabled = false)]
         [XafDisplayName("Recipient's Country")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(77), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwCountry EIVCountryS
         {
