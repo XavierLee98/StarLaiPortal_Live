@@ -47,7 +47,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
 
     // Start ver 1.0.18
     [RuleCriteria("EIVSRRBilling", DefaultContexts.Save, "IsValid4 = 0", "Buyer TIN and Buyer Reg. Num. must fill one of them.")]
-    [RuleCriteria("EIVSRRShipping", DefaultContexts.Save, "IsValid5 = 0", "Shipping TIN and Shipping Reg. Num. must fill one of them.")]
+    //[RuleCriteria("EIVSRRShipping", DefaultContexts.Save, "IsValid5 = 0", "Shipping TIN and Shipping Reg. Num. must fill one of them.")]
 
     [RuleCriteria("EIVSRRBillingType", DefaultContexts.Save, "IsValid6 = 0", "Please fill in Buyer Reg. Type.")]
     [RuleCriteria("EIVSRRShippingType", DefaultContexts.Save, "IsValid7 = 0", "Please fill in Shipping Reg. Type.")]
@@ -55,10 +55,12 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
     [RuleCriteria("EIVSRRBillingState", DefaultContexts.Save, "IsValid8 = 0", "Please fill in Buyer State.")]
     [RuleCriteria("EIVSRRShippingState", DefaultContexts.Save, "IsValid9 = 0", "Please fill in Shipping State.")]
 
-    [RuleCriteria("EIVSRREmail", DefaultContexts.Save, "IsValid10 = 0", "Please fill in email address.")]
+    //[RuleCriteria("EIVSRREmail", DefaultContexts.Save, "IsValid10 = 0", "Please fill in email address.")]
 
-    [RuleCriteria("EIVSRREIVMandatory", DefaultContexts.Save, "IsValid11 = 0", "Please fill in EIV mandatory field. (EIV Type / Sync. Freq. / Buyer's Name/ " +
-        "Buyer's Address Line 1 / Buyer's Country / Buyer's City / Recipient's Address Line 1 / Recipient's City / Recipient's Country")]
+    [RuleCriteria("EIVSRREIVBMandatory", DefaultContexts.Save, "IsValid11 = 0", "Please fill in EIV mandatory field. (EIV Type / Sync. Freq. / Buyer's Name/ " +
+        "Buyer's Address Line 1 / Buyer's Country / Buyer's City")]
+
+    [RuleCriteria("EIVSRREIVSMandatory", DefaultContexts.Save, "IsValid12 = 0", "Recipient's Address Line 1 / Recipient's City / Recipient's Country")]
     // End ver 1.0.18
 
     public class SalesReturnRequests : XPObject
@@ -93,6 +95,11 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
             // Start ver 1.0.14
             PaymentMethod = SRPaymentMethod.CreditNote;
             // End ver 1.0.14
+
+            // Start ver 1.0.18
+            EIVCountryB = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", "MY"));
+            EIVCountryS = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", "MY"));
+            // End ver 1.0.18
         }
 
         private ApplicationUser _CreateUser;
@@ -220,11 +227,6 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                     EIVBuyerSSTRegNum = Customer.U_EIV_BuyerSSTRegNum;
                     EIVBuyerEmail = Customer.U_EIV_BuyerEmail;
                     EIVBuyerContact = Customer.U_EIV_BuyerContact;
-                    //Recipient
-                    EIVShippingName = Customer.U_EIV_BuyerName;
-                    EIVShippingTin = Customer.U_EIV_BuyerTin;
-                    EIVShippingRegNum = Customer.U_EIV_BuyerRegNum;
-                    EIVShippingRegTyp = Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", Customer.U_EIV_BuyerRegTyp));
                     // End ver 1.0.18
                 }
                 else if (!IsLoading && value == null)
@@ -439,6 +441,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                     EIVCityNameS = ShippingAddress.City;
                     EIVStateS = Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", ShippingAddress.State));
                     EIVCountryS = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", ShippingAddress.Country));
+                    EIVShippingName = ShippingAddress.U_EIV_ShippingName;
+                    EIVShippingTin = ShippingAddress.U_EIV_ShippingTin;
+                    EIVShippingRegNum = ShippingAddress.U_EIV_ShippingRegNum;
+                    EIVShippingRegTyp = Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", ShippingAddress.U_EIV_ShippingRegTyp));
                     // End ver 1.0.18
                 }
                 else if (!IsLoading && value == null)
@@ -451,6 +457,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                     EIVCityNameS = null;
                     EIVStateS = null;
                     EIVCountryS = null;
+                    EIVShippingName = null;
+                    EIVShippingTin = null;
+                    EIVShippingRegNum = null;
+                    EIVShippingRegTyp = null;
                     // End ver 1.0.18
                 }
             }
@@ -1171,10 +1181,34 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                 {
                     if (this.EIVConsolidate.Code == "Y")
                     {
-                        if (this.EIVType == null || this.EIVFreqSync == null || this.EIVBuyerName == null || this.EIVAddressLine1B == null ||
-                            this.EIVCityNameB == null || this.EIVCountryB == null || this.EIVAddressLine1S == null || this.EIVCityNameS == null || this.EIVCountryS == null)
+                        if (this.EIVType == null || this.EIVFreqSync == null || this.EIVAddressLine1B == null ||
+                            this.EIVCityNameB == null || this.EIVCountryB == null)
                         {
                             return true;
+                        }
+                    }
+                }
+
+                return false;
+            }
+        }
+
+
+        [Browsable(false)]
+        public bool IsValid12
+        {
+            get
+            {
+                if (this.EIVConsolidate != null)
+                {
+                    if (this.EIVConsolidate.Code == "Y")
+                    {
+                        if (this.EIVShippingTin != null || this.EIVShippingRegNum != null)
+                        {
+                            if (this.EIVAddressLine1S == null || this.EIVCityNameS == null || this.EIVCountryS == null)
+                            {
+                                return true;
+                            }
                         }
                     }
                 }

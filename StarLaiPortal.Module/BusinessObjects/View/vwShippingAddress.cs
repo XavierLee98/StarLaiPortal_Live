@@ -124,6 +124,38 @@ namespace StarLaiPortal.Module.BusinessObjects.View
         {
             get; set;
         }
+
+        [XafDisplayName("U_EIV_ShippingName")]
+        [Appearance("U_EIV_ShippingName", Enabled = false)]
+        [Index(25)]
+        public string U_EIV_ShippingName
+        {
+            get; set;
+        }
+
+        [XafDisplayName("U_EIV_ShippingTin")]
+        [Appearance("U_EIV_ShippingTin", Enabled = false)]
+        [Index(28)]
+        public string U_EIV_ShippingTin
+        {
+            get; set;
+        }
+
+        [XafDisplayName("U_EIV_ShippingRegTyp")]
+        [Appearance("U_EIV_ShippingRegTyp", Enabled = false)]
+        [Index(30)]
+        public string U_EIV_ShippingRegTyp
+        {
+            get; set;
+        }
+
+        [XafDisplayName("U_EIV_ShippingRegNum")]
+        [Appearance("U_EIV_ShippingRegNum", Enabled = false)]
+        [Index(33)]
+        public string U_EIV_ShippingRegNum
+        {
+            get; set;
+        }
         // End ver 1.0.18
     }
 }

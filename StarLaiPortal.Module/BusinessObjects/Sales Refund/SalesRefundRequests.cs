@@ -45,7 +45,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
 
     // Start ver 1.0.18
     [RuleCriteria("EIVSFRBilling", DefaultContexts.Save, "IsValid3 = 0", "Buyer TIN and Buyer Reg. Num. must fill one of them.")]
-    [RuleCriteria("EIVSFRShipping", DefaultContexts.Save, "IsValid4 = 0", "Shipping TIN and Shipping Reg. Num. must fill one of them.")]
+    //[RuleCriteria("EIVSFRShipping", DefaultContexts.Save, "IsValid4 = 0", "Shipping TIN and Shipping Reg. Num. must fill one of them.")]
 
     [RuleCriteria("EIVSFRBillingType", DefaultContexts.Save, "IsValid5 = 0", "Please fill in Buyer Reg. Type.")]
     [RuleCriteria("EIVSFRShippingType", DefaultContexts.Save, "IsValid6 = 0", "Please fill in Shipping Reg. Type.")]
@@ -53,10 +53,12 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
     [RuleCriteria("EIVSFRBillingState", DefaultContexts.Save, "IsValid7 = 0", "Please fill in Buyer State.")]
     [RuleCriteria("EIVSFRShippingState", DefaultContexts.Save, "IsValid8 = 0", "Please fill in Shipping State.")]
 
-    [RuleCriteria("EIVSFREmail", DefaultContexts.Save, "IsValid9 = 0", "Please fill in email address.")]
+    //[RuleCriteria("EIVSFREmail", DefaultContexts.Save, "IsValid9 = 0", "Please fill in email address.")]
 
-    [RuleCriteria("EIVSFREIVMandatory", DefaultContexts.Save, "IsValid10 = 0", "Please fill in EIV mandatory field. (EIV Type / Sync. Freq. / Buyer's Name/ " +
-        "Buyer's Address Line 1 / Buyer's Country / Buyer's City / Recipient's Address Line 1 / Recipient's City / Recipient's Country")]
+    [RuleCriteria("EIVSFREIVBMandatory", DefaultContexts.Save, "IsValid10 = 0", "Please fill in EIV mandatory field. (EIV Type / Sync. Freq. / Buyer's Name/ " +
+        "Buyer's Address Line 1 / Buyer's Country / Buyer's City ")]
+
+    [RuleCriteria("EIVSFREIVSMandatory", DefaultContexts.Save, "IsValid11 = 0", "Recipient's Address Line 1 / Recipient's City / Recipient's Country")]
     // End ver 1.0.18
 
     public class SalesRefundRequests : XPObject
@@ -87,6 +89,11 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
             Status = DocStatus.Draft;
             AppStatus = ApprovalStatusType.Not_Applicable;
             DocType = DocTypeList.SRF;
+
+            // Start ver 1.0.18
+            EIVCountryB = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", "MY"));
+            EIVCountryS = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", "MY"));
+            // End ver 1.0.18
         }
 
         private ApplicationUser _CreateUser;
@@ -210,11 +217,6 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
                     EIVBuyerSSTRegNum = Customer.U_EIV_BuyerSSTRegNum;
                     EIVBuyerEmail = Customer.U_EIV_BuyerEmail;
                     EIVBuyerContact = Customer.U_EIV_BuyerContact;
-                    //Recipient
-                    EIVShippingName = Customer.U_EIV_BuyerName;
-                    EIVShippingTin = Customer.U_EIV_BuyerTin;
-                    EIVShippingRegNum = Customer.U_EIV_BuyerRegNum;
-                    EIVShippingRegTyp = Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", Customer.U_EIV_BuyerRegTyp));
 
                     vwBillingAddress BillingAddress = Session.FindObject<vwBillingAddress>(CriteriaOperator.Parse("AddressKey = ? and CardCode = ?"
                         , Customer.BillToDef, Customer.BPCode));
@@ -238,6 +240,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
                         EIVCityNameS = ShippingAddress.City;
                         EIVStateS = Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", ShippingAddress.State));
                         EIVCountryS = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", ShippingAddress.Country));
+                        EIVShippingName = ShippingAddress.U_EIV_ShippingName;
+                        EIVShippingTin = ShippingAddress.U_EIV_ShippingTin;
+                        EIVShippingRegNum = ShippingAddress.U_EIV_ShippingRegNum;
+                        EIVShippingRegTyp = Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", ShippingAddress.U_EIV_ShippingRegTyp));
                     }
                     // End ver 1.0.18
                 }
@@ -987,10 +993,33 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
                 {
                     if (this.EIVConsolidate.Code == "Y")
                     {
-                        if (this.EIVType == null || this.EIVFreqSync == null || this.EIVBuyerName == null || this.EIVAddressLine1B == null ||
-                            this.EIVCityNameB == null || this.EIVCountryB == null || this.EIVAddressLine1S == null || this.EIVCityNameS == null || this.EIVCountryS == null)
+                        if (this.EIVType == null || this.EIVFreqSync == null || this.EIVAddressLine1B == null ||
+                            this.EIVCityNameB == null || this.EIVCountryB == null)
                         {
                             return true;
+                        }
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        [Browsable(false)]
+        public bool IsValid12
+        {
+            get
+            {
+                if (this.EIVConsolidate != null)
+                {
+                    if (this.EIVConsolidate.Code == "Y")
+                    {
+                        if (this.EIVShippingTin != null || this.EIVShippingRegNum != null)
+                        {
+                            if (this.EIVAddressLine1S == null || this.EIVCityNameS == null || this.EIVCountryS == null)
+                            {
+                                return true;
+                            }
                         }
                     }
                 }
