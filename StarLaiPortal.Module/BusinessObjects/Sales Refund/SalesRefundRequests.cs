@@ -232,6 +232,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
                         EIVStateB = Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", BillingAddress.State));
                         EIVCountryB = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", BillingAddress.Country));
                     }
+                    else
+                    {
+                        EIVCountryB = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", "MY"));
+                    }
                     if (ShippingAddress != null)
                     {
                         EIVAddressLine1S = ShippingAddress.Street;
@@ -244,6 +248,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
                         EIVShippingTin = ShippingAddress.U_EIV_ShippingTin;
                         EIVShippingRegNum = ShippingAddress.U_EIV_ShippingRegNum;
                         EIVShippingRegTyp = Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", ShippingAddress.U_EIV_ShippingRegTyp));
+                    }
+                    else
+                    {
+                        EIVCountryS = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", "MY"));
                     }
                     // End ver 1.0.18
                 }
@@ -274,13 +282,13 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
                     EIVPostalZoneB = null;
                     EIVCityNameB = null;
                     EIVStateB = null;
-                    EIVCountryB = null;
+                    EIVCountryB = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", "MY"));
                     EIVAddressLine1S = null;
                     EIVAddressLine2S = null;
                     EIVPostalZoneS = null;
                     EIVCityNameS = null;
                     EIVStateS = null;
-                    EIVCountryS = null;
+                    EIVCountryS = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", "MY"));
                     // End ver 1.0.18
                 }
             }
@@ -953,7 +961,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
                 {
                     if (this.EIVConsolidate.Code == "Y")
                     {
-                        if (this.EIVCountryS != null)
+                        if (this.EIVCountryS != null && (this.EIVShippingTin != null || this.EIVShippingRegNum != null))
                         {
                             if (this.EIVCountryS.Code == "MY" && this.EIVStateS == null)
                             {

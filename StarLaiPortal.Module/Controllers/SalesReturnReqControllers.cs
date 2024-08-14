@@ -272,7 +272,14 @@ namespace StarLaiPortal.Module.Controllers
                                     // Buyer
                                     if (delivery.EIVConsolidate != null)
                                     {
-                                        srr.EIVConsolidate = srr.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", delivery.EIVConsolidate.Code));
+                                        if (delivery.EIVConsolidate.Code == "Y")
+                                        {
+                                            srr.EIVConsolidate = srr.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", "N"));
+                                        }
+                                        else
+                                        {
+                                            srr.EIVConsolidate = srr.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", "Y"));
+                                        }
                                     }
                                     if(delivery.EIVType != null)
                                     {
@@ -285,7 +292,10 @@ namespace StarLaiPortal.Module.Controllers
                                     srr.EIVBuyerName = delivery.EIVBuyerName;
                                     srr.EIVBuyerTIN = delivery.EIVBuyerTIN;
                                     srr.EIVBuyerRegNum = delivery.EIVBuyerRegNum;
-                                    srr.EIVBuyerRegTyp = srr.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", delivery.EIVBuyerRegTyp.Code));
+                                    if (delivery.EIVBuyerRegTyp != null)
+                                    {
+                                        srr.EIVBuyerRegTyp = srr.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", delivery.EIVBuyerRegTyp.Code));
+                                    }
                                     srr.EIVBuyerSSTRegNum = delivery.EIVBuyerSSTRegNum;
                                     srr.EIVBuyerEmail = delivery.EIVBuyerEmail;
                                     srr.EIVBuyerContact = delivery.EIVBuyerContact;

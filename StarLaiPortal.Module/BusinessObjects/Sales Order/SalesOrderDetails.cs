@@ -120,18 +120,18 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Order
             set
             {
                 SetPropertyValue("ItemCode", ref _ItemCode, value);
-                // Start ver 1.0.15
-                //if (!IsLoading && value != null)
-                //{
-                //    if (Location != null)
-                //    {
-                //        Available = Session.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
-                //            ItemCode, Location.WarehouseCode));
-                //    }
+                if (!IsLoading && value != null)
+                {
+                    // Start ver 1.0.15
+                    //if (Location != null)
+                    //{
+                    //    Available = Session.FindObject<vwStockBalance>(CriteriaOperator.Parse("ItemCode = ? and WhsCode = ?",
+                    //        ItemCode, Location.WarehouseCode));
+                    //}
+                    // End ver 1.0.15
 
-                //    LegacyItemCode = ItemCode.LegacyItemCode;
-                //}
-                // End ver 1.0.15
+                    LegacyItemCode = ItemCode.LegacyItemCode;
+                }
             }
         }
 

@@ -457,9 +457,6 @@ namespace StarLaiPortal.Module.Controllers
                                         newsodetails.ItemDesc = dtl.ItemDesc;
                                         newsodetails.Model = dtl.Model;
                                         newsodetails.CatalogNo = dtl.CatalogNo;
-                                        // Start ver 1.0.15
-                                        newsodetails.LegacyItemCode = dtl.LegacyItemCode;
-                                        // End ver 1.0.15
                                         if (dtl.Location != null)
                                         {
                                             newsodetails.Location = newsodetails.Session.GetObjectByKey<vwWarehouse>(dtl.Location.WarehouseCode);
@@ -866,9 +863,6 @@ namespace StarLaiPortal.Module.Controllers
                 newsodetails.ItemDesc = dtl.ItemDesc;
                 newsodetails.Model = dtl.Model;
                 newsodetails.CatalogNo = dtl.CatalogNo;
-                // Start ver 1.0.15
-                newsodetails.LegacyItemCode = dtl.LegacyItemCode;
-                // End ver 1.0.15
                 if (dtl.Location != null)
                 {
                     newsodetails.Location = newsodetails.Session.GetObjectByKey<vwWarehouse>(dtl.Location.WarehouseCode);
@@ -1276,9 +1270,6 @@ namespace StarLaiPortal.Module.Controllers
                                             newsodetails.ItemDesc = detail.ItemDesc;
                                             newsodetails.Model = detail.Model;
                                             newsodetails.CatalogNo = detail.CatalogNo;
-                                            // Start ver 1.0.15
-                                            newsodetails.LegacyItemCode = detail.LegacyItemCode;
-                                            // End ver 1.0.15
                                             // Start ver 1.0.18
                                             if (detail.EIVClassification != null)
                                             {
@@ -1605,9 +1596,6 @@ namespace StarLaiPortal.Module.Controllers
                                 newsodetails.ItemDesc = detail.ItemDesc;
                                 newsodetails.Model = detail.Model;
                                 newsodetails.CatalogNo = detail.CatalogNo;
-                                // Start ver 1.0.15
-                                newsodetails.LegacyItemCode = detail.LegacyItemCode;
-                                // End ver 1.0.15
                                 // Start ver 1.0.18
                                 if (detail.EIVClassification != null)
                                 {
@@ -1974,9 +1962,6 @@ namespace StarLaiPortal.Module.Controllers
                                     newsodetails.ItemDesc = dtl.ItemDesc;
                                     newsodetails.Model = dtl.Model;
                                     newsodetails.CatalogNo = dtl.CatalogNo;
-                                    // Start ver 1.0.15
-                                    newsodetails.LegacyItemCode = dtl.LegacyItemCode;
-                                    // End ver 1.0.15
                                     // Start ver 1.0.18
                                     if (dtl.EIVClassification != null)
                                     {

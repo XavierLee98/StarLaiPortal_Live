@@ -121,6 +121,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                     DefBarcode = ItemCode.DefBarcode;
                     UOM = ItemCode.UOM;
                     LegacyItemCode = ItemCode.LegacyItemCode;
+                    // Start ver 1.0.18
+                    EIVClassification = Session.FindObject<vwEIVClass>(CriteriaOperator.Parse("Code = ?", ItemCode.U_EIV_ClassificationS));
+                    // End ver 1.0.18
                 }
                 else if (!IsLoading && value == null)
                 {
@@ -396,7 +399,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         private vwEIVClass _EIVClassification;
         [NoForeignKey]
         [XafDisplayName("Classification")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleRequiredField(DefaultContexts.Save)]
         [Index(30), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwEIVClass EIVClassification
         {

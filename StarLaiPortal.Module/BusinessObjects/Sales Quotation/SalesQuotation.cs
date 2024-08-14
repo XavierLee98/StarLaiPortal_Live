@@ -649,7 +649,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                     EIVPostalZoneB = null;
                     EIVCityNameB = null;
                     EIVStateB = null;
-                    EIVCountryB = null;
+                    EIVCountryB = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", "MY"));
                     // End ver 1.0.18
                 }
             }
@@ -706,7 +706,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                     EIVPostalZoneS = null;
                     EIVCityNameS = null;
                     EIVStateS = null;
-                    EIVCountryS = null;
+                    EIVCountryS = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", "MY"));
                     EIVShippingName = null;
                     EIVShippingTin = null;
                     EIVShippingRegNum = null;
@@ -1505,7 +1505,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                 {
                     if (this.EIVConsolidate.Code == "Y")
                     {
-                        if (this.EIVCountryS != null)
+                        if (this.EIVCountryS != null && (this.EIVShippingTin != null || this.EIVShippingRegNum != null))
                         {
                             if (this.EIVCountryS.Code == "MY" && this.EIVStateS == null)
                             {
