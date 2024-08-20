@@ -988,7 +988,7 @@ namespace StarLaiPortal.Module.Controllers
                                         }
                                         newdelivery.EIVBuyerSSTRegNum = so.EIVBuyerSSTRegNum;
                                         newdelivery.EIVBuyerEmail = so.EIVBuyerEmail;
-                                        newdelivery.EIVBuyerContact = so.ContactNo;
+                                        newdelivery.EIVBuyerContact = so.EIVBuyerContact;
                                         newdelivery.EIVAddressLine1B = so.EIVAddressLine1B;
                                         newdelivery.EIVAddressLine2B = so.EIVAddressLine2B;
                                         newdelivery.EIVAddressLine3B = so.EIVAddressLine3B;

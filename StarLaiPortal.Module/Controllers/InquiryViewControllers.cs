@@ -47,6 +47,7 @@ using StarLaiPortal.Module.BusinessObjects.Pack_List;
 // 2024-05-29 - amend pist list inquiry - ver 1.0.16
 // 2024-06-11 - add preview in sales order inquiry - ver 1.0.17
 // 2024-07-18 - add view in pack list inquiry sp - ver 1.0.19
+// 2024-08-20 - add EIVValidatedStatus - ver 1.0.19
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -1261,6 +1262,9 @@ namespace StarLaiPortal.Module.Controllers
                             result.SAPDONo = row.Values[24].ToString();
                             result.Transporter = row.Values[25].ToString();
                             result.DocTotal = decimal.Parse(row.Values[26].ToString());
+                            // Start ver 1.0.19
+                            result.EIVValidatedStatus = row.Values[27].ToString();
+                            // End ver 1.0.19
 
                             currObject.Results.Add(result);
                         }

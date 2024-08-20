@@ -16,6 +16,8 @@ using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
 
+// 2024-08-20 - add EIV-Validated Status - ver 1.0.19
+
 namespace StarLaiPortal.Module.BusinessObjects
 {
     #region Sales Quotation Inquiry
@@ -1932,6 +1934,16 @@ namespace StarLaiPortal.Module.BusinessObjects
         {
             get; set;
         }
+
+        // Start ver 1.0.19
+        [XafDisplayName("EIV-Validated Status")]
+        [Appearance("EIVValidatedStatus", Enabled = false)]
+        [Index(61)]
+        public string EIVValidatedStatus
+        {
+            get; set;
+        }
+        // End ver 1.0.19
     }
     #endregion
 

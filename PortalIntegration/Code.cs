@@ -2169,27 +2169,8 @@ namespace PortalIntegration
                     }
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = oTargetDoc.EIVBuyerSSTRegNum == null ? "" : oTargetDoc.EIVBuyerSSTRegNum;
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = oTargetDoc.EIVBuyerEmail == null ? "" : oTargetDoc.EIVBuyerEmail;
-                    
-                    if (oTargetDoc.ContactNo != null)
-                    {
-                        int i = 0;
-                        foreach (char c in oTargetDoc.ContactNo)
-                        {
-                            i++;
-                        }
-                        if (i <= 20)
-                        {
-                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.ContactNo;
-                        }
-                        else
-                        {
-                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.ContactNo.Substring(0, 20);
-                        }
-                    }
-                    else
-                    {
-                        oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = "";
-                    }
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact == null ? "" : oTargetDoc.EIVBuyerContact;
+
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
@@ -2914,27 +2895,8 @@ namespace PortalIntegration
                     }
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = oTargetDoc.EIVBuyerSSTRegNum == null ? "" : oTargetDoc.EIVBuyerSSTRegNum;
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = oTargetDoc.EIVBuyerEmail == null ? "" : oTargetDoc.EIVBuyerEmail;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact == null ? "" : oTargetDoc.EIVBuyerContact;
 
-                    if (oTargetDoc.EIVBuyerContact != null)
-                    {
-                        int i = 0;
-                        foreach (char c in oTargetDoc.EIVBuyerContact)
-                        {
-                            i++;
-                        }
-                        if (i <= 20)
-                        {
-                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact;
-                        }
-                        else
-                        {
-                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact.Substring(0, 20);
-                        }
-                    }
-                    else
-                    {
-                        oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = "";
-                    }
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
@@ -3784,27 +3746,8 @@ namespace PortalIntegration
                         oDoc.UserFields.Fields.Item("U_EIV_BuyerRegTyp").Value = oTargetDoc.EIVBuyerRegTyp.Code;
                     }
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = oTargetDoc.EIVBuyerSSTRegNum == null ? "" : oTargetDoc.EIVBuyerSSTRegNum;
-                    if (oTargetDoc.EIVBuyerContact != null)
-                    {
-                        int i = 0;
-                        foreach (char c in oTargetDoc.EIVBuyerContact)
-                        {
-                            i++;
-                        }
-                        if (i <= 20)
-                        {
-                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact;
-                        }
-                        else
-                        {
-                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact.Substring(0, 20);
-                        }
-                    }
-                    else
-                    {
-                        oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = "";
-                    }
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact == null ? "" : oTargetDoc.EIVBuyerContact;
+
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
@@ -4011,27 +3954,8 @@ namespace PortalIntegration
                         }
                         oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = so.EIVBuyerSSTRegNum == null ? "" : so.EIVBuyerSSTRegNum;
                         oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = so.EIVBuyerEmail == null ? "" : so.EIVBuyerEmail;
+                        oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = so.EIVBuyerContact == null ? "" : so.EIVBuyerContact;
 
-                        if (so.ContactNo != null)
-                        {
-                            int i = 0;
-                            foreach (char c in so.ContactNo)
-                            {
-                                i++;
-                            }
-                            if (i <= 20)
-                            {
-                                oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = so.ContactNo;
-                            }
-                            else
-                            {
-                                oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = so.ContactNo.Substring(0, 20);
-                            }
-                        }
-                        else
-                        {
-                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = "";
-                        }
                         oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = so.EIVAddressLine1B == null ? "" : so.EIVAddressLine1B;
                         oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = so.EIVAddressLine2B == null ? "" : so.EIVAddressLine2B;
                         oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = so.EIVAddressLine3B == null ? "" : so.EIVAddressLine3B;
@@ -4434,27 +4358,8 @@ namespace PortalIntegration
                     }
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = oTargetDoc.EIVBuyerSSTRegNum == null ? "" : oTargetDoc.EIVBuyerSSTRegNum;
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = oTargetDoc.EIVBuyerEmail == null ? "" : oTargetDoc.EIVBuyerEmail;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact == null ? "" : oTargetDoc.EIVBuyerContact;
 
-                    if (oTargetDoc.EIVBuyerContact != null)
-                    {
-                        int i = 0;
-                        foreach (char c in oTargetDoc.EIVBuyerContact)
-                        {
-                            i++;
-                        }
-                        if (i <= 20)
-                        {
-                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact;
-                        }
-                        else
-                        {
-                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact.Substring(0, 20);
-                        }
-                    }
-                    else
-                    {
-                        oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = "";
-                    }
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
@@ -4746,27 +4651,8 @@ namespace PortalIntegration
                     }
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = oTargetDoc.EIVBuyerSSTRegNum == null ? "" : oTargetDoc.EIVBuyerSSTRegNum;
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = oTargetDoc.EIVBuyerEmail == null ? "" : oTargetDoc.EIVBuyerEmail;
+                    oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact == null ? "" : oTargetDoc.EIVBuyerContact;
 
-                    if (oTargetDoc.EIVBuyerContact != null)
-                    {
-                        int i = 0;
-                        foreach (char c in oTargetDoc.EIVBuyerContact)
-                        {
-                            i++;
-                        }
-                        if (i <= 20)
-                        {
-                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact;
-                        }
-                        else
-                        {
-                            oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact.Substring(0, 20);
-                        }
-                    }
-                    else
-                    {
-                        oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = "";
-                    }
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
