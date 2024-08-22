@@ -188,6 +188,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Pick_List
         [ModelDefault("DisplayFormat", "{0:N0}")]
         [ModelDefault("EditMask", "d")]
         [XafDisplayName("Plan Qty")]
+        [Appearance("PlanQty", Enabled = false)]
         [Index(10), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         public decimal PlanQty
         {
