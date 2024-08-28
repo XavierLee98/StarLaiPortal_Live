@@ -269,6 +269,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                     EIVBuyerSSTRegNum = Customer.U_EIV_BuyerSSTRegNum;
                     EIVBuyerEmail = Customer.U_EIV_BuyerEmail;
                     EIVBuyerContact = Customer.U_EIV_BuyerContact;
+                    EIVShippingName = Customer.U_EIV_BuyerName;
                     // End ver 1.0.18
 
                     foreach (SalesQuotationDetails dtl in this.SalesQuotationDetails)
@@ -1367,7 +1368,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
             {
                 if (this.Transporter.U_Type != "OC" || this.Transporter.U_Type == "OS")
                 {
-                    if (this.BillingAddressfield == null || this.ShippingAddressfield == null)
+                    // Start ver 1.0.18
+                    //if (this.BillingAddressfield == null || this.ShippingAddressfield == null)
+                    if (this.EIVAddressLine1B == null || this.EIVAddressLine1S == null)
+                    // End ver 1.0.18
                     {
                         return true;
                     }

@@ -217,6 +217,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
                     EIVBuyerSSTRegNum = Customer.U_EIV_BuyerSSTRegNum;
                     EIVBuyerEmail = Customer.U_EIV_BuyerEmail;
                     EIVBuyerContact = Customer.U_EIV_BuyerContact;
+                    EIVShippingName = Customer.U_EIV_BuyerName;
 
                     vwBillingAddress BillingAddress = Session.FindObject<vwBillingAddress>(CriteriaOperator.Parse("AddressKey = ? and CardCode = ?"
                         , Customer.BillToDef, Customer.BPCode));

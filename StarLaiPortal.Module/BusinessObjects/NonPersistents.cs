@@ -374,7 +374,7 @@ namespace StarLaiPortal.Module.BusinessObjects
         [XafDisplayName("Date")]
         [Index(0), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
         [Appearance("TransDate", Enabled = false)]
-        public string TransDate { get; set; }
+        public DateTime TransDate { get; set; }
 
         [XafDisplayName("Portal Transaction No.")]
         [Index(1), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]

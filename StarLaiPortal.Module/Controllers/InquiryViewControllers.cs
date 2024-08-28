@@ -758,7 +758,7 @@ namespace StarLaiPortal.Module.Controllers
                         StockMovementResult stockmovement = new StockMovementResult();
 
                         stockmovement.Oid = ++cnt;
-                        stockmovement.TransDate = row.Values[0].ToString();
+                        stockmovement.TransDate = DateTime.Parse(row.Values[0].ToString());
                         stockmovement.PortalNo = row.Values[1].ToString();
                         stockmovement.SAPNo = row.Values[2].ToString();
                         stockmovement.CardCode = row.Values[3].ToString();
