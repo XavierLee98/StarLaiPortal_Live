@@ -450,7 +450,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
         }
 
         private string _EIVBuyerTIN;
-        [XafDisplayName("Buyer's TIN No")]
+        [XafDisplayName("Buyer's TIN No*")]
         [Index(34), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVBuyerTIN
         {
@@ -462,7 +462,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
         }
 
         private string _EIVBuyerRegNum;
-        [XafDisplayName("Registration No.")]
+        [XafDisplayName("Registration No.*")]
         [Index(35), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVBuyerRegNum
         {
@@ -475,7 +475,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
 
         private vwEIVRegType _EIVBuyerRegTyp;
         [NoForeignKey]
-        [XafDisplayName("Registration Type")]
+        [XafDisplayName("Registration Type*")]
         [Index(36), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwEIVRegType EIVBuyerRegTyp
         {
@@ -511,7 +511,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
         }
 
         private string _EIVBuyerContact;
-        [XafDisplayName("Contact No.")]
+        [XafDisplayName("Contact No.*")]
         //[RuleRequiredField(DefaultContexts.Save)]
         [Index(39), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVBuyerContact
@@ -524,7 +524,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
         }
 
         private string _EIVAddressLine1B;
-        [XafDisplayName("Buyer's Address Line 1")]
+        [XafDisplayName("Buyer's Address Line 1*")]
         //[RuleRequiredField(DefaultContexts.Save)]
         [Index(40), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVAddressLine1B
@@ -573,7 +573,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
         }
 
         private string _EIVCityNameB;
-        [XafDisplayName("Buyer's City")]
+        [XafDisplayName("Buyer's City*")]
         //[RuleRequiredField(DefaultContexts.Save)]
         [Index(44), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVCityNameB
@@ -587,7 +587,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
 
         private vwState _EIVStateB;
         [NoForeignKey]
-        [XafDisplayName("Buyer's State")]
+        [XafDisplayName("Buyer's State*")]
         [Index(45), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwState EIVStateB
         {

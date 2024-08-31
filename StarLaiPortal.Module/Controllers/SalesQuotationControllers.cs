@@ -76,6 +76,9 @@ namespace StarLaiPortal.Module.Controllers
             // Start ver 1.0.14
             this.ImportUpdateSQ.Active.SetItemValue("Enabled", false);
             // End ver 1.0.14
+            // Start ver 1.0.18
+            this.CopyAddress.Active.SetItemValue("Enabled", false);
+            // End ver 1.0.18
 
             // Start ver 1.0.15
             if (View.ObjectTypeInfo.Type == typeof(SalesQuotation))
@@ -143,6 +146,9 @@ namespace StarLaiPortal.Module.Controllers
                     // Start ver 1.0.14
                     this.ImportUpdateSQ.Active.SetItemValue("Enabled", true);
                     // End ver 1.0.14
+                    // Start ver 1.0.18
+                    this.CopyAddress.Active.SetItemValue("Enabled", true);
+                    // End ver 1.0.18
                 }
                 else
                 {
@@ -152,6 +158,9 @@ namespace StarLaiPortal.Module.Controllers
                     // Start ver 1.0.14
                     this.ImportUpdateSQ.Active.SetItemValue("Enabled", false);
                     // End ver 1.0.14
+                    // Start ver 1.0.18
+                    this.CopyAddress.Active.SetItemValue("Enabled", false);
+                    // End ver 1.0.18
                 }
             }
             else if (View.Id == "SalesQuotation_ListView_Approval")
@@ -195,6 +204,9 @@ namespace StarLaiPortal.Module.Controllers
                 // Start ver 1.0.14
                 this.ImportUpdateSQ.Active.SetItemValue("Enabled", false);
                 // End ver 1.0.14
+                // Start ver 1.0.18
+                this.CopyAddress.Active.SetItemValue("Enabled", false);
+                // End ver 1.0.18
             }
 
             if (View.Id == "SalesQuotation_SalesQuotationDetails_ListView")
@@ -712,6 +724,63 @@ namespace StarLaiPortal.Module.Controllers
                     newsq.Remarks = sq.Remarks;
                     newsq.Attn = sq.Attn;
                     newsq.RefNo = sq.RefNo;
+                    // Start ver 1.0.18
+                    newsq.EIVAddressLine1B = sq.EIVAddressLine1B;
+                    newsq.EIVAddressLine1S = sq.EIVAddressLine1S;
+                    newsq.EIVAddressLine2B = sq.EIVAddressLine2B;
+                    newsq.EIVAddressLine2S = sq.EIVAddressLine2S;
+                    newsq.EIVAddressLine3B = sq.EIVAddressLine3B;
+                    newsq.EIVAddressLine3S = sq.EIVAddressLine3S;
+                    newsq.EIVBuyerContact = sq.EIVBuyerContact;
+                    newsq.EIVBuyerEmail = sq.EIVBuyerEmail;
+                    newsq.EIVBuyerName = sq.EIVBuyerName;
+                    newsq.EIVBuyerRegNum = sq.EIVBuyerRegNum;
+                    if (sq.EIVBuyerRegTyp != null)
+                    {
+                        newsq.EIVBuyerRegTyp = newsq.Session.GetObjectByKey<vwEIVRegType>(sq.EIVBuyerRegTyp.Code);
+                    }
+                    newsq.EIVBuyerSSTRegNum = sq.EIVBuyerSSTRegNum;
+                    newsq.EIVBuyerTIN = sq.EIVBuyerTIN;
+                    newsq.EIVCityNameB = sq.EIVCityNameB;
+                    newsq.EIVCityNameS = sq.EIVCityNameS;
+                    if (sq.EIVConsolidate != null)
+                    {
+                        newsq.EIVConsolidate = newsq.Session.GetObjectByKey<vwYesNo>(sq.EIVConsolidate.Code);
+                    }
+                    if (sq.EIVCountryB != null)
+                    {
+                        newsq.EIVCountryB = newsq.Session.GetObjectByKey<vwCountry>(sq.EIVCountryB.Code);
+                    }
+                    if (sq.EIVCountryS != null)
+                    {
+                        newsq.EIVCountryS = newsq.Session.GetObjectByKey<vwCountry>(sq.EIVCountryS.Code);
+                    }
+                    if (sq.EIVFreqSync != null)
+                    {
+                        newsq.EIVFreqSync = newsq.Session.GetObjectByKey<vwEIVFreqSync>(sq.EIVFreqSync.Code);
+                    }
+                    newsq.EIVPostalZoneB = sq.EIVPostalZoneB;
+                    newsq.EIVPostalZoneS = sq.EIVPostalZoneS;
+                    newsq.EIVShippingName = sq.EIVShippingName;
+                    newsq.EIVShippingRegNum = sq.EIVShippingRegNum;
+                    if (sq.EIVShippingRegTyp != null)
+                    {
+                        newsq.EIVShippingRegTyp = newsq.Session.GetObjectByKey<vwEIVRegType>(sq.EIVShippingRegTyp.Code);
+                    }
+                    newsq.EIVShippingTin = sq.EIVShippingTin;
+                    if (sq.EIVStateB != null)
+                    {
+                        newsq.EIVStateB = newsq.Session.GetObjectByKey<vwState>(sq.EIVStateB.Code);
+                    }
+                    if (sq.EIVStateS != null)
+                    {
+                        newsq.EIVStateS = newsq.Session.GetObjectByKey<vwState>(sq.EIVStateS.Code);
+                    }
+                    if (sq.EIVType != null)
+                    {
+                        newsq.EIVType = newsq.Session.GetObjectByKey<vwEIVType>(sq.EIVType.Code);
+                    }
+                    // End ver 1.0.18
 
                     foreach (SalesQuotationDetails dtl in sq.SalesQuotationDetails)
                     {
@@ -2048,5 +2117,33 @@ namespace StarLaiPortal.Module.Controllers
             e.View = view;
         }
         // End ver 1.0.14
+
+        // Start ver 1.0.18
+        private void CopyAddress_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            SalesQuotation sq = (SalesQuotation)View.CurrentObject;
+
+            sq.EIVShippingName = sq.EIVBuyerName;
+            sq.EIVShippingRegNum = sq.EIVBuyerRegNum;
+            if (sq.EIVBuyerRegTyp != null)
+            {
+                sq.EIVShippingRegTyp = sq.Session.GetObjectByKey<vwEIVRegType>(sq.EIVBuyerRegTyp.Code);
+            }
+            sq.EIVShippingTin = sq.EIVBuyerTIN;
+            sq.EIVAddressLine1S = sq.EIVAddressLine1B;
+            sq.EIVAddressLine2S = sq.EIVAddressLine2B;
+            sq.EIVAddressLine3S = sq.EIVAddressLine3B;
+            sq.EIVPostalZoneS = sq.EIVPostalZoneB;
+            sq.EIVCityNameS = sq.EIVCityNameB;
+            if (sq.EIVStateB != null)
+            {
+                sq.EIVStateS = sq.Session.GetObjectByKey<vwState>(sq.EIVStateB.Code);
+            }
+            if (sq.EIVCountryB != null)
+            {
+                sq.EIVCountryS = sq.Session.GetObjectByKey<vwCountry>(sq.EIVCountryB.Code);
+            }
+        }
+        // End ver 1.0.18
     }
 }

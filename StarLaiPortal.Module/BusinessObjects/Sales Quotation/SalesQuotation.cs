@@ -919,7 +919,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         }
 
         private string _EIVBuyerTIN;
-        [XafDisplayName("Buyer's TIN No")]
+        [XafDisplayName("Buyer's TIN No*")]
         [Index(74), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVBuyerTIN
         {
@@ -931,7 +931,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         }
 
         private string _EIVBuyerRegNum;
-        [XafDisplayName("Registration No.")]
+        [XafDisplayName("Registration No.*")]
         [Index(75), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVBuyerRegNum
         {
@@ -944,7 +944,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 
         private vwEIVRegType _EIVBuyerRegTyp;
         [NoForeignKey]
-        [XafDisplayName("Registration Type")]
+        [XafDisplayName("Registration Type*")]
         [Index(76), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwEIVRegType EIVBuyerRegTyp
         {
@@ -980,7 +980,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         }
 
         private string _EIVBuyerContact;
-        [XafDisplayName("Contact No.")]
+        [XafDisplayName("Contact No.*")]
         [Index(79), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVBuyerContact
         {
@@ -992,39 +992,57 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         }
 
         private string _EIVAddressLine1B;
-        [XafDisplayName("Buyer's Address Line 1")]
+        [XafDisplayName("Buyer's Address Line 1*")]
         //[RuleRequiredField(DefaultContexts.Save)]
         [Index(80), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        [ImmediatePostData]
         public string EIVAddressLine1B
         {
             get { return _EIVAddressLine1B; }
             set
             {
                 SetPropertyValue("EIVAddressLine1B", ref _EIVAddressLine1B, value);
+                if (!IsLoading)
+                {
+                    BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
+                        + Environment.NewLine + EIVCityNameB;
+                }
             }
         }
 
         private string _EIVAddressLine2B;
         [XafDisplayName("Buyer's Address Line 2")]
         [Index(81), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        [ImmediatePostData]
         public string EIVAddressLine2B
         {
             get { return _EIVAddressLine2B; }
             set
             {
                 SetPropertyValue("EIVAddressLine2B", ref _EIVAddressLine2B, value);
+                if (!IsLoading)
+                {
+                    BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
+                        + Environment.NewLine + EIVCityNameB;
+                }
             }
         }
 
         private string _EIVAddressLine3B;
         [XafDisplayName("Buyer's Address Line 3")]
         [Index(82), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        [ImmediatePostData]
         public string EIVAddressLine3B
         {
             get { return _EIVAddressLine3B; }
             set
             {
                 SetPropertyValue("EIVAddressLine3B", ref _EIVAddressLine3B, value);
+                if (!IsLoading)
+                {
+                    BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
+                        + Environment.NewLine + EIVCityNameB;
+                }
             }
         }
 
@@ -1041,21 +1059,27 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         }
 
         private string _EIVCityNameB;
-        [XafDisplayName("Buyer's City")]
+        [XafDisplayName("Buyer's City*")]
         //[RuleRequiredField(DefaultContexts.Save)]
         [Index(84), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        [ImmediatePostData]
         public string EIVCityNameB
         {
             get { return _EIVCityNameB; }
             set
             {
                 SetPropertyValue("EIVCityNameB", ref _EIVCityNameB, value);
+                if (!IsLoading)
+                {
+                    BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
+                        + Environment.NewLine + EIVCityNameB;
+                }
             }
         }
 
         private vwState _EIVStateB;
         [NoForeignKey]
-        [XafDisplayName("Buyer's State")]
+        [XafDisplayName("Buyer's State*")]
         [Index(85), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwState EIVStateB
         {
@@ -1134,36 +1158,54 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         [XafDisplayName("Recipient's Address Line 1")]
         //[RuleRequiredField(DefaultContexts.Save)]
         [Index(91), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        [ImmediatePostData]
         public string EIVAddressLine1S
         {
             get { return _EIVAddressLine1S; }
             set
             {
                 SetPropertyValue("EIVAddressLine1S", ref _EIVAddressLine1S, value);
+                if (!IsLoading)
+                {
+                    ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
+                        + Environment.NewLine + EIVCityNameS;
+                }
             }
         }
 
         private string _EIVAddressLine2S;
         [XafDisplayName("Recipient's Address Line 2")]
         [Index(92), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        [ImmediatePostData]
         public string EIVAddressLine2S
         {
             get { return _EIVAddressLine2S; }
             set
             {
                 SetPropertyValue("EIVAddressLine2S", ref _EIVAddressLine2S, value);
+                if (!IsLoading)
+                {
+                    ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
+                        + Environment.NewLine + EIVCityNameS;
+                }
             }
         }
 
         private string _EIVAddressLine3S;
         [XafDisplayName("Recipient's Address Line 3")]
         [Index(93), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        [ImmediatePostData]
         public string EIVAddressLine3S
         {
             get { return _EIVAddressLine3S; }
             set
             {
                 SetPropertyValue("EIVAddressLine3S", ref _EIVAddressLine3S, value);
+                if (!IsLoading)
+                {
+                    ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
+                        + Environment.NewLine + EIVCityNameS;
+                }
             }
         }
 
@@ -1183,12 +1225,18 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         [XafDisplayName("Recipient's City")]
         //[RuleRequiredField(DefaultContexts.Save)]
         [Index(95), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        [ImmediatePostData]
         public string EIVCityNameS
         {
             get { return _EIVCityNameS; }
             set
             {
                 SetPropertyValue("EIVCityNameS", ref _EIVCityNameS, value);
+                if (!IsLoading)
+                {
+                    ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
+                        + Environment.NewLine + EIVCityNameS;
+                }
             }
         }
 

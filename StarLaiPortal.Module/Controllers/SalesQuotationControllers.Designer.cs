@@ -43,6 +43,7 @@
             this.ImportSQ = new DevExpress.ExpressApp.Actions.PopupWindowShowAction(this.components);
             this.CreateSalesOrderAction = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             this.ImportUpdateSQ = new DevExpress.ExpressApp.Actions.PopupWindowShowAction(this.components);
+            this.CopyAddress = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             // 
             // BackToInquiry
             // 
@@ -188,6 +189,15 @@
             this.ImportUpdateSQ.CustomizePopupWindowParams += new DevExpress.ExpressApp.Actions.CustomizePopupWindowParamsEventHandler(this.ImportUpdateSQ_CustomizePopupWindowParams);
             this.ImportUpdateSQ.Execute += new DevExpress.ExpressApp.Actions.PopupWindowShowActionExecuteEventHandler(this.ImportUpdateSQ_Execute);
             // 
+            // CopyAddress
+            // 
+            this.CopyAddress.Caption = "Copy To Recepient";
+            this.CopyAddress.Category = "PopupActions";
+            this.CopyAddress.ConfirmationMessage = null;
+            this.CopyAddress.Id = "CopyAddress";
+            this.CopyAddress.ToolTip = null;
+            this.CopyAddress.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.CopyAddress_Execute);
+            // 
             // SalesQuotationControllers
             // 
             this.Actions.Add(this.BackToInquiry);
@@ -204,6 +214,7 @@
             this.Actions.Add(this.ImportSQ);
             this.Actions.Add(this.CreateSalesOrderAction);
             this.Actions.Add(this.ImportUpdateSQ);
+            this.Actions.Add(this.CopyAddress);
 
         }
 
@@ -223,5 +234,6 @@
         private DevExpress.ExpressApp.Actions.PopupWindowShowAction ImportSQ;
         private DevExpress.ExpressApp.Actions.SimpleAction CreateSalesOrderAction;
         private DevExpress.ExpressApp.Actions.PopupWindowShowAction ImportUpdateSQ;
+        private DevExpress.ExpressApp.Actions.SimpleAction CopyAddress;
     }
 }
