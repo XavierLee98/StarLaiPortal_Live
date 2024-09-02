@@ -167,6 +167,27 @@ namespace StarLaiPortal.WebApi.API.Controller
                 return Problem(ex.Message);
             }
         }
+
+
+        [HttpGet("GetGRPOLines")]
+        public IActionResult GetGRPODetails(string docNum, string whsCode)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(Configuration.GetConnectionString("ConnectionString")))
+                {
+                    string json = JsonConvert.SerializeObject(new { docnum = docNum, whscode = whsCode });
+
+                    var lines = conn.Query($"exec sp_getdatalist 'PutAwayGetGRPOLines', '{json}'").ToList();
+
+                    return Ok(JsonConvert.SerializeObject(lines, Formatting.Indented));
+                }
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
         //[HttpPost("Post")]
         //public IActionResult Post([FromBody] ExpandoObject obj)
         //{
