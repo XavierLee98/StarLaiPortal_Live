@@ -22,6 +22,8 @@ using System.Linq;
 using System.Text;
 using static System.Net.Mime.MediaTypeNames;
 using DevExpress.Xpo.DB.Helpers;
+using DevExpress.Persistent.Base.Security;
+using System.Runtime.Remoting.Lifetime;
 
 // 2023-07-28 block submit if no address for OC and OS ver 1.0.7
 // 2023-12-01 change to action for create SO button ver 1.0.13
@@ -65,7 +67,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
     // End ver 1.0.14
 
     // Start ver 1.0.18
-    [RuleCriteria("EIVSQBilling", DefaultContexts.Save, "IsValid9 = 0", "Buyer TIN and Buyer Reg. Num. must fill one of them.")]
+    [RuleCriteria("EIVSQBilling", DefaultContexts.Save, "IsValid9 = 0", "Please fill in Buyer TIN and Buyer Reg.Num.")]
     //[RuleCriteria("EIVSQShipping", DefaultContexts.Save, "IsValid10 = 0", "Shipping TIN and Shipping Reg. Num. must fill one of them.")]
 
     [RuleCriteria("EIVSQBillingType", DefaultContexts.Save, "IsValid11 = 0", "Please fill in Buyer Reg. Type.")]
@@ -77,7 +79,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
     //[RuleCriteria("EIVSQEmail", DefaultContexts.Save, "IsValid15 = 0", "Please fill in email address.")]
 
     [RuleCriteria("EIVSQEIVBMandatory", DefaultContexts.Save, "IsValid16 = 0", "Please fill in EIV mandatory field. (EIV Type / Sync. Freq. / Buyer's Name/ " +
-        "Buyer's Address Line 1 / Buyer's Country ")]
+        "Buyer's Address Line 1 / Buyer's Country / Contact No. ")]
 
     [RuleCriteria("EIVSQEIVBSMandatory", DefaultContexts.Save, "IsValid17 = 0", "Recipient's Address Line 1 / Recipient's City / Recipient's Country")]
     // End ver 1.0.18
@@ -1454,7 +1456,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                 {
                     if (this.EIVConsolidate.Code == "Y")
                     {
-                        if (this.EIVBuyerTIN == null && this.EIVBuyerRegNum == null)
+                        if (this.EIVBuyerTIN == null || this.EIVBuyerRegNum == null)
                         {
                             return true;
                         }
@@ -1598,7 +1600,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                     if (this.EIVConsolidate.Code == "Y")
                     {
                         if (this.EIVType == null || this.EIVFreqSync == null || this.EIVAddressLine1B == null || 
-                            this.EIVCityNameB == null || this.EIVCountryB == null)
+                            this.EIVCityNameB == null || this.EIVCountryB == null || this.EIVBuyerContact == null)
                         {
                             return true;
                         }

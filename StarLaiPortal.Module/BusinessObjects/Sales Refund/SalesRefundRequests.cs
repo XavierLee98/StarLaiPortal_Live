@@ -44,7 +44,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
     [Appearance("HideItemInq", AppearanceItemType.Action, "True", TargetItems = "SFRInquiryItem", Criteria = "Customer = null or Reference = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
 
     // Start ver 1.0.18
-    [RuleCriteria("EIVSFRBilling", DefaultContexts.Save, "IsValid3 = 0", "Buyer TIN and Buyer Reg. Num. must fill one of them.")]
+    [RuleCriteria("EIVSFRBilling", DefaultContexts.Save, "IsValid3 = 0", "Please fill in Buyer TIN and Buyer Reg. Num.")]
     //[RuleCriteria("EIVSFRShipping", DefaultContexts.Save, "IsValid4 = 0", "Shipping TIN and Shipping Reg. Num. must fill one of them.")]
 
     [RuleCriteria("EIVSFRBillingType", DefaultContexts.Save, "IsValid5 = 0", "Please fill in Buyer Reg. Type.")]
@@ -56,7 +56,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
     //[RuleCriteria("EIVSFREmail", DefaultContexts.Save, "IsValid9 = 0", "Please fill in email address.")]
 
     [RuleCriteria("EIVSFREIVBMandatory", DefaultContexts.Save, "IsValid10 = 0", "Please fill in EIV mandatory field. (EIV Type / Sync. Freq. / Buyer's Name/ " +
-        "Buyer's Address Line 1 / Buyer's Country / Buyer's City ")]
+        "Buyer's Address Line 1 / Buyer's Country / Buyer's City / Contact No.")]
 
     [RuleCriteria("EIVSFREIVSMandatory", DefaultContexts.Save, "IsValid11 = 0", "Recipient's Address Line 1 / Recipient's City / Recipient's Country")]
     // End ver 1.0.18
@@ -1003,7 +1003,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
                     if (this.EIVConsolidate.Code == "Y")
                     {
                         if (this.EIVType == null || this.EIVFreqSync == null || this.EIVAddressLine1B == null ||
-                            this.EIVCityNameB == null || this.EIVCountryB == null)
+                            this.EIVCityNameB == null || this.EIVCountryB == null || this.EIVBuyerContact == null)
                         {
                             return true;
                         }
