@@ -317,6 +317,11 @@ namespace StarLaiPortal.Module.Controllers
                 return;
             }
 
+            if (selectedObject.IsValid2 == false)
+            {
+
+            }
+
             if (selectedObject.IsValid5 == true)
             {
                 showMsg("Failed", "Credit customer not allow use cash series.", InformationType.Error);
@@ -347,159 +352,145 @@ namespace StarLaiPortal.Module.Controllers
             {
                 if (selectedObject.IsValid1 == true)
                 {
-                    if (selectedObject.IsValid2 == false)
+                    if (selectedObject.IsValid4 == false)
                     {
-                        //if (selectedObject.IsValid3 == false)
-                        //{
-                            if (selectedObject.IsValid4 == false)
+                        selectedObject.Status = DocStatus.Submitted;
+
+                        SalesQuotationDocTrail ds = ObjectSpace.CreateObject<SalesQuotationDocTrail>();
+                        ds.DocStatus = DocStatus.Submitted;
+                        ds.DocRemarks = p.ParamString;
+                        selectedObject.SalesQuotationDocTrail.Add(ds);
+
+                        ObjectSpace.CommitChanges();
+                        ObjectSpace.Refresh();
+
+                        #region Get approval
+                        List<string> ToEmails = new List<string>();
+                        string emailbody = "";
+                        string emailsubject = "";
+                        string emailaddress = "";
+                        Guid emailuser;
+                        DateTime emailtime = DateTime.Now;
+
+                        string getapproval = "EXEC sp_GetApproval '" + selectedObject.CreateUser.Oid + "', '" + selectedObject.Oid + "', 'SalesQuotation'";
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                        conn.Open();
+                        SqlCommand cmd = new SqlCommand(getapproval, conn);
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            if (reader.GetString(1) != "")
                             {
-                                selectedObject.Status = DocStatus.Submitted;
+                                emailbody = "Dear Sir/Madam, " + System.Environment.NewLine + System.Environment.NewLine +
+                                       reader.GetString(3) + System.Environment.NewLine + GeneralSettings.appurl + reader.GetString(2) +
+                                       System.Environment.NewLine + System.Environment.NewLine;
 
-                                SalesQuotationDocTrail ds = ObjectSpace.CreateObject<SalesQuotationDocTrail>();
-                                ds.DocStatus = DocStatus.Submitted;
-                                ds.DocRemarks = p.ParamString;
-                                selectedObject.SalesQuotationDocTrail.Add(ds);
+                                emailsubject = "Sales Quotation Approval";
+                                emailaddress = reader.GetString(1);
+                                emailuser = reader.GetGuid(0);
 
-                                ObjectSpace.CommitChanges();
-                                ObjectSpace.Refresh();
-
-                                #region Get approval
-                                List<string> ToEmails = new List<string>();
-                                string emailbody = "";
-                                string emailsubject = "";
-                                string emailaddress = "";
-                                Guid emailuser;
-                                DateTime emailtime = DateTime.Now;
-
-                                string getapproval = "EXEC sp_GetApproval '" + selectedObject.CreateUser.Oid + "', '" + selectedObject.Oid + "', 'SalesQuotation'";
-                                if (conn.State == ConnectionState.Open)
-                                {
-                                    conn.Close();
-                                }
-                                conn.Open();
-                                SqlCommand cmd = new SqlCommand(getapproval, conn);
-                                SqlDataReader reader = cmd.ExecuteReader();
-                                while (reader.Read())
-                                {
-                                    if (reader.GetString(1) != "")
-                                    {
-                                        emailbody = "Dear Sir/Madam, " + System.Environment.NewLine + System.Environment.NewLine +
-                                               reader.GetString(3) + System.Environment.NewLine + GeneralSettings.appurl + reader.GetString(2) +
-                                               System.Environment.NewLine + System.Environment.NewLine;
-
-                                        emailsubject = "Sales Quotation Approval";
-                                        emailaddress = reader.GetString(1);
-                                        emailuser = reader.GetGuid(0);
-
-                                        ToEmails.Add(emailaddress);
-                                    }
-                                }
-                                cmd.Dispose();
-                                conn.Close();
-
-                                if (ToEmails.Count > 0)
-                                {
-                                    if (genCon.SendEmail(emailsubject, emailbody, ToEmails) == 1)
-                                    {
-                                    }
-                                }
-
-                                #endregion
-
-                                IObjectSpace os = Application.CreateObjectSpace();
-                                SalesQuotation trx = os.FindObject<SalesQuotation>(new BinaryOperator("Oid", selectedObject.Oid));
-
-                                if (trx.AppStatus == ApprovalStatusType.Not_Applicable && trx.Status == DocStatus.Submitted)
-                                {
-                                    #region Add SO
-                                    IObjectSpace sos = Application.CreateObjectSpace();
-                                    SalesOrder newSO = sos.CreateObject<SalesOrder>();
-
-                                    string docprefix = genCon.GetDocPrefix();
-                                    newSO.DocNum = genCon.GenerateDocNum(DocTypeList.SO, sos, TransferType.NA, 0, docprefix);
-
-                                    if (selectedObject.Customer != null)
-                                    {
-                                        newSO.Customer = newSO.Session.GetObjectByKey<vwBusniessPartner>(selectedObject.Customer.BPCode);
-                                    }
-                                    newSO.CustomerName = selectedObject.CustomerName;
-                                    if (selectedObject.Transporter != null)
-                                    {
-                                        newSO.Transporter = newSO.Session.GetObjectByKey<vwTransporter>(selectedObject.Transporter.TransporterID);
-                                    }
-                                    newSO.ContactNo = selectedObject.ContactNo;
-                                    if (selectedObject.ContactPerson != null)
-                                    {
-                                        newSO.ContactPerson = newSO.Session.GetObjectByKey<vwSalesPerson>(selectedObject.ContactPerson.SlpCode);
-                                    }
-                                    if (selectedObject.PaymentTerm != null)
-                                    {
-                                        newSO.PaymentTerm = newSO.Session.GetObjectByKey<vwPaymentTerm>(selectedObject.PaymentTerm.GroupNum);
-                                    }
-                                    if (selectedObject.Series != null)
-                                    {
-                                        newSO.Series = newSO.Session.GetObjectByKey<vwSeries>(selectedObject.Series.Series);
-                                    }
-                                    if (selectedObject.Priority != null)
-                                    {
-                                        newSO.Priority = newSO.Session.GetObjectByKey<PriorityType>(selectedObject.Priority.Oid);
-                                    }
-                                    if (selectedObject.BillingAddress != null)
-                                    {
-                                        newSO.BillingAddress = newSO.Session.GetObjectByKey<vwBillingAddress>(selectedObject.BillingAddress.PriKey);
-                                    }
-                                    newSO.BillingAddressfield = selectedObject.BillingAddressfield;
-                                    if (selectedObject.ShippingAddress != null)
-                                    {
-                                        newSO.ShippingAddress = newSO.Session.GetObjectByKey<vwShippingAddress>(selectedObject.ShippingAddress.PriKey);
-                                    }
-                                    newSO.ShippingAddressfield = selectedObject.ShippingAddressfield;
-                                    newSO.Remarks = selectedObject.Remarks;
-                                    newSO.Attn = selectedObject.Attn;
-                                    newSO.RefNo = selectedObject.RefNo;
-                                    // Start ver 1.0.8.1
-                                    newSO.SQNumber = selectedObject.DocNum;
-                                    // End ver 1.0.8.1
-
-                                    foreach (SalesQuotationDetails dtl in selectedObject.SalesQuotationDetails)
-                                    {
-                                        SalesOrderDetails newsodetails = sos.CreateObject<SalesOrderDetails>();
-
-                                        newsodetails.ItemCode = newsodetails.Session.GetObjectByKey<vwItemMasters>(dtl.ItemCode.ItemCode);
-                                        newsodetails.ItemDesc = dtl.ItemDesc;
-                                        newsodetails.Model = dtl.Model;
-                                        newsodetails.CatalogNo = dtl.CatalogNo;
-                                        if (dtl.Location != null)
-                                        {
-                                            newsodetails.Location = newsodetails.Session.GetObjectByKey<vwWarehouse>(dtl.Location.WarehouseCode);
-                                        }
-                                        newsodetails.Quantity = dtl.Quantity;
-                                        newsodetails.Price = dtl.Price;
-                                        newsodetails.AdjustedPrice = dtl.AdjustedPrice;
-                                        newsodetails.BaseDoc = selectedObject.DocNum;
-                                        newsodetails.BaseId = dtl.Oid.ToString();
-                                        newSO.SalesOrderDetails.Add(newsodetails);
-                                    }
-
-                                    sos.CommitChanges();
-                                    #endregion
-                                }
-                                openNewView(os, trx, ViewEditMode.View);
-                                showMsg("Successful", "Submit Done.", InformationType.Success);
+                                ToEmails.Add(emailaddress);
                             }
-                            else
+                        }
+                        cmd.Dispose();
+                        conn.Close();
+
+                        if (ToEmails.Count > 0)
+                        {
+                            if (genCon.SendEmail(emailsubject, emailbody, ToEmails) == 1)
                             {
-                                showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
                             }
-                        //}
-                        //else
-                        //{
-                        //    showMsg("Error", "Sales quotation row no allow zero amount.", InformationType.Error);
-                        //}
+                        }
+
+                        #endregion
+
+                        IObjectSpace os = Application.CreateObjectSpace();
+                        SalesQuotation trx = os.FindObject<SalesQuotation>(new BinaryOperator("Oid", selectedObject.Oid));
+
+                        if (trx.AppStatus == ApprovalStatusType.Not_Applicable && trx.Status == DocStatus.Submitted)
+                        {
+                            #region Add SO
+                            IObjectSpace sos = Application.CreateObjectSpace();
+                            SalesOrder newSO = sos.CreateObject<SalesOrder>();
+
+                            string docprefix = genCon.GetDocPrefix();
+                            newSO.DocNum = genCon.GenerateDocNum(DocTypeList.SO, sos, TransferType.NA, 0, docprefix);
+
+                            if (selectedObject.Customer != null)
+                            {
+                                newSO.Customer = newSO.Session.GetObjectByKey<vwBusniessPartner>(selectedObject.Customer.BPCode);
+                            }
+                            newSO.CustomerName = selectedObject.CustomerName;
+                            if (selectedObject.Transporter != null)
+                            {
+                                newSO.Transporter = newSO.Session.GetObjectByKey<vwTransporter>(selectedObject.Transporter.TransporterID);
+                            }
+                            newSO.ContactNo = selectedObject.ContactNo;
+                            if (selectedObject.ContactPerson != null)
+                            {
+                                newSO.ContactPerson = newSO.Session.GetObjectByKey<vwSalesPerson>(selectedObject.ContactPerson.SlpCode);
+                            }
+                            if (selectedObject.PaymentTerm != null)
+                            {
+                                newSO.PaymentTerm = newSO.Session.GetObjectByKey<vwPaymentTerm>(selectedObject.PaymentTerm.GroupNum);
+                            }
+                            if (selectedObject.Series != null)
+                            {
+                                newSO.Series = newSO.Session.GetObjectByKey<vwSeries>(selectedObject.Series.Series);
+                            }
+                            if (selectedObject.Priority != null)
+                            {
+                                newSO.Priority = newSO.Session.GetObjectByKey<PriorityType>(selectedObject.Priority.Oid);
+                            }
+                            if (selectedObject.BillingAddress != null)
+                            {
+                                newSO.BillingAddress = newSO.Session.GetObjectByKey<vwBillingAddress>(selectedObject.BillingAddress.PriKey);
+                            }
+                            newSO.BillingAddressfield = selectedObject.BillingAddressfield;
+                            if (selectedObject.ShippingAddress != null)
+                            {
+                                newSO.ShippingAddress = newSO.Session.GetObjectByKey<vwShippingAddress>(selectedObject.ShippingAddress.PriKey);
+                            }
+                            newSO.ShippingAddressfield = selectedObject.ShippingAddressfield;
+                            newSO.Remarks = selectedObject.Remarks;
+                            newSO.Attn = selectedObject.Attn;
+                            newSO.RefNo = selectedObject.RefNo;
+                            // Start ver 1.0.8.1
+                            newSO.SQNumber = selectedObject.DocNum;
+                            // End ver 1.0.8.1
+
+                            foreach (SalesQuotationDetails dtl in selectedObject.SalesQuotationDetails)
+                            {
+                                SalesOrderDetails newsodetails = sos.CreateObject<SalesOrderDetails>();
+
+                                newsodetails.ItemCode = newsodetails.Session.GetObjectByKey<vwItemMasters>(dtl.ItemCode.ItemCode);
+                                newsodetails.ItemDesc = dtl.ItemDesc;
+                                newsodetails.Model = dtl.Model;
+                                newsodetails.CatalogNo = dtl.CatalogNo;
+                                if (dtl.Location != null)
+                                {
+                                    newsodetails.Location = newsodetails.Session.GetObjectByKey<vwWarehouse>(dtl.Location.WarehouseCode);
+                                }
+                                newsodetails.Quantity = dtl.Quantity;
+                                newsodetails.Price = dtl.Price;
+                                newsodetails.AdjustedPrice = dtl.AdjustedPrice;
+                                newsodetails.BaseDoc = selectedObject.DocNum;
+                                newsodetails.BaseId = dtl.Oid.ToString();
+                                newSO.SalesOrderDetails.Add(newsodetails);
+                            }
+
+                            sos.CommitChanges();
+                            #endregion
+                        }
+                        openNewView(os, trx, ViewEditMode.View);
+                        showMsg("Successful", "Submit Done.", InformationType.Success);
                     }
                     else
                     {
-                        showMsg("Error", "Please fill in series and contact person.", InformationType.Error);
+                        showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
                     }
                 }
                 else
@@ -1820,6 +1811,12 @@ namespace StarLaiPortal.Module.Controllers
                 return;
             }
 
+            if (selectedObject.IsValid2 == false)
+            {
+                showMsg("Error", "Please fill in series and contact person.", InformationType.Error);
+                return;
+            }
+
             if (selectedObject.IsValid5 == true)
             {
                 showMsg("Failed", "Credit customer not allow use cash series.", InformationType.Error);
@@ -1850,224 +1847,212 @@ namespace StarLaiPortal.Module.Controllers
             {
                 if (selectedObject.IsValid1 == true)
                 {
-                    if (selectedObject.IsValid2 == false)
+                    //if (selectedObject.IsValid3 == false)
+                    //{
+                    if (selectedObject.IsValid4 == false)
                     {
-                        //if (selectedObject.IsValid3 == false)
-                        //{
-                        if (selectedObject.IsValid4 == false)
+                        selectedObject.Status = DocStatus.Submitted;
+
+                        SalesQuotationDocTrail ds = ObjectSpace.CreateObject<SalesQuotationDocTrail>();
+                        ds.DocStatus = DocStatus.Submitted;
+                        ds.DocRemarks = "";
+                        selectedObject.SalesQuotationDocTrail.Add(ds);
+
+                        ObjectSpace.CommitChanges();
+                        ObjectSpace.Refresh();
+
+                        #region Get approval
+                        List<string> ToEmails = new List<string>();
+                        string emailbody = "";
+                        string emailsubject = "";
+                        string emailaddress = "";
+                        Guid emailuser;
+                        DateTime emailtime = DateTime.Now;
+
+                        string getapproval = "EXEC sp_GetApproval '" + selectedObject.CreateUser.Oid + "', '" + selectedObject.Oid + "', 'SalesQuotation'";
+                        if (conn.State == ConnectionState.Open)
                         {
-                            selectedObject.Status = DocStatus.Submitted;
-
-                            SalesQuotationDocTrail ds = ObjectSpace.CreateObject<SalesQuotationDocTrail>();
-                            ds.DocStatus = DocStatus.Submitted;
-                            ds.DocRemarks = "";
-                            selectedObject.SalesQuotationDocTrail.Add(ds);
-
-                            ObjectSpace.CommitChanges();
-                            ObjectSpace.Refresh();
-
-                            #region Get approval
-                            List<string> ToEmails = new List<string>();
-                            string emailbody = "";
-                            string emailsubject = "";
-                            string emailaddress = "";
-                            Guid emailuser;
-                            DateTime emailtime = DateTime.Now;
-
-                            string getapproval = "EXEC sp_GetApproval '" + selectedObject.CreateUser.Oid + "', '" + selectedObject.Oid + "', 'SalesQuotation'";
-                            if (conn.State == ConnectionState.Open)
-                            {
-                                conn.Close();
-                            }
-                            conn.Open();
-                            SqlCommand cmd = new SqlCommand(getapproval, conn);
-                            SqlDataReader reader = cmd.ExecuteReader();
-                            while (reader.Read())
-                            {
-                                if (reader.GetString(1) != "")
-                                {
-                                    emailbody = "Dear Sir/Madam, " + System.Environment.NewLine + System.Environment.NewLine +
-                                           reader.GetString(3) + System.Environment.NewLine + GeneralSettings.appurl + reader.GetString(2) +
-                                           System.Environment.NewLine + System.Environment.NewLine;
-
-                                    emailsubject = "Sales Quotation Approval";
-                                    emailaddress = reader.GetString(1);
-                                    emailuser = reader.GetGuid(0);
-
-                                    ToEmails.Add(emailaddress);
-                                }
-                            }
-                            cmd.Dispose();
                             conn.Close();
-
-                            if (ToEmails.Count > 0)
+                        }
+                        conn.Open();
+                        SqlCommand cmd = new SqlCommand(getapproval, conn);
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            if (reader.GetString(1) != "")
                             {
-                                if (genCon.SendEmail(emailsubject, emailbody, ToEmails) == 1)
-                                {
-                                }
+                                emailbody = "Dear Sir/Madam, " + System.Environment.NewLine + System.Environment.NewLine +
+                                       reader.GetString(3) + System.Environment.NewLine + GeneralSettings.appurl + reader.GetString(2) +
+                                       System.Environment.NewLine + System.Environment.NewLine;
+
+                                emailsubject = "Sales Quotation Approval";
+                                emailaddress = reader.GetString(1);
+                                emailuser = reader.GetGuid(0);
+
+                                ToEmails.Add(emailaddress);
                             }
+                        }
+                        cmd.Dispose();
+                        conn.Close();
 
-                            #endregion
-
-                            IObjectSpace os = Application.CreateObjectSpace();
-                            SalesQuotation trx = os.FindObject<SalesQuotation>(new BinaryOperator("Oid", selectedObject.Oid));
-
-                            if (trx.AppStatus == ApprovalStatusType.Not_Applicable && trx.Status == DocStatus.Submitted)
+                        if (ToEmails.Count > 0)
+                        {
+                            if (genCon.SendEmail(emailsubject, emailbody, ToEmails) == 1)
                             {
-                                #region Add SO
-                                IObjectSpace sos = Application.CreateObjectSpace();
-                                SalesOrder newSO = sos.CreateObject<SalesOrder>();
+                            }
+                        }
 
-                                string docprefix = genCon.GetDocPrefix();
-                                newSO.DocNum = genCon.GenerateDocNum(DocTypeList.SO, sos, TransferType.NA, 0, docprefix);
+                        #endregion
 
-                                if (selectedObject.Customer != null)
-                                {
-                                    newSO.Customer = newSO.Session.GetObjectByKey<vwBusniessPartner>(selectedObject.Customer.BPCode);
-                                }
-                                newSO.CustomerName = selectedObject.CustomerName;
-                                if (selectedObject.Transporter != null)
-                                {
-                                    newSO.Transporter = newSO.Session.GetObjectByKey<vwTransporter>(selectedObject.Transporter.TransporterID);
-                                }
-                                newSO.ContactNo = selectedObject.ContactNo;
-                                if (selectedObject.ContactPerson != null)
-                                {
-                                    newSO.ContactPerson = newSO.Session.GetObjectByKey<vwSalesPerson>(selectedObject.ContactPerson.SlpCode);
-                                }
-                                if (selectedObject.PaymentTerm != null)
-                                {
-                                    newSO.PaymentTerm = newSO.Session.GetObjectByKey<vwPaymentTerm>(selectedObject.PaymentTerm.GroupNum);
-                                }
-                                if (selectedObject.Series != null)
-                                {
-                                    newSO.Series = newSO.Session.GetObjectByKey<vwSeries>(selectedObject.Series.Series);
-                                }
-                                if (selectedObject.Priority != null)
-                                {
-                                    newSO.Priority = newSO.Session.GetObjectByKey<PriorityType>(selectedObject.Priority.Oid);
-                                }
-                                if (selectedObject.BillingAddress != null)
-                                {
-                                    newSO.BillingAddress = newSO.Session.GetObjectByKey<vwBillingAddress>(selectedObject.BillingAddress.PriKey);
-                                }
-                                newSO.BillingAddressfield = selectedObject.BillingAddressfield;
-                                if (selectedObject.ShippingAddress != null)
-                                {
-                                    newSO.ShippingAddress = newSO.Session.GetObjectByKey<vwShippingAddress>(selectedObject.ShippingAddress.PriKey);
-                                }
-                                newSO.ShippingAddressfield = selectedObject.ShippingAddressfield;
-                                newSO.Remarks = selectedObject.Remarks;
-                                newSO.Attn = selectedObject.Attn;
-                                newSO.RefNo = selectedObject.RefNo;
-                                // Start ver 1.0.8.1
-                                newSO.SQNumber = selectedObject.DocNum;
-                                // End ver 1.0.8.1
+                        IObjectSpace os = Application.CreateObjectSpace();
+                        SalesQuotation trx = os.FindObject<SalesQuotation>(new BinaryOperator("Oid", selectedObject.Oid));
+
+                        if (trx.AppStatus == ApprovalStatusType.Not_Applicable && trx.Status == DocStatus.Submitted)
+                        {
+                            #region Add SO
+                            IObjectSpace sos = Application.CreateObjectSpace();
+                            SalesOrder newSO = sos.CreateObject<SalesOrder>();
+
+                            string docprefix = genCon.GetDocPrefix();
+                            newSO.DocNum = genCon.GenerateDocNum(DocTypeList.SO, sos, TransferType.NA, 0, docprefix);
+
+                            if (selectedObject.Customer != null)
+                            {
+                                newSO.Customer = newSO.Session.GetObjectByKey<vwBusniessPartner>(selectedObject.Customer.BPCode);
+                            }
+                            newSO.CustomerName = selectedObject.CustomerName;
+                            if (selectedObject.Transporter != null)
+                            {
+                                newSO.Transporter = newSO.Session.GetObjectByKey<vwTransporter>(selectedObject.Transporter.TransporterID);
+                            }
+                            newSO.ContactNo = selectedObject.ContactNo;
+                            if (selectedObject.ContactPerson != null)
+                            {
+                                newSO.ContactPerson = newSO.Session.GetObjectByKey<vwSalesPerson>(selectedObject.ContactPerson.SlpCode);
+                            }
+                            if (selectedObject.PaymentTerm != null)
+                            {
+                                newSO.PaymentTerm = newSO.Session.GetObjectByKey<vwPaymentTerm>(selectedObject.PaymentTerm.GroupNum);
+                            }
+                            if (selectedObject.Series != null)
+                            {
+                                newSO.Series = newSO.Session.GetObjectByKey<vwSeries>(selectedObject.Series.Series);
+                            }
+                            if (selectedObject.Priority != null)
+                            {
+                                newSO.Priority = newSO.Session.GetObjectByKey<PriorityType>(selectedObject.Priority.Oid);
+                            }
+                            if (selectedObject.BillingAddress != null)
+                            {
+                                newSO.BillingAddress = newSO.Session.GetObjectByKey<vwBillingAddress>(selectedObject.BillingAddress.PriKey);
+                            }
+                            newSO.BillingAddressfield = selectedObject.BillingAddressfield;
+                            if (selectedObject.ShippingAddress != null)
+                            {
+                                newSO.ShippingAddress = newSO.Session.GetObjectByKey<vwShippingAddress>(selectedObject.ShippingAddress.PriKey);
+                            }
+                            newSO.ShippingAddressfield = selectedObject.ShippingAddressfield;
+                            newSO.Remarks = selectedObject.Remarks;
+                            newSO.Attn = selectedObject.Attn;
+                            newSO.RefNo = selectedObject.RefNo;
+                            // Start ver 1.0.8.1
+                            newSO.SQNumber = selectedObject.DocNum;
+                            // End ver 1.0.8.1
+                            // Start ver 1.0.18
+                            // Buyer
+                            if (selectedObject.EIVConsolidate != null)
+                            {
+                                newSO.EIVConsolidate = newSO.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVConsolidate.Code));
+                            }
+                            if (selectedObject.EIVType != null)
+                            {
+                                newSO.EIVType = newSO.Session.FindObject<vwEIVType>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVType.Code));
+                            }
+                            if (selectedObject.EIVFreqSync != null)
+                            {
+                                newSO.EIVFreqSync = newSO.Session.FindObject<vwEIVFreqSync>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVFreqSync.Code));
+                            }
+                            newSO.EIVBuyerName = selectedObject.EIVBuyerName;
+                            newSO.EIVBuyerTIN = selectedObject.EIVBuyerTIN;
+                            newSO.EIVBuyerRegNum = selectedObject.EIVBuyerRegNum;
+                            if (selectedObject.EIVBuyerRegTyp != null)
+                            {
+                                newSO.EIVBuyerRegTyp = newSO.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVBuyerRegTyp.Code));
+                            }
+                            newSO.EIVBuyerSSTRegNum = selectedObject.EIVBuyerSSTRegNum;
+                            newSO.EIVBuyerEmail = selectedObject.EIVBuyerEmail;
+                            newSO.EIVBuyerContact = selectedObject.EIVBuyerContact;
+                            newSO.EIVAddressLine1B = selectedObject.EIVAddressLine1B;
+                            newSO.EIVAddressLine2B = selectedObject.EIVAddressLine2B;
+                            newSO.EIVAddressLine3B = selectedObject.EIVAddressLine3B;
+                            newSO.EIVPostalZoneB = selectedObject.EIVPostalZoneB;
+                            newSO.EIVCityNameB = selectedObject.EIVCityNameB;
+                            if (selectedObject.EIVStateB != null)
+                            {
+                                newSO.EIVStateB = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVStateB.Code));
+                            }
+                            if (selectedObject.EIVCountryB != null)
+                            {
+                                newSO.EIVCountryB = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVCountryB.Code));
+                            }
+                            //Recipient
+                            newSO.EIVShippingName = selectedObject.EIVShippingName;
+                            newSO.EIVShippingTin = selectedObject.EIVShippingTin;
+                            newSO.EIVShippingRegNum = selectedObject.EIVShippingRegNum;
+                            if (selectedObject.EIVShippingRegTyp != null)
+                            {
+                                newSO.EIVShippingRegTyp = newSO.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVShippingRegTyp.Code));
+                            }
+                            newSO.EIVAddressLine1S = selectedObject.EIVAddressLine1S;
+                            newSO.EIVAddressLine2S = selectedObject.EIVAddressLine2S;
+                            newSO.EIVAddressLine3S = selectedObject.EIVAddressLine3S;
+                            newSO.EIVPostalZoneS = selectedObject.EIVPostalZoneS;
+                            newSO.EIVCityNameS = selectedObject.EIVCityNameS;
+                            if (selectedObject.EIVStateS != null)
+                            {
+                                newSO.EIVStateS = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVStateS.Code));
+                            }
+                            if (selectedObject.EIVCountryS != null)
+                            {
+                                newSO.EIVCountryS = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVCountryS.Code));
+                            }
+                            // End ver 1.0.18
+
+                            foreach (SalesQuotationDetails dtl in selectedObject.SalesQuotationDetails)
+                            {
+                                SalesOrderDetails newsodetails = sos.CreateObject<SalesOrderDetails>();
+
+                                newsodetails.ItemCode = newsodetails.Session.GetObjectByKey<vwItemMasters>(dtl.ItemCode.ItemCode);
+                                newsodetails.ItemDesc = dtl.ItemDesc;
+                                newsodetails.Model = dtl.Model;
+                                newsodetails.CatalogNo = dtl.CatalogNo;
                                 // Start ver 1.0.18
-                                // Buyer
-                                if (selectedObject.EIVConsolidate != null)
+                                if (dtl.EIVClassification != null)
                                 {
-                                    newSO.EIVConsolidate = newSO.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVConsolidate.Code));
-                                }   
-                                if (selectedObject.EIVType != null)
-                                {
-                                    newSO.EIVType = newSO.Session.FindObject<vwEIVType>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVType.Code));
-                                }
-                                if (selectedObject.EIVFreqSync != null)
-                                {
-                                    newSO.EIVFreqSync = newSO.Session.FindObject<vwEIVFreqSync>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVFreqSync.Code));
-                                }
-                                newSO.EIVBuyerName = selectedObject.EIVBuyerName;
-                                newSO.EIVBuyerTIN = selectedObject.EIVBuyerTIN;
-                                newSO.EIVBuyerRegNum = selectedObject.EIVBuyerRegNum;
-                                if (selectedObject.EIVBuyerRegTyp != null)
-                                {
-                                    newSO.EIVBuyerRegTyp = newSO.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVBuyerRegTyp.Code));
-                                }
-                                newSO.EIVBuyerSSTRegNum = selectedObject.EIVBuyerSSTRegNum;
-                                newSO.EIVBuyerEmail = selectedObject.EIVBuyerEmail;
-                                newSO.EIVBuyerContact = selectedObject.EIVBuyerContact;
-                                newSO.EIVAddressLine1B = selectedObject.EIVAddressLine1B;
-                                newSO.EIVAddressLine2B = selectedObject.EIVAddressLine2B;
-                                newSO.EIVAddressLine3B = selectedObject.EIVAddressLine3B;
-                                newSO.EIVPostalZoneB = selectedObject.EIVPostalZoneB;
-                                newSO.EIVCityNameB = selectedObject.EIVCityNameB;
-                                if (selectedObject.EIVStateB != null)
-                                {
-                                    newSO.EIVStateB = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVStateB.Code));
-                                }
-                                if (selectedObject.EIVCountryB != null)
-                                {
-                                    newSO.EIVCountryB = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVCountryB.Code));
-                                }
-                                //Recipient
-                                newSO.EIVShippingName = selectedObject.EIVShippingName;
-                                newSO.EIVShippingTin = selectedObject.EIVShippingTin;
-                                newSO.EIVShippingRegNum = selectedObject.EIVShippingRegNum;
-                                if (selectedObject.EIVShippingRegTyp != null)
-                                {
-                                    newSO.EIVShippingRegTyp = newSO.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVShippingRegTyp.Code));
-                                }
-                                newSO.EIVAddressLine1S = selectedObject.EIVAddressLine1S;
-                                newSO.EIVAddressLine2S = selectedObject.EIVAddressLine2S;
-                                newSO.EIVAddressLine3S = selectedObject.EIVAddressLine3S;
-                                newSO.EIVPostalZoneS = selectedObject.EIVPostalZoneS;
-                                newSO.EIVCityNameS = selectedObject.EIVCityNameS;
-                                if (selectedObject.EIVStateS != null)
-                                {
-                                    newSO.EIVStateS = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVStateS.Code));
-                                }
-                                if (selectedObject.EIVCountryS != null)
-                                {
-                                    newSO.EIVCountryS = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", selectedObject.EIVCountryS.Code));
+                                    newsodetails.EIVClassification = newsodetails.Session.FindObject<vwEIVClass>(CriteriaOperator.Parse("Code = ?", dtl.EIVClassification.Code));
                                 }
                                 // End ver 1.0.18
-
-                                foreach (SalesQuotationDetails dtl in selectedObject.SalesQuotationDetails)
+                                if (dtl.Location != null)
                                 {
-                                    SalesOrderDetails newsodetails = sos.CreateObject<SalesOrderDetails>();
-
-                                    newsodetails.ItemCode = newsodetails.Session.GetObjectByKey<vwItemMasters>(dtl.ItemCode.ItemCode);
-                                    newsodetails.ItemDesc = dtl.ItemDesc;
-                                    newsodetails.Model = dtl.Model;
-                                    newsodetails.CatalogNo = dtl.CatalogNo;
-                                    // Start ver 1.0.18
-                                    if (dtl.EIVClassification != null)
-                                    {
-                                        newsodetails.EIVClassification = newsodetails.Session.FindObject<vwEIVClass>(CriteriaOperator.Parse("Code = ?", dtl.EIVClassification.Code));
-                                    }
-                                    // End ver 1.0.18
-                                    if (dtl.Location != null)
-                                    {
-                                        newsodetails.Location = newsodetails.Session.GetObjectByKey<vwWarehouse>(dtl.Location.WarehouseCode);
-                                    }
-                                    newsodetails.Quantity = dtl.Quantity;
-                                    newsodetails.Price = dtl.Price;
-                                    newsodetails.AdjustedPrice = dtl.AdjustedPrice;
-                                    newsodetails.BaseDoc = selectedObject.DocNum;
-                                    newsodetails.BaseId = dtl.Oid.ToString();
-                                    newSO.SalesOrderDetails.Add(newsodetails);
+                                    newsodetails.Location = newsodetails.Session.GetObjectByKey<vwWarehouse>(dtl.Location.WarehouseCode);
                                 }
-
-                                sos.CommitChanges();
-                                #endregion
+                                newsodetails.Quantity = dtl.Quantity;
+                                newsodetails.Price = dtl.Price;
+                                newsodetails.AdjustedPrice = dtl.AdjustedPrice;
+                                newsodetails.BaseDoc = selectedObject.DocNum;
+                                newsodetails.BaseId = dtl.Oid.ToString();
+                                newSO.SalesOrderDetails.Add(newsodetails);
                             }
-                            openNewView(os, trx, ViewEditMode.View);
-                            showMsg("Successful", "Submit Done.", InformationType.Success);
+
+                            sos.CommitChanges();
+                            #endregion
                         }
-                        else
-                        {
-                            showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
-                        }
-                        //}
-                        //else
-                        //{
-                        //    showMsg("Error", "Sales quotation row no allow zero amount.", InformationType.Error);
-                        //}
+                        openNewView(os, trx, ViewEditMode.View);
+                        showMsg("Successful", "Submit Done.", InformationType.Success);
                     }
                     else
                     {
-                        showMsg("Error", "Please fill in series and contact person.", InformationType.Error);
+                        showMsg("Error", "Sales qty not allow over warehouse available qty.", InformationType.Error);
                     }
                 }
                 else
