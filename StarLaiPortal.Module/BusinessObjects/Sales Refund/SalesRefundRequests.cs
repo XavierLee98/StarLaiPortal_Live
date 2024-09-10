@@ -1015,7 +1015,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
         }
 
         [Browsable(false)]
-        public bool IsValid12
+        public bool IsValid11
         {
             get
             {
