@@ -623,11 +623,11 @@ namespace StarLaiPortal.Module.Controllers
                 }
             }
 
-            if (insuffstock == true)
-            {
-                showMsg("Error", "Bin not enough stock. Item : " + insuff, InformationType.Error);
-                return;
-            }
+            //if (insuffstock == true)
+            //{
+            //    showMsg("Error", "Bin not enough stock. Item : " + insuff, InformationType.Error);
+            //    return;
+            //}
 
             if (selectedObject.IsValid4 == true)
             {
@@ -671,12 +671,13 @@ namespace StarLaiPortal.Module.Controllers
 
             // Start ver 1.0.14
             string getdupso = "SELECT D1.OID From PickListDetails D1 " +
-                "INNER JOIN(SELECT T1.SOBaseId, T1.PickList From PickList T0 " +
+                "INNER JOIN(SELECT T1.SOBaseId, T1.PickList, T1.PickQty From PickList T0 " +
                 "INNER JOIN PickListDetails T1 on T0.OID = T1.PickList and T1.GCRecord is null " +
                 "WHERE T1.PickQty > 0 and T0.GCRecord is null and T0.DocNum = '" + selectedObject.DocNum + "') " +
                 "D2 on D1.SOBaseId = D2.SOBaseId and D1.PickList<> D2.PickList " +
                 "INNER JOIN PickList D3 on D1.PickList = D3.OID " +
-                "WHERE D3.Status = 1";
+                "INNER JOIN SalesOrderDetails D4 on D2.SOBaseId = D4.OID " +
+                "WHERE D3.Status = 1 AND D1.PickQty + D2.PickQty > D4.Quantity";
             if (conn.State == ConnectionState.Open)
             {
                 conn.Close();
