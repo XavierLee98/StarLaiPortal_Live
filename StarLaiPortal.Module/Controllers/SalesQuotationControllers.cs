@@ -1811,7 +1811,7 @@ namespace StarLaiPortal.Module.Controllers
                 return;
             }
 
-            if (selectedObject.IsValid2 == false)
+            if (selectedObject.IsValid2 == true)
             {
                 showMsg("Error", "Please fill in series and contact person.", InformationType.Error);
                 return;
