@@ -41,7 +41,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
     [Appearance("HideCopyTo1", AppearanceItemType.Action, "True", TargetItems = "SFRCopyToSF", Criteria = "(not (Status in (1))) or ((Status in (1)) and (not AppStatus in (0, 1)))", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("HideCopyTo2", AppearanceItemType.Action, "True", TargetItems = "SFRCopyToSF", Criteria = "CopyTo = 1", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
 
-    [Appearance("HideItemInq", AppearanceItemType.Action, "True", TargetItems = "SFRInquiryItem", Criteria = "Customer = null or Reference = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideItemInq", AppearanceItemType.Action, "True", TargetItems = "SFRInquiryItem", Criteria = "Customer = null or Reference = null or IsValid3 = 1 or IsValid10 = 1", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
 
     // Start ver 1.0.18
     [RuleCriteria("EIVSFRBilling", DefaultContexts.Save, "IsValid3 = 0", "Please fill in Buyer TIN and Buyer Reg. Num.")]
@@ -451,6 +451,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
 
         private string _EIVBuyerTIN;
         [XafDisplayName("Buyer's TIN No*")]
+        [ImmediatePostData]
         [Index(34), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVBuyerTIN
         {
@@ -463,6 +464,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
 
         private string _EIVBuyerRegNum;
         [XafDisplayName("Registration No.*")]
+        [ImmediatePostData]
         [Index(35), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVBuyerRegNum
         {
@@ -475,6 +477,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
 
         private vwEIVRegType _EIVBuyerRegTyp;
         [NoForeignKey]
+        [ImmediatePostData]
         [XafDisplayName("Registration Type*")]
         [Index(36), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwEIVRegType EIVBuyerRegTyp
@@ -512,6 +515,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
 
         private string _EIVBuyerContact;
         [XafDisplayName("Contact No.*")]
+        [ImmediatePostData]
         //[RuleRequiredField(DefaultContexts.Save)]
         [Index(39), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVBuyerContact
@@ -525,6 +529,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
 
         private string _EIVAddressLine1B;
         [XafDisplayName("Buyer's Address Line 1*")]
+        [ImmediatePostData]
         //[RuleRequiredField(DefaultContexts.Save)]
         [Index(40), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVAddressLine1B
@@ -575,6 +580,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
         private string _EIVCityNameB;
         [XafDisplayName("Buyer's City*")]
         //[RuleRequiredField(DefaultContexts.Save)]
+        [ImmediatePostData]
         [Index(44), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVCityNameB
         {
@@ -587,6 +593,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
 
         private vwState _EIVStateB;
         [NoForeignKey]
+        [ImmediatePostData]
         [XafDisplayName("Buyer's State*")]
         [Index(45), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwState EIVStateB
@@ -651,6 +658,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
 
         private vwEIVRegType _EIVShippingRegTyp;
         [NoForeignKey]
+        [ImmediatePostData]
         [XafDisplayName("Recipient’s Reg. No. Type")]
         [Index(50), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwEIVRegType EIVShippingRegTyp

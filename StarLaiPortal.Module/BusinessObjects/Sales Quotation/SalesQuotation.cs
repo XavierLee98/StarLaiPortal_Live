@@ -59,7 +59,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 
     [Appearance("HideDup", AppearanceItemType.Action, "True", TargetItems = "DuplicateSQ", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "SalesQuotation_DetailView_Approval")]
 
-    [Appearance("HideItemInq", AppearanceItemType.Action, "True", TargetItems = "InquiryItem", Criteria = "Customer = null or Transporter = null or CustomerName = null or ContactNo = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideItemInq", AppearanceItemType.Action, "True", TargetItems = "InquiryItem", Criteria = "Customer = null or Transporter = null or CustomerName = null or ContactNo = null or IsValid9 = 1 or IsValid16 = 1", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("HideExportSQ", AppearanceItemType.Action, "True", TargetItems = "ExportSQImport", Criteria = "DocNum = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("HideImportSQ", AppearanceItemType.Action, "True", TargetItems = "ImportSQ", Criteria = "DocNum = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     // Start ver 1.0.14
@@ -922,6 +922,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 
         private string _EIVBuyerTIN;
         [XafDisplayName("Buyer's TIN No*")]
+        [ImmediatePostData]
         [Index(74), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVBuyerTIN
         {
@@ -934,6 +935,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 
         private string _EIVBuyerRegNum;
         [XafDisplayName("Registration No.*")]
+        [ImmediatePostData]
         [Index(75), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVBuyerRegNum
         {
@@ -946,6 +948,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 
         private vwEIVRegType _EIVBuyerRegTyp;
         [NoForeignKey]
+        [ImmediatePostData]
         [XafDisplayName("Registration Type*")]
         [Index(76), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwEIVRegType EIVBuyerRegTyp
@@ -983,6 +986,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 
         private string _EIVBuyerContact;
         [XafDisplayName("Contact No.*")]
+        [ImmediatePostData]
         [Index(79), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVBuyerContact
         {
@@ -1063,8 +1067,8 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         private string _EIVCityNameB;
         [XafDisplayName("Buyer's City*")]
         //[RuleRequiredField(DefaultContexts.Save)]
-        [Index(84), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         [ImmediatePostData]
+        [Index(84), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVCityNameB
         {
             get { return _EIVCityNameB; }
@@ -1082,6 +1086,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         private vwState _EIVStateB;
         [NoForeignKey]
         [XafDisplayName("Buyer's State*")]
+        [ImmediatePostData]
         [Index(85), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwState EIVStateB
         {
@@ -1145,6 +1150,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 
         private vwEIVRegType _EIVShippingRegTyp;
         [NoForeignKey]
+        [ImmediatePostData]
         [XafDisplayName("Recipient’s Reg. No. Type")]
         [Index(90), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwEIVRegType EIVShippingRegTyp
