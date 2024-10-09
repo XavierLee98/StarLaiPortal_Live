@@ -28,8 +28,9 @@ using System.Text;
 using System.Web;
 using StarLaiPortal.Module.BusinessObjects.Sales_Quotation;
 
-// 2023-07-28 add print button and do not add count in preview ver 0.1
-// 2023-12-04 add daily delivery summary ver 1.0.13
+// 2023-07-28 - add print button and do not add count in preview ver 0.1
+// 2023-12-04 - add daily delivery summary ver 1.0.13
+// 2023-10-09 - update DOPrintBy ver 1.0.21
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -408,6 +409,16 @@ namespace StarLaiPortal.Module.Controllers
                     //ObjectSpace.CommitChanges();
                     //ObjectSpace.Refresh();
                     // End ver 0.1
+
+                    // Start ver 1.0.21
+                    IObjectSpace os = Application.CreateObjectSpace();
+                    DeliveryOrder trx = os.FindObject<DeliveryOrder>(new BinaryOperator("Oid", delivery.Oid));
+
+                    trx.DOPrintBy = user.Staff == null ? "" : user.Staff.StaffName;
+
+                    os.CommitChanges();
+                    os.Refresh();
+                    // End ver 1.0.21
                 }
                 catch (Exception ex)
                 {

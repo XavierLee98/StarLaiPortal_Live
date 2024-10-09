@@ -6813,7 +6813,24 @@
     <DetailView Id="vwInquiryStockBalancebyWhs_DetailView" AllowEdit="False" />
     <ListView Id="vwInquiryStockBalancebyWhs_ListView" DataAccessMode="Client" />
     <DetailView Id="vwInquiryStockBalanceTransfer_DetailView" AllowEdit="False" />
-    <ListView Id="vwInquiryStockBalanceTransfer_ListView" DataAccessMode="Client" />
+    <ListView Id="vwInquiryStockBalanceTransfer_ListView" DataAccessMode="Client">
+      <Columns>
+        <ColumnInfo Id="ItemName" SortIndex="-1" SortOrder="None" />
+        <ColumnInfo Id="S145_Process" Index="6" />
+        <ColumnInfo Id="S1820" Index="7" />
+        <ColumnInfo Id="S1820_Process" Index="8" />
+        <ColumnInfo Id="S428" Index="9" />
+        <ColumnInfo Id="S428_Process" Index="10" />
+        <ColumnInfo Id="On9" Index="11" />
+        <ColumnInfo Id="On9_Process" Index="12" />
+        <ColumnInfo Id="Whs52" Index="13" />
+        <ColumnInfo Id="Whs52_Process" Index="14" />
+        <ColumnInfo Id="Others" Index="15" />
+        <ColumnInfo Id="Others_Process" Index="16" />
+        <ColumnInfo Id="TransferQty" Index="17" />
+        <ColumnInfo Id="Available" Index="18" />
+      </Columns>
+    </ListView>
     <DetailView Id="vwInquiryStockMovement_DetailView" AllowEdit="False" />
     <ListView Id="vwInquiryStockMovement_ListView" DataAccessMode="Client" />
     <DetailView Id="vwInquiryStockPendingPost_DetailView" AllowEdit="False" />

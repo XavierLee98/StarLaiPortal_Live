@@ -20,6 +20,7 @@ using System.Text;
 // 2024-04-04 - remove stockbalance view - ver 1.0.15
 // 2024-05-16 - enhance speed - ver 1.0.15
 // 2024-06-12 - e-invoice - ver 1.0.18
+// 2024-10-08 - warehouse exclude SQ - ver 1.0.21
 
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 {
@@ -261,6 +262,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         // Start ver 1.0.15
         //[LookupEditorMode(LookupEditorMode.AllItems)]
         // End ver 1.0.15
+        // Start ver 1.0.21
+        [DataSourceCriteria("ExcludeSQ = 'N'")]
+        // End ver 1.0.21
         [RuleRequiredField(DefaultContexts.Save)]
         [XafDisplayName("Loc")]
         [Index(8), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]

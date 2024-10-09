@@ -21,6 +21,7 @@ using System.Text;
 // 2024-01-30 - add PODate and PODelivery - ver 1.0.14
 // 2024-04-01 - add paymentso and paymentgroup - ver 1.0.15
 // 2024-06-01 - add Salesperson - ver 1.0.17
+// 2024-10-08 - add whse - ver 1.0.21
 
 namespace StarLaiPortal.Module.BusinessObjects
 {
@@ -78,6 +79,14 @@ namespace StarLaiPortal.Module.BusinessObjects
         [Appearance("SAPInvoiceNo", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Criteria = "IsErr")]
         [Appearance("SAPInvoiceNo1", Enabled = false)]
         public string SAPInvoiceNo { get; set; }
+
+        // Start ver 1.0.21
+        [XafDisplayName("Whse")]
+        [Index(7), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
+        [Appearance("Whse", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Criteria = "IsErr")]
+        [Appearance("Whse1", Enabled = false)]
+        public string Whse { get; set; }
+        // End ver 1.0.21
 
         [Browsable(false)]
         public bool IsErr { get; set; }

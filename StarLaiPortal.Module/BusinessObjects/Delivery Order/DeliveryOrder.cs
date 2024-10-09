@@ -16,10 +16,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-// 2023-04-09 fix speed issue ver 1.0.8.1
-// 2023-09-25 add warehouse field ver 1.0.10
-// 2024-05-16 enhance speed - ver 1.0.15
+// 2023-04-09 - fix speed issue ver 1.0.8.1
+// 2023-09-25 - add warehouse field ver 1.0.10
+// 2024-05-16 - enhance speed - ver 1.0.15
 // 2024-06-12 - e-invoice - ver 1.0.18
+// 2024-10-09 - add PrintBy - ver 1.0.21
 
 namespace StarLaiPortal.Module.BusinessObjects.Delivery_Order
 {
@@ -489,6 +490,21 @@ namespace StarLaiPortal.Module.BusinessObjects.Delivery_Order
                 SetPropertyValue("BundleDOPrintDate", ref _BundleDOPrintDate, value);
             }
         }
+
+        // Start ver 1.0.21
+        private string _DOPrintBy;
+        [XafDisplayName("DO Print By")]
+        [Appearance("DOPrintBy", Enabled = false)]
+        [Index(44), VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
+        public string DOPrintBy
+        {
+            get { return _DOPrintBy; }
+            set
+            {
+                SetPropertyValue("DOPrintBy", ref _DOPrintBy, value);
+            }
+        }
+        // End ver 1.0.21
 
         // Start ver 1.0.18
         private vwYesNo _EIVConsolidate;

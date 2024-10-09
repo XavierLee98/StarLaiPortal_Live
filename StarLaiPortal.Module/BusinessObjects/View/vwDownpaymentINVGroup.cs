@@ -14,6 +14,8 @@ using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
 
+// 2024-10-09 - change postingdate to datetime - ver 1.0.21
+
 namespace StarLaiPortal.Module.BusinessObjects.View
 {
     [DefaultClassOptions]
@@ -61,7 +63,10 @@ namespace StarLaiPortal.Module.BusinessObjects.View
         [XafDisplayName("Posting Date")]
         [Appearance("PostingDate", Enabled = false)]
         [Index(5), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(true)]
-        public string PostingDate
+        // Start ver 1.0.21
+        //public string PostingDate
+        public DateTime PostingDate
+        // End ver 1.0.21
         {
             get; set;
         }

@@ -9,6 +9,7 @@ using DevExpress.ExpressApp.Templates;
 using DevExpress.ExpressApp.Utils;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.Base;
+using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo.DB;
 using StarLaiPortal.Module.BusinessObjects.Item_Inquiry;
@@ -19,6 +20,7 @@ using System.Linq;
 using System.Text;
 
 // 2024-04-01 add status filter ver 1.0.15
+// 2024-10-08 allow to search without warehouse ver 1.0.21
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -143,25 +145,31 @@ namespace StarLaiPortal.Module.Controllers
         {
             StockCountVarianceInquiry selectedObject = (StockCountVarianceInquiry)e.CurrentObject;
 
-            if (selectedObject.Warehouse != null)
-            {
-                XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
-                SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_StockCountVariance", new OperandValue(selectedObject.Oid),
-                    new OperandValue(selectedObject.StockCountDate.Date),
-                    new OperandValue(selectedObject.Warehouse.WarehouseCode));
+            // Start ver 1.0.21
+            //if (selectedObject.Warehouse != null)
+            //{
+            // End ver 1.0.21
+            XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+            SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_StockCountVariance", new OperandValue(selectedObject.Oid),
+                new OperandValue(selectedObject.StockCountDate.Date),
+                // Start ver 1.0.21
+                //new OperandValue(selectedObject.Warehouse.WarehouseCode));
+                new OperandValue(selectedObject.Warehouse == null ? "" : selectedObject.Warehouse.WarehouseCode));
+                // End ver 1.0.21
 
+            ObjectSpace.CommitChanges();
+            ObjectSpace.Refresh();
+            View.Refresh();
 
-                ObjectSpace.CommitChanges();
-                ObjectSpace.Refresh();
-                View.Refresh();
-
-                persistentObjectSpace.Session.DropIdentityMap();
-                persistentObjectSpace.Dispose();
-            }
-            else
-            {
-                showMsg("Error", "Please select warehouse.", InformationType.Error);
-            }
+            persistentObjectSpace.Session.DropIdentityMap();
+            persistentObjectSpace.Dispose();
+            // Start ver 1.0.21
+            //}
+            //else
+            //{
+            //    showMsg("Error", "Please select warehouse.", InformationType.Error);
+            //}
+            // End ver 1.0.21
         }
     }
 }

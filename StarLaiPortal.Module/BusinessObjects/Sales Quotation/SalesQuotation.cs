@@ -33,6 +33,7 @@ using System.Runtime.Remoting.Lifetime;
 // 2024-04-04 - remove stockbalance view - ver 1.0.15
 // 2024-06-01 - hide the priority if inactive - ver 1.0.17
 // 2024-06-12 - e-invoice - ver 1.0.18
+// 2024-10-09 - new enhancement - ver 1.0.21
 
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 {
@@ -237,7 +238,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                     {
                         PaymentTerm = Session.FindObject<vwPaymentTerm>(CriteriaOperator.Parse("GroupNum = ?", Customer.PaymentTerm.GroupNum));
                     }
-                    ContactNo = Customer.Contact;
+                    
+                    // Start ver 1.0.21
+                    //ContactNo = Customer.Contact;
+                    // End ver 1.0.21
                     Currency = Customer.Currency;
                     if (Customer.Transporter != null)
                     {
@@ -273,6 +277,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                     EIVBuyerContact = Customer.U_EIV_BuyerContact;
                     EIVShippingName = Customer.U_EIV_BuyerName;
                     // End ver 1.0.18
+
+                    // Start ver 1.0.21
+                    ContactNo = Customer.Contact;
+                    // End ver 1.0.21
 
                     foreach (SalesQuotationDetails dtl in this.SalesQuotationDetails)
                     {
@@ -387,6 +395,13 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
             set
             {
                 SetPropertyValue("ContactNo", ref _ContactNo, value);
+                if (!IsLoading && value != null)
+                {
+                    if (EIVBuyerContact == null)
+                    {
+                        EIVBuyerContact = ContactNo;
+                    }
+                }
             }
         }
 
@@ -973,7 +988,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         }
 
         private string _EIVBuyerEmail;
-        [XafDisplayName("E-mail ")]
+        [XafDisplayName("E-mail *")]
         [Index(78), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVBuyerEmail
         {

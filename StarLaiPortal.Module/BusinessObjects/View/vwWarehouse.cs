@@ -69,6 +69,16 @@ namespace StarLaiPortal.Module.BusinessObjects.View
             get; set;
         }
 
+        // Start ver 1.0.21
+        [XafDisplayName("ExcludeSQ")]
+        [Appearance("ExcludeSQ", Enabled = false)]
+        [Index(8)]
+        public string ExcludeSQ
+        {
+            get; set;
+        }
+        // End ver 1.0.21
+
         [XafDisplayName("Inactive")]
         [Appearance("Inactive", Enabled = false)]
         public string Inactive

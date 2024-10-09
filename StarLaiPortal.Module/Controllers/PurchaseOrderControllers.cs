@@ -34,7 +34,8 @@ using System.Web;
 
 // 2023-08-16 - add stock 3 and stock 4 - ver 1.0.8
 // 2023-10-30 - amend validation - ver 1.0.12
-// 2024-01-30 Add import update button ver 1.0.14
+// 2024-01-30 - Add import update button ver 1.0.14
+// 2024-10-08 - Add import update button ver 1.0.21
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -82,7 +83,9 @@ namespace StarLaiPortal.Module.Controllers
                     this.SubmitPO.Active.SetItemValue("Enabled", true);
                     this.CancelPO.Active.SetItemValue("Enabled", true);
                     this.PreviewPO.Active.SetItemValue("Enabled", true);
-                    this.DuplicatePO.Active.SetItemValue("Enabled", true);
+                    //Start ver 1.0.21
+                    //this.DuplicatePO.Active.SetItemValue("Enabled", true);
+                    // End ver 1.0.21
                     this.PreviewPONoCost.Active.SetItemValue("Enabled", true);
                 }
                 else
@@ -90,7 +93,9 @@ namespace StarLaiPortal.Module.Controllers
                     this.SubmitPO.Active.SetItemValue("Enabled", false);
                     this.CancelPO.Active.SetItemValue("Enabled", false);
                     this.PreviewPO.Active.SetItemValue("Enabled", false);
+                    // Start ver 1.0.21
                     this.DuplicatePO.Active.SetItemValue("Enabled", false);
+                    // End ver 1.0.21
                     this.PreviewPONoCost.Active.SetItemValue("Enabled", false);
                 }
 
@@ -142,7 +147,9 @@ namespace StarLaiPortal.Module.Controllers
                 this.CancelPO.Active.SetItemValue("Enabled", false);
                 this.PreviewPO.Active.SetItemValue("Enabled", false);
                 this.POInquiryItem.Active.SetItemValue("Enabled", false);
-                this.DuplicatePO.Active.SetItemValue("Enabled", false);
+                // Start ver 1.0.21
+                //this.DuplicatePO.Active.SetItemValue("Enabled", false);
+                // End ver 1.0.21
                 this.ReviewAppPO.Active.SetItemValue("Enabled", false);
                 this.ApproveAppPO.Active.SetItemValue("Enabled", false);
                 this.RejectAppPO.Active.SetItemValue("Enabled", false);

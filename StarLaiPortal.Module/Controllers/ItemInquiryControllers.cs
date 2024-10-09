@@ -39,7 +39,8 @@ using System.Web;
 // 2024-01-30 - orderstatus add new  field - ver 1.0.14
 // 2024-04-01 - add catalog number and old code search - ver 1.0.15
 // 2024-06-01 - add salesperson - ver 1.0.17
-// 2024-07-29 add DfltWhs - ver 1.0.19
+// 2024-07-29 - add DfltWhs - ver 1.0.19
+// 2024-10-08 - add whse - ver 1.0.21
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -317,6 +318,9 @@ namespace StarLaiPortal.Module.Controllers
                             // Start ver 1.0.17
                             item.Salesperson = row.Values[6].ToString();
                             // End ver 1.0.17
+                            // Start ver 1.0.21
+                            item.Whse = row.Values[7].ToString();
+                            // End ver 1.0.21
                             saleslist.Sales.Add(item);
 
                             i++;

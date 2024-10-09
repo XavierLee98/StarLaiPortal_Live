@@ -16,6 +16,7 @@ using System.Text;
 
 // 2023-10-16 - add available - ver 1.0.11
 // 2023-10-16 - add warehouse 52 - ver 1.0.11
+// 2024-10-09 - add new process field - ver 1.0.21
 
 namespace StarLaiPortal.Module.BusinessObjects.Inquiry_View
 {
@@ -175,5 +176,77 @@ namespace StarLaiPortal.Module.BusinessObjects.Inquiry_View
             get; set;
         }
         // End ver 1.0.11
+
+        // Start ver 1.0.21
+        [XafDisplayName("45(S1) Process")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("S145_Process", Enabled = false)]
+        [Index(40)]
+        public decimal S145_Process
+        {
+            get; set;
+        }
+
+        [XafDisplayName("18-20(S2) Process")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("S1820_Process", Enabled = false)]
+        [Index(41)]
+        public decimal S1820_Process
+        {
+            get; set;
+        }
+
+        [XafDisplayName("28(S4) Process")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("S428_Process", Enabled = false)]
+        [Index(42)]
+        public decimal S428_Process
+        {
+            get; set;
+        }
+
+        [XafDisplayName("On9 Process")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("On9_Process", Enabled = false)]
+        [Index(43)]
+        public decimal On9_Process
+        {
+            get; set;
+        }
+
+        [XafDisplayName("52 Process")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("Whs52_Process", Enabled = false)]
+        [Index(44)]
+        public decimal Whs52_Process
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Others")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("Others", Enabled = false)]
+        [Index(45)]
+        public decimal Others
+        {
+            get; set;
+        }
+
+        [XafDisplayName("Others Process")]
+        [DbType("numeric(18,6)")]
+        [ModelDefault("DisplayFormat", "{0:n2}")]
+        [Appearance("Others_Process", Enabled = false)]
+        [Index(46)]
+        public decimal Others_Process
+        {
+            get; set;
+        }
+        // End ver 1.0.21
     }
 }

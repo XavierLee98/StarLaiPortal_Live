@@ -2109,12 +2109,12 @@ namespace StarLaiPortal.Module.Controllers
             SalesQuotation sq = (SalesQuotation)View.CurrentObject;
 
             sq.EIVShippingName = sq.EIVBuyerName;
-            sq.EIVShippingRegNum = sq.EIVBuyerRegNum;
-            if (sq.EIVBuyerRegTyp != null)
-            {
-                sq.EIVShippingRegTyp = sq.Session.GetObjectByKey<vwEIVRegType>(sq.EIVBuyerRegTyp.Code);
-            }
-            sq.EIVShippingTin = sq.EIVBuyerTIN;
+            //sq.EIVShippingRegNum = sq.EIVBuyerRegNum;
+            //if (sq.EIVBuyerRegTyp != null)
+            //{
+            //    sq.EIVShippingRegTyp = sq.Session.GetObjectByKey<vwEIVRegType>(sq.EIVBuyerRegTyp.Code);
+            //}
+            //sq.EIVShippingTin = sq.EIVBuyerTIN;
             sq.EIVAddressLine1S = sq.EIVAddressLine1B;
             sq.EIVAddressLine2S = sq.EIVAddressLine2B;
             sq.EIVAddressLine3S = sq.EIVAddressLine3B;
