@@ -697,8 +697,17 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                 SetPropertyValue("EIVAddressLine1B", ref _EIVAddressLine1B, value);
                 if (!IsLoading)
                 {
-                    BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
-                        + Environment.NewLine + EIVCityNameB;
+                    if (EIVStateB != null)
+                    {
+                        BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
+                            + Environment.NewLine + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name + ", "
+                            + EIVStateB.Name;
+                    }
+                    else
+                    {
+                        BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
+                            + Environment.NewLine + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name;
+                    }
                 }
             }
         }
@@ -715,8 +724,17 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                 SetPropertyValue("EIVAddressLine2B", ref _EIVAddressLine2B, value);
                 if (!IsLoading)
                 {
-                    BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
-                        + Environment.NewLine + EIVCityNameB;
+                    if (EIVStateB != null)
+                    {
+                        BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
+                            + Environment.NewLine + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name + ", "
+                            + EIVStateB.Name;
+                    }
+                    else
+                    {
+                        BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
+                            + Environment.NewLine + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name;
+                    }
                 }
             }
         }
@@ -733,13 +751,23 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                 SetPropertyValue("EIVAddressLine3B", ref _EIVAddressLine3B, value);
                 if (!IsLoading)
                 {
-                    BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
-                        + Environment.NewLine + EIVCityNameB;
+                    if (EIVStateB != null)
+                    {
+                        BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
+                            + Environment.NewLine + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name + ", "
+                            + EIVStateB.Name;
+                    }
+                    else
+                    {
+                        BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
+                            + Environment.NewLine + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name;
+                    }
                 }
             }
         }
 
         private string _EIVPostalZoneB;
+        [ImmediatePostData]
         [XafDisplayName("Buyer's Postcode")]
         [Index(63), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVPostalZoneB
@@ -748,6 +776,20 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
             set
             {
                 SetPropertyValue("EIVPostalZoneB", ref _EIVPostalZoneB, value);
+                if (!IsLoading)
+                {
+                    if (EIVStateB != null)
+                    {
+                        BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
+                            + Environment.NewLine + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name + ", "
+                            + EIVStateB.Name;
+                    }
+                    else
+                    {
+                        BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
+                            + Environment.NewLine + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name;
+                    }
+                }
             }
         }
 
@@ -764,8 +806,17 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                 SetPropertyValue("EIVCityNameB", ref _EIVCityNameB, value);
                 if (!IsLoading)
                 {
-                    BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
-                        + Environment.NewLine + EIVCityNameB;
+                    if (EIVStateB != null)
+                    {
+                        BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
+                            + Environment.NewLine + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name + ", "
+                            + EIVStateB.Name;
+                    }
+                    else
+                    {
+                        BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
+                            + Environment.NewLine + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name;
+                    }
                 }
             }
         }
@@ -781,11 +832,26 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
             set
             {
                 SetPropertyValue("EIVStateB", ref _EIVStateB, value);
+                if (!IsLoading)
+                {
+                    if (EIVStateB != null)
+                    {
+                        BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
+                            + Environment.NewLine + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name + ", "
+                            + EIVStateB.Name;
+                    }
+                    else
+                    {
+                        BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
+                            + Environment.NewLine + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name;
+                    }
+                }
             }
         }
 
         private vwCountry _EIVCountryB;
         [NoForeignKey]
+        [ImmediatePostData]
         [XafDisplayName("Buyer's Country")]
         //[RuleRequiredField(DefaultContexts.Save)]
         [Index(66), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
@@ -795,6 +861,20 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
             set
             {
                 SetPropertyValue("EIVCountryB", ref _EIVCountryB, value);
+                if (!IsLoading)
+                {
+                    if (EIVStateB != null)
+                    {
+                        BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
+                            + Environment.NewLine + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name + ", "
+                            + EIVStateB.Name;
+                    }
+                    else
+                    {
+                        BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine2B + Environment.NewLine + EIVAddressLine3B
+                            + Environment.NewLine + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name;
+                    }
+                }
             }
         }
 
@@ -862,8 +942,17 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                 SetPropertyValue("EIVAddressLine1S", ref _EIVAddressLine1S, value);
                 if (!IsLoading)
                 {
-                    ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
-                        + Environment.NewLine + EIVCityNameS;
+                    if (EIVStateS != null)
+                    {
+                        ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
+                        + Environment.NewLine + EIVCityNameS + Environment.NewLine + EIVPostalZoneS + " " + EIVCountryS.Name + ", "
+                        + EIVStateS.Name;
+                    }
+                    else
+                    {
+                        ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
+                        + Environment.NewLine + EIVCityNameS + Environment.NewLine + EIVPostalZoneS + " " + EIVCountryS.Name;
+                    }
                 }
             }
         }
@@ -880,8 +969,17 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                 SetPropertyValue("EIVAddressLine2S", ref _EIVAddressLine2S, value);
                 if (!IsLoading)
                 {
-                    ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
-                        + Environment.NewLine + EIVCityNameS;
+                    if (EIVStateS != null)
+                    {
+                        ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
+                        + Environment.NewLine + EIVCityNameS + Environment.NewLine + EIVPostalZoneS + " " + EIVCountryS.Name + ", "
+                        + EIVStateS.Name;
+                    }
+                    else
+                    {
+                        ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
+                        + Environment.NewLine + EIVCityNameS + Environment.NewLine + EIVPostalZoneS + " " + EIVCountryS.Name;
+                    }
                 }
             }
         }
@@ -898,13 +996,23 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                 SetPropertyValue("EIVAddressLine3S", ref _EIVAddressLine3S, value);
                 if (!IsLoading)
                 {
-                    ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
-                        + Environment.NewLine + EIVCityNameS;
+                    if (EIVStateS != null)
+                    {
+                        ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
+                        + Environment.NewLine + EIVCityNameS + Environment.NewLine + EIVPostalZoneS + " " + EIVCountryS.Name + ", "
+                        + EIVStateS.Name;
+                    }
+                    else
+                    {
+                        ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
+                        + Environment.NewLine + EIVCityNameS + Environment.NewLine + EIVPostalZoneS + " " + EIVCountryS.Name;
+                    }
                 }
             }
         }
 
         private string _EIVPostalZoneS;
+        [ImmediatePostData]
         [XafDisplayName("Recipient's Postcode")]
         [Index(74), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVPostalZoneS
@@ -913,6 +1021,20 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
             set
             {
                 SetPropertyValue("EIVPostalZoneS", ref _EIVPostalZoneS, value);
+                if (!IsLoading)
+                {
+                    if (EIVStateS != null)
+                    {
+                        ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
+                        + Environment.NewLine + EIVCityNameS + Environment.NewLine + EIVPostalZoneS + " " + EIVCountryS.Name + ", "
+                        + EIVStateS.Name;
+                    }
+                    else
+                    {
+                        ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
+                        + Environment.NewLine + EIVCityNameS + Environment.NewLine + EIVPostalZoneS + " " + EIVCountryS.Name;
+                    }
+                }
             }
         }
 
@@ -929,14 +1051,24 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                 SetPropertyValue("EIVCityNameS", ref _EIVCityNameS, value);
                 if (!IsLoading)
                 {
-                    ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
-                        + Environment.NewLine + EIVCityNameS;
+                    if (EIVStateS != null)
+                    {
+                        ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
+                        + Environment.NewLine + EIVCityNameS + Environment.NewLine + EIVPostalZoneS + " " + EIVCountryS.Name + ", "
+                        + EIVStateS.Name;
+                    }
+                    else
+                    {
+                        ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
+                        + Environment.NewLine + EIVCityNameS + Environment.NewLine + EIVPostalZoneS + " " + EIVCountryS.Name;
+                    }
                 }
             }
         }
 
         private vwState _EIVStateS;
         [NoForeignKey]
+        [ImmediatePostData]
         [XafDisplayName("Recipient's State")]
         [Index(76), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public vwState EIVStateS
@@ -945,11 +1077,26 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
             set
             {
                 SetPropertyValue("EIVStateS", ref _EIVStateS, value);
+                if (!IsLoading)
+                {
+                    if (EIVStateS != null)
+                    {
+                        ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
+                        + Environment.NewLine + EIVCityNameS + Environment.NewLine + EIVPostalZoneS + " " + EIVCountryS.Name + ", "
+                        + EIVStateS.Name;
+                    }
+                    else
+                    {
+                        ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
+                        + Environment.NewLine + EIVCityNameS + Environment.NewLine + EIVPostalZoneS + " " + EIVCountryS.Name;
+                    }
+                }
             }
         }
 
         private vwCountry _EIVCountryS;
         [NoForeignKey]
+        [ImmediatePostData]
         [XafDisplayName("Recipient's Country")]
         //[RuleRequiredField(DefaultContexts.Save)]
         [Index(77), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
@@ -959,6 +1106,20 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
             set
             {
                 SetPropertyValue("EIVCountryS", ref _EIVCountryS, value);
+                if (!IsLoading)
+                {
+                    if (EIVStateS != null)
+                    {
+                        ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
+                        + Environment.NewLine + EIVCityNameS + Environment.NewLine + EIVPostalZoneS + " " + EIVCountryS.Name + ", "
+                        + EIVStateS.Name;
+                    }
+                    else
+                    {
+                        ShippingAddressfield = EIVAddressLine1S + Environment.NewLine + EIVAddressLine2S + Environment.NewLine + EIVAddressLine3S
+                        + Environment.NewLine + EIVCityNameS + Environment.NewLine + EIVPostalZoneS + " " + EIVCountryS.Name;
+                    }
+                }
             }
         }
         // End ver 1.0.18
