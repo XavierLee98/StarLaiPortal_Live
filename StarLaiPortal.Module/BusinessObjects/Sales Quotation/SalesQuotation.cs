@@ -1067,14 +1067,12 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                         else if (EIVAddressLine2B == null && EIVAddressLine3B != null)
                         {
                             BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine3B + Environment.NewLine
-                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name + ", "
-                                + EIVStateB.Name;
+                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name;
                         }
                         else
                         {
                             BillingAddressfield = EIVAddressLine1B + Environment.NewLine
-                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name + ", "
-                                + EIVStateB.Name;
+                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name;
                         }
                     }
                 }
@@ -1135,14 +1133,12 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                         else if (EIVAddressLine2B == null && EIVAddressLine3B != null)
                         {
                             BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine3B + Environment.NewLine
-                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name + ", "
-                                + EIVStateB.Name;
+                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name;
                         }
                         else
                         {
                             BillingAddressfield = EIVAddressLine1B + Environment.NewLine
-                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name + ", "
-                                + EIVStateB.Name;
+                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name;
                         }
                     }
                 }
@@ -1203,14 +1199,12 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                         else if (EIVAddressLine2B == null && EIVAddressLine3B != null)
                         {
                             BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine3B + Environment.NewLine
-                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name + ", "
-                                + EIVStateB.Name;
+                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name;
                         }
                         else
                         {
                             BillingAddressfield = EIVAddressLine1B + Environment.NewLine
-                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name + ", "
-                                + EIVStateB.Name;
+                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name;
                         }
                     }
                 }
@@ -1271,14 +1265,12 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                         else if (EIVAddressLine2B == null && EIVAddressLine3B != null)
                         {
                             BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine3B + Environment.NewLine
-                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name + ", "
-                                + EIVStateB.Name;
+                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name;
                         }
                         else
                         {
                             BillingAddressfield = EIVAddressLine1B + Environment.NewLine
-                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name + ", "
-                                + EIVStateB.Name;
+                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name;
                         }
                     }
                 }
@@ -1340,14 +1332,12 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                         else if (EIVAddressLine2B == null && EIVAddressLine3B != null)
                         {
                             BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine3B + Environment.NewLine
-                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name + ", "
-                                + EIVStateB.Name;
+                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name;
                         }
                         else
                         {
                             BillingAddressfield = EIVAddressLine1B + Environment.NewLine
-                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name + ", "
-                                + EIVStateB.Name;
+                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name;
                         }
                     }
                 }
@@ -1409,14 +1399,12 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                         else if (EIVAddressLine2B == null && EIVAddressLine3B != null)
                         {
                             BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine3B + Environment.NewLine
-                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name + ", "
-                                + EIVStateB.Name;
+                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name;
                         }
                         else
                         {
                             BillingAddressfield = EIVAddressLine1B + Environment.NewLine
-                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name + ", "
-                                + EIVStateB.Name;
+                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name;
                         }
                     }
                 }
@@ -1479,14 +1467,12 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                         else if (EIVAddressLine2B == null && EIVAddressLine3B != null)
                         {
                             BillingAddressfield = EIVAddressLine1B + Environment.NewLine + EIVAddressLine3B + Environment.NewLine
-                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name + ", "
-                                + EIVStateB.Name;
+                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name;
                         }
                         else
                         {
                             BillingAddressfield = EIVAddressLine1B + Environment.NewLine
-                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name + ", "
-                                + EIVStateB.Name;
+                                + EIVCityNameB + Environment.NewLine + EIVPostalZoneB + " " + EIVCountryB.Name;
                         }
                     }
                 }
