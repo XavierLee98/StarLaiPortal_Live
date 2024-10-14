@@ -24,6 +24,7 @@ using static System.Net.Mime.MediaTypeNames;
 using DevExpress.Xpo.DB.Helpers;
 using DevExpress.Persistent.Base.Security;
 using System.Runtime.Remoting.Lifetime;
+using DevExpress.Web.Internal.XmlProcessor;
 
 // 2023-07-28 block submit if no address for OC and OS ver 1.0.7
 // 2023-12-01 change to action for create SO button ver 1.0.13
@@ -397,7 +398,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                 SetPropertyValue("ContactNo", ref _ContactNo, value);
                 if (!IsLoading && value != null)
                 {
-                    if (EIVBuyerContact == null)
+                    if (string.IsNullOrEmpty(EIVBuyerContact))
                     {
                         EIVBuyerContact = ContactNo;
                     }
