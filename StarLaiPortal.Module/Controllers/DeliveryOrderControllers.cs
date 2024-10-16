@@ -372,16 +372,6 @@ namespace StarLaiPortal.Module.Controllers
                 DeliveryOrder delivery = (DeliveryOrder)View.CurrentObject;
                 ApplicationUser user = (ApplicationUser)SecuritySystem.CurrentUser;
 
-                // Start ver 1.0.21
-                IObjectSpace os = Application.CreateObjectSpace();
-                DeliveryOrder trx = os.FindObject<DeliveryOrder>(new BinaryOperator("Oid", delivery.Oid));
-
-                trx.DOPrintBy = user.Staff == null ? "" : user.Staff.StaffName;
-
-                os.CommitChanges();
-                os.Refresh();
-                // End ver 1.0.21
-
                 try
                 {
                     ReportDocument doc = new ReportDocument();
@@ -582,6 +572,18 @@ namespace StarLaiPortal.Module.Controllers
                 DeliveryOrder delivery = (DeliveryOrder)View.CurrentObject;
                 ApplicationUser user = (ApplicationUser)SecuritySystem.CurrentUser;
 
+                // Start ver 1.0.21
+                IObjectSpace os = Application.CreateObjectSpace();
+                DeliveryOrder trx = os.FindObject<DeliveryOrder>(new BinaryOperator("Oid", delivery.Oid));
+
+                trx.DOPrintCount = trx.DOPrintCount + 1;
+                trx.DOPrintDate = DateTime.Now;
+                trx.DOPrintBy = user.Staff == null ? "" : user.Staff.StaffName;
+
+                os.CommitChanges();
+                os.Refresh();
+                // End ver 1.0.21
+
                 try
                 {
                     ReportDocument doc = new ReportDocument();
@@ -612,14 +614,16 @@ namespace StarLaiPortal.Module.Controllers
 
                     WebWindow.CurrentRequestWindow.RegisterStartupScript("DownloadFile", script);
 
-                    IObjectSpace os = Application.CreateObjectSpace();
-                    DeliveryOrder trx = os.FindObject<DeliveryOrder>(new BinaryOperator("Oid", delivery.Oid));
+                    // Start ver 1.0.21
+                    //IObjectSpace os = Application.CreateObjectSpace();
+                    //DeliveryOrder trx = os.FindObject<DeliveryOrder>(new BinaryOperator("Oid", delivery.Oid));
 
-                    trx.DOPrintCount = trx.DOPrintCount + 1;
-                    trx.DOPrintDate = DateTime.Now;
+                    //trx.DOPrintCount = trx.DOPrintCount + 1;
+                    //trx.DOPrintDate = DateTime.Now;
 
-                    os.CommitChanges();
-                    os.Refresh();
+                    //os.CommitChanges();
+                    //os.Refresh();
+                    // End ver 1.0.21
                 }
                 catch (Exception ex)
                 {
