@@ -372,6 +372,16 @@ namespace StarLaiPortal.Module.Controllers
                 DeliveryOrder delivery = (DeliveryOrder)View.CurrentObject;
                 ApplicationUser user = (ApplicationUser)SecuritySystem.CurrentUser;
 
+                // Start ver 1.0.21
+                IObjectSpace os = Application.CreateObjectSpace();
+                DeliveryOrder trx = os.FindObject<DeliveryOrder>(new BinaryOperator("Oid", delivery.Oid));
+
+                trx.DOPrintBy = user.Staff == null ? "" : user.Staff.StaffName;
+
+                os.CommitChanges();
+                os.Refresh();
+                // End ver 1.0.21
+
                 try
                 {
                     ReportDocument doc = new ReportDocument();
@@ -409,16 +419,6 @@ namespace StarLaiPortal.Module.Controllers
                     //ObjectSpace.CommitChanges();
                     //ObjectSpace.Refresh();
                     // End ver 0.1
-
-                    // Start ver 1.0.21
-                    IObjectSpace os = Application.CreateObjectSpace();
-                    DeliveryOrder trx = os.FindObject<DeliveryOrder>(new BinaryOperator("Oid", delivery.Oid));
-
-                    trx.DOPrintBy = user.Staff == null ? "" : user.Staff.StaffName;
-
-                    os.CommitChanges();
-                    os.Refresh();
-                    // End ver 1.0.21
                 }
                 catch (Exception ex)
                 {
