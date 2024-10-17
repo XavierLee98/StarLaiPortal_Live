@@ -56,7 +56,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
     [RuleCriteria("EIVSRRBillingState", DefaultContexts.Save, "IsValid8 = 0", "Please fill in Buyer State.")]
     [RuleCriteria("EIVSRRShippingState", DefaultContexts.Save, "IsValid9 = 0", "Please fill in Shipping State.")]
 
-    //[RuleCriteria("EIVSRREmail", DefaultContexts.Save, "IsValid10 = 0", "Please fill in email address.")]
+    [RuleCriteria("EIVSRREmail", DefaultContexts.Save, "IsValid10 = 0", "Please fill in email address.")]
 
     [RuleCriteria("EIVSRREIVBMandatory", DefaultContexts.Save, "IsValid11 = 0", "Please fill in EIV mandatory field. (EIV Type / Sync. Freq. / Buyer's Name/ " +
         "Buyer's Address Line 1 / Buyer's Country / Buyer's City / Contact No.")]
@@ -1817,7 +1817,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
             {
                 if (this.EIVConsolidate != null)
                 {
-                    if (this.EIVConsolidate.Code == "Y" && this.EIVBuyerEmail == null)
+                    if (this.EIVConsolidate.Code == "Y" && string.IsNullOrEmpty(EIVBuyerEmail))
                     {
                         return true;
                     }

@@ -2108,7 +2108,7 @@ namespace StarLaiPortal.Module.Controllers
         {
             SalesQuotation sq = (SalesQuotation)View.CurrentObject;
 
-            sq.EIVShippingName = sq.EIVBuyerName;
+            sq.EIVShippingName = sq.CustomerName;
             //sq.EIVShippingRegNum = sq.EIVBuyerRegNum;
             //if (sq.EIVBuyerRegTyp != null)
             //{

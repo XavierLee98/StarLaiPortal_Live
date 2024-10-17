@@ -78,12 +78,14 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
     [RuleCriteria("EIVSQBillingState", DefaultContexts.Save, "IsValid13 = 0", "Please fill in Buyer State.")]
     [RuleCriteria("EIVSQShippingState", DefaultContexts.Save, "IsValid14 = 0", "Please fill in Shipping State.")]
 
-    //[RuleCriteria("EIVSQEmail", DefaultContexts.Save, "IsValid15 = 0", "Please fill in email address.")]
+    [RuleCriteria("EIVSQEmail", DefaultContexts.Save, "IsValid15 = 0", "Please fill in email address.")]
 
     [RuleCriteria("EIVSQEIVBMandatory", DefaultContexts.Save, "IsValid16 = 0", "Please fill in EIV mandatory field. (EIV Type / Sync. Freq. / Buyer's Name/ " +
         "Buyer's Address Line 1 / Buyer's Country / Contact No. ")]
 
     [RuleCriteria("EIVSQEIVBSMandatory", DefaultContexts.Save, "IsValid17 = 0", "Recipient's Address Line 1 / Recipient's City / Recipient's Country")]
+
+    [RuleCriteria("EIVSQEIVSNameMandatory", DefaultContexts.Save, "IsValid18 = 0", "Recipient's name not allow blank.")]
     // End ver 1.0.18
 
     public class SalesQuotation : XPObject
@@ -224,7 +226,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                     bool update = false;
                     //if (Customer.GroupName != "Trade Debtor - Cash")
                     //{
-                        CustomerName = Customer.BPName;
+                    //    CustomerName = Customer.BPName;
                     //}
                     //else
                     //{
@@ -281,6 +283,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 
                     // Start ver 1.0.21
                     ContactNo = Customer.Contact;
+                    CustomerName = Customer.BPName;
                     // End ver 1.0.21
 
                     foreach (SalesQuotationDetails dtl in this.SalesQuotationDetails)
@@ -366,6 +369,12 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
             set
             {
                 SetPropertyValue("CustomerName", ref _CustomerName, value);
+                // Start ver 1.0.18
+                if (!IsLoading && value != null)
+                {
+                    EIVBuyerName = CustomerName;
+                }
+                // End ver 1.0.18
             }
         }
 
@@ -2201,7 +2210,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
             {
                 if (this.EIVConsolidate != null)
                 {
-                    if (this.EIVConsolidate.Code == "Y" && this.EIVBuyerEmail == null)
+                    if (this.EIVConsolidate.Code == "Y" && string.IsNullOrEmpty(EIVBuyerEmail))
                     {
                         return true;
                     }
@@ -2248,6 +2257,23 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                                 return true;
                             }
                         }
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        [Browsable(false)]
+        public bool IsValid18
+        {
+            get
+            {
+                if (this.ShippingAddress == null)
+                {
+                    if (string.IsNullOrEmpty(EIVShippingName))
+                    {
+                        return true;
                     }
                 }
 
