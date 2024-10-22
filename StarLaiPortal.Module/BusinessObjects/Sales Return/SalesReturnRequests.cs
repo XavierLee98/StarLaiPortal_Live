@@ -386,6 +386,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                     // Start ver 1.0.18
                     EIVAddressLine1B = BillingAddress.Street;
                     EIVAddressLine2B = BillingAddress.Block;
+                    EIVAddressLine3B = BillingAddress.County;
                     EIVPostalZoneB = BillingAddress.ZipCode;
                     EIVCityNameB = BillingAddress.City;
                     EIVStateB = Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", BillingAddress.State));
@@ -398,6 +399,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                     // Start ver 1.0.18
                     EIVAddressLine1B = null;
                     EIVAddressLine2B = null;
+                    EIVAddressLine3B = null;
                     EIVPostalZoneB = null;
                     EIVCityNameB = null;
                     EIVStateB = null;
@@ -439,6 +441,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                     // Start ver 1.0.18
                     EIVAddressLine1S = ShippingAddress.Street;
                     EIVAddressLine2S = ShippingAddress.Block;
+                    EIVAddressLine3S = ShippingAddress.County;
                     EIVPostalZoneS = ShippingAddress.ZipCode;
                     EIVCityNameS = ShippingAddress.City;
                     EIVStateS = Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", ShippingAddress.State));
@@ -455,6 +458,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                     // Start ver 1.0.18
                     EIVAddressLine1S = null;
                     EIVAddressLine2S = null;
+                    EIVAddressLine3S = null;
                     EIVPostalZoneS = null;
                     EIVCityNameS = null;
                     EIVStateS = null;

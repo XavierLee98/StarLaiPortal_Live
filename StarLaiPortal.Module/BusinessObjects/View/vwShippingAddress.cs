@@ -101,6 +101,14 @@ namespace StarLaiPortal.Module.BusinessObjects.View
             get; set;
         }
 
+        [XafDisplayName("County")]
+        [Appearance("County", Enabled = false)]
+        [Index(16)]
+        public string County
+        {
+            get; set;
+        }
+
         [XafDisplayName("State")]
         [Appearance("State", Enabled = false)]
         [Index(18)]
