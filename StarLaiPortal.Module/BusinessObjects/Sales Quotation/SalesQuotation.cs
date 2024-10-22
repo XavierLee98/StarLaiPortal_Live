@@ -61,7 +61,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 
     [Appearance("HideDup", AppearanceItemType.Action, "True", TargetItems = "DuplicateSQ", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "SalesQuotation_DetailView_Approval")]
 
-    [Appearance("HideItemInq", AppearanceItemType.Action, "True", TargetItems = "InquiryItem", Criteria = "Customer = null or Transporter = null or CustomerName = null or ContactNo = null or IsValid9 = 1 or IsValid16 = 1", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideItemInq", AppearanceItemType.Action, "True", TargetItems = "InquiryItem", Criteria = "Customer = null or Transporter = null or CustomerName = null or ContactNo = null or IsValid9 = 1 or IsValid16 = 1 or IsValid18 = 1", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("HideExportSQ", AppearanceItemType.Action, "True", TargetItems = "ExportSQImport", Criteria = "DocNum = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("HideImportSQ", AppearanceItemType.Action, "True", TargetItems = "ImportSQ", Criteria = "DocNum = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     // Start ver 1.0.14
@@ -903,6 +903,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 
         private vwEIVType _EIVType;
         [NoForeignKey]
+        [ImmediatePostData]
         [XafDisplayName("E-Invoice Type")]
         //[RuleRequiredField(DefaultContexts.Save)]
         [Appearance("EIVType", Enabled = false, Criteria = "Customer.GroupName != 'Trade Debtor - Cash'")]
@@ -918,6 +919,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 
         private vwEIVFreqSync _EIVFreqSync;
         [NoForeignKey]
+        [ImmediatePostData]
         [XafDisplayName("Sync. Freq.")]
         //[RuleRequiredField(DefaultContexts.Save)]
         [Appearance("EIVFreqSync", Enabled = false, Criteria = "Customer.GroupName != 'Trade Debtor - Cash'")]
@@ -1423,6 +1425,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 
         private vwCountry _EIVCountryB;
         [NoForeignKey]
+        [ImmediatePostData]
         [XafDisplayName("Buyer's Country")]
         //[RuleRequiredField(DefaultContexts.Save)]
         [Index(86), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
@@ -1437,6 +1440,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 
         //Recipient
         private string _EIVShippingName;
+        [ImmediatePostData]
         [XafDisplayName("Recipient's Name")]
         [Index(87), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVShippingName

@@ -44,7 +44,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
     [Appearance("HideCopyTo1", AppearanceItemType.Action, "True", TargetItems = "SRRCopyToSR", Criteria = "(not (Status in (1))) or ((Status in (1)) and (not AppStatus in (0, 1)))", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("HideCopyTo2", AppearanceItemType.Action, "True", TargetItems = "SRRCopyToSR", Criteria = "CopyTo = 1", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
 
-    [Appearance("HideItemInq", AppearanceItemType.Action, "True", TargetItems = "SRRInquiryItem", Criteria = "Customer = null or IsValid4 = 1 or EIVSRREIVBMandatory = 1", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideItemInq", AppearanceItemType.Action, "True", TargetItems = "SRRInquiryItem", Criteria = "Customer = null or IsValid4 = 1 or IsValid11 = 1", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
 
     // Start ver 1.0.18
     [RuleCriteria("EIVSRRBilling", DefaultContexts.Save, "IsValid4 = 0", "Please fill in Buyer TIN and Buyer Reg. Num.")]
@@ -564,6 +564,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
 
         private vwEIVType _EIVType;
         [NoForeignKey]
+        [ImmediatePostData]
         [XafDisplayName("E-Invoice Type")]
         //[RuleRequiredField(DefaultContexts.Save)]
         [Appearance("EIVType", Enabled = false, Criteria = "Customer.GroupName != 'Trade Debtor - Cash'")]
@@ -579,6 +580,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
 
         private vwEIVFreqSync _EIVFreqSync;
         [NoForeignKey]
+        [ImmediatePostData]
         [XafDisplayName("Sync. Freq.")]
         //[RuleRequiredField(DefaultContexts.Save)]
         [Appearance("EIVFreqSync", Enabled = false, Criteria = "Customer.GroupName != 'Trade Debtor - Cash'")]
@@ -1085,6 +1087,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
 
         private vwCountry _EIVCountryB;
         [NoForeignKey]
+        [ImmediatePostData]
         [XafDisplayName("Buyer's Country")]
         //[RuleRequiredField(DefaultContexts.Save)]
         [Index(66), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
