@@ -386,9 +386,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                     // Start ver 1.0.18
                     EIVAddressLine1B = BillingAddress.Street;
                     EIVAddressLine2B = BillingAddress.Block;
-                    EIVAddressLine3B = BillingAddress.County;
+                    EIVAddressLine3B = BillingAddress.City;
                     EIVPostalZoneB = BillingAddress.ZipCode;
-                    EIVCityNameB = BillingAddress.City;
+                    EIVCityNameB = BillingAddress.County;
                     EIVStateB = Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", BillingAddress.State));
                     EIVCountryB = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", BillingAddress.Country));
                     // End ver 1.0.18
@@ -441,9 +441,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
                     // Start ver 1.0.18
                     EIVAddressLine1S = ShippingAddress.Street;
                     EIVAddressLine2S = ShippingAddress.Block;
-                    EIVAddressLine3S = ShippingAddress.County;
+                    EIVAddressLine3S = ShippingAddress.City;
                     EIVPostalZoneS = ShippingAddress.ZipCode;
-                    EIVCityNameS = ShippingAddress.City;
+                    EIVCityNameS = ShippingAddress.County;
                     EIVStateS = Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", ShippingAddress.State));
                     EIVCountryS = Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", ShippingAddress.Country));
                     EIVShippingName = ShippingAddress.U_EIV_ShippingName;
