@@ -2171,6 +2171,12 @@ namespace PortalIntegration
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = oTargetDoc.EIVBuyerEmail == null ? "" : oTargetDoc.EIVBuyerEmail;
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact == null ? "" : oTargetDoc.EIVBuyerContact;
 
+                    oDoc.AddressExtension.BillToAddress2 = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
+                    oDoc.AddressExtension.BillToAddress3 = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
+                    oDoc.AddressExtension.BillToStreet = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
+                    oDoc.AddressExtension.BillToCounty = oTargetDoc.EIVCityNameB == null ? "" : oTargetDoc.EIVCityNameB;
+                    oDoc.AddressExtension.BillToZipCode = oTargetDoc.EIVPostalZoneB == null ? "" : oTargetDoc.EIVPostalZoneB;
+
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
@@ -2193,6 +2199,12 @@ namespace PortalIntegration
                     {
                         oDoc.UserFields.Fields.Item("U_EIV_ShippingRegTyp").Value = oTargetDoc.EIVShippingRegTyp.Code;
                     }
+                    oDoc.AddressExtension.ShipToStreetNo = oTargetDoc.EIVAddressLine1S == null ? "" : oTargetDoc.EIVAddressLine1S;
+                    oDoc.AddressExtension.ShipToBlock = oTargetDoc.EIVAddressLine2S == null ? "" : oTargetDoc.EIVAddressLine2S;
+                    oDoc.AddressExtension.ShipToCity = oTargetDoc.EIVAddressLine3S == null ? "" : oTargetDoc.EIVAddressLine3S;
+                    oDoc.AddressExtension.ShipToCounty = oTargetDoc.EIVCityNameS == null ? "" : oTargetDoc.EIVCityNameS;
+                    oDoc.AddressExtension.ShipToZipCode = oTargetDoc.EIVPostalZoneS == null ? "" : oTargetDoc.EIVPostalZoneS;
+
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1S").Value = oTargetDoc.EIVAddressLine1S == null ? "" : oTargetDoc.EIVAddressLine1S;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2S").Value = oTargetDoc.EIVAddressLine2S == null ? "" : oTargetDoc.EIVAddressLine2S;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3S").Value = oTargetDoc.EIVAddressLine3S == null ? "" : oTargetDoc.EIVAddressLine3S;
@@ -2897,6 +2909,12 @@ namespace PortalIntegration
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = oTargetDoc.EIVBuyerEmail == null ? "" : oTargetDoc.EIVBuyerEmail;
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact == null ? "" : oTargetDoc.EIVBuyerContact;
 
+                    oDoc.AddressExtension.BillToAddress2 = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
+                    oDoc.AddressExtension.BillToAddress3 = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
+                    oDoc.AddressExtension.BillToStreet = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
+                    oDoc.AddressExtension.BillToCounty = oTargetDoc.EIVCityNameB == null ? "" : oTargetDoc.EIVCityNameB;
+                    oDoc.AddressExtension.BillToZipCode = oTargetDoc.EIVPostalZoneB == null ? "" : oTargetDoc.EIVPostalZoneB;
+
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
@@ -2919,6 +2937,13 @@ namespace PortalIntegration
                     {
                         oDoc.UserFields.Fields.Item("U_EIV_ShippingRegTyp").Value = oTargetDoc.EIVShippingRegTyp.Code;
                     }
+
+                    oDoc.AddressExtension.ShipToStreetNo = oTargetDoc.EIVAddressLine1S == null ? "" : oTargetDoc.EIVAddressLine1S;
+                    oDoc.AddressExtension.ShipToBlock = oTargetDoc.EIVAddressLine2S == null ? "" : oTargetDoc.EIVAddressLine2S;
+                    oDoc.AddressExtension.ShipToCity = oTargetDoc.EIVAddressLine3S == null ? "" : oTargetDoc.EIVAddressLine3S;
+                    oDoc.AddressExtension.ShipToCounty = oTargetDoc.EIVCityNameS == null ? "" : oTargetDoc.EIVCityNameS;
+                    oDoc.AddressExtension.ShipToZipCode = oTargetDoc.EIVPostalZoneS == null ? "" : oTargetDoc.EIVPostalZoneS;
+
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1S").Value = oTargetDoc.EIVAddressLine1S == null ? "" : oTargetDoc.EIVAddressLine1S;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2S").Value = oTargetDoc.EIVAddressLine2S == null ? "" : oTargetDoc.EIVAddressLine2S;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3S").Value = oTargetDoc.EIVAddressLine3S == null ? "" : oTargetDoc.EIVAddressLine3S;
@@ -3748,6 +3773,12 @@ namespace PortalIntegration
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerSSTRegNum").Value = oTargetDoc.EIVBuyerSSTRegNum == null ? "" : oTargetDoc.EIVBuyerSSTRegNum;
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact == null ? "" : oTargetDoc.EIVBuyerContact;
 
+                    oDoc.AddressExtension.BillToAddress2 = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
+                    oDoc.AddressExtension.BillToAddress3 = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
+                    oDoc.AddressExtension.BillToStreet = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
+                    oDoc.AddressExtension.BillToCounty = oTargetDoc.EIVCityNameB == null ? "" : oTargetDoc.EIVCityNameB;
+                    oDoc.AddressExtension.BillToZipCode = oTargetDoc.EIVPostalZoneB == null ? "" : oTargetDoc.EIVPostalZoneB;
+
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
@@ -3770,6 +3801,13 @@ namespace PortalIntegration
                     {
                         oDoc.UserFields.Fields.Item("U_EIV_ShippingRegTyp").Value = oTargetDoc.EIVShippingRegTyp.Code;
                     }
+
+                    oDoc.AddressExtension.ShipToStreetNo = oTargetDoc.EIVAddressLine1S == null ? "" : oTargetDoc.EIVAddressLine1S;
+                    oDoc.AddressExtension.ShipToBlock = oTargetDoc.EIVAddressLine2S == null ? "" : oTargetDoc.EIVAddressLine2S;
+                    oDoc.AddressExtension.ShipToCity = oTargetDoc.EIVAddressLine3S == null ? "" : oTargetDoc.EIVAddressLine3S;
+                    oDoc.AddressExtension.ShipToCounty = oTargetDoc.EIVCityNameS == null ? "" : oTargetDoc.EIVCityNameS;
+                    oDoc.AddressExtension.ShipToZipCode = oTargetDoc.EIVPostalZoneS == null ? "" : oTargetDoc.EIVPostalZoneS;
+
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1S").Value = oTargetDoc.EIVAddressLine1S == null ? "" : oTargetDoc.EIVAddressLine1S;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2S").Value = oTargetDoc.EIVAddressLine2S == null ? "" : oTargetDoc.EIVAddressLine2S;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3S").Value = oTargetDoc.EIVAddressLine3S == null ? "" : oTargetDoc.EIVAddressLine3S;
@@ -3956,6 +3994,12 @@ namespace PortalIntegration
                         oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = so.EIVBuyerEmail == null ? "" : so.EIVBuyerEmail;
                         oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = so.EIVBuyerContact == null ? "" : so.EIVBuyerContact;
 
+                        oDoc.AddressExtension.BillToAddress2 = so.EIVAddressLine1B == null ? "" : so.EIVAddressLine1B;
+                        oDoc.AddressExtension.BillToAddress3 = so.EIVAddressLine2B == null ? "" : so.EIVAddressLine2B;
+                        oDoc.AddressExtension.BillToStreet = so.EIVAddressLine3B == null ? "" : so.EIVAddressLine3B;
+                        oDoc.AddressExtension.BillToCounty = so.EIVCityNameB == null ? "" : so.EIVCityNameB;
+                        oDoc.AddressExtension.BillToZipCode = so.EIVPostalZoneB == null ? "" : so.EIVPostalZoneB;
+
                         oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = so.EIVAddressLine1B == null ? "" : so.EIVAddressLine1B;
                         oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = so.EIVAddressLine2B == null ? "" : so.EIVAddressLine2B;
                         oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = so.EIVAddressLine3B == null ? "" : so.EIVAddressLine3B;
@@ -3978,6 +4022,13 @@ namespace PortalIntegration
                         {
                             oDoc.UserFields.Fields.Item("U_EIV_ShippingRegTyp").Value = so.EIVShippingRegTyp.Code;
                         }
+
+                        oDoc.AddressExtension.ShipToStreetNo = so.EIVAddressLine1S == null ? "" : so.EIVAddressLine1S;
+                        oDoc.AddressExtension.ShipToBlock = so.EIVAddressLine2S == null ? "" : so.EIVAddressLine2S;
+                        oDoc.AddressExtension.ShipToCity = so.EIVAddressLine3S == null ? "" : so.EIVAddressLine3S;
+                        oDoc.AddressExtension.ShipToCounty = so.EIVCityNameS == null ? "" : so.EIVCityNameS;
+                        oDoc.AddressExtension.ShipToZipCode = so.EIVPostalZoneS == null ? "" : so.EIVPostalZoneS;
+
                         oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1S").Value = so.EIVAddressLine1S == null ? "" : so.EIVAddressLine1S;
                         oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2S").Value = so.EIVAddressLine2S == null ? "" : so.EIVAddressLine2S;
                         oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3S").Value = so.EIVAddressLine3S == null ? "" : so.EIVAddressLine3S;
@@ -4360,6 +4411,12 @@ namespace PortalIntegration
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = oTargetDoc.EIVBuyerEmail == null ? "" : oTargetDoc.EIVBuyerEmail;
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact == null ? "" : oTargetDoc.EIVBuyerContact;
 
+                    oDoc.AddressExtension.BillToAddress2 = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
+                    oDoc.AddressExtension.BillToAddress3 = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
+                    oDoc.AddressExtension.BillToStreet = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
+                    oDoc.AddressExtension.BillToCounty = oTargetDoc.EIVCityNameB == null ? "" : oTargetDoc.EIVCityNameB;
+                    oDoc.AddressExtension.BillToZipCode = oTargetDoc.EIVPostalZoneB == null ? "" : oTargetDoc.EIVPostalZoneB;
+
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
@@ -4382,6 +4439,13 @@ namespace PortalIntegration
                     {
                         oDoc.UserFields.Fields.Item("U_EIV_ShippingRegTyp").Value = oTargetDoc.EIVShippingRegTyp.Code;
                     }
+
+                    oDoc.AddressExtension.ShipToStreetNo = oTargetDoc.EIVAddressLine1S == null ? "" : oTargetDoc.EIVAddressLine1S;
+                    oDoc.AddressExtension.ShipToBlock = oTargetDoc.EIVAddressLine2S == null ? "" : oTargetDoc.EIVAddressLine2S;
+                    oDoc.AddressExtension.ShipToCity = oTargetDoc.EIVAddressLine3S == null ? "" : oTargetDoc.EIVAddressLine3S;
+                    oDoc.AddressExtension.ShipToCounty = oTargetDoc.EIVCityNameS == null ? "" : oTargetDoc.EIVCityNameS;
+                    oDoc.AddressExtension.ShipToZipCode = oTargetDoc.EIVPostalZoneS == null ? "" : oTargetDoc.EIVPostalZoneS;
+
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1S").Value = oTargetDoc.EIVAddressLine1S == null ? "" : oTargetDoc.EIVAddressLine1S;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2S").Value = oTargetDoc.EIVAddressLine2S == null ? "" : oTargetDoc.EIVAddressLine2S;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3S").Value = oTargetDoc.EIVAddressLine3S == null ? "" : oTargetDoc.EIVAddressLine3S;
@@ -4653,6 +4717,12 @@ namespace PortalIntegration
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerEmail").Value = oTargetDoc.EIVBuyerEmail == null ? "" : oTargetDoc.EIVBuyerEmail;
                     oDoc.UserFields.Fields.Item("U_EIV_BuyerContact").Value = oTargetDoc.EIVBuyerContact == null ? "" : oTargetDoc.EIVBuyerContact;
 
+                    oDoc.AddressExtension.BillToAddress2 = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
+                    oDoc.AddressExtension.BillToAddress3 = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
+                    oDoc.AddressExtension.BillToStreet = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
+                    oDoc.AddressExtension.BillToCounty = oTargetDoc.EIVCityNameB == null ? "" : oTargetDoc.EIVCityNameB;
+                    oDoc.AddressExtension.BillToZipCode = oTargetDoc.EIVPostalZoneB == null ? "" : oTargetDoc.EIVPostalZoneB;
+
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1B").Value = oTargetDoc.EIVAddressLine1B == null ? "" : oTargetDoc.EIVAddressLine1B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2B").Value = oTargetDoc.EIVAddressLine2B == null ? "" : oTargetDoc.EIVAddressLine2B;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3B").Value = oTargetDoc.EIVAddressLine3B == null ? "" : oTargetDoc.EIVAddressLine3B;
@@ -4675,6 +4745,13 @@ namespace PortalIntegration
                     {
                         oDoc.UserFields.Fields.Item("U_EIV_ShippingRegTyp").Value = oTargetDoc.EIVShippingRegTyp.Code;
                     }
+
+                    oDoc.AddressExtension.ShipToStreetNo = oTargetDoc.EIVAddressLine1S == null ? "" : oTargetDoc.EIVAddressLine1S;
+                    oDoc.AddressExtension.ShipToBlock = oTargetDoc.EIVAddressLine2S == null ? "" : oTargetDoc.EIVAddressLine2S;
+                    oDoc.AddressExtension.ShipToCity = oTargetDoc.EIVAddressLine3S == null ? "" : oTargetDoc.EIVAddressLine3S;
+                    oDoc.AddressExtension.ShipToCounty = oTargetDoc.EIVCityNameS == null ? "" : oTargetDoc.EIVCityNameS;
+                    oDoc.AddressExtension.ShipToZipCode = oTargetDoc.EIVPostalZoneS == null ? "" : oTargetDoc.EIVPostalZoneS;
+
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine1S").Value = oTargetDoc.EIVAddressLine1S == null ? "" : oTargetDoc.EIVAddressLine1S;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine2S").Value = oTargetDoc.EIVAddressLine2S == null ? "" : oTargetDoc.EIVAddressLine2S;
                     oDoc.AddressExtension.UserFields.Fields.Item("U_EIV_AddressLine3S").Value = oTargetDoc.EIVAddressLine3S == null ? "" : oTargetDoc.EIVAddressLine3S;
