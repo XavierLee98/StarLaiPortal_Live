@@ -191,6 +191,7 @@ namespace StarLaiPortal.Module.Controllers
                                         newitem.Doctype = ReportDocType.ASN;
                                         newitem.Remarks = trx.BatchNumber;
                                         newitem.PrintCount = dtl.LabelPrintCount;
+                                        newitem.LineOID = dtl.Oid;
 
                                         selectedObject.PrintLabelDetails.Add(newitem);
                                     }
@@ -208,6 +209,7 @@ namespace StarLaiPortal.Module.Controllers
                                         newitem.Doctype = ReportDocType.ASN;
                                         newitem.Remarks = trx.BatchNumber;
                                         newitem.PrintCount = dtl.LabelPrintCount;
+                                        newitem.LineOID = dtl.Oid;
 
                                         selectedObject.PrintLabelDetails.Add(newitem);
                                     }
@@ -253,6 +255,7 @@ namespace StarLaiPortal.Module.Controllers
                                         newitem.Doctype = ReportDocType.PO;
                                         newitem.Remarks = selectedObject.Remarks;
                                         newitem.PrintCount = dtl.LabelPrintCount;
+                                        newitem.LineOID = dtl.Oid;
 
                                         selectedObject.PrintLabelDetails.Add(newitem);
                                     }
@@ -270,6 +273,7 @@ namespace StarLaiPortal.Module.Controllers
                                         newitem.Doctype = ReportDocType.PO;
                                         newitem.Remarks = selectedObject.Remarks;
                                         newitem.PrintCount = dtl.LabelPrintCount;
+                                        newitem.LineOID = dtl.Oid;
 
                                         selectedObject.PrintLabelDetails.Add(newitem);
                                     }
@@ -315,6 +319,7 @@ namespace StarLaiPortal.Module.Controllers
                                         newitem.Doctype = ReportDocType.SRR;
                                         newitem.Remarks = selectedObject.Remarks;
                                         newitem.PrintCount = dtl.LabelPrintCount;
+                                        newitem.LineOID = dtl.Oid;
 
                                         selectedObject.PrintLabelDetails.Add(newitem);
                                     }
@@ -332,6 +337,7 @@ namespace StarLaiPortal.Module.Controllers
                                         newitem.Doctype = ReportDocType.SRR;
                                         newitem.Remarks = selectedObject.Remarks;
                                         newitem.PrintCount = dtl.LabelPrintCount;
+                                        newitem.LineOID = dtl.Oid;
 
                                         selectedObject.PrintLabelDetails.Add(newitem);
                                     }
@@ -409,7 +415,7 @@ namespace StarLaiPortal.Module.Controllers
 
                             foreach(ASNDetails trxdetail in trx.ASNDetails)
                             {
-                                if (trxdetail.ItemCode.ItemCode == dtl.ItemCode.ItemCode)
+                                if (trxdetail.Oid == dtl.LineOID)
                                 {
                                     trxdetail.LabelPrintCount++;
                                     break;
@@ -427,7 +433,7 @@ namespace StarLaiPortal.Module.Controllers
 
                             foreach (PurchaseOrderDetails trxdetail in trx.PurchaseOrderDetails)
                             {
-                                if (trxdetail.ItemCode.ItemCode == dtl.ItemCode.ItemCode)
+                                if (trxdetail.Oid == dtl.LineOID)
                                 {
                                     trxdetail.LabelPrintCount++;
                                     break;
@@ -446,7 +452,7 @@ namespace StarLaiPortal.Module.Controllers
 
                             foreach (SalesReturnRequestDetails trxdetail in trx.SalesReturnRequestDetails)
                             {
-                                if (trxdetail.ItemCode.ItemCode == dtl.ItemCode.ItemCode)
+                                if (trxdetail.Oid == dtl.LineOID)
                                 {
                                     trxdetail.LabelPrintCount++;
                                     break;

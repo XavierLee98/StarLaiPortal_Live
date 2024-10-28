@@ -188,6 +188,18 @@ namespace StarLaiPortal.Module.BusinessObjects.Print_Module
             }
         }
 
+        private int _LineOID;
+        [XafDisplayName("LineOID")]
+        [Index(20), VisibleInListView(false), VisibleInDetailView(false), VisibleInLookupListView(false)]
+        public int LineOID
+        {
+            get { return _LineOID; }
+            set
+            {
+                SetPropertyValue("LineOID", ref _LineOID, value);
+            }
+        }
+
         private PrintLabel _PrintLabel;
         [Association("PrintLabel-PrintLabelDetails")]
         [Index(99), VisibleInListView(false), VisibleInDetailView(false), VisibleInLookupListView(false)]
