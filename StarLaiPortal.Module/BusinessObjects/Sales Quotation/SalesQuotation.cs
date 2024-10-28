@@ -61,7 +61,8 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 
     [Appearance("HideDup", AppearanceItemType.Action, "True", TargetItems = "DuplicateSQ", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "SalesQuotation_DetailView_Approval")]
 
-    [Appearance("HideItemInq", AppearanceItemType.Action, "True", TargetItems = "InquiryItem", Criteria = "Customer = null or Transporter = null or CustomerName = null or ContactNo = null or IsValid9 = 1 or IsValid16 = 1 or IsValid18 = 1", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideItemInq", AppearanceItemType.Action, "True", TargetItems = "InquiryItem", Criteria = "Customer = null or Transporter = null or CustomerName = null " +
+        "or ContactNo = null or IsValid9 = 1 or IsValid16 = 1 or IsValid18 = 1 or IsValid12 = 1", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("HideExportSQ", AppearanceItemType.Action, "True", TargetItems = "ExportSQImport", Criteria = "DocNum = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("HideImportSQ", AppearanceItemType.Action, "True", TargetItems = "ImportSQ", Criteria = "DocNum = null", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     // Start ver 1.0.14

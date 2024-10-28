@@ -44,7 +44,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
     [Appearance("HideCopyTo1", AppearanceItemType.Action, "True", TargetItems = "SRRCopyToSR", Criteria = "(not (Status in (1))) or ((Status in (1)) and (not AppStatus in (0, 1)))", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
     [Appearance("HideCopyTo2", AppearanceItemType.Action, "True", TargetItems = "SRRCopyToSR", Criteria = "CopyTo = 1", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
 
-    [Appearance("HideItemInq", AppearanceItemType.Action, "True", TargetItems = "SRRInquiryItem", Criteria = "Customer = null or IsValid4 = 1 or IsValid11 = 1", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
+    [Appearance("HideItemInq", AppearanceItemType.Action, "True", TargetItems = "SRRInquiryItem", Criteria = "Customer = null or IsValid4 = 1 or IsValid11 = 1 or IsValid7", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide, Context = "Any")]
 
     // Start ver 1.0.18
     [RuleCriteria("EIVSRRBilling", DefaultContexts.Save, "IsValid4 = 0", "Please fill in Buyer TIN and Buyer Reg. Num.")]
