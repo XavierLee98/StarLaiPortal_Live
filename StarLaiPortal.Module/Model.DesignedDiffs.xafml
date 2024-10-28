@@ -2749,8 +2749,8 @@
     </DetailView>
     <ListView Id="PrintLabel_PrintLabelDetails_ListView">
       <Columns>
-        <ColumnInfo Id="ItemCode" Width="135" SortIndex="0" SortOrder="Ascending" />
-        <ColumnInfo Id="LabelType" SortIndex="1" SortOrder="Ascending" />
+        <ColumnInfo Id="ItemCode" Width="135" SortIndex="-1" SortOrder="None" />
+        <ColumnInfo Id="LabelType" SortIndex="-1" SortOrder="None" />
       </Columns>
     </ListView>
     <DetailView Id="PrintLabelDetails_DetailView" AllowEdit="False" />
