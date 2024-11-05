@@ -615,6 +615,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Return
         private string _EIVBuyerTIN;
         [XafDisplayName("Buyer's TIN No*")]
         [ImmediatePostData]
+        [Size(14)]
         [Index(54), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVBuyerTIN
         {

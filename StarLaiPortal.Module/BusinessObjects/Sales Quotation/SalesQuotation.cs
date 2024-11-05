@@ -410,7 +410,14 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                 {
                     if (string.IsNullOrEmpty(EIVBuyerContact))
                     {
-                        EIVBuyerContact = ContactNo;
+                        if (ContactNo.Length > 20)
+                        {
+                            EIVBuyerContact = ContactNo.Substring(0, 19);
+                        }
+                        else
+                        {
+                            EIVBuyerContact = ContactNo;
+                        }
                     }
                 }
             }
@@ -955,6 +962,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
         private string _EIVBuyerTIN;
         [XafDisplayName("Buyer's TIN No*")]
         [ImmediatePostData]
+        [Size(14)]
         [Index(74), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
         public string EIVBuyerTIN
         {

@@ -272,20 +272,13 @@ namespace StarLaiPortal.Module.Controllers
                                     // Buyer
                                     if (delivery.EIVConsolidate != null)
                                     {
-                                        if (delivery.EIVConsolidate.Code == "Y")
-                                        {
-                                            srr.EIVConsolidate = srr.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", "N"));
-                                        }
-                                        else
-                                        {
-                                            srr.EIVConsolidate = srr.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", "Y"));
-                                        }
+                                        srr.EIVConsolidate = srr.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", delivery.EIVConsolidate.Code));
                                     }
-                                    if(delivery.EIVType != null)
+                                    if (delivery.EIVType != null)
                                     {
                                         srr.EIVType = srr.Session.FindObject<vwEIVType>(CriteriaOperator.Parse("Code = ?", delivery.EIVType.Code));
                                     }
-                                    if(delivery.EIVFreqSync != null)
+                                    if (delivery.EIVFreqSync != null)
                                     {
                                         srr.EIVFreqSync = srr.Session.FindObject<vwEIVFreqSync>(CriteriaOperator.Parse("Code = ?", delivery.EIVFreqSync.Code));
                                     }
