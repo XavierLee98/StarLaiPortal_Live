@@ -1748,6 +1748,65 @@ namespace PortalIntegration
                             // Start ver 1.0.8.1
                             newSO.SQNumber = trx.DocNum;
                             // End ver 1.0.8.1
+                            // Start ver 1.0.18
+                            // Buyer
+                            if (trx.EIVConsolidate != null)
+                            {
+                                newSO.EIVConsolidate = newSO.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", trx.EIVConsolidate.Code));
+                            }
+                            if (trx.EIVType != null)
+                            {
+                                newSO.EIVType = newSO.Session.FindObject<vwEIVType>(CriteriaOperator.Parse("Code = ?", trx.EIVType.Code));
+                            }
+                            if (trx.EIVFreqSync != null)
+                            {
+                                newSO.EIVFreqSync = newSO.Session.FindObject<vwEIVFreqSync>(CriteriaOperator.Parse("Code = ?", trx.EIVFreqSync.Code));
+                            }
+                            newSO.EIVBuyerName = trx.EIVBuyerName;
+                            newSO.EIVBuyerTIN = trx.EIVBuyerTIN;
+                            newSO.EIVBuyerRegNum = trx.EIVBuyerRegNum;
+                            if (trx.EIVBuyerRegTyp != null)
+                            {
+                                newSO.EIVBuyerRegTyp = newSO.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", trx.EIVBuyerRegTyp.Code));
+                            }
+                            newSO.EIVBuyerSSTRegNum = trx.EIVBuyerSSTRegNum;
+                            newSO.EIVBuyerEmail = trx.EIVBuyerEmail;
+                            newSO.EIVBuyerContact = trx.EIVBuyerContact;
+                            newSO.EIVAddressLine1B = trx.EIVAddressLine1B;
+                            newSO.EIVAddressLine2B = trx.EIVAddressLine2B;
+                            newSO.EIVAddressLine3B = trx.EIVAddressLine3B;
+                            newSO.EIVPostalZoneB = trx.EIVPostalZoneB;
+                            newSO.EIVCityNameB = trx.EIVCityNameB;
+                            if (trx.EIVStateB != null)
+                            {
+                                newSO.EIVStateB = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", trx.EIVStateB.Code));
+                            }
+                            if (trx.EIVCountryB != null)
+                            {
+                                newSO.EIVCountryB = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", trx.EIVCountryB.Code));
+                            }
+                            //Recipient
+                            newSO.EIVShippingName = trx.EIVShippingName;
+                            newSO.EIVShippingTin = trx.EIVShippingTin;
+                            newSO.EIVShippingRegNum = trx.EIVShippingRegNum;
+                            if (trx.EIVShippingRegTyp != null)
+                            {
+                                newSO.EIVShippingRegTyp = newSO.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", trx.EIVShippingRegTyp.Code));
+                            }
+                            newSO.EIVAddressLine1S = trx.EIVAddressLine1S;
+                            newSO.EIVAddressLine2S = trx.EIVAddressLine2S;
+                            newSO.EIVAddressLine3S = trx.EIVAddressLine3S;
+                            newSO.EIVPostalZoneS = trx.EIVPostalZoneS;
+                            newSO.EIVCityNameS = trx.EIVCityNameS;
+                            if (trx.EIVStateS != null)
+                            {
+                                newSO.EIVStateS = newSO.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", trx.EIVStateS.Code));
+                            }
+                            if (trx.EIVCountryS != null)
+                            {
+                                newSO.EIVCountryS = newSO.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", trx.EIVCountryS.Code));
+                            }
+                            // End ver 1.0.18
 
                             foreach (SalesQuotationDetails dtl in trx.SalesQuotationDetails)
                             {
@@ -1757,6 +1816,12 @@ namespace PortalIntegration
                                 newsodetails.ItemDesc = dtl.ItemDesc;
                                 newsodetails.Model = dtl.Model;
                                 newsodetails.CatalogNo = dtl.CatalogNo;
+                                // Start ver 1.0.18
+                                if (dtl.EIVClassification != null)
+                                {
+                                    newsodetails.EIVClassification = newsodetails.Session.FindObject<vwEIVClass>(CriteriaOperator.Parse("Code = ?", dtl.EIVClassification.Code));
+                                }
+                                // End ver 1.0.18
                                 if (dtl.Location != null)
                                 {
                                     newsodetails.Location = newsodetails.Session.GetObjectByKey<vwWarehouse>(dtl.Location.WarehouseCode);
@@ -1854,6 +1919,65 @@ namespace PortalIntegration
                                         // Start ver 1.0.10
                                         newdelivery.Remarks = so.Remarks;
                                         // End ver 1.0.10
+                                        // Start ver 1.0.18
+                                        // Buyer
+                                        if (so.EIVConsolidate != null)
+                                        {
+                                            newdelivery.EIVConsolidate = newdelivery.Session.FindObject<vwYesNo>(CriteriaOperator.Parse("Code = ?", so.EIVConsolidate.Code));
+                                        }
+                                        if (so.EIVType != null)
+                                        {
+                                            newdelivery.EIVType = newdelivery.Session.FindObject<vwEIVType>(CriteriaOperator.Parse("Code = ?", so.EIVType.Code));
+                                        }
+                                        if (so.EIVFreqSync != null)
+                                        {
+                                            newdelivery.EIVFreqSync = newdelivery.Session.FindObject<vwEIVFreqSync>(CriteriaOperator.Parse("Code = ?", so.EIVFreqSync.Code));
+                                        }
+                                        newdelivery.EIVBuyerName = so.CustomerName;
+                                        newdelivery.EIVBuyerTIN = so.EIVBuyerTIN;
+                                        newdelivery.EIVBuyerRegNum = so.EIVBuyerRegNum;
+                                        if (so.EIVBuyerRegTyp != null)
+                                        {
+                                            newdelivery.EIVBuyerRegTyp = newdelivery.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", so.EIVBuyerRegTyp.Code));
+                                        }
+                                        newdelivery.EIVBuyerSSTRegNum = so.EIVBuyerSSTRegNum;
+                                        newdelivery.EIVBuyerEmail = so.EIVBuyerEmail;
+                                        newdelivery.EIVBuyerContact = so.EIVBuyerContact;
+                                        newdelivery.EIVAddressLine1B = so.EIVAddressLine1B;
+                                        newdelivery.EIVAddressLine2B = so.EIVAddressLine2B;
+                                        newdelivery.EIVAddressLine3B = so.EIVAddressLine3B;
+                                        newdelivery.EIVPostalZoneB = so.EIVPostalZoneB;
+                                        newdelivery.EIVCityNameB = so.EIVCityNameB;
+                                        if (so.EIVStateB != null)
+                                        {
+                                            newdelivery.EIVStateB = newdelivery.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", so.EIVStateB.Code));
+                                        }
+                                        if (so.EIVCountryB != null)
+                                        {
+                                            newdelivery.EIVCountryB = newdelivery.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", so.EIVCountryB.Code));
+                                        }
+                                        //Recipient
+                                        newdelivery.EIVShippingName = so.EIVShippingName;
+                                        newdelivery.EIVShippingTin = so.EIVShippingTin;
+                                        newdelivery.EIVShippingRegNum = so.EIVShippingRegNum;
+                                        if (so.EIVShippingRegTyp != null)
+                                        {
+                                            newdelivery.EIVShippingRegTyp = newdelivery.Session.FindObject<vwEIVRegType>(CriteriaOperator.Parse("Code = ?", so.EIVShippingRegTyp.Code));
+                                        }
+                                        newdelivery.EIVAddressLine1S = so.EIVAddressLine1S;
+                                        newdelivery.EIVAddressLine2S = so.EIVAddressLine2S;
+                                        newdelivery.EIVAddressLine3S = so.EIVAddressLine3S;
+                                        newdelivery.EIVPostalZoneS = so.EIVPostalZoneS;
+                                        newdelivery.EIVCityNameS = so.EIVCityNameS;
+                                        if (so.EIVStateS != null)
+                                        {
+                                            newdelivery.EIVStateS = newdelivery.Session.FindObject<vwState>(CriteriaOperator.Parse("Code = ?", so.EIVStateS.Code));
+                                        }
+                                        if (so.EIVCountryS != null)
+                                        {
+                                            newdelivery.EIVCountryS = newdelivery.Session.FindObject<vwCountry>(CriteriaOperator.Parse("Code = ?", so.EIVCountryS.Code));
+                                        }
+                                        // End ver 1.0.18
 
                                         string[] packlistnum = currload.PackListNo.Replace(" ", "").Split(',');
                                         foreach (string dtlpack in packlistnum)
@@ -1928,6 +2052,13 @@ namespace PortalIntegration
                                                                                         dtlsales.Oid.ToString() == dtlpick.SOBaseId)
                                                                                     {
                                                                                         newdeliveryitem.Price = dtlsales.AdjustedPrice;
+                                                                                        // Start ver 1.0.18
+                                                                                        if (dtlsales.EIVClassification != null)
+                                                                                        {
+                                                                                            newdeliveryitem.EIVClassification = newdeliveryitem.Session.FindObject<vwEIVClass>
+                                                                                                (CriteriaOperator.Parse("Code = ?", dtlsales.EIVClassification.Code));
+                                                                                        }
+                                                                                        // End ver 1.0.18
                                                                                     }
                                                                                 }
 
