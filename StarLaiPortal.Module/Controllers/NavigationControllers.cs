@@ -499,9 +499,7 @@ namespace StarLaiPortal.Module.Controllers
 
             // Start ver 1.0.15
             if (DateTime.Now.Minute.ToString("00").Substring(1, 1) == "0" ||
-                DateTime.Now.Minute.ToString("00").Substring(1, 1) == "3" ||
-                DateTime.Now.Minute.ToString("00").Substring(1, 1) == "6" || 
-                DateTime.Now.Minute.ToString("00").Substring(1, 1) == "8")
+                DateTime.Now.Minute.ToString("00").Substring(1, 1) == "5")
             {
                 MemoryManagement.FlushGCMemory();
             }
