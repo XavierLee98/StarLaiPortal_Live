@@ -293,7 +293,7 @@ namespace StarLaiPortal.Module.Controllers
 
                     this.DocumentFilter.Active.SetItemValue("Enabled", true);
 
-                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("SalesDate >= ? and SalesDate <= ?", Fromdate, Todate.AddDays(1));
+                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("SalesDate >= ? and SalesDate <= ?", DateTime.Today.AddMonths(-3), DateTime.Today.AddDays(1));
                 }
             }
             // End ver 1.0.19
