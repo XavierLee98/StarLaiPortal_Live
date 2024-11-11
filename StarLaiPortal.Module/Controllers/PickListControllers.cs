@@ -1462,32 +1462,55 @@ namespace StarLaiPortal.Module.Controllers
                             //    return;
                             //}
 
-                            int socnt = 0;
-                            string getpicklist = "EXEC sp_SalesOrderRowOpenForPick '" + dtl.Oid + "'";
-                            if (conn.State == ConnectionState.Open)
-                            {
-                                conn.Close();
-                            }
-                            conn.Open();
-                            SqlCommand cmd = new SqlCommand(getpicklist, conn);
-                            SqlDataReader reader = cmd.ExecuteReader();
-                            while (reader.Read())
-                            {
-                                socnt++;
-                            }
-                            cmd.Dispose();
-                            conn.Close();
+                            //int socnt = 0;
+                            //string getpicklist = "EXEC sp_SalesOrderRowOpenForPick '" + dtl.Oid + "'";
+                            //if (conn.State == ConnectionState.Open)
+                            //{
+                            //    conn.Close();
+                            //}
+                            //conn.Open();
+                            //SqlCommand cmd = new SqlCommand(getpicklist, conn);
+                            //SqlDataReader reader = cmd.ExecuteReader();
+                            //while (reader.Read())
+                            //{
+                            //    socnt++;
+                            //}
+                            //cmd.Dispose();
+                            //conn.Close();
 
-                            if (socnt == 0)
-                            {
-                                showMsg("Error", "SO already created pick list, please refresh data.", InformationType.Error);
-                                return;
-                            }
-
+                            //if (socnt == 0)
+                            //{
+                            //    showMsg("Error", "SO already created pick list, please refresh data.", InformationType.Error);
+                            //    return;
+                            //}
                             // End ver 1.0.13
 
                             pl.PickListDetails.Add(newplitem);
                         }
+
+                        // Start ver 1.0.13
+                        int socnt = 0;
+                        string getpicklist = "EXEC sp_SalesOrderDocOpenForPick '" + sog.DocNum + "'";
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                        conn.Open();
+                        SqlCommand cmd = new SqlCommand(getpicklist, conn);
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            socnt++;
+                        }
+                        cmd.Dispose();
+                        conn.Close();
+
+                        if (socnt == 0)
+                        {
+                            showMsg("Error", "SO already created pick list, please refresh data.", InformationType.Error);
+                            return;
+                        }
+                        // End ver 1.0.13
 
                         showMsg("Success", "Copy Success.", InformationType.Success);
                     }
