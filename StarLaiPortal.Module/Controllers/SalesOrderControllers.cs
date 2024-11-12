@@ -14,6 +14,7 @@ using DevExpress.ExpressApp.Web;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Validation;
 using DevExpress.Web;
+using DevExpress.Web.Internal.XmlProcessor;
 using StarLaiPortal.Module.BusinessObjects;
 using StarLaiPortal.Module.BusinessObjects.Load;
 using StarLaiPortal.Module.BusinessObjects.Sales_Order;
@@ -240,7 +241,7 @@ namespace StarLaiPortal.Module.Controllers
                 conn.Close();
             }
 
-            if (error == null)
+            if (string.IsNullOrEmpty(error))
             {
                 selectedObject.PendingCancel = true;
                 selectedObject.Status = DocStatus.Cancelled;
@@ -327,7 +328,7 @@ namespace StarLaiPortal.Module.Controllers
                 conn.Close();
             }
 
-            if (error == null)
+            if (string.IsNullOrEmpty(error))
             {
                 selectedObject.PendingClose = true;
                 selectedObject.Status = DocStatus.Closed;
