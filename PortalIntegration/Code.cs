@@ -55,6 +55,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 // 2023-12-04 enhance posting with adjustment instead of check oimn ver 1.0.13
 // 2024-06-12 e-invoice - ver 1.0.18
 // 2024-07-18 GRN post system date to posting date - ver 1.0.19
+// 2025-01-23 Update Posted in picking - ver 1.0.22
 
 namespace PortalIntegration
 {
@@ -946,6 +947,9 @@ namespace PortalIntegration
 
                             if (post == true)
                             {
+                                // Start ver 1.0.22
+                                plobj.Status = DocStatus.Post;
+                                // End ver 1.0.22
                                 plobj.Sap = true;
 
                                 PickListDocTrail ds = plos.CreateObject<PickListDocTrail>();

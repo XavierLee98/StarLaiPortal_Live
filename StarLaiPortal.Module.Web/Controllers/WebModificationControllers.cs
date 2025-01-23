@@ -51,6 +51,7 @@ using static DevExpress.XtraPrinting.Native.ExportOptionsPropertiesNames;
 // 2024-01-17 block save if no series for PRR ver 1.0.13
 // 2024-01-29 SQ and PO update OIDKey ver 1.0.14
 // 2024-04-16 Pick list not allow to change after submitted ver 1.0.15
+// 2025-01-23 add item count ver 1.0.22
 
 namespace StarLaiPortal.Module.Web.Controllers
 {
@@ -1022,8 +1023,11 @@ namespace StarLaiPortal.Module.Web.Controllers
                 }
 
                 CurrObject.Counted = (int)CurrObject.StockCountSheetCounted.Sum(x => x.Quantity);
+                // Start ver 1.0.22
+                CurrObject.ItemCount = (int)CurrObject.StockCountSheetCounted.GroupBy(x => x.ItemCode).Count();
+                    // End ver 1.0.22
 
-                base.Save(args);
+                    base.Save(args);
                 ((DetailView)View).ViewEditMode = ViewEditMode.View;
                 View.BreakLinksToControls();
                 View.CreateControls();

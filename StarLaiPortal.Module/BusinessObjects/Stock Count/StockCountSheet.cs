@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 
 // 2023-12-04 add stock count actual date ver 1.0.13
+// 2025-01-23 add item count ver 1.0.22
 
 namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
 {
@@ -69,6 +70,9 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
             // End ver 1.0.13
             Round = 1;
             Counted = 0;
+            // Start ver 1.0.22
+            ItemCount = 0;
+            // End ver 1.0.22
 
             DocType = DocTypeList.STS;
             Status = DocStatus.Draft;
@@ -201,6 +205,22 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Count
                 SetPropertyValue("Counted", ref _Counted, value);
             }
         }
+
+        // Start ver 1.0.22
+        private int _ItemCount;
+        [XafDisplayName("Item Count")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        [Appearance("ItemCount", Enabled = false)]
+        [Index(11), VisibleInDetailView(true), VisibleInListView(false), VisibleInLookupListView(false)]
+        public int ItemCount
+        {
+            get { return _ItemCount; }
+            set
+            {
+                SetPropertyValue("ItemCount", ref _ItemCount, value);
+            }
+        }
+        // End ver 1.0.22
 
         private DateTime _StockCountDate;
         [XafDisplayName("Stock Count Date")]

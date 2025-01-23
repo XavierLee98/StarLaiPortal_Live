@@ -35,6 +35,7 @@ using DevExpress.Web.Internal.XmlProcessor;
 // 2024-06-01 - hide the priority if inactive - ver 1.0.17
 // 2024-06-12 - e-invoice - ver 1.0.18
 // 2024-10-09 - new enhancement - ver 1.0.21
+// 2025-01-23 - new enhancement - ver 1.0.22
 
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
 {
@@ -2067,7 +2068,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                 {
                     // Start ver 1.0.18
                     //if (this.BillingAddressfield == null || this.ShippingAddressfield == null)
-                    if (this.EIVAddressLine1B == null || this.EIVAddressLine1S == null)
+                    // Start ver 1.0.22
+                    //if (this.EIVAddressLine1B == null || this.EIVAddressLine1S == null)
+                    if (string.IsNullOrEmpty(this.EIVAddressLine1B) || string.IsNullOrEmpty(this.EIVAddressLine1S))
+                    // End ver 1.0.22
                     // End ver 1.0.18
                     {
                         return true;
@@ -2103,7 +2107,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                 {
                     if (this.EIVConsolidate.Code == "Y")
                     {
-                        if (this.EIVBuyerTIN == null || this.EIVBuyerRegNum == null)
+                        // Start ver 1.0.22
+                        //if (this.EIVBuyerTIN == null || this.EIVBuyerRegNum == null)
+                        if (string.IsNullOrEmpty(this.EIVBuyerTIN) || string.IsNullOrEmpty(this.EIVBuyerRegNum))
+                        // End ver 1.0.22
                         {
                             return true;
                         }
@@ -2123,7 +2130,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                 {
                     if (this.EIVConsolidate.Code == "Y")
                     {
-                        if (this.EIVShippingTin == null && this.EIVShippingRegNum == null)
+                        // Start ver 1.0.22
+                        //if (this.EIVShippingTin == null && this.EIVShippingRegNum == null)
+                        if (string.IsNullOrEmpty(this.EIVShippingTin) && string.IsNullOrEmpty(this.EIVShippingRegNum))
+                        // End ver 1.0.22
                         {
                             return true;
                         }
@@ -2246,8 +2256,17 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                 {
                     if (this.EIVConsolidate.Code == "Y")
                     {
-                        if (this.EIVType == null || this.EIVFreqSync == null || this.EIVAddressLine1B == null || 
-                            this.EIVCityNameB == null || this.EIVCountryB == null || this.EIVBuyerContact == null)
+                        if (this.EIVType == null || this.EIVFreqSync == null ||
+                            // Start ver 1.0.22
+                            //this.EIVAddressLine1B == null || this.EIVCityNameB == null || 
+                            string.IsNullOrEmpty(this.EIVAddressLine1B) || string.IsNullOrEmpty(this.EIVCityNameB) || 
+                            // End ver 1.0.22
+                            this.EIVCountryB == null || 
+                            // Start ver 1.0.22
+                            //this.EIVBuyerContact == null
+                            string.IsNullOrEmpty(this.EIVBuyerContact)
+                            // End ver 1.0.22
+                            )
                         {
                             return true;
                         }
@@ -2269,7 +2288,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Quotation
                     {
                         if (this.EIVShippingTin != null || this.EIVShippingRegNum != null)
                         {
-                            if (this.EIVAddressLine1S == null || this.EIVCityNameS == null || this.EIVCountryS == null)
+                            // Start ver 1.0.22
+                            //if (this.EIVAddressLine1S == null || this.EIVCityNameS == null || this.EIVCountryS == null)
+                            if (string.IsNullOrEmpty(this.EIVAddressLine1S) || string.IsNullOrEmpty(this.EIVCityNameS) || this.EIVCountryS == null)
+                            // End ver 1.0.22
                             {
                                 return true;
                             }

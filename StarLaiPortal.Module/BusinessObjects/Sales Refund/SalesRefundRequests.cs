@@ -17,6 +17,7 @@ using System.Text;
 // 2023-09-25 change date format ver 1.0.10
 // 2024-04-19 set salesperson field to mandatory ver 1.0.15
 // 2024-06-12 e-invoice - ver 1.0.18
+// 2025-01-23 new enhancement - ver 1.0.22
 
 namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
 {
@@ -870,7 +871,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
                 {
                     if (this.EIVConsolidate.Code == "Y")
                     {
-                        if (this.EIVBuyerTIN == null && this.EIVBuyerRegNum == null)
+                        // Start ver 1.0.22
+                        //if (this.EIVBuyerTIN == null && this.EIVBuyerRegNum == null)
+                        if (string.IsNullOrEmpty(this.EIVBuyerTIN) && string.IsNullOrEmpty(this.EIVBuyerRegNum))
+                        // End ver 1.0.22
                         {
                             return true;
                         }
@@ -890,7 +894,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
                 {
                     if (this.EIVConsolidate.Code == "Y")
                     {
-                        if (this.EIVShippingTin == null && this.EIVShippingRegNum == null)
+                        // Start ver 1.0.22
+                        //if (this.EIVShippingTin == null && this.EIVShippingRegNum == null)
+                        if (string.IsNullOrEmpty(this.EIVShippingTin) && string.IsNullOrEmpty(this.EIVShippingRegNum))
+                        // End ver 1.0.22
                         {
                             return true;
                         }
@@ -994,7 +1001,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
             {
                 if (this.EIVConsolidate != null)
                 {
-                    if (this.EIVConsolidate.Code == "Y" && this.EIVBuyerEmail == null)
+                    // Start ver 1.0.22
+                    //if (this.EIVConsolidate.Code == "Y" && this.EIVBuyerEmail == null)
+                    if (this.EIVConsolidate.Code == "Y" && string.IsNullOrEmpty(this.EIVBuyerEmail))
+                    // End ver 1.0.22
                     {
                         return true;
                     }
@@ -1013,8 +1023,17 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
                 {
                     if (this.EIVConsolidate.Code == "Y")
                     {
-                        if (this.EIVType == null || this.EIVFreqSync == null || this.EIVAddressLine1B == null ||
-                            this.EIVCityNameB == null || this.EIVCountryB == null || this.EIVBuyerContact == null)
+                        if (this.EIVType == null || this.EIVFreqSync == null ||
+                            // Start ver 1.0.22
+                            //this.EIVAddressLine1B == null || this.EIVCityNameB == null || 
+                            string.IsNullOrEmpty(this.EIVAddressLine1B) || string.IsNullOrEmpty(this.EIVCityNameB) ||
+                            // End ver 1.0.22
+                            this.EIVCountryB == null || 
+                            // Start ver 1.0.22
+                            //this.EIVBuyerContact == null
+                            string.IsNullOrEmpty(this.EIVBuyerContact)
+                            // End ver 1.0.22
+                            )
                         {
                             return true;
                         }
@@ -1036,7 +1055,10 @@ namespace StarLaiPortal.Module.BusinessObjects.Sales_Refund
                     {
                         if (this.EIVShippingTin != null || this.EIVShippingRegNum != null)
                         {
-                            if (this.EIVAddressLine1S == null || this.EIVCityNameS == null || this.EIVCountryS == null)
+                            // Start ver 1.0.22
+                            //if (this.EIVAddressLine1S == null || this.EIVCityNameS == null || this.EIVCountryS == null)
+                            if (string.IsNullOrEmpty(this.EIVAddressLine1S) || string.IsNullOrEmpty(this.EIVCityNameS) || this.EIVCountryS == null)
+                            // End ver 1.0.22
                             {
                                 return true;
                             }
