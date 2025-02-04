@@ -31,6 +31,7 @@ using System.Web.UI.WebControls;
 // 2024-01-30 - add inventory movement table - ver 1.0.14
 // 2024-04-05 - add inquiry view sp - ver 1.0.15
 // 2024-06-01 - enlarge popout screen - ver 1.0.17
+// 2024-02-04 - add global item inquiry - ver 1.0.22
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -496,6 +497,23 @@ namespace StarLaiPortal.Module.Controllers
                 e.Handled = true;
             }
             // End ver 1.0.15
+
+            // Start ver 1.0.22
+            if (e.ActionArguments.SelectedChoiceActionItem.Id == "GlobalItemInquiry_ListView")
+            {
+                IObjectSpace objectSpace = Application.CreateObjectSpace();
+                GlobalItemInquiry newglobaliteminquiry = objectSpace.CreateObject<GlobalItemInquiry>();
+
+                DetailView detailView = Application.CreateDetailView(objectSpace, "GlobalItemInquiry_DetailView", true, newglobaliteminquiry);
+                detailView.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
+
+                objectSpace.CommitChanges();
+                objectSpace.Refresh();
+
+                e.ActionArguments.ShowViewParameters.CreatedView = detailView;
+                e.Handled = true;
+            }
+            // End ver 1.0.22
 
             // Start ver 1.0.15
             if (DateTime.Now.Minute.ToString("00").Substring(1, 1) == "0" ||

@@ -14,6 +14,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
+// 2025-02-04 e-invoice - ver 1.0.22
+
 namespace StarLaiPortal.Module.BusinessObjects.Stock_Adjustment
 {
     [DefaultClassOptions]
@@ -240,12 +242,14 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Adjustment
             set
             {
                 SetPropertyValue("Quantity", ref _Quantity, value);
-                if (!IsLoading && value != 0)
+                if (!IsLoading)
                 {
-                    if (Quantity < 0)
-                    {
-                        Quantity = 1;
-                    }
+                    // Start ver 1.0.22
+                    //if (Quantity < 0)
+                    //{
+                    //    Quantity = 1;
+                    //}
+                    // End ver 1.0.22
 
                     Total = Quantity * Price;
                 }
@@ -300,7 +304,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Adjustment
             set
             {
                 SetPropertyValue("Price", ref _Price, value);
-                if (!IsLoading && value != 0)
+                if (!IsLoading)
                 {
                     Total = Quantity * Price;
                 }

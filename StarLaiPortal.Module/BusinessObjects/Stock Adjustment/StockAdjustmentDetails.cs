@@ -237,7 +237,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Adjustment
             set
             {
                 SetPropertyValue("Quantity", ref _Quantity, value);
-                if (!IsLoading && value != 0)
+                if (!IsLoading)
                 {
                     Total = Quantity * Price;
                 }
@@ -308,7 +308,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Stock_Adjustment
             set
             {
                 SetPropertyValue("Price", ref _Price, value);
-                if (!IsLoading && value != 0)
+                if (!IsLoading)
                 {
                     Total = Quantity * Price;
                 }

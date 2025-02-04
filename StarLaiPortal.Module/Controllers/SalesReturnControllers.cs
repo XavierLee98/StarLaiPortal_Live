@@ -19,12 +19,15 @@ using StarLaiPortal.Module.BusinessObjects.Sales_Return;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Web;
 
 // 2023-08-18 - add print credit memo - ver 1.0.8
+// 2025-02-04 - not allow submit if posting period locked - ver 1.0.22
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -147,6 +150,29 @@ namespace StarLaiPortal.Module.Controllers
             SalesReturns selectedObject = (SalesReturns)e.CurrentObject;
             StringParameters p = (StringParameters)e.PopupWindow.View.CurrentObject;
             if (p.IsErr) return;
+
+            // Start ver 1.0.22
+            SqlConnection conn = new SqlConnection(genCon.getConnectionString());
+            string getpostingperiod = "SELECT * From vwPostingPeriod WHERE F_RefDate <= '" + selectedObject.PostingDate.Date.ToString("yyyy-MM-dd") +"' " +
+                "AND T_RefDate >= '" + selectedObject.PostingDate.Date.ToString("yyyy-MM-dd") + "'";
+            if (conn.State == ConnectionState.Open)
+            {
+                conn.Close();
+            }
+            conn.Open();
+            SqlCommand cmd = new SqlCommand(getpostingperiod, conn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                if (reader.GetString(3) != "N")
+                {
+                    showMsg("Error", "Posting period locked.", InformationType.Error);
+                    return;
+                }
+            }
+            cmd.Dispose();
+            conn.Close();
+            // End ver 1.0.22
 
             //if (selectedObject.IsValid2 == true)
             //{

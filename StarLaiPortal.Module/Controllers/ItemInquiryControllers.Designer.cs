@@ -36,6 +36,7 @@
             this.ViewItemPicture = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             this.AddToCartSimple = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             this.ViewOrderStatus = new DevExpress.ExpressApp.Actions.PopupWindowShowAction(this.components);
+            this.GlobalSearch_ItemInquiry = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             // 
             // Search_ItemInquiry
             // 
@@ -105,6 +106,15 @@
             this.ViewOrderStatus.CustomizePopupWindowParams += new DevExpress.ExpressApp.Actions.CustomizePopupWindowParamsEventHandler(this.ViewOrderStatus_CustomizePopupWindowParams);
             this.ViewOrderStatus.Execute += new DevExpress.ExpressApp.Actions.PopupWindowShowActionExecuteEventHandler(this.ViewOrderStatus_Execute);
             // 
+            // GlobalSearch_ItemInquiry
+            // 
+            this.GlobalSearch_ItemInquiry.Caption = "Search";
+            this.GlobalSearch_ItemInquiry.Category = "ListView";
+            this.GlobalSearch_ItemInquiry.ConfirmationMessage = null;
+            this.GlobalSearch_ItemInquiry.Id = "GlobalSearch_ItemInquiry";
+            this.GlobalSearch_ItemInquiry.ToolTip = null;
+            this.GlobalSearch_ItemInquiry.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.GlobalSearch_ItemInquiry_Execute);
+            // 
             // ItemInquiryControllers
             // 
             this.Actions.Add(this.Search_ItemInquiry);
@@ -114,6 +124,7 @@
             this.Actions.Add(this.ViewItemPicture);
             this.Actions.Add(this.AddToCartSimple);
             this.Actions.Add(this.ViewOrderStatus);
+            this.Actions.Add(this.GlobalSearch_ItemInquiry);
 
         }
 
@@ -126,5 +137,6 @@
         private DevExpress.ExpressApp.Actions.SimpleAction ViewItemPicture;
         private DevExpress.ExpressApp.Actions.SimpleAction AddToCartSimple;
         private DevExpress.ExpressApp.Actions.PopupWindowShowAction ViewOrderStatus;
+        private DevExpress.ExpressApp.Actions.SimpleAction GlobalSearch_ItemInquiry;
     }
 }

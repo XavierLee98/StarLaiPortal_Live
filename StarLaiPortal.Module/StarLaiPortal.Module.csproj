@@ -188,6 +188,8 @@
     <Compile Include="BusinessObjects\Inquiry View\vwInquiryStockPendingPost.cs" />
     <Compile Include="BusinessObjects\Inquiry View\vwInquiryStockReordering.cs" />
     <Compile Include="BusinessObjects\Inquiry View\vwInquiryWarehouseTransferDetails.cs" />
+    <Compile Include="BusinessObjects\Item Inquiry\GlobalItemInquiry.cs" />
+    <Compile Include="BusinessObjects\Item Inquiry\GlobalItemInquiryDetails.cs" />
     <Compile Include="BusinessObjects\Item Inquiry\ItemInquiry.cs" />
     <Compile Include="BusinessObjects\Item Inquiry\ItemInquiryDetails.cs" />
     <Compile Include="BusinessObjects\Load\Load.cs" />

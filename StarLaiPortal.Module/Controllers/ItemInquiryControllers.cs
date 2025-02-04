@@ -41,6 +41,7 @@ using System.Web;
 // 2024-06-01 - add salesperson - ver 1.0.17
 // 2024-07-29 - add DfltWhs - ver 1.0.19
 // 2024-10-08 - add whse - ver 1.0.21
+// 2025-02-04 - add global item inquiry - ver 1.0.22
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -68,6 +69,9 @@ namespace StarLaiPortal.Module.Controllers
             // Start ver 1.0.13
             this.ViewOrderStatus.Active.SetItemValue("Enabled", false);
             // End ver 1.0.13
+            // Start ver 1.0.22
+            this.GlobalSearch_ItemInquiry.Active.SetItemValue("Enabled", false);
+            // End ver 1.0.22
 
             if (typeof(ItemInquiry).IsAssignableFrom(View.ObjectTypeInfo.Type))
             {
@@ -105,6 +109,26 @@ namespace StarLaiPortal.Module.Controllers
                     this.ViewItemPicture.SelectionDependencyType = DevExpress.ExpressApp.Actions.SelectionDependencyType.RequireSingleObject;
                 }
             }
+
+            // Start ver 1.0.22
+            if (typeof(GlobalItemInquiry).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(GlobalItemInquiry))
+                {
+                    this.GlobalSearch_ItemInquiry.Active.SetItemValue("Enabled", true);
+                    this.GlobalSearch_ItemInquiry.ActionMeaning = ActionMeaning.Accept;
+                }
+            }
+
+            if (typeof(GlobalItemInquiryDetails).IsAssignableFrom(View.ObjectTypeInfo.Type))
+            {
+                if (View.ObjectTypeInfo.Type == typeof(GlobalItemInquiryDetails))
+                {
+                    this.ViewItemPicture.Active.SetItemValue("Enabled", true);
+                    this.ViewItemPicture.SelectionDependencyType = DevExpress.ExpressApp.Actions.SelectionDependencyType.RequireSingleObject;
+                }
+            }
+            // End ver 1.0.22
         }
         protected override void OnViewControlsCreated()
         {
@@ -756,20 +780,43 @@ namespace StarLaiPortal.Module.Controllers
 
         private void ViewItemPicture_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            ItemInquiryDetails iteminquiry = (ItemInquiryDetails)View.CurrentObject;
-
-            if (iteminquiry.PictureName != null)
+            // Start ver 1.0.22
+            if (View.ObjectTypeInfo.Type == typeof(ItemInquiryDetails))
             {
-                string url = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority +
-                    ConfigurationManager.AppSettings.Get("ItemPicturePath").ToString() + iteminquiry.PictureName;
-                var script = "window.open('" + url + "');";
+                ItemInquiryDetails iteminquiry = (ItemInquiryDetails)View.CurrentObject;
 
-                WebWindow.CurrentRequestWindow.RegisterStartupScript("DownloadFile", script);
+                if (iteminquiry.PictureName != null)
+                {
+                    string url = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority +
+                        ConfigurationManager.AppSettings.Get("ItemPicturePath").ToString() + iteminquiry.PictureName;
+                    var script = "window.open('" + url + "');";
+
+                    WebWindow.CurrentRequestWindow.RegisterStartupScript("DownloadFile", script);
+                }
+                else
+                {
+                    showMsg("Error", "No picture file.", InformationType.Error);
+                }
             }
-            else
+
+            if (View.ObjectTypeInfo.Type == typeof(GlobalItemInquiryDetails))
             {
-                showMsg("Error", "No picture file.", InformationType.Error);
+                GlobalItemInquiryDetails iteminquiry = (GlobalItemInquiryDetails)View.CurrentObject;
+
+                if (iteminquiry.PictureName != null)
+                {
+                    string url = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority +
+                        ConfigurationManager.AppSettings.Get("ItemPicturePath").ToString() + iteminquiry.PictureName;
+                    var script = "window.open('" + url + "');";
+
+                    WebWindow.CurrentRequestWindow.RegisterStartupScript("DownloadFile", script);
+                }
+                else
+                {
+                    showMsg("Error", "No picture file.", InformationType.Error);
+                }
             }
+            // End ver 1.0.22
         }
 
         // Start ver 1.0.7
@@ -1195,5 +1242,60 @@ namespace StarLaiPortal.Module.Controllers
             e.DialogController.CancelAction.Active["NothingToCancel"] = false;
         }
         // End ver 1.0.13
+
+        // Start ver 1.0.22
+        private void GlobalSearch_ItemInquiry_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            string cardcode = "";
+            GlobalItemInquiry selectedObject = (GlobalItemInquiry)e.CurrentObject;
+
+            if (selectedObject.Search != null && selectedObject.OldCode == null && selectedObject.CatalogNumber == null ||
+                selectedObject.Search == null && selectedObject.OldCode != null && selectedObject.CatalogNumber == null ||
+                selectedObject.Search == null && selectedObject.OldCode == null && selectedObject.CatalogNumber != null ||
+                selectedObject.Search == null && selectedObject.OldCode == null && selectedObject.CatalogNumber == null)
+            {
+                if (selectedObject.Search != null)
+                {
+                    XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                    SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetItemGlobal", new OperandValue(selectedObject.Search),
+                        new OperandValue(selectedObject.Exclude),
+                        new OperandValue(selectedObject.Method), new OperandValue(cardcode), new OperandValue(selectedObject.Oid));
+
+                    persistentObjectSpace.Session.DropIdentityMap();
+                    persistentObjectSpace.Dispose();
+                }
+
+                if (selectedObject.OldCode != null)
+                {
+                    XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                    SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetItemOldCodeGlobal", new OperandValue(selectedObject.OldCode),
+                        new OperandValue(selectedObject.Exclude),
+                        new OperandValue(selectedObject.Method), new OperandValue(cardcode), new OperandValue(selectedObject.Oid));
+
+                    persistentObjectSpace.Session.DropIdentityMap();
+                    persistentObjectSpace.Dispose();
+                }
+
+                if (selectedObject.CatalogNumber != null)
+                {
+                    XPObjectSpace persistentObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
+                    SelectedData sprocData = persistentObjectSpace.Session.ExecuteSproc("sp_GetItemCatalogNumberGlobal", new OperandValue(selectedObject.CatalogNumber),
+                        new OperandValue(selectedObject.Exclude),
+                        new OperandValue(selectedObject.Method), new OperandValue(cardcode), new OperandValue(selectedObject.Oid));
+
+                    persistentObjectSpace.Session.DropIdentityMap();
+                    persistentObjectSpace.Dispose();
+                }
+
+                ObjectSpace.CommitChanges();
+                ObjectSpace.Refresh();
+                View.Refresh();
+            }
+            else
+            {
+                showMsg("Fail", "Not allow enter multiple searching field.", InformationType.Error);
+            }
+        }
+        // End ver 1.0.22
     }
 }

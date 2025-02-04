@@ -1463,6 +1463,47 @@
       </Columns>
     </ListView>
     <ListView Id="DocTypes_ListView" DataAccessMode="Client" />
+    <DetailView Id="GlobalItemInquiry_DetailView">
+      <Items>
+        <ActionContainerViewItem Id="GlobalButton" ActionContainer="ListView" Caption="GlobalButton" Orientation="Vertical" IsNewNode="True" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" Direction="Vertical" RelativeSize="15.889830508474576">
+            <LayoutGroup Id="GlobalItemInquiry_col1" ShowCaption="False" Index="0" RelativeSize="100" Caption="GlobalItemInquiry_col1" IsNewNode="True">
+              <LayoutGroup Id="Autoac60697e-857d-4a1b-888e-37d0a96df130" ShowCaption="False" Caption="Autoac60697e-857d-4a1b-888e-37d0a96df130(4)" Direction="Horizontal" Index="0" RelativeSize="100" IsNewNode="True">
+                <LayoutGroup Id="Auto22b58a46-f5be-47ac-af53-854551d146ac" ShowCaption="False" Caption="Auto22b58a46-f5be-47ac-af53-854551d146ac(5)" Index="0" RelativeSize="99.267015706806276" IsNewNode="True">
+                  <LayoutGroup Id="Autoa7faac9c-a57e-4a96-b8c1-d77936891084" ShowCaption="False" Caption="" Direction="Horizontal" Index="0" RelativeSize="54.666666666666664" IsNewNode="True">
+                    <LayoutItem Id="Search" ViewItem="Search" Index="0" RelativeSize="25.632911392405063" IsNewNode="True" />
+                    <LayoutItem Id="Item1" Index="1" RelativeSize="50.738396624472571" IsNewNode="True" />
+                    <LayoutItem Id="GlobalButton" ViewItem="GlobalButton" Index="2" RelativeSize="23.628691983122362" IsNewNode="True" />
+                  </LayoutGroup>
+                  <LayoutGroup Id="Auto17b0d114-70ee-472f-8baa-112cc8250d32" ShowCaption="False" Caption="" Direction="Horizontal" Index="1" RelativeSize="45.333333333333336" IsNewNode="True">
+                    <LayoutItem Id="OldCode" ViewItem="OldCode" Index="0" RelativeSize="25.632911392405063" IsNewNode="True" />
+                    <LayoutItem Id="CatalogNumber" ViewItem="CatalogNumber" Index="1" RelativeSize="22.9957805907173" IsNewNode="True" />
+                    <LayoutItem Id="Exclude" ViewItem="Exclude" Index="2" RelativeSize="27.742616033755276" IsNewNode="True" />
+                    <LayoutItem Id="Method" ViewItem="Method" Index="3" RelativeSize="23.628691983122362" IsNewNode="True" />
+                  </LayoutGroup>
+                </LayoutGroup>
+                <LayoutGroup Id="Auto5dcd21d7-cb6d-48c6-b138-c8f57cbb4977" ShowCaption="False" Caption="Auto5dcd21d7-cb6d-48c6-b138-c8f57cbb4977(8)" Index="1" RelativeSize="0.73298429319371727" IsNewNode="True">
+                  <LayoutGroup Id="Auto030e1efc-89dc-4d58-8652-6cad275f54ef" ShowCaption="False" Caption="Auto030e1efc-89dc-4d58-8652-6cad275f54ef(9)" Direction="Horizontal" Index="0" RelativeSize="100" IsNewNode="True" />
+                </LayoutGroup>
+              </LayoutGroup>
+            </LayoutGroup>
+            <LayoutGroup Id="GlobalItemInquiry" Removed="True" />
+          </LayoutGroup>
+          <LayoutGroup Id="GlobalItemInquiryDetails_Group" Direction="Vertical" RelativeSize="84.110169491525426">
+            <LayoutItem Id="GlobalItemInquiryDetails" RelativeSize="100" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="GlobalItemInquiry_GlobalItemInquiryDetails_ListView">
+      <Columns>
+        <ColumnInfo Id="ItemCode" SortIndex="-1" SortOrder="None" />
+      </Columns>
+    </ListView>
+    <DetailView Id="GlobalItemInquiryDetails_DetailView" AllowEdit="False" />
     <ListView Id="GRN_AuditTrail_ListView" AllowDelete="False" AllowLink="False" AllowNew="False">
       <Columns>
         <ColumnInfo Id="PropertyName" Index="-1" />

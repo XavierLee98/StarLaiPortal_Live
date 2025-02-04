@@ -17,6 +17,7 @@ using StarLaiPortal.Module.BusinessObjects.Stock_Adjustment;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -104,6 +105,44 @@ namespace StarLaiPortal.Module.Controllers
             StockAdjustments selectedObject = (StockAdjustments)e.CurrentObject;
             StringParameters p = (StringParameters)e.PopupWindow.View.CurrentObject;
             if (p.IsErr) return;
+
+            // Start ver 1.0.22
+            SqlConnection conn = new SqlConnection(genCon.getConnectionString());
+            string insuffstock = "";
+            string getstockbalance = "SELECT T0.StockAdjustments, T0.ItemCode, T0.Warehouse, T0.Bin, " +
+                "SUM(T0.Quantity - T0.Quantity - T0.Quantity) as Qty, ISNULL(T1.InStock, 0) From StockAdjustmentDetails T0 " +
+                "LEFT JOIN vwBinStockBalance T1 on T0.Warehouse = T1.Warehouse COLLATE DATABASE_DEFAULT " +
+                "and T0.Bin = T1.BinCode COLLATE DATABASE_DEFAULT and T0.ItemCode = T1.ItemCode COLLATE DATABASE_DEFAULT " +
+                "WHERE T0.StockAdjustments = '" + selectedObject.Oid + "' AND T0.Quantity < 0 " +
+                "GROUP BY T0.StockAdjustments, T0.ItemCode, T0.Warehouse, T0.Bin, ISNULL(T1.InStock, 0) " +
+                "HAVING SUM(T0.Quantity - T0.Quantity - T0.Quantity) > ISNULL(T1.InStock, 0)";
+            if (conn.State == ConnectionState.Open)
+            {
+                conn.Close();
+            }
+            conn.Open();
+            SqlCommand cmd = new SqlCommand(getstockbalance, conn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                if (insuffstock != "")
+                {
+                    insuffstock = insuffstock + ", " + reader.GetString(1);
+                }
+                else
+                {
+                    insuffstock = reader.GetString(1);
+                }
+            }
+            cmd.Dispose();
+            conn.Close();
+
+            if (insuffstock != "")
+            {
+                showMsg("Error", "Not allow submit due to " + insuffstock + " not enough stock.", InformationType.Error);
+                return;
+            }
+            // End ver 1.0.22
 
             if (selectedObject.IsValid2 == true)
             {
