@@ -312,6 +312,7 @@ namespace StarLaiPortal.Module.Controllers
                         newdelivery.DocNum = genCon.GenerateDocNum(DocTypeList.DO, deiveryos, TransferType.NA, 0, docprefix);
                         newdelivery.Customer = newdelivery.Session.GetObjectByKey<vwBusniessPartner>(so.Customer.BPCode);
                         newdelivery.CustomerName = so.CustomerName;
+                        newdelivery.CustomerGroup = newdelivery.Customer.GroupName;
                         newdelivery.Status = DocStatus.Submitted;
                         // Start ver 1.0.8.1
                         newdelivery.Priority = newdelivery.Session.GetObjectByKey<PriorityType>(so.Priority.Oid);
@@ -390,7 +391,7 @@ namespace StarLaiPortal.Module.Controllers
                                     {
                                         PackList pl = deiveryos.FindObject<PackList>(CriteriaOperator.Parse("DocNum = ?", dtlpack));
 
-                                        newdelivery.CustomerGroup = pl.CustomerGroup;
+                                        //newdelivery.CustomerGroup = pl.CustomerGroup;
 
                                         foreach (PackListDetails dtlpackdetail in pl.PackListDetails)
                                         {
@@ -463,7 +464,7 @@ namespace StarLaiPortal.Module.Controllers
                                                                 }
 
                                                                 newdeliveryitem.SOBaseID = dtlpick.SOBaseId;
-                                                                newdelivery.CustomerGroup = picklist.CustomerGroup;
+                                                                //newdelivery.CustomerGroup = picklist.CustomerGroup;
                                                             }
                                                         }
 
