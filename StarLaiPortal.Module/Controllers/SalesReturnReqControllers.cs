@@ -874,16 +874,16 @@ namespace StarLaiPortal.Module.Controllers
                                 conn.Close();
                             }
                             conn.Open();
-                            SqlCommand cmd = new SqlCommand(getpostingperiod, conn);
-                            SqlDataReader reader = cmd.ExecuteReader();
-                            while (reader.Read())
+                            SqlCommand cmdperiod = new SqlCommand(getpostingperiod, conn);
+                            SqlDataReader readerperiod = cmdperiod.ExecuteReader();
+                            while (readerperiod.Read())
                             {
-                                if (reader.GetString(3) != "N")
+                                if (readerperiod.GetString(3) != "N")
                                 {
                                     periodlock = true;
                                 }
                             }
-                            cmd.Dispose();
+                            cmdperiod.Dispose();
                             conn.Close();
                             // End ver 1.0.22
 
@@ -1033,17 +1033,17 @@ namespace StarLaiPortal.Module.Controllers
                             conn.Close();
                         }
                         conn.Open();
-                        SqlCommand cmd = new SqlCommand(getpostingperiod, conn);
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        while (reader.Read())
+                        SqlCommand cmdperiod = new SqlCommand(getpostingperiod, conn);
+                        SqlDataReader readerperiod = cmdperiod.ExecuteReader();
+                        while (readerperiod.Read())
                         {
-                            if (reader.GetString(3) != "N")
+                            if (readerperiod.GetString(3) != "N")
                             {
                                 showMsg("Error", "Posting period locked.", InformationType.Error);
                                 return;
                             }
                         }
-                        cmd.Dispose();
+                        cmdperiod.Dispose();
                         conn.Close();
                         // End ver 1.0.22
 
