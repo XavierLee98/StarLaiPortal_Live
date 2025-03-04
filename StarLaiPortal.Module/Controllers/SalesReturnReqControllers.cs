@@ -28,6 +28,7 @@ using System.Text;
 // 2023-10-05 add payment method for sales return ver 1.0.10
 // 2024-06-12 - e-invoice - ver 1.0.18
 // 2024-07-18 - add basedoc - ver 1.0.19
+// 2025-02-04 - not allow submit if posting period locked - ver 1.0.22
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -864,108 +865,138 @@ namespace StarLaiPortal.Module.Controllers
                             IObjectSpace sos = Application.CreateObjectSpace();
                             SalesReturnRequests srr = sos.FindObject<SalesReturnRequests>(new BinaryOperator("Oid", dtl.Oid));
 
-                            ApprovalStatusType appstatus = ApprovalStatusType.Required_Approval;
-
-                            if (appstatus == ApprovalStatusType.Not_Applicable)
-                                appstatus = ApprovalStatusType.Required_Approval;
-
-                            if (p.IsErr) return;
-                            if (appstatus == ApprovalStatusType.Required_Approval && p.AppStatus == ApprovalActions.NA)
-                            {
-                                showMsg("Failed", "Same Approval Status is not allowed.", InformationType.Error);
-                                return;
-                            }
-                            else if (appstatus == ApprovalStatusType.Approved && p.AppStatus == ApprovalActions.Yes)
-                            {
-                                showMsg("Failed", "Same Approval Status is not allowed.", InformationType.Error);
-                                return;
-                            }
-                            else if (appstatus == ApprovalStatusType.Rejected && p.AppStatus == ApprovalActions.No)
-                            {
-                                showMsg("Failed", "Same Approval Status is not allowed.", InformationType.Error);
-                                return;
-                            }
-                            if (p.AppStatus == ApprovalActions.NA)
-                            {
-                                appstatus = ApprovalStatusType.Required_Approval;
-                            }
-                            if (p.AppStatus == ApprovalActions.Yes)
-                            {
-                                appstatus = ApprovalStatusType.Approved;
-                            }
-                            if (p.AppStatus == ApprovalActions.No)
-                            {
-                                appstatus = ApprovalStatusType.Rejected;
-                            }
-
-                            SalesReturnRequestAppStatus ds = sos.CreateObject<SalesReturnRequestAppStatus>();
-                            ds.SalesReturnRequests = sos.GetObjectByKey<SalesReturnRequests>(srr.Oid);
-                            ds.AppStatus = appstatus;
-                            if (appstatus == ApprovalStatusType.Rejected)
-                            {
-                                //sq.Status = DocStatus.New;
-                                ds.AppRemarks =
-                                    System.Environment.NewLine + "(Reject User: " + user.Staff.StaffName + ")" +
-                                    System.Environment.NewLine + "(Reason: Approval Rejected) - " + p.ParamString;
-                                ds.CreateUser = sos.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
-                            }
-                            else
-                            {
-                                ds.AppRemarks = System.Environment.NewLine + "(Approved User: " + user.Staff.StaffName + ") - " + p.ParamString;
-                            }
-                            srr.SalesReturnRequestAppStatus.Add(ds);
-
-                            sos.CommitChanges();
-                            sos.Refresh();
-
-                            totaldoc++;
-
-                            #region approval
-
-                            List<string> ToEmails = new List<string>();
-                            string emailbody = "";
-                            string emailsubject = "";
-                            string emailaddress = "";
-                            Guid emailuser;
-                            DateTime emailtime = DateTime.Now;
-
-                            string getapproval = "EXEC sp_Approval '" + user.UserName + "', '" + srr.Oid + "', 'SalesReturnRequests', " + ((int)appstatus);
+                            // Start ver 1.0.22
+                            bool periodlock = false;
+                            string getpostingperiod = "SELECT * From vwPostingPeriod WHERE F_RefDate <= '" + srr.PostingDate.Date.ToString("yyyy-MM-dd") + "' " +
+                                "AND T_RefDate >= '" + srr.PostingDate.Date.ToString("yyyy-MM-dd") + "'";
                             if (conn.State == ConnectionState.Open)
                             {
                                 conn.Close();
                             }
                             conn.Open();
-                            SqlCommand cmd = new SqlCommand(getapproval, conn);
+                            SqlCommand cmd = new SqlCommand(getpostingperiod, conn);
                             SqlDataReader reader = cmd.ExecuteReader();
                             while (reader.Read())
                             {
-                                if (reader.GetString(1) != "")
+                                if (reader.GetString(3) != "N")
                                 {
-                                    emailbody = "Dear Sir/Madam, " + System.Environment.NewLine + System.Environment.NewLine +
-                                              reader.GetString(3) + System.Environment.NewLine + GeneralSettings.appurl + reader.GetString(2) +
-                                              System.Environment.NewLine + System.Environment.NewLine;
-
-                                    if (appstatus == ApprovalStatusType.Approved)
-                                        emailsubject = "Sales Return Request Approval";
-                                    else if (appstatus == ApprovalStatusType.Rejected)
-                                        emailsubject = "Sales Return Request Approval Rejected";
-
-                                    emailaddress = reader.GetString(1);
-                                    emailuser = reader.GetGuid(0);
-
-                                    ToEmails.Add(emailaddress);
+                                    periodlock = true;
                                 }
                             }
                             cmd.Dispose();
                             conn.Close();
+                            // End ver 1.0.22
 
-                            if (ToEmails.Count > 0)
+                            // Start ver 1.0.22
+                            if (periodlock == false)
                             {
-                                if (genCon.SendEmail(emailsubject, emailbody, ToEmails) == 1)
+                            // End ver 1.0.22
+                                ApprovalStatusType appstatus = ApprovalStatusType.Required_Approval;
+
+                                if (appstatus == ApprovalStatusType.Not_Applicable)
+                                    appstatus = ApprovalStatusType.Required_Approval;
+
+                                if (p.IsErr) return;
+                                if (appstatus == ApprovalStatusType.Required_Approval && p.AppStatus == ApprovalActions.NA)
                                 {
+                                    showMsg("Failed", "Same Approval Status is not allowed.", InformationType.Error);
+                                    return;
                                 }
+                                else if (appstatus == ApprovalStatusType.Approved && p.AppStatus == ApprovalActions.Yes)
+                                {
+                                    showMsg("Failed", "Same Approval Status is not allowed.", InformationType.Error);
+                                    return;
+                                }
+                                else if (appstatus == ApprovalStatusType.Rejected && p.AppStatus == ApprovalActions.No)
+                                {
+                                    showMsg("Failed", "Same Approval Status is not allowed.", InformationType.Error);
+                                    return;
+                                }
+                                if (p.AppStatus == ApprovalActions.NA)
+                                {
+                                    appstatus = ApprovalStatusType.Required_Approval;
+                                }
+                                if (p.AppStatus == ApprovalActions.Yes)
+                                {
+                                    appstatus = ApprovalStatusType.Approved;
+                                }
+                                if (p.AppStatus == ApprovalActions.No)
+                                {
+                                    appstatus = ApprovalStatusType.Rejected;
+                                }
+
+                                SalesReturnRequestAppStatus ds = sos.CreateObject<SalesReturnRequestAppStatus>();
+                                ds.SalesReturnRequests = sos.GetObjectByKey<SalesReturnRequests>(srr.Oid);
+                                ds.AppStatus = appstatus;
+                                if (appstatus == ApprovalStatusType.Rejected)
+                                {
+                                    //sq.Status = DocStatus.New;
+                                    ds.AppRemarks =
+                                        System.Environment.NewLine + "(Reject User: " + user.Staff.StaffName + ")" +
+                                        System.Environment.NewLine + "(Reason: Approval Rejected) - " + p.ParamString;
+                                    ds.CreateUser = sos.GetObjectByKey<ApplicationUser>(Guid.Parse("100348B5-290E-47DF-9355-557C7E2C56D3"));
+                                }
+                                else
+                                {
+                                    ds.AppRemarks = System.Environment.NewLine + "(Approved User: " + user.Staff.StaffName + ") - " + p.ParamString;
+                                }
+                                srr.SalesReturnRequestAppStatus.Add(ds);
+
+                                sos.CommitChanges();
+                                sos.Refresh();
+
+                                totaldoc++;
+
+                                #region approval
+
+                                List<string> ToEmails = new List<string>();
+                                string emailbody = "";
+                                string emailsubject = "";
+                                string emailaddress = "";
+                                Guid emailuser;
+                                DateTime emailtime = DateTime.Now;
+
+                                string getapproval = "EXEC sp_Approval '" + user.UserName + "', '" + srr.Oid + "', 'SalesReturnRequests', " + ((int)appstatus);
+                                if (conn.State == ConnectionState.Open)
+                                {
+                                    conn.Close();
+                                }
+                                conn.Open();
+                                SqlCommand cmd = new SqlCommand(getapproval, conn);
+                                SqlDataReader reader = cmd.ExecuteReader();
+                                while (reader.Read())
+                                {
+                                    if (reader.GetString(1) != "")
+                                    {
+                                        emailbody = "Dear Sir/Madam, " + System.Environment.NewLine + System.Environment.NewLine +
+                                                  reader.GetString(3) + System.Environment.NewLine + GeneralSettings.appurl + reader.GetString(2) +
+                                                  System.Environment.NewLine + System.Environment.NewLine;
+
+                                        if (appstatus == ApprovalStatusType.Approved)
+                                            emailsubject = "Sales Return Request Approval";
+                                        else if (appstatus == ApprovalStatusType.Rejected)
+                                            emailsubject = "Sales Return Request Approval Rejected";
+
+                                        emailaddress = reader.GetString(1);
+                                        emailuser = reader.GetGuid(0);
+
+                                        ToEmails.Add(emailaddress);
+                                    }
+                                }
+                                cmd.Dispose();
+                                conn.Close();
+
+                                if (ToEmails.Count > 0)
+                                {
+                                    if (genCon.SendEmail(emailsubject, emailbody, ToEmails) == 1)
+                                    {
+                                    }
+                                }
+                                #endregion
+
+                            // Start ver 1.0.22
                             }
-                            #endregion
+                            // End ver 1.0.22
 
                             //ObjectSpace.CommitChanges(); //This line persists created object(s).
                             //ObjectSpace.Refresh();
@@ -993,6 +1024,28 @@ namespace StarLaiPortal.Module.Controllers
                     {
                         IObjectSpace sos = Application.CreateObjectSpace();
                         SalesReturnRequests srr = sos.FindObject<SalesReturnRequests>(new BinaryOperator("Oid", dtl.Oid));
+
+                        // Start ver 1.0.22
+                        string getpostingperiod = "SELECT * From vwPostingPeriod WHERE F_RefDate <= '" + srr.PostingDate.Date.ToString("yyyy-MM-dd") + "' " +
+                            "AND T_RefDate >= '" + srr.PostingDate.Date.ToString("yyyy-MM-dd") + "'";
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                        conn.Open();
+                        SqlCommand cmd = new SqlCommand(getpostingperiod, conn);
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            if (reader.GetString(3) != "N")
+                            {
+                                showMsg("Error", "Posting period locked.", InformationType.Error);
+                                return;
+                            }
+                        }
+                        cmd.Dispose();
+                        conn.Close();
+                        // End ver 1.0.22
 
                         ApprovalStatusType appstatus = ApprovalStatusType.Required_Approval;
 
