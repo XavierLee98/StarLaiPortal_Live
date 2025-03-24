@@ -56,6 +56,8 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 // 2024-06-12 e-invoice - ver 1.0.18
 // 2024-07-18 GRN post system date to posting date - ver 1.0.19
 // 2025-01-23 Update Posted in picking - ver 1.0.22
+// 2025-03-24 Picking post with systedate instead if screen date - ver 1.0.22
+
 
 namespace PortalIntegration
 {
@@ -5033,8 +5035,12 @@ namespace PortalIntegration
 
                 //oDoc.CardCode = oTargetDoc.Vendor.BoCode;
                 //oDoc.CardName = oTargetDoc.Vendor.BoName;
-                oDoc.DocDate = oTargetDoc.DocDate;
-                oDoc.TaxDate = oTargetDoc.DeliveryDate;
+                // Start ver 1.0.22
+                //oDoc.DocDate = oTargetDoc.DocDate;
+                //oDoc.TaxDate = oTargetDoc.DeliveryDate;
+                oDoc.DocDate = DateTime.Today;
+                oDoc.TaxDate = DateTime.Today;
+                // End ver 1.0.22
                 oDoc.Comments = oTargetDoc.Remarks;
                 oDoc.FromWarehouse = warehouse;
                 oDoc.ToWarehouse = warehouse;
