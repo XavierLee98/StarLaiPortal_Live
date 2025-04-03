@@ -13,6 +13,7 @@ using DevExpress.Web.Internal.XmlProcessor;
 using DevExpress.Xpo;
 using DevExpress.Xpo.DB.Helpers;
 using DevExpress.XtraPrinting.Export.Pdf;
+using Microsoft.SqlServer.Server;
 using StarLaiPortal.Module.BusinessObjects;
 using StarLaiPortal.Module.BusinessObjects.Advanced_Shipment_Notice;
 using StarLaiPortal.Module.BusinessObjects.Delivery_Order;
@@ -47,6 +48,7 @@ using System.Text;
 // 2023-12-04 add outstanding qty ver 1.0.13
 // 2024-04-04 add generateinstock ver 1.0.15
 // 2024-06-12 e-invoice - ver 1.0.18
+// 2025-04-03 Consolidate same SO but different packing - ver 1.0.22
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -781,6 +783,9 @@ namespace StarLaiPortal.Module.Controllers
                                             if (dtlload.Bundle.BundleID == dtlpackdetail.Bundle.BundleID)
                                             {
                                                 string picklistoid = null;
+                                                // Start ver 1.0.22
+                                                string SOBaseID = null;
+                                                // End ver 1.0.22
                                                 bool pickitem = false;
 
                                                 PickList picklist = pickos.FindObject<PickList>(CriteriaOperator.Parse("DocNum = ?", dtlpackdetail.PickListNo));
@@ -790,6 +795,9 @@ namespace StarLaiPortal.Module.Controllers
                                                     if (dtlpackdetail.BaseId == dtlactual.Oid.ToString())
                                                     {
                                                         picklistoid = dtlactual.PickListDetailOid.ToString();
+                                                        // Start ver 1.0.22
+                                                        SOBaseID = dtlactual.SOBaseId.ToString();
+                                                        // End ver 1.0.22
 
                                                         if (dtlactual.SOBaseDoc == reader.GetString(0))
                                                         {
@@ -801,7 +809,10 @@ namespace StarLaiPortal.Module.Controllers
 
                                                 foreach (DeliveryOrderDetails dtldelivery in newdelivery.DeliveryOrderDetails)
                                                 {
-                                                    if (dtldelivery.PackListLine == picklistoid)
+                                                    // Start ver 1.0.22
+                                                    //if (dtldelivery.PackListLine == picklistoid)
+                                                    if (dtldelivery.SOBaseID == SOBaseID)
+                                                    // End ver 1.0.22
                                                     {
                                                         dtldelivery.Quantity = dtldelivery.Quantity + dtlpackdetail.Quantity;
                                                         pickitem = false;

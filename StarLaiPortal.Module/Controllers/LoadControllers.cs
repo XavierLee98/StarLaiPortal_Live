@@ -30,6 +30,7 @@ using System.Text;
 // 2023-09-25 bring SO remark to DO ver 1.0.10
 // 2023-09-25 copy warehouse ver 1.0.10
 // 2024-06-12 e-invoice - ver 1.0.18
+// 2025-04-03 Consolidate same SO but different packing - ver 1.0.22
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -398,6 +399,9 @@ namespace StarLaiPortal.Module.Controllers
                                             if (dtlload.Bundle.BundleID == dtlpackdetail.Bundle.BundleID)
                                             {
                                                 string picklistoid = null;
+                                                // Start ver 1.0.22
+                                                string SOBaseID = null;
+                                                // End ver 1.0.22
                                                 bool pickitem = false;
 
                                                 PickList picklist = deiveryos.FindObject<PickList>(CriteriaOperator.Parse("DocNum = ?", dtlpackdetail.PickListNo));
@@ -407,6 +411,9 @@ namespace StarLaiPortal.Module.Controllers
                                                     if (dtlpackdetail.BaseId == dtlactual.Oid.ToString())
                                                     {
                                                         picklistoid = dtlactual.PickListDetailOid.ToString();
+                                                        // Start ver 1.0.22
+                                                        SOBaseID = dtlactual.SOBaseId.ToString();
+                                                        // End ver 1.0.22
 
                                                         if (dtlactual.SOBaseDoc == reader.GetString(0))
                                                         {
@@ -418,7 +425,10 @@ namespace StarLaiPortal.Module.Controllers
 
                                                 foreach (DeliveryOrderDetails dtldelivery in newdelivery.DeliveryOrderDetails)
                                                 {
-                                                    if (dtldelivery.PackListLine == picklistoid)
+                                                    // Start ver 1.0.22
+                                                    //if (dtldelivery.PackListLine == picklistoid)
+                                                    if (dtldelivery.SOBaseID == SOBaseID)
+                                                    // End ver 1.0.22
                                                     {
                                                         dtldelivery.Quantity = dtldelivery.Quantity + dtlpackdetail.Quantity;
                                                         pickitem = false;

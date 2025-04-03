@@ -57,7 +57,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 // 2024-07-18 GRN post system date to posting date - ver 1.0.19
 // 2025-01-23 Update Posted in picking - ver 1.0.22
 // 2025-03-24 Picking post with systedate instead if screen date - ver 1.0.22
-
+// 2025-04-03 Consolidate same SO but different packing - ver 1.0.22
 
 namespace PortalIntegration
 {
@@ -2003,6 +2003,9 @@ namespace PortalIntegration
                                                             if (dtlload.Bundle.BundleID == dtlpackdetail.Bundle.BundleID)
                                                             {
                                                                 string picklistoid = null;
+                                                                // Start ver 1.0.22
+                                                                string SOBaseID = null;
+                                                                // End ver 1.0.22
                                                                 bool pickitem = false;
 
                                                                 PickList picklist = deliveryos.FindObject<PickList>(CriteriaOperator.Parse("DocNum = ?", dtlpackdetail.PickListNo));
@@ -2012,6 +2015,9 @@ namespace PortalIntegration
                                                                     if (dtlpackdetail.BaseId == dtlactual.Oid.ToString())
                                                                     {
                                                                         picklistoid = dtlactual.PickListDetailOid.ToString();
+                                                                        // Start ver 1.0.22
+                                                                        SOBaseID = dtlactual.SOBaseId.ToString();
+                                                                        // End ver 1.0.22
 
                                                                         if (dtlactual.SOBaseDoc == so.DocNum)
                                                                         {
@@ -2023,7 +2029,10 @@ namespace PortalIntegration
 
                                                                 foreach (DeliveryOrderDetails dtldelivery in newdelivery.DeliveryOrderDetails)
                                                                 {
-                                                                    if (dtldelivery.PackListLine == picklistoid)
+                                                                    // Start ver 1.0.22
+                                                                    //if (dtldelivery.PackListLine == picklistoid)
+                                                                    if (dtldelivery.SOBaseID == SOBaseID)
+                                                                    // End ver 1.0.22
                                                                     {
                                                                         dtldelivery.Quantity = dtldelivery.Quantity + dtlpackdetail.Quantity;
                                                                         pickitem = false;
