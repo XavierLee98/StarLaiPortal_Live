@@ -242,9 +242,65 @@ namespace StarLaiPortal.Module.BusinessObjects.Item_Inquiry
             }
         }
 
+        private string _ProdName;
+        [XafDisplayName("Prod Name")]
+        [Index(50), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(false)]
+        [Appearance("ProdName", Enabled = false)]
+        [DbType("nvarchar(MAX)")]
+        public string ProdName
+        {
+            get { return _ProdName; }
+            set
+            {
+                SetPropertyValue("ProdName", ref _ProdName, value);
+            }
+        }
+
+        private string _ProdModel;
+        [XafDisplayName("Prod Model")]
+        [Index(51), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(false)]
+        [Appearance("ProdModel", Enabled = false)]
+        [DbType("nvarchar(MAX)")]
+        public string ProdModel
+        {
+            get { return _ProdModel; }
+            set
+            {
+                SetPropertyValue("ProdModel", ref _ProdModel, value);
+            }
+        }
+
+        private string _ProdOrigin;
+        [XafDisplayName("Prod Origin")]
+        [Index(52), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(false)]
+        [Appearance("ProdOrigin", Enabled = false)]
+        [DbType("nvarchar(MAX)")]
+        public string ProdOrigin
+        {
+            get { return _ProdOrigin; }
+            set
+            {
+                SetPropertyValue("ProdOrigin", ref _ProdOrigin, value);
+            }
+        }
+
+        private string _TariffCode;
+        [XafDisplayName("Tariff Code")]
+        [Index(53), VisibleInListView(true), VisibleInDetailView(true), VisibleInLookupListView(false)]
+        [Appearance("TariffCode", Enabled = false)]
+        [DbType("nvarchar(MAX)")]
+        public string TariffCode
+        {
+            get { return _TariffCode; }
+            set
+            {
+                SetPropertyValue("TariffCode", ref _TariffCode, value);
+            }
+        }
+
         private string _PictureName;
         [XafDisplayName("Picture Name")]
-        [Index(40), VisibleInListView(true), VisibleInDetailView(false), VisibleInLookupListView(false)]
+        [Index(70), VisibleInListView(true), VisibleInDetailView(false), VisibleInLookupListView(false)]
         [Appearance("PictureName", Enabled = false)]
         public string PictureName
         {
