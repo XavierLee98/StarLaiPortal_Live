@@ -23,7 +23,7 @@ namespace StarLaiPortal.Module.BusinessObjects.Item_Inquiry
     [Appearance("LinkDoc", AppearanceItemType = "Action", TargetItems = "Link", Context = "ListView", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide)]
     [Appearance("UnlinkDoc", AppearanceItemType = "Action", TargetItems = "Unlink", Context = "ListView", Visibility = DevExpress.ExpressApp.Editors.ViewItemVisibility.Hide)]
 
-    [XafDisplayName("Item Inquiry Details")]
+    [XafDisplayName("Global Item Inquiry Details")]
     public class GlobalItemInquiryDetails : XPObject
     { 
         public GlobalItemInquiryDetails(Session session)
