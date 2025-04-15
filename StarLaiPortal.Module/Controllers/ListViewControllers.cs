@@ -1,6 +1,7 @@
 ﻿using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
+using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Editors;
 using DevExpress.ExpressApp.Layout;
 using DevExpress.ExpressApp.Model;
@@ -14,6 +15,8 @@ using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Validation;
 using DevExpress.Utils;
 using DevExpress.Web;
+using DevExpress.Xpo;
+using DevExpress.Xpo.Helpers;
 using DevExpress.XtraGrid.Columns;
 using StarLaiPortal.Module.BusinessObjects.Advanced_Shipment_Notice;
 using StarLaiPortal.Module.BusinessObjects.Credit_Notes_Cancellation;
@@ -37,9 +40,13 @@ using StarLaiPortal.Module.BusinessObjects.Stock_Count;
 using StarLaiPortal.Module.BusinessObjects.Warehouse_Transfer;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Web.UI.WebControls;
+using DevExpress.Xpo.DB.Helpers;
 
 // 2023-07-28 add AR Downpayment cancalletion ver 1.0.7
 // 2023-09-11 add dashboard sales/purchase/warehouse ver 1.0.9
@@ -175,7 +182,43 @@ namespace StarLaiPortal.Module.Controllers
             //    DateTime.Now.Minute.ToString("00").Substring(1, 1) == "6")
             if (DateTime.Now.Minute.ToString("00").Substring(1, 1) == "0")
             {
-                MemoryManagement.FlushGCMemory();
+                SqlConnection conn = new SqlConnection(getConnectionString());
+                string getRMBool = "SELECT ReleaseMemory FROM [" + ConfigurationManager.AppSettings.Get("CommonTable").ToString() + "]..ODBC WHERE " +
+                    "DBName = '" + conn.Database + "'";
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(getRMBool, conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (reader.GetBoolean(0) == false)
+                    {
+                        MemoryManagement.FlushGCMemory();
+                    }
+                }
+                cmd.Dispose();
+                conn.Close();
+
+                SqlCommand TransactionNotification = new SqlCommand("", conn);
+                TransactionNotification.CommandTimeout = 600;
+
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+
+                conn.Open();
+
+                TransactionNotification.CommandText = "UPDATE [" + ConfigurationManager.AppSettings.Get("CommonTable").ToString() + "]..ODBC " +
+                    "SET ReleaseMemory = 1 WHERE DBName = '" + conn.Database + "'";
+
+                SqlDataReader UpdReader = TransactionNotification.ExecuteReader();
+
+                TransactionNotification.Dispose();
+                conn.Close();
             }
             // End ver 1.0.15
         }
@@ -304,6 +347,17 @@ namespace StarLaiPortal.Module.Controllers
             object sender, CustomProcessListViewSelectedItemEventArgs e)
         {
             e.Handled = true;
+        }
+
+        public string getConnectionString()
+        {
+            string connectionString = "";
+
+            ConnectionStringParser helper = new ConnectionStringParser(Application.ConnectionString);
+            helper.RemovePartByName("xpodatastorepool");
+            connectionString = string.Format(helper.GetConnectionString());
+
+            return connectionString;
         }
     }
 }

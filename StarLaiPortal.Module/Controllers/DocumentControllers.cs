@@ -277,23 +277,26 @@ namespace StarLaiPortal.Module.Controllers
             {
                 if (View.ObjectTypeInfo.Type == typeof(SalesHistory))
                 {
-                    this.DocumentStatus.Active.SetItemValue("Enabled", true);
-                    DocumentStatus.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
-                    DocumentStatus.CustomizeControl += action_CustomizeControl;
+                    if (View.Id == "SalesHistoryList_Sales_ListView")
+                    {
+                        this.DocumentStatus.Active.SetItemValue("Enabled", true);
+                        DocumentStatus.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        DocumentStatus.CustomizeControl += action_CustomizeControl;
 
-                    this.DocumentDateFrom.Active.SetItemValue("Enabled", true);
-                    this.DocumentDateFrom.Value = DateTime.Today.AddMonths(-3);
-                    DocumentDateFrom.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
-                    this.DocumentDateFrom.CustomizeControl += DateActionFrom_CustomizeControl;
+                        this.DocumentDateFrom.Active.SetItemValue("Enabled", true);
+                        this.DocumentDateFrom.Value = DateTime.Today.AddMonths(-3);
+                        DocumentDateFrom.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        this.DocumentDateFrom.CustomizeControl += DateActionFrom_CustomizeControl;
 
-                    this.DocumentDateTo.Active.SetItemValue("Enabled", true);
-                    this.DocumentDateTo.Value = DateTime.Today;
-                    DocumentDateTo.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
-                    this.DocumentDateTo.CustomizeControl += DateActionTo_CustomizeControl;
+                        this.DocumentDateTo.Active.SetItemValue("Enabled", true);
+                        this.DocumentDateTo.Value = DateTime.Today;
+                        DocumentDateTo.PaintStyle = DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption;
+                        this.DocumentDateTo.CustomizeControl += DateActionTo_CustomizeControl;
 
-                    this.DocumentFilter.Active.SetItemValue("Enabled", true);
+                        this.DocumentFilter.Active.SetItemValue("Enabled", true);
 
-                    ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("SalesDate >= ? and SalesDate <= ?", DateTime.Today.AddMonths(-3), DateTime.Today.AddDays(1));
+                        ((ListView)View).CollectionSource.Criteria["Filter1"] = CriteriaOperator.Parse("SalesDate >= ? and SalesDate <= ?", DateTime.Today.AddMonths(-3), DateTime.Today.AddDays(1));
+                    }
                 }
             }
             // End ver 1.0.19
