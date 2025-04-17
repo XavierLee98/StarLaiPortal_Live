@@ -180,7 +180,8 @@ namespace StarLaiPortal.Module.Controllers
             //if (DateTime.Now.Minute.ToString("00").Substring(1, 1) == "0" ||
             //    DateTime.Now.Minute.ToString("00").Substring(1, 1) == "3" ||
             //    DateTime.Now.Minute.ToString("00").Substring(1, 1) == "6")
-            if (DateTime.Now.Minute.ToString("00").Substring(1, 1) == "0")
+            if (DateTime.Now.Minute.ToString("00").Substring(1, 1) == "0" || 
+                DateTime.Now.Minute.ToString("00").Substring(1, 1) == "5")
             {
                 SqlConnection conn = new SqlConnection(getConnectionString());
                 string getRMBool = "SELECT ReleaseMemory FROM [" + ConfigurationManager.AppSettings.Get("CommonTable").ToString() + "]..ODBC WHERE " +
