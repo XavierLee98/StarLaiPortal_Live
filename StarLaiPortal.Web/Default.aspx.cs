@@ -8,6 +8,10 @@ using DevExpress.ExpressApp.Web.Templates;
 using DevExpress.ExpressApp.Web.Templates.ActionContainers;
 
 public partial class Default : BaseXafPage {
+
+    const string LastActivityTag = "LastActivity";
+    int ActivityTimeout = int.Parse(ConfigurationManager.AppSettings["ActivityTimeoutSec"].ToString());
+
     protected override ContextActionsMenu CreateContextActionsMenu() {
         return new ContextActionsMenu(this, "Edit", "RecordEdit", "ObjectsCreation", "ListView", "Reports");
     }
@@ -19,6 +23,38 @@ public partial class Default : BaseXafPage {
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        TimeoutControl1.TimeOutUrl = ConfigurationManager.AppSettings["CommonUrl"].ToString();
+        //TimeoutControl1.TimeOutUrl = ConfigurationManager.AppSettings["LogOutUrl"].ToString();
+    }
+
+    protected DateTime LastActivity
+    {
+        get
+        {
+            if (Session[LastActivityTag] != null)
+            {
+                return (DateTime)Session[LastActivityTag];
+            }
+            else
+            {
+                return DateTime.Now;
+            }
+        }
+        set { Session[LastActivityTag] = value; }
+    }
+    protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+        if (System.Web.HttpContext.Current.Request.Form["__CALLBACKID"] != ASPxCallback1.ClientID)
+        {
+            LastActivity = DateTime.Now;
+        }
+    }
+    protected void ASPxCallback1_Callback(object source, DevExpress.Web.CallbackEventArgs e)
+    {
+        if (DevExpress.ExpressApp.Web.WebWindow.CurrentRequestWindow is DevExpress.ExpressApp.Web.PopupWindow) return;
+        if (DateTime.Now.Subtract(LastActivity).TotalSeconds > ActivityTimeout)
+        {
+            WebApplication.Instance.LogOff();
+        }
     }
 }
