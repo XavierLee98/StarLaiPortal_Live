@@ -9,8 +9,9 @@
 
 
 
-public partial class Default {
-    
+public partial class Default
+{
+
     /// <summary>
     /// form2 control.
     /// </summary>
@@ -19,7 +20,7 @@ public partial class Default {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlForm form2;
-    
+
     /// <summary>
     /// ProgressControl control.
     /// </summary>
@@ -28,7 +29,7 @@ public partial class Default {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::DevExpress.ExpressApp.Web.Controls.ASPxProgressControl ProgressControl;
-    
+
     /// <summary>
     /// Content control.
     /// </summary>
@@ -37,4 +38,13 @@ public partial class Default {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlGenericControl Content;
+
+    /// <summary>
+    /// TimeoutControl1 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::StarLaiPortal.Web.TimeoutControl TimeoutControl1;
 }

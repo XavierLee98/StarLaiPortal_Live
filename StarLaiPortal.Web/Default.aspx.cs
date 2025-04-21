@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Web.UI;
 using DevExpress.ExpressApp.Templates;
 using DevExpress.ExpressApp.Web;
@@ -14,5 +15,10 @@ public partial class Default : BaseXafPage {
         get {
             return Content;
         }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        TimeoutControl1.TimeOutUrl = ConfigurationManager.AppSettings["CommonUrl"].ToString();
     }
 }
