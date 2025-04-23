@@ -54,8 +54,8 @@ public partial class Default : BaseXafPage {
         if (DevExpress.ExpressApp.Web.WebWindow.CurrentRequestWindow is DevExpress.ExpressApp.Web.PopupWindow) return;
         if (DateTime.Now.Subtract(LastActivity).TotalSeconds > ActivityTimeout)
         {
-            WebApplication.Instance.LogOff();
-            WebApplication.Instance.Dispose();
+            WebApplication.LogOff(Session);
+            WebApplication.DisposeInstance(Session);
         }
     }
 }
