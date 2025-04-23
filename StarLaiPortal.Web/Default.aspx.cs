@@ -55,6 +55,7 @@ public partial class Default : BaseXafPage {
         if (DateTime.Now.Subtract(LastActivity).TotalSeconds > ActivityTimeout)
         {
             WebApplication.Instance.LogOff();
+            WebApplication.Instance.Dispose();
         }
     }
 }
