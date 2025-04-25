@@ -274,13 +274,6 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="TimeoutControl.ascx.cs">
-      <DependentUpon>TimeoutControl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TimeoutControl.ascx.designer.cs">
-      <DependentUpon>TimeoutControl.ascx</DependentUpon>
-    </Compile>
     <Compile Include="WebApplication.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -307,7 +300,6 @@
     <Content Include="Model.Desktop.xafml" />
     <Content Include="Model.Tablet.xafml" />
     <None Include="ReadMe.txt" />
-    <Content Include="TimeoutControl.ascx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

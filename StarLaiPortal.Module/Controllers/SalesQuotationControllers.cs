@@ -42,6 +42,7 @@ using static System.Net.Mime.MediaTypeNames;
 // 2024-04-04 Update available qty ver 1.0.15
 // 2024-06-12 - e-invoice - ver 1.0.18
 // 2024-07-22 - check current on hand - ver 1.0.19
+// 2025-04-25 - not allow add detail after submit - ver 1.0.22
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -91,7 +92,14 @@ namespace StarLaiPortal.Module.Controllers
 
                         foreach (SalesQuotationDetails dtl in salesquotation.SalesQuotationDetails)
                         {
-                            dtl.Available = genCon.GenerateInstock(ObjectSpace, dtl.ItemCode.ItemCode, dtl.Location.WarehouseCode);
+                            // Start ver 1.0.22
+                            if (genCon != null)
+                            {
+                            // End ver 1.0.22
+                                dtl.Available = genCon.GenerateInstock(ObjectSpace, dtl.ItemCode.ItemCode, dtl.Location.WarehouseCode);
+                            // Start ver 1.0.22
+                            }
+                            // End ver 1.0.22
                         }
 
                         if (salesquotation.IsNew == false)

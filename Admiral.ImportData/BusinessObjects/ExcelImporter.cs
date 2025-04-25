@@ -19,6 +19,7 @@ using DevExpress.Xpo;
 // 2023-10-20 - add stock count - ver 1.0.12
 // 2023-11-06 - not allow zero - ver 1.0.12
 // 2024-01-30 - add SQ and PO update - ver 1.0.14
+// 2025-02-25 - block add item if not in draft - ver 1.0.22
 
 namespace Admiral.ImportData
 {
@@ -75,48 +76,109 @@ namespace Admiral.ImportData
 
             if (rst)
             {
-                try
+                // Start ver 1.0.22
+                bool process = true;
+                SqlConnection conn = new SqlConnection(option.ConnectionString);
+
+                if (option.DocNum != "")
                 {
-                    os.Session.CommitTransaction();
-                    os.CommitChanges();
-                    os.Refresh();
+                    string query = "";
 
-                    SqlConnection conn = new SqlConnection(option.ConnectionString);
-                    if (option.DocNum != "")
+                    if (option.Type == "SalesQuotation")
                     {
-                        SqlCommand TransactionNotification = new SqlCommand("", conn);
-                        TransactionNotification.CommandTimeout = 600;
-
-                        if (conn.State == ConnectionState.Open)
-                        {
-                            conn.Close();
-                        }
-
-                        try
-                        {
-                            conn.Open();
-
-                            TransactionNotification.CommandText = "EXEC [" + conn.Database + "]..sp_ImportUpdate '" + option.DocNum + "', '" + option.Type + "'";
-
-                            SqlDataReader reader = TransactionNotification.ExecuteReader();
-                            TransactionNotification.Dispose();
-                            conn.Close();
-                        }
-                        catch (Exception ex)
-                        {
-                            conn.Close();
-                        }
+                        query = "SELECT 1 FROM [" + conn.Database + "]..SalesQuotation where [Status] <> 0 AND DocNum = '" + option.DocNum + "'";
+                    }
+                    else if (option.Type == "PurchaseOrders")
+                    {
+                        query = "SELECT 1 FROM [" + conn.Database + "]..PurchaseOrders where [Status] <> 0 AND DocNum = '" + option.DocNum + "'";
+                    }
+                    else if (option.Type == "WarehouseTransferReq")
+                    {
+                        query = "SELECT 1 FROM [" + conn.Database + "]..WarehouseTransferReq where [Status] <> 0 AND DocNum = '" + option.DocNum + "'";
+                    }
+                    else if (option.Type == "StockCountSheetCounted")
+                    {
+                        query = "SELECT 1 FROM [" + conn.Database + "]..StockCountSheet where [Status] <> 0 AND DocNum = '" + option.DocNum + "'";
+                    }
+                    else if (option.Type == "StockCountConfirm")
+                    {
+                        query = "SELECT 1 FROM [" + conn.Database + "]..StockCountConfirm where [Status] <> 0 AND DocNum = '" + option.DocNum + "'";
                     }
 
-                    showMsg("Successful", "Import Success.", InformationType.Success);
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        conn.Close();
+                    }
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        if (reader.GetInt32(0) == 1)
+                        {
+                            process = false;
+                        }
+                    }
+                    cmd.Dispose();
+                    conn.Close();
+                }
+                // End ver 1.0.22
 
-                }
-                catch (Exception ex)
+                // Start ver 1.0.22
+                if (process == true)
                 {
-                    os.Session.RollbackTransaction();
-                    os.Rollback();
-                    os.Refresh();
+                // End ver 1.0.22
+                    try
+                    {
+                        os.Session.CommitTransaction();
+                        os.CommitChanges();
+                        os.Refresh();
+
+                        // Start ver 1.0.22
+                        //SqlConnection conn = new SqlConnection(option.ConnectionString);
+                        // End ver 1.0.22
+                        if (option.DocNum != "")
+                        {
+                            SqlCommand TransactionNotification = new SqlCommand("", conn);
+                            TransactionNotification.CommandTimeout = 600;
+
+                            if (conn.State == ConnectionState.Open)
+                            {
+                                conn.Close();
+                            }
+
+                            try
+                            {
+                                conn.Open();
+
+                                TransactionNotification.CommandText = "EXEC [" + conn.Database + "]..sp_ImportUpdate '" + option.DocNum + "', '" + option.Type + "'";
+
+                                SqlDataReader reader = TransactionNotification.ExecuteReader();
+                                TransactionNotification.Dispose();
+                                conn.Close();
+                            }
+                            catch (Exception ex)
+                            {
+                                conn.Close();
+                            }
+                        }
+
+                        showMsg("Successful", "Import Success.", InformationType.Success);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        os.Session.RollbackTransaction();
+                        os.Rollback();
+                        os.Refresh();
+                    }
+                // Start ver 1.0.22
                 }
+                else
+                {
+                    showMsg("Error", "Not allow to import due to not draft document.", InformationType.Error);
+                }
+                // End ver 1.0.22
             }
             else {
                 os.Rollback();

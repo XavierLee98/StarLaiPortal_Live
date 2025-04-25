@@ -21,11 +21,6 @@ public partial class Default : BaseXafPage {
         }
     }
 
-    protected void Page_Load(object sender, EventArgs e)
-    {
-        //TimeoutControl1.TimeOutUrl = ConfigurationManager.AppSettings["LogOutUrl"].ToString();
-    }
-
     protected DateTime LastActivity
     {
         get
@@ -54,8 +49,7 @@ public partial class Default : BaseXafPage {
         if (DevExpress.ExpressApp.Web.WebWindow.CurrentRequestWindow is DevExpress.ExpressApp.Web.PopupWindow) return;
         if (DateTime.Now.Subtract(LastActivity).TotalSeconds > ActivityTimeout)
         {
-            WebApplication.LogOff(Session);
-            WebApplication.DisposeInstance(Session);
+            WebApplication.Instance.LogOff();
         }
     }
 }

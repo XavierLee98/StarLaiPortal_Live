@@ -4,7 +4,6 @@
     Namespace="DevExpress.ExpressApp.Web.Templates" TagPrefix="cc3" %>
 <%@ Register Assembly="DevExpress.ExpressApp.Web.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.ExpressApp.Web.Controls" TagPrefix="cc4" %>
-<%@ Register Src="TimeoutControl.ascx" TagName="TimeoutControl" TagPrefix="uc1" %>
 <%@ Register assembly="DevExpress.Web.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.Web" tagprefix="dx" %>
 
 <!DOCTYPE html>
@@ -62,7 +61,6 @@ background-blend-mode: screen;">
     <form id="form2" runat="server">
     <cc4:ASPxProgressControl ID="ProgressControl" runat="server" />
     <div runat="server" id="Content" />
-      <uc1:TimeoutControl ID="TimeoutControl1" runat="server" /> 
       <dx:ASPxCallback ID="ASPxCallback1" runat="server" OnCallback="ASPxCallback1_Callback"></dx:ASPxCallback>  
       <dx:ASPxTimer ID="ASPxTimer1" runat="server" Interval="5000" Enabled="true" ClientSideEvents-Tick="function(s,e){ ASPxCallback1.PerformCallback(''); }"></dx:ASPxTimer>
     </form>

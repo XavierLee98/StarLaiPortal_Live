@@ -52,6 +52,7 @@ using static DevExpress.XtraPrinting.Native.ExportOptionsPropertiesNames;
 // 2024-01-29 SQ and PO update OIDKey ver 1.0.14
 // 2024-04-16 Pick list not allow to change after submitted ver 1.0.15
 // 2025-01-23 add item count ver 1.0.22
+// 2025-02-25 block add item if not in draft - ver 1.0.22
 
 namespace StarLaiPortal.Module.Web.Controllers
 {
@@ -119,6 +120,14 @@ namespace StarLaiPortal.Module.Web.Controllers
                         genCon.showMsg("Error", "The object you are trying to save was changed by other user, please close the tab and reopen again.", InformationType.Error);
                         return;
                     }
+
+                    // Start ver 1.0.22
+                    if (sqtrx.AppStatus == ApprovalStatusType.Required_Approval && sqtrx.Status == DocStatus.Submitted)
+                    {
+                        genCon.showMsg("Error", "The object you are trying to save was changed by other user, please close the tab and reopen again.", InformationType.Error);
+                        return;
+                    }
+                    // End ver 1.0.22
                 }
                 // End ver 1.0.10
 

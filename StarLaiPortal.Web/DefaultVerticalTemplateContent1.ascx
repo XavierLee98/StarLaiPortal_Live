@@ -45,7 +45,7 @@
                                 <xaf:ActionContainerHolder runat="server" ID="SAC" ContainerStyle="Links">
                                     <actioncontainers>
 										<xaf:WebActionContainer IsDropDown="false" ContainerId="Notifications" />
-                                        <xaf:WebActionContainer IsDropDown="true" DropDownMenuItemCssClass="accountItem" ContainerId="Security" DefaultItemCaption="My Account" DefaultItemImageName="BO_Person" />
+                                        <xaf:WebActionContainer IsDropDown="false" DropDownMenuItemCssClass="accountItem" ContainerId="Security" DefaultItemCaption="My Account" DefaultItemImageName="BO_Person" />
                                     </actioncontainers>
                                 </xaf:ActionContainerHolder>
                             </xaf:XafUpdatePanel>

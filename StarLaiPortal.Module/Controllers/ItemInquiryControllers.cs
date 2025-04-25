@@ -42,6 +42,7 @@ using System.Web;
 // 2024-07-29 - add DfltWhs - ver 1.0.19
 // 2024-10-08 - add whse - ver 1.0.21
 // 2025-02-04 - add global item inquiry - ver 1.0.22
+// 2025-02-25 - block add item if not in draft - ver 1.0.22
 
 namespace StarLaiPortal.Module.Controllers
 {
@@ -843,6 +844,14 @@ namespace StarLaiPortal.Module.Controllers
 
                         if (trx != null)
                         {
+                            // Start ver 1.0.22
+                            if (trx.Status != DocStatus.Draft)
+                            {
+                                showMsg("Failed", "Not allow add item due to not draft document.", InformationType.Error);
+                                return;
+                            }
+                            // End ver 1.0.22
+
                             SalesQuotationDetails newSQdetail = os.CreateObject<SalesQuotationDetails>();
                             newSQdetail.Postingdate = trx.PostingDate;
                             newSQdetail.Customer = newSQdetail.Session.GetObjectByKey<vwBusniessPartner>(trx.Customer.BPCode);
@@ -904,6 +913,14 @@ namespace StarLaiPortal.Module.Controllers
 
                         if (trx != null)
                         {
+                            // Start ver 1.0.22
+                            if (trx.Status != DocStatus.Draft)
+                            {
+                                showMsg("Failed", "Not allow add item due to not draft document.", InformationType.Error);
+                                return;
+                            }
+                            // End ver 1.0.22
+
                             PurchaseOrderDetails newPOdetail = os.CreateObject<PurchaseOrderDetails>();
                             newPOdetail.Postingdate = trx.PostingDate;
                             newPOdetail.Supplier = newPOdetail.Session.GetObjectByKey<vwBusniessPartner>(trx.Supplier.BPCode);
@@ -951,6 +968,14 @@ namespace StarLaiPortal.Module.Controllers
 
                         if (trx != null)
                         {
+                            // Start ver 1.0.22
+                            if (trx.Status != DocStatus.Draft)
+                            {
+                                showMsg("Failed", "Not allow add item due to not draft document.", InformationType.Error);
+                                return;
+                            }
+                            // End ver 1.0.22
+
                             PurchaseReturnRequestDetails newPRRdetail = os.CreateObject<PurchaseReturnRequestDetails>();
                             newPRRdetail.ItemCode = newPRRdetail.Session.GetObjectByKey<vwItemMasters>(dtl.ItemCode);
                             newPRRdetail.ItemDesc = dtl.ItemDesc;
@@ -992,6 +1017,14 @@ namespace StarLaiPortal.Module.Controllers
 
                         if (trx != null)
                         {
+                            // Start ver 1.0.22
+                            if (trx.Status != DocStatus.Draft)
+                            {
+                                showMsg("Failed", "Not allow add item due to not draft document.", InformationType.Error);
+                                return;
+                            }
+                            // End ver 1.0.22
+
                             SalesReturnRequestDetails newSRRdetail = os.CreateObject<SalesReturnRequestDetails>();
                             newSRRdetail.ItemCode = newSRRdetail.Session.GetObjectByKey<vwItemMasters>(dtl.ItemCode);
                             newSRRdetail.ItemDesc = dtl.ItemDesc;
@@ -1033,6 +1066,14 @@ namespace StarLaiPortal.Module.Controllers
 
                         if (trx != null)
                         {
+                            // Start ver 1.0.22
+                            if (trx.Status != DocStatus.Draft)
+                            {
+                                showMsg("Failed", "Not allow add item due to not draft document.", InformationType.Error);
+                                return;
+                            }
+                            // End ver 1.0.22
+
                             WarehouseTransferReqDetails newWTRdetail = os.CreateObject<WarehouseTransferReqDetails>();
                             newWTRdetail.FromWarehouse = newWTRdetail.Session.GetObjectByKey<vwWarehouse>(trx.FromWarehouse.WarehouseCode);
                             newWTRdetail.ToWarehouse = newWTRdetail.Session.GetObjectByKey<vwWarehouse>(trx.ToWarehouse.WarehouseCode);
@@ -1076,6 +1117,14 @@ namespace StarLaiPortal.Module.Controllers
 
                         if (trx != null)
                         {
+                            // Start ver 1.0.22
+                            if (trx.Status != DocStatus.Draft)
+                            {
+                                showMsg("Failed", "Not allow add item due to not draft document.", InformationType.Error);
+                                return;
+                            }
+                            // End ver 1.0.22
+
                             StockAdjustmentReqDetails newSARdetail = os.CreateObject<StockAdjustmentReqDetails>();
                             newSARdetail.ItemCode = newSARdetail.Session.GetObjectByKey<vwItemMasters>(dtl.ItemCode);
                             newSARdetail.ItemDesc = dtl.ItemDesc;
@@ -1117,6 +1166,14 @@ namespace StarLaiPortal.Module.Controllers
 
                         if (trx != null)
                         {
+                            // Start ver 1.0.22
+                            if (trx.Status != DocStatus.Draft)
+                            {
+                                showMsg("Failed", "Not allow add item due to not draft document.", InformationType.Error);
+                                return;
+                            }
+                            // End ver 1.0.22
+
                             SalesRefundReqDetails newSARdetail = os.CreateObject<SalesRefundReqDetails>();
                             newSARdetail.Customer = newSARdetail.Session.GetObjectByKey<vwBusniessPartner>(trx.Customer.BPCode);
                             newSARdetail.ItemCode = newSARdetail.Session.GetObjectByKey<vwItemMasters>(dtl.ItemCode);
